@@ -57,6 +57,25 @@ const JobList = (): JSX.Element => {
       const newJobs = [...startColumn.jobs];
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
+
+      newJobs.forEach((job, index) => {
+        job.position = index;
+        if (
+          source.index < destination.index &&
+          index > source.index &&
+          index <= destination.index
+        ) {
+          job.position = index - 1;
+        }
+        if (
+          source.index > destination.index &&
+          index < source.index &&
+          index >= destination.index
+        ) {
+          job.position = index + 1;
+        }
+      });
+
       newJobs.splice(destination.index, 0, removedJob);
 
       const newColumn = {
@@ -70,6 +89,30 @@ const JobList = (): JSX.Element => {
       };
 
       dispatch(updateColumns(newState));
+
+      const updatedJobs = newJobs.map((job, index) => {
+        if (
+          (source.index < destination.index &&
+            index > source.index &&
+            index <= destination.index) ||
+          (source.index > destination.index &&
+            index < source.index &&
+            index >= destination.index)
+        )
+          return {
+            userId: 1,
+            jobId: job.id,
+            categoryId: source.droppableId,
+            newCategoryId: destination.droppableId,
+            position: job.position,
+          };
+      });
+
+      const body = {
+        jobUpdates: updatedJobs,
+        type: "update",
+      };
+
       return;
     }
 
@@ -127,7 +170,32 @@ const JobList = (): JSX.Element => {
 
     dispatch(updateColumns(newState));
 
-    const jobUpdates = { userId: 1 };
+    const updatedJobsInSource = startColumnUpdatedJobs.map((job, index) => {
+      if (index > source.index)
+        return {
+          userId: 1,
+          jobId: job.id,
+          categoryId: source.droppableId,
+          newCategoryId: destination.droppableId,
+          position: job.position,
+        };
+    });
+
+    const updatedJobsInDestination = endColumnUpdatedJobs.map((job, index) => {
+      if (index >= destination.index)
+        return {
+          userId: 1,
+          jobId: job.id,
+          categoryId: source.droppableId,
+          newCategoryId: destination.droppableId,
+          position: job.position,
+        };
+    });
+
+    const body = {
+      jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
+      type: "update",
+    };
 
     // Example: { "jobUpdates":[
     //   {"userId": 1, "jobId": 1, "categoryId": 1, "newCategoryId": 1, "position": 0},
