@@ -15,4 +15,4 @@ export const jobApi = createApi({
   }),
 });
 
-export const { getAllJobs, getJobById } = jobApi;
+export const { useGetAllJobsQuery, useGetJobByIdQuery } = jobApi;

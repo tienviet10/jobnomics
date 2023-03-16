@@ -19,6 +19,11 @@ export type JobPreviewType = {
 };
 
 export type JobType = {
+  category: {
+    id: number;
+    name: string;
+  };
+  userId: number;
   updatedAt: Date;
   isFavorite: boolean;
   position?: number;
