@@ -5,6 +5,10 @@ import { useSelector } from "react-redux";
 
 import { Droppable } from "react-beautiful-dnd";
 import JobItem from "../JobItem";
+import Paper from "@mui/material/Paper/Paper";
+import { Typography } from "@mui/material";
+
+import styles from "./JobCategory.module.css";
 
 type CategoryProps = {
   category: string;
@@ -16,7 +20,7 @@ type StyleProps = {
 
 const JobListContainer = styled.ul`
   background-color: ${({ isDraggingOver }: StyleProps) =>
-    isDraggingOver ? "#efefef" : "#e4c8c8"};
+    isDraggingOver ? "#efefef" : "#f8f8f8"};
 `;
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
@@ -24,12 +28,14 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const categoryObj = jobState[category];
 
   return (
-    <div className="todo_list">
-      <h3 className="todo_label">{category}</h3>
+    <Paper elevation={3} className={styles.JobListContainer}>
+      <Typography variant="h5" alignSelf={"flex-start"}>
+        {category}
+      </Typography>
       <Droppable droppableId={String(categoryObj.id)}>
         {(provided, snapshot) => (
           <JobListContainer
-            className="todo_items"
+            className={styles.JobItems}
             {...provided.droppableProps}
             ref={provided.innerRef}
             isDraggingOver={snapshot.isDraggingOver}
@@ -46,7 +52,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
           </JobListContainer>
         )}
       </Droppable>
-    </div>
+    </Paper>
   );
 };
 

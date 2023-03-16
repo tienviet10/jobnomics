@@ -9,9 +9,9 @@ import {
   useUpdateJobsMutation,
 } from "../../app/services/job-api";
 
-import "./JobList.css";
+import styles from "./JobList.module.css";
 import JobCategory from "./JobCategory";
-import { JobPreviewType } from "../../types/jobTypes";
+import { Paper } from "@mui/material";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -59,6 +59,7 @@ const JobList = (): JSX.Element => {
       removedJob = { ...removedJob, position: destination.index };
 
       newJobs.forEach((job, index) => {
+        // remove bottom line later
         job.position = index;
         if (
           source.index < destination.index &&
@@ -199,24 +200,15 @@ const JobList = (): JSX.Element => {
     };
 
     updateJobs(body);
-    console.log(body);
-
-    // Example: { "jobUpdates":[
-    //   {"userId": 1, "jobId": 1, "categoryId": 1, "newCategoryId": 1, "position": 0},
-    //   {"userId": 1, "jobId": 2, "categoryId": 1, "newCategoryId": 2, "position": 0}
-    //   {"userId": 1, "jobId": 2, "categoryId": 2, "newCategoryId": 3, "position": 1}
-    //   ],
-    //   "type": "update"
-    // }
   };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <div className="todo_container">
+      <Paper elevation={3} className={styles.JobBoard}>
         {jobCategories?.map((category: string, index) => (
           <JobCategory key={index} category={category} />
         ))}
-      </div>
+      </Paper>
     </DragDropContext>
   );
 };

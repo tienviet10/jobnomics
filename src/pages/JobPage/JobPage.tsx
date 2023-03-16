@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 const JobPage = () => {
   return (
     <div>
-      <Typography>(User's) Job Board</Typography>
+      <Typography variant="h3">(User's) Job Board</Typography>
       <JobList />
     </div>
   );

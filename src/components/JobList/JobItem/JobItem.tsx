@@ -1,9 +1,12 @@
 import React from "react";
-import styled from "styled-components";
 
 import { Draggable } from "react-beautiful-dnd";
 import type { RootState } from "../../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Card from "@mui/material/Card/Card";
+
+import styles from "./JobItem.module.css";
+import { Typography } from "@mui/material";
 
 type JobItemProps = {
   draggableId: string;
@@ -11,22 +14,11 @@ type JobItemProps = {
   category: string;
 };
 
-type StyleProps = {
-  isDragging: boolean;
-};
-
-const ItemContainer = styled.li`
-  background-color: ${({ isDragging }: StyleProps) =>
-    isDragging ? "#ec589d" : "#ffffff"};
-`;
-
 const JobItem = ({
   draggableId,
   index,
   category,
 }: JobItemProps): JSX.Element => {
-  const dispatch = useDispatch();
-
   const jobState = useSelector((state: RootState) => state.job.categories);
   const jobs = jobState[category].jobs;
 
@@ -34,17 +26,19 @@ const JobItem = ({
     <>
       <Draggable draggableId={draggableId} index={index}>
         {(provided, snapshot) => (
-          <ItemContainer
+          <Card
             id={draggableId}
-            className="todo_item"
+            className={styles.JobItem}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            isDragging={snapshot.isDragging}
+            sx={{ bgcolor: snapshot.isDragging ? "#dbe4ff" : "#ffffff" }}
             ref={provided.innerRef}
             // onClick={handleOpenModal}
           >
-            {`${jobs && jobs[index].title}`}
-          </ItemContainer>
+            <Typography variant="h6">{`${
+              jobs && jobs[index].title
+            }`}</Typography>
+          </Card>
         )}
       </Draggable>
     </>
