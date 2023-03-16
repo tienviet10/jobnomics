@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { sec } from "../../App";
-
+import { security } from "../../components/auth/GlobalAuth";
 import type { UserJobsType, JobType } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -9,7 +8,7 @@ export const jobApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: async (headers) => {
-      const access_token = await sec.getAccessTokenSilently()();
+      const access_token = await security.getAccessTokenSilently()();
       if (access_token) {
         headers.set('Authorization', `Bearer ${access_token}`);
       }
