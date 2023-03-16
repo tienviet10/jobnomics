@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 import type { RootState } from "../../../app/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card/Card";
 
 import styles from "./JobItem.module.css";
@@ -10,6 +10,7 @@ import { Avatar, Icon, Typography } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 import { useUpdateJobMutation } from "../../../app/services/job-api";
+import { toggleFavorite } from "../../../features/jobSlice";
 
 type JobItemProps = {
   draggableId: string;
@@ -22,6 +23,7 @@ const JobItem = ({
   index,
   category,
 }: JobItemProps): JSX.Element => {
+  const dispatch = useDispatch();
   const jobState = useSelector((state: RootState) => state.job.categories);
   const job = jobState[category].jobs[index];
   const { id, title, company, logo } = job;
@@ -43,6 +45,7 @@ const JobItem = ({
       type: "update",
     };
 
+    dispatch(toggleFavorite([category, id, !isFavorite]));
     updateJob(body);
   };
 
