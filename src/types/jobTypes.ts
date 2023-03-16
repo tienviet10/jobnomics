@@ -3,7 +3,7 @@ export type UserJobsType = {
     [key: string]: {
       category: string;
       id: number;
-      jobs: JobPreviewType | null;
+      jobs: JobPreviewType[] | null;
     };
   };
   categoryOrder: string[];
@@ -15,7 +15,23 @@ export type JobPreviewType = {
   company: string;
   logo: string;
   isFavorite: boolean;
-  position: number | null;
-}[];
+  position?: number;
+};
 
-export type JobType = {};
+export type JobType = {
+  updatedAt: Date;
+  isFavorite: boolean;
+  position?: number;
+  interviewDate?: Date;
+  job: {
+    title: string;
+    company: string;
+    location: string;
+    description: string;
+    logo: string;
+    summary: string;
+    skills: string[];
+    interviewExamples?: string;
+    platform: string;
+  };
+};
