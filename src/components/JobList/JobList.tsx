@@ -204,7 +204,7 @@ const JobList = (): JSX.Element => {
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Paper elevation={3} className={styles.JobBoard}>
+      <Paper elevation={1} className={styles.JobBoard}>
         {jobCategories?.map((category: string, index) => (
           <JobCategory key={index} category={category} />
         ))}

@@ -29,7 +29,11 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
 
   return (
     <Paper elevation={3} className={styles.JobListContainer}>
-      <Typography variant="h5" alignSelf={"flex-start"}>
+      <Typography
+        variant="h5"
+        alignSelf={"flex-start"}
+        className={styles.CategoryLabel}
+      >
         {category}
       </Typography>
       <Droppable droppableId={String(categoryObj.id)}>
