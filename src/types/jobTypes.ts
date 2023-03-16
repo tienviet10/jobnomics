@@ -15,7 +15,7 @@ export type JobPreviewType = {
   company: string;
   logo: string;
   isFavorite: boolean;
-  position: number | null;
+  position: number;
 };
 
 export type JobType = {

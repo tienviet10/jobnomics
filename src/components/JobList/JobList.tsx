@@ -69,10 +69,10 @@ const JobList = (): JSX.Element => {
     // }
 
     // Moving to a different column
-    const startTodos = [...startColumn.jobs];
-    const [removedJob] = startTodos.splice(source.index, 1);
+    const startJobs = [...startColumn.jobs];
+    let [removedJob] = startJobs.splice(source.index, 1);
 
-    removedJob.position = destination.index;
+    removedJob = { ...removedJob, position: destination.index };
 
     // Get rid of this once we start setting position when adding a new job
     // At the moment, the jobs don't have a position
@@ -82,21 +82,33 @@ const JobList = (): JSX.Element => {
     endColumn.jobs?.forEach((job, index) => {
       return { ...job, position: index };
     });
+    // remove to here
 
+    const startColumnUpdatedJobs = startJobs
+      ?.filter((job) => job.position >= source.index)
+      .map((job) => {
+        return {
+          ...job,
+          position: job.position - 1,
+        };
+      });
     const endColumnUpdatedJobs = endColumn.jobs
       ?.filter(
         (job) => job.position === null || job.position >= destination.index
       )
       .map((job) => {
-        return { ...job, position: job.position ? job.position + 1 : 0 };
+        return {
+          ...job,
+          position: job.position === null ? 0 : job.position + 1,
+        };
       });
 
     const newStartColumn = {
       ...startColumn,
-      jobs: startTodos,
+      jobs: startJobs,
     };
 
-    const endTodos = [...endColumn.jobs];
+    const endTodos = [...endColumnUpdatedJobs];
     endTodos.splice(destination.index, 0, removedJob);
     const newEndColumn = {
       ...endColumn,
