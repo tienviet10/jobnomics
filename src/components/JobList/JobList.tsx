@@ -45,33 +45,37 @@ const JobList = (): JSX.Element => {
       return;
     }
 
-    const startColumn = jobState[source.droppableId];
-    const endColumn = jobState[destination.droppableId];
+    const sourceCategory = jobCategories[Number(source.droppableId) - 1];
+    const destinationCategory =
+      jobCategories[Number(destination.droppableId) - 1];
 
-    // if (startColumn === endColumn) {
-    //   // Moving within the same column
-    //   const newTodos = [...startColumn.todos];
-    //   const [removedTodo] = newTodos.splice(source.index, 1);
-    //   newTodos.splice(destination.index, 0, removedTodo);
+    const startColumn = jobState[sourceCategory];
+    const endColumn = jobState[destinationCategory];
 
-    //   const newColumn = {
-    //     ...startColumn,
-    //     todos: newTodos,
-    //   };
+    if (startColumn === endColumn) {
+      // Moving within the same column
+      const newJobs = [...startColumn.jobs];
+      let [removedJob] = newJobs.splice(source.index, 1);
+      removedJob = { ...removedJob, position: destination.index };
+      newJobs.splice(destination.index, 0, removedJob);
 
-    //   const newState = {
-    //     ...todosState,
-    //     [newColumn.id]: newColumn,
-    //   };
+      const newColumn = {
+        ...startColumn,
+        todos: newJobs,
+      };
 
-    //   dispatch(updateColumns(newState));
-    //   return;
-    // }
+      const newState = {
+        ...jobState,
+        [newColumn.id]: newColumn,
+      };
+
+      dispatch(updateColumns(newState));
+      return;
+    }
 
     // Moving to a different column
     const startJobs = [...startColumn.jobs];
     let [removedJob] = startJobs.splice(source.index, 1);
-
     removedJob = { ...removedJob, position: destination.index };
 
     // Get rid of this once we start setting position when adding a new job
@@ -105,7 +109,7 @@ const JobList = (): JSX.Element => {
 
     const newStartColumn = {
       ...startColumn,
-      jobs: startJobs,
+      jobs: startColumnUpdatedJobs,
     };
 
     const endTodos = [...endColumnUpdatedJobs];
@@ -117,11 +121,21 @@ const JobList = (): JSX.Element => {
 
     const newState = {
       ...jobState,
-      [source.droppableId]: newStartColumn,
-      [destination.droppableId]: newEndColumn,
+      [sourceCategory]: newStartColumn,
+      [destinationCategory]: newEndColumn,
     };
 
     dispatch(updateColumns(newState));
+
+    const jobUpdates = { userId: 1 };
+
+    // Example: { "jobUpdates":[
+    //   {"userId": 1, "jobId": 1, "categoryId": 1, "newCategoryId": 1, "position": 0},
+    //   {"userId": 1, "jobId": 2, "categoryId": 1, "newCategoryId": 2, "position": 0}
+    //   {"userId": 1, "jobId": 2, "categoryId": 2, "newCategoryId": 3, "position": 1}
+    //   ],
+    //   "type": "update"
+    // }
   };
 
   return (

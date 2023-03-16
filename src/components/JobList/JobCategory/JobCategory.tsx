@@ -26,7 +26,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   return (
     <div className="todo_list">
       <h3 className="todo_label">{category}</h3>
-      <Droppable droppableId={categoryObj.category}>
+      <Droppable droppableId={String(categoryObj.id)}>
         {(provided, snapshot) => (
           <JobListContainer
             className="todo_items"
