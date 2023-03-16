@@ -1,0 +1,19 @@
+import React from "react";
+
+import JobList from "../../components/JobList";
+import styles from "./JobPage.module.css";
+
+import { Typography } from "@mui/material";
+
+const JobPage = () => {
+  return (
+    <div className={styles.JobPage}>
+      <Typography variant="h3" className={styles.JobPageTitle}>
+        (User's) Job Board
+      </Typography>
+      <JobList />
+    </div>
+  );
+};
+
+export default JobPage;
