@@ -2,6 +2,7 @@
   "name": "jobnomics",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@auth0/auth0-react": "^2.0.1",
     "@mui/icons-material": "^5.11.11",
