@@ -6,6 +6,7 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import {
   useGetAllJobsQuery,
   useGetJobByIdQuery,
+  useUpdateJobsMutation,
 } from "../../app/services/job-api";
 
 import "./JobList.css";
@@ -20,15 +21,14 @@ const JobList = (): JSX.Element => {
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
-  // const { Bookmarked } = jobState;
   console.log(jobState);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
+  const [updateJobs, { isLoading: isUpdating }] = useUpdateJobsMutation();
 
   useEffect(() => {
     if (data) {
       const newState = data;
-
       dispatch(updateColumns(newState));
     }
   }, [data]);
@@ -102,8 +102,8 @@ const JobList = (): JSX.Element => {
           return {
             userId: 1,
             jobId: job.id,
-            categoryId: source.droppableId,
-            newCategoryId: destination.droppableId,
+            categoryId: Number(source.droppableId),
+            newCategoryId: Number(destination.droppableId),
             position: job.position,
           };
       });
@@ -112,6 +112,7 @@ const JobList = (): JSX.Element => {
         jobUpdates: updatedJobs,
         type: "update",
       };
+      updateJobs(body);
 
       return;
     }
@@ -155,11 +156,11 @@ const JobList = (): JSX.Element => {
       jobs: startColumnUpdatedJobs,
     };
 
-    const endTodos = [...endColumnUpdatedJobs];
-    endTodos.splice(destination.index, 0, removedJob);
+    const endJobs = [...endColumnUpdatedJobs];
+    endJobs.splice(destination.index, 0, removedJob);
     const newEndColumn = {
       ...endColumn,
-      jobs: endTodos,
+      jobs: endJobs,
     };
 
     const newState = {
@@ -175,19 +176,19 @@ const JobList = (): JSX.Element => {
         return {
           userId: 1,
           jobId: job.id,
-          categoryId: source.droppableId,
-          newCategoryId: destination.droppableId,
+          categoryId: Number(source.droppableId),
+          newCategoryId: Number(destination.droppableId),
           position: job.position,
         };
     });
 
-    const updatedJobsInDestination = endColumnUpdatedJobs.map((job, index) => {
+    const updatedJobsInDestination = endJobs.map((job, index) => {
       if (index >= destination.index)
         return {
           userId: 1,
           jobId: job.id,
-          categoryId: source.droppableId,
-          newCategoryId: destination.droppableId,
+          categoryId: Number(source.droppableId),
+          newCategoryId: Number(destination.droppableId),
           position: job.position,
         };
     });
@@ -196,6 +197,9 @@ const JobList = (): JSX.Element => {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
       type: "update",
     };
+
+    updateJobs(body);
+    console.log(body);
 
     // Example: { "jobUpdates":[
     //   {"userId": 1, "jobId": 1, "categoryId": 1, "newCategoryId": 1, "position": 0},

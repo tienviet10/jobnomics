@@ -57,7 +57,7 @@ export const jobApi = createApi({
       // invalidatesTags: [{ type: "Posts", id: "LIST" }],
     }),
     updateJobs: builder.mutation({
-      query: ({ id, ...patch }) => ({
+      query: ({ ...patch }) => ({
         url: "job",
         method: "PATCH",
         body: patch,
