@@ -50,7 +50,7 @@ export const jobSlice = createSlice({
   initialState,
   reducers: {
     updateColumns: (state, action) => {
-      state.categories = { ...action.payload };
+      state.categories = { ...state.categories, ...action.payload };
     },
   },
 });

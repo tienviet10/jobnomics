@@ -10,6 +10,7 @@ import {
 
 import "./JobList.css";
 import JobCategory from "./JobCategory";
+import { JobPreviewType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -17,16 +18,16 @@ const JobList = (): JSX.Element => {
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
   );
-  const jobState = useSelector((state: RootState) => state.job.categories);
-  const { Bookmarked } = jobState;
 
-  const { data, error, isLoading } = useGetAllJobsQuery(null);
+  const jobState = useSelector((state: RootState) => state.job.categories);
+  // const { Bookmarked } = jobState;
+  console.log(jobState);
+
+  const { data, error, isLoading } = useGetAllJobsQuery();
 
   useEffect(() => {
     if (data) {
       const newState = data;
-
-      console.log(newState);
 
       dispatch(updateColumns(newState));
     }
@@ -46,9 +47,6 @@ const JobList = (): JSX.Element => {
 
     const startColumn = jobState[source.droppableId];
     const endColumn = jobState[destination.droppableId];
-
-    console.log(startColumn);
-    console.log(endColumn);
 
     // if (startColumn === endColumn) {
     //   // Moving within the same column
@@ -70,35 +68,55 @@ const JobList = (): JSX.Element => {
     //   return;
     // }
 
-    // // Moving to a different column
-    // const startTodos = [...startColumn.todos];
-    // const [removedTodo] = startTodos.splice(source.index, 1);
-    // const newStartColumn = {
-    //   ...startColumn,
-    //   todos: startTodos,
-    // };
+    // Moving to a different column
+    const startTodos = [...startColumn.jobs];
+    const [removedJob] = startTodos.splice(source.index, 1);
 
-    // const endTodos = [...endColumn.todos];
-    // endTodos.splice(destination.index, 0, removedTodo);
-    // const newEndColumn = {
-    //   ...endColumn,
-    //   todos: endTodos,
-    // };
+    removedJob.position = destination.index;
 
-    // const newState = {
-    //   ...todosState,
-    //   [source.droppableId]: newStartColumn,
-    //   [destination.droppableId]: newEndColumn,
-    // };
+    // Get rid of this once we start setting position when adding a new job
+    // At the moment, the jobs don't have a position
+    startColumn.jobs?.forEach((job, index) => {
+      return { ...job, position: index };
+    });
+    endColumn.jobs?.forEach((job, index) => {
+      return { ...job, position: index };
+    });
 
-    // dispatch(updateColumns(newState));
+    const endColumnUpdatedJobs = endColumn.jobs
+      ?.filter(
+        (job) => job.position === null || job.position >= destination.index
+      )
+      .map((job) => {
+        return { ...job, position: job.position ? job.position + 1 : 0 };
+      });
+
+    const newStartColumn = {
+      ...startColumn,
+      jobs: startTodos,
+    };
+
+    const endTodos = [...endColumn.jobs];
+    endTodos.splice(destination.index, 0, removedJob);
+    const newEndColumn = {
+      ...endColumn,
+      jobs: endTodos,
+    };
+
+    const newState = {
+      ...jobState,
+      [source.droppableId]: newStartColumn,
+      [destination.droppableId]: newEndColumn,
+    };
+
+    dispatch(updateColumns(newState));
   };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <div className="todo_container">
-        {jobCategories.map((category: string) => (
-          <JobCategory key={category} category={category} />
+        {jobCategories?.map((category: string, index) => (
+          <JobCategory key={index} category={category} />
         ))}
       </div>
     </DragDropContext>

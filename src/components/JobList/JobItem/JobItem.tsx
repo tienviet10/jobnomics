@@ -43,7 +43,7 @@ const JobItem = ({
             ref={provided.innerRef}
             // onClick={handleOpenModal}
           >
-            {`${jobs && jobs[index]}`}
+            {`${jobs && jobs[index].title}`}
           </ItemContainer>
         )}
       </Draggable>

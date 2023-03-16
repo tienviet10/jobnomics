@@ -3,7 +3,7 @@ export type UserJobsType = {
     [key: string]: {
       category: string;
       id: number;
-      jobs: JobPreviewType[] | null;
+      jobs: JobPreviewType[] | [];
     };
   };
   categoryOrder: string[];
@@ -15,7 +15,7 @@ export type JobPreviewType = {
   company: string;
   logo: string;
   isFavorite: boolean;
-  position?: number;
+  position: number | null;
 };
 
 export type JobType = {
@@ -26,7 +26,7 @@ export type JobType = {
   userId: number;
   updatedAt: Date;
   isFavorite: boolean;
-  position?: number;
+  position: number | null;
   interviewDate?: Date;
   job: {
     title: string;

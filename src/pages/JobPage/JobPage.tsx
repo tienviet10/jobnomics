@@ -4,7 +4,7 @@ import JobList from "../../components/JobList";
 
 import { Typography } from "@mui/material";
 
-const JobBoard = () => {
+const JobPage = () => {
   return (
     <div>
       <Typography>(User's) Job Board</Typography>
@@ -13,4 +13,4 @@ const JobBoard = () => {
   );
 };
 
-export default JobBoard;
+export default JobPage;

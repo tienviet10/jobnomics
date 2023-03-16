@@ -1,7 +1,12 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from "@mui/icons-material";
+import { AuthenticationGuard } from "./components/auth/AuthWrapper";
+import SearchPage from "./pages/Search/SearchPage";
+import Home from "./pages/Home/Home";
+import JobPage from "./pages/JobPage";
+import { useAuth0 } from "@auth0/auth0-react";
+import { security } from "./components/auth/GlobalAuth";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
@@ -15,6 +20,11 @@ function App() {
           <Route
             path="/search"
             element={<AuthenticationGuard component={SearchPage} />}
+          />
+          <Route
+            path="/job"
+            element={<JobPage />}
+            // element={<AuthenticationGuard component={JobPage} />}
           />
           <Route path="*" element={<Home />} />
         </Routes>
