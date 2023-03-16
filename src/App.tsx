@@ -1,18 +1,26 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Home } from '@mui/icons-material';
+import { AuthenticationGuard } from './components/auth/AuthWrapper';
+import SearchPage from './pages/Search/SearchPage';
+import Home from './pages/Home/Home';
+import { useAuth0 } from '@auth0/auth0-react';
+import { security } from './components/auth/GlobalAuth';
+
 
 function App() {
+  const { getAccessTokenSilently } = useAuth0();
+  security.setAccessTokenSilently(getAccessTokenSilently);
+
   return (
     <div className="App">
-        <BrowserRouter>
+      <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
-          {/* <Route path="/dnd" element={<DragNDrop />} />
-          <Route path="/todo" element={<TodoPage />} /> */}
+          <Route path="/" element={< Home />} />
+          <Route path="/search" element={<AuthenticationGuard component={SearchPage} />} />
+          <Route path="*" element={< Home />} />
         </Routes>
-      </BrowserRouter>   
+      </BrowserRouter>
     </div>
   );
 }

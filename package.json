@@ -5,6 +5,8 @@
   "proxy": "http://localhost:8080",
   "dependencies": {
     "@auth0/auth0-react": "^2.0.1",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.13",
     "@reduxjs/toolkit": "^1.9.3",
