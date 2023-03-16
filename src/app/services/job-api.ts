@@ -4,7 +4,10 @@ import type { UserJobsType, JobType } from "../../types/jobTypes";
 
 export const jobApi = createApi({
   reducerPath: "jobApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: process.env.REACT_APP_BASE_URL,
+    mode: "no-cors",
+  }),
   // tagTypes: ["UserJobsType", "JobType"],
   endpoints: (builder) => ({
     getAllJobs: builder.query({
