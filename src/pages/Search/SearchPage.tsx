@@ -13,7 +13,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useFilterJobMutation } from '../../app/services/job-api';
-import { Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel } from '@mui/material';
+import { Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, TextField } from '@mui/material';
 import { Stack } from '@mui/system';
 
 import Box from '@mui/material/Box';
@@ -27,19 +27,22 @@ const theme = createTheme();
 
 const SearchPage = () => {
   const { logout } = useAuth0();
-
   const [filterJob] = useFilterJobMutation();
   const [filter, setFilter] = useState({
     category: [{ name: "Applied", check: false }, { name: "Bookmarked", check: false }, { name: "Interviewing", check: false }, { name: "Interviewed", check: false }, { name: "Job Offer", check: false }, { name: "Position Filled", check: false }],
     languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
     framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }]
   });
-
   const [listOfCategories, setListOfCategories] = useState<any>({
-    Bookmarked: {}
+    Bookmarked: {},
+    Applied: {},
+    Interviewing: {},
+    Interviewed: {},
+    "Job Offer": {},
+    "Position Filled": {}
   });
-
-  const [state, setState] = React.useState(false);
+  const [state, setState] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState('');
 
 
   const prefetchData = async () => {
@@ -51,29 +54,37 @@ const SearchPage = () => {
     setListOfCategories(res.data.formatUserJobs);
   };
 
+  let listCal:any = Object.values(listOfCategories).reduce((acc: any, cate: any) => acc.concat(cate.jobs), []);
+  if (searchKeyword !== ""){
+    listCal = listCal.filter((job:any) => (job.company + job.title + job.updatedAt).toLowerCase().includes(searchKeyword.toLowerCase()));
+  } 
+
+
   useEffect(() => {
     prefetchData();
   }, []);
 
-
-  const updateCategoryFilter = (item: any) => () => {
+  const updateCategoryFilter = (item: any) => async () => {
     setFilter((prev: any) => {
       const res = { ...prev, [item.cate]: prev[item.cate].map((obj: any) => (obj.name === item.name ? { ...obj, check: !obj.check } : obj)) };
+      if (item.auto) {
+        sentFilterRequest(res);
+      }
       return res;
     });
   };
 
+  const sentFilterRequest = async (currentState: any) => {
+    console.log(currentState);
+    const newCategory = currentState.category.filter((obj: any) => obj.check).map((obj: any) => obj.name);
+    const languagesAndFramework = currentState.languages.concat(currentState.framework).filter((obj: any) => obj.check).map((obj: any) => obj.name);
 
-  const sentFilterRequest = async () => {
-    const newCategory = filter.category.filter((obj) => obj.check).map((obj) => obj.name);
-    const languagesAndFramework = filter.languages.concat(filter.framework).filter((obj) => obj.check).map((obj) => obj.name);
-
+    setState(false);
     const res: any = await filterJob({
       userId: 1,
       category: newCategory,
       languages: languagesAndFramework
     });
-
     setListOfCategories(res.data.formatUserJobs);
   };
 
@@ -95,7 +106,7 @@ const SearchPage = () => {
     <Box
       sx={{ width: 'auto', display: 'flex' }}
       role="presentation"
-      onClick={toggleDrawer(false)}
+      // onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
     >
       <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
@@ -108,7 +119,7 @@ const SearchPage = () => {
               key={cate.name}
               control={
                 <Checkbox checked={cate.check}
-                  onChange={updateCategoryFilter({ ...cate, cate: "category" })}
+                  onChange={updateCategoryFilter({ ...cate, cate: "category", auto: false })}
                   name={cate.name} />
               }
               label={cate.name}
@@ -129,7 +140,7 @@ const SearchPage = () => {
               key={lang.name}
               control={
                 <Checkbox checked={lang.check}
-                  onChange={updateCategoryFilter({ ...lang, cate: "languages" })}
+                  onChange={updateCategoryFilter({ ...lang, cate: "languages", auto: false })}
                   name={lang.name} />
               }
               label={lang.name}
@@ -150,7 +161,7 @@ const SearchPage = () => {
               key={fra.name}
               control={
                 <Checkbox checked={fra.check}
-                  onChange={updateCategoryFilter({ ...fra, cate: "framework" })}
+                  onChange={updateCategoryFilter({ ...fra, cate: "framework", auto: false })}
                   id={fra.name}
                   name="framework" />
               }
@@ -161,8 +172,15 @@ const SearchPage = () => {
         </FormGroup>
         <FormHelperText>Be careful</FormHelperText>
       </FormControl>
+      <Box><button onClick={() => sentFilterRequest(filter)}>Fetch</button></Box>
+
     </Box>
   );
+
+
+  const handleSearchChange = (e:any) => {
+    setSearchKeyword(e.target.value);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -188,23 +206,37 @@ const SearchPage = () => {
               {list()}
             </Drawer>
           </React.Fragment>
-
         </div>
+
+        <div
+          style={{
+            alignItems: 'center',
+            width: '200px',
+            display: 'flex',
+            flexDirection: 'row'
+          }}>
+          <TextField style={{ flex: 1 }} 
+            placeholder='Search'
+            InputLabelProps={{ style: { display: 'none' } }}
+            onChange={handleSearchChange}
+          />
+        </div >
+
         <Container maxWidth="md">
           <Stack direction="row" spacing={1} height={20}>
             {filter.category.map((cate) => (
               cate.check && (<Chip key={cate.name} label={cate.name}
-                onDelete={updateCategoryFilter({ ...cate, cate: "category" })}
+                onDelete={updateCategoryFilter({ ...cate, cate: "category", auto: true })}
               />)
             ))}
             {filter.languages.map((lang) => (
               lang.check && (<Chip key={lang.name} label={lang.name}
-                onDelete={updateCategoryFilter({ ...lang, cate: "languages" })}
+                onDelete={updateCategoryFilter({ ...lang, cate: "languages", auto: true })}
               />)
             ))}
             {filter.framework.map((fra) => (
               fra.check && (<Chip key={fra.name} label={fra.name}
-                onDelete={updateCategoryFilter({ ...fra, cate: "framework" })}
+                onDelete={updateCategoryFilter({ ...fra, cate: "framework", auto: true })}
               />)
             ))}
           </Stack>
@@ -217,7 +249,7 @@ const SearchPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {listOfCategories?.Bookmarked?.jobs?.map((job: any, index: number) => (
+              {listCal.length > 0 && listCal[0] && listCal.map((job: any, index: number) => (
                 <TableRow key={index}>
                   <TableCell>{job.company}</TableCell>
                   <TableCell>{job.title}</TableCell>
@@ -230,7 +262,7 @@ const SearchPage = () => {
 
       </main>
       <button onClick={() => logout()}>Logout</button>
-      <button onClick={() => sentFilterRequest()}>Fetch</button>
+
     </ThemeProvider>
   );
 };
