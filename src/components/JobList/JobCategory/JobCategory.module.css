@@ -11,12 +11,18 @@
   align-items: center;
 }
 
-.CategoryLabel {
-  padding-bottom: 10px;
+.JobListHeader {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
 }
 
 .JobItems {
   height: 100%;
   width: 100%;
   transition: background-color 0.2s ease;
+  margin-top: 10px;
 }

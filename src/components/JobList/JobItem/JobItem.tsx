@@ -9,6 +9,8 @@ import styles from "./JobItem.module.css";
 import { Avatar, Icon, Typography } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
+import { useUpdateJobMutation } from "../../../app/services/job-api";
+
 type JobItemProps = {
   draggableId: string;
   index: number;
@@ -22,13 +24,26 @@ const JobItem = ({
 }: JobItemProps): JSX.Element => {
   const jobState = useSelector((state: RootState) => state.job.categories);
   const job = jobState[category].jobs[index];
-  const { title, company, logo } = job;
+  const { id, title, company, logo } = job;
+  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
   const [isFavorite, setIsFavorite] = useState(job.isFavorite);
   console.log(job);
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     setIsFavorite((prev) => !prev);
+
+    // userId, JobId, categoryId
+    const body = {
+      userId: 1,
+      jobId: id,
+      categoryId: jobState[category].id,
+      favorite: !isFavorite,
+      interviewDate: null,
+      type: "update",
+    };
+
+    updateJob(body);
   };
 
   return (

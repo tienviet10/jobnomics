@@ -1,12 +1,14 @@
 import React from "react";
-import styled from "styled-components";
+
 import type { RootState } from "../../../app/store";
 import { useSelector } from "react-redux";
 
 import { Droppable } from "react-beautiful-dnd";
 import JobItem from "../JobItem";
 import Paper from "@mui/material/Paper/Paper";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
+
+import { useAddJobMutation } from "../../../app/services/job-api";
 
 import styles from "./JobCategory.module.css";
 
@@ -14,35 +16,39 @@ type CategoryProps = {
   category: string;
 };
 
-type StyleProps = {
-  isDraggingOver: boolean;
-};
-
-const JobListContainer = styled.ul`
-  background-color: ${({ isDraggingOver }: StyleProps) =>
-    isDraggingOver ? "#efefef" : "#f8f8f8"};
-`;
-
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const jobState = useSelector((state: RootState) => state.job.categories);
   const categoryObj = jobState[category];
+  const [addJob, { isLoading: isUpdating }] = useAddJobMutation();
+
+  const handleAddJobClick = () => {
+    console.log("Open Link Modal");
+  };
 
   return (
     <Paper elevation={3} className={styles.JobListContainer}>
-      <Typography
-        variant="h5"
-        alignSelf={"flex-start"}
-        className={styles.CategoryLabel}
-      >
-        {category}
-      </Typography>
+      <div className={styles.JobListHeader}>
+        <Typography
+          variant="h5"
+          alignSelf={"flex-start"}
+          className={styles.CategoryLabel}
+        >
+          {category}
+        </Typography>
+        {category === "Bookmarked" && (
+          <Button variant="contained" onClick={handleAddJobClick}>
+            <Typography variant="subtitle1">Add New Job</Typography>
+          </Button>
+        )}
+      </div>
       <Droppable droppableId={String(categoryObj.id)}>
         {(provided, snapshot) => (
-          <JobListContainer
+          <Paper
+            elevation={0}
             className={styles.JobItems}
             {...provided.droppableProps}
             ref={provided.innerRef}
-            isDraggingOver={snapshot.isDraggingOver}
+            sx={{ bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8" }}
           >
             {categoryObj.jobs?.map((job, index) => (
               <JobItem
@@ -53,7 +59,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
               />
             ))}
             {provided.placeholder}
-          </JobListContainer>
+          </Paper>
         )}
       </Droppable>
     </Paper>
