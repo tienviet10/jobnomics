@@ -19,7 +19,7 @@ const Home = () => {
   const navigate = useNavigate();
   const handleClick = (options?: PopupLoginOptions | undefined, config?: PopupConfigOptions | undefined) => {
     loginWithPopup();
-    navigate("/search")
+    navigate("/search");
   };
 
   // const callApi = () => {

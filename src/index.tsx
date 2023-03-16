@@ -3,6 +3,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import { Auth0Provider } from '@auth0/auth0-react';
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN || "";
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || "";
@@ -19,7 +21,9 @@ ReactDOM.render(
         redirect_uri: window.location.origin || redirectUri,
       }}
     >
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </Auth0Provider>
   </React.StrictMode>,
   document.getElementById("root")

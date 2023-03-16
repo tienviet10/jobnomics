@@ -5,8 +5,22 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthenticationGuard } from './components/auth/AuthWrapper';
 import SearchPage from './pages/Search/SearchPage';
 import Home from './pages/Home/Home';
+import { useAuth0 } from '@auth0/auth0-react';
+
+
+import { GetTokenSilentlyOptions } from '@auth0/auth0-react';
+
+let getAccessTokenSilently: (options?: GetTokenSilentlyOptions | undefined) => Promise<string>;
+
+export const sec = {
+  getAccessTokenSilently: () => getAccessTokenSilently,
+  setAccessTokenSilently: (func: (options?: GetTokenSilentlyOptions | undefined) => Promise<string>) =>
+    (getAccessTokenSilently = func),
+};
 
 function App() {
+  const { getAccessTokenSilently } = useAuth0();
+  sec.setAccessTokenSilently(getAccessTokenSilently);
 
   return (
     <div className="App">
