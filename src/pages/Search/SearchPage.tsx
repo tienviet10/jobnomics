@@ -1,226 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
 import CssBaseline from '@mui/material/CssBaseline';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useFilterJobMutation } from '../../app/services/job-api';
-import { Checkbox, Chip, FormControl, FormControlLabel, FormGroup, FormHelperText, FormLabel, TextField } from '@mui/material';
-import { Stack } from '@mui/system';
+import FilterList from '../../components/JobFilter';
+import ChipsComponent from '../../components/JobFilter/chips';
+import SearchBar from '../../components/JobFilter/searchbar/SearchBar';
+import DrawerComponent from '../../components/JobFilter/drawer';
+import { useManageSearchPage } from './manage-search-page';
 
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Button from '@mui/material/Button';
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { SerializedError } from '@reduxjs/toolkit';
-
-
-// TODO: fix import issue
-// TODO: Fix types
 const theme = createTheme();
 
-interface Job {
-  company: string,
-  id: number,
-  logo: string | null,
-  position: number,
-  title: string,
-  updatedAt: string;
-}
-
-interface Category {
-  id: number;
-  category: string;
-  jobs: Job[];
-}
-
-type CategoryType = {
-  [key: string]: Category;
-};
-
-type Filter = {
-  [key: string]: CheckBoxEntity[];
-};
-
-type CheckBoxEntity = {
-  name: string,
-  check: boolean;
-};
-
-type UpdateFilterType = {
-  auto: boolean,
-  cate: string,
-  check: boolean,
-  name: string;
-};
-
-type ResponseData = {
-  data?: CategoryType;
-  error?: FetchBaseQueryError | SerializedError;
-}
-
 const SearchPage = () => {
-  const { logout } = useAuth0();
-  const [filterJob] = useFilterJobMutation();
-  const [filter, setFilter] = useState<Filter>({
-    category: [{ name: "Applied", check: false }, { name: "Bookmarked", check: false }, { name: "Interviewing", check: false }, { name: "Interviewed", check: false }, { name: "Job Offer", check: false }, { name: "Position Filled", check: false }],
-    languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
-    framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }]
-  });
-  const [listOfCategories, setListOfCategories] = useState<CategoryType | {}>({
-    Bookmarked: {},
-    Applied: {},
-    Interviewing: {},
-    Interviewed: {},
-    "Job Offer": {},
-    "Position Filled": {}
-  });
-  const [state, setState] = useState<boolean>(false);
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
-
-  const prefetchData = async () => {
-    const res: ResponseData = await filterJob({
-      userId: 1,
-      category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"],
-      languages: []
-    });
-    if (res.data){
-      setListOfCategories(res.data);
-    }
-  };
-
-  let listCal: Job[] = Object.values(listOfCategories).reduce((acc: Job[], cate: Category) => {
-
-    return acc.concat(cate.jobs);
-  }, []);
-  if (searchKeyword !== "") {
-    listCal = listCal.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(searchKeyword.toLowerCase()));
-  }
-
-  useEffect(() => {
-    prefetchData();
-  }, []);
-
-  const updateCategoryFilter = (item: UpdateFilterType) => async () => {
-
-    setFilter((prev: Filter) => {
-      const res: Filter = { ...prev, [item.cate]: prev[item.cate].map((obj: CheckBoxEntity) => (obj.name === item.name ? { ...obj, check: !obj.check } : obj)) };
-      if (item.auto) {
-        sentFilterRequest(res);
-      }
-      return res;
-    });
-  };
-
-  const sentFilterRequest = async (currentState: Filter) => {
-    const newCategory = currentState.category.filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
-    const languagesAndFramework = currentState.languages.concat(currentState.framework).filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
-
-    setState(false);
-    const res: ResponseData = await filterJob({
-      userId: 1,
-      category: newCategory,
-      languages: languagesAndFramework
-    });
-    if (res.data){
-      setListOfCategories(res.data);
-    }
-  };
-
-  const toggleDrawer =
-    (open: boolean) =>
-      (event: React.KeyboardEvent | React.MouseEvent) => {
-        if (
-          event.type === 'keydown' &&
-          ((event as React.KeyboardEvent).key === 'Tab' ||
-            (event as React.KeyboardEvent).key === 'Shift')
-        ) {
-          return;
-        }
-        setState(open);
-      };
-
-  const list = () => (
-    <Box
-      sx={{ width: 'auto', display: 'flex' }}
-      role="presentation"
-      // onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Filtering</FormLabel>
-        <FormGroup>
-          {
-            filter.category.map((cate) =>
-            //Store the the student id in the value of each check box
-            (<FormControlLabel
-              key={cate.name}
-              control={
-                <Checkbox checked={cate.check}
-                  onChange={updateCategoryFilter({ ...cate, cate: "category", auto: false })}
-                  name={cate.name} />
-              }
-              label={cate.name}
-            />
-            ))
-          }
-        </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
-      </FormControl>
-
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Filtering</FormLabel>
-        <FormGroup>
-          {
-            filter.languages.map((lang) =>
-            //Store the the student id in the value of each check box
-            (<FormControlLabel
-              key={lang.name}
-              control={
-                <Checkbox checked={lang.check}
-                  onChange={updateCategoryFilter({ ...lang, cate: "languages", auto: false })}
-                  name={lang.name} />
-              }
-              label={lang.name}
-            />
-            ))
-          }
-        </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
-      </FormControl>
-
-      <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-        <FormLabel component="legend">Filtering</FormLabel>
-        <FormGroup>
-          {
-            filter.framework.map((fra) =>
-            //Store the the student id in the value of each check box
-            (<FormControlLabel
-              key={fra.name}
-              control={
-                <Checkbox checked={fra.check}
-                  onChange={updateCategoryFilter({ ...fra, cate: "framework", auto: false })}
-                  id={fra.name}
-                  name="framework" />
-              }
-              label={fra.name}
-            />
-            ))
-          }
-        </FormGroup>
-        <FormHelperText>Be careful</FormHelperText>
-      </FormControl>
-      <Box><button onClick={() => sentFilterRequest(filter)}>Fetch</button></Box>
-    </Box>
-  );
+  const {filter, updateCategoryFilter, state, sentFilterRequest, setState, setSearchKeyword, listCal, logout} = useManageSearchPage();
 
   return (
     <ThemeProvider theme={theme}>
@@ -234,72 +29,12 @@ const SearchPage = () => {
         </Toolbar>
       </AppBar>
       <main>
-        {/* Hero unit */}
-        <div>
-          <React.Fragment key="top">
-            <Button onClick={toggleDrawer(true)}>top</Button>
-            <Drawer
-              anchor="top"
-              open={state}
-              onClose={toggleDrawer(false)}
-            >
-              {list()}
-            </Drawer>
-          </React.Fragment>
-        </div>
-
-        <div
-          style={{
-            alignItems: 'center',
-            width: '200px',
-            display: 'flex',
-            flexDirection: 'row'
-          }}>
-          <TextField style={{ flex: 1 }}
-            placeholder='Search'
-            InputLabelProps={{ style: { display: 'none' } }}
-            onChange={(e) => setSearchKeyword(e.target.value)}
-          />
-        </div >
-
+        <DrawerComponent filter={filter} updateCategoryFilter={updateCategoryFilter} state={state} sentFilterRequest={sentFilterRequest} setState={setState}/>
+        <SearchBar setSearchKeyword={setSearchKeyword}/>
         <Container maxWidth="md">
-          <Stack direction="row" spacing={1} height={20}>
-            {filter.category.map((cate) => (
-              cate.check && (<Chip key={cate.name} label={cate.name}
-                onDelete={updateCategoryFilter({ ...cate, cate: "category", auto: true })}
-              />)
-            ))}
-            {filter.languages.map((lang) => (
-              lang.check && (<Chip key={lang.name} label={lang.name}
-                onDelete={updateCategoryFilter({ ...lang, cate: "languages", auto: true })}
-              />)
-            ))}
-            {filter.framework.map((fra) => (
-              fra.check && (<Chip key={fra.name} label={fra.name}
-                onDelete={updateCategoryFilter({ ...fra, cate: "framework", auto: true })}
-              />)
-            ))}
-          </Stack>
-          <Table size="medium">
-            <TableHead>
-              <TableRow>
-                <TableCell>Company</TableCell>
-                <TableCell>Job Title</TableCell>
-                <TableCell>Update At</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {listCal.length > 0 && listCal[0] && listCal.map((job: Job, index: number) => (
-                <TableRow key={index}>
-                  <TableCell>{job.company}</TableCell>
-                  <TableCell>{job.title}</TableCell>
-                  <TableCell>{job.updatedAt}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+          <ChipsComponent filter={filter} updateCategoryFilter={updateCategoryFilter} />
+          <FilterList listCal={listCal} />
         </Container>
-
       </main>
       <button onClick={() => logout()}>Logout</button>
     </ThemeProvider>
@@ -307,43 +42,3 @@ const SearchPage = () => {
 };
 
 export default SearchPage;
-
-
-    // <div>
-    //   <ul>
-    //     <li>
-    //       <button onClick={() => handleClick()}>Login Pop</button>
-    //     </li>
-    //     <li>
-    //       <button onClick={() => logout()}>Logout</button>
-    //     </li>
-    //   </ul>
-
-    //   <ul>
-    //     <li><button onClick={callApi}>Call API</button></li>
-    //     <li><button onClick={callProtectedApi}>Call Protected API route</button></li>
-    //   </ul>
-    //   {isAuthenticated && (
-    //     <pre>{JSON.stringify(user, null, 2)}</pre>
-    //   )}
-    // </div>
-
-// const callProtectedApi = async () => {
-//   const token = await getAccessTokenSilently();
-//   console.log(token);
-//   fetch("http://localhost:8080/protected", {
-//     headers: {
-//       'Authorization': `Bearer ${token}`
-//     }
-//   })
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error('Network response was not ok');
-//       }
-//       return response.json();
-//     })
-//     .catch(error => {
-//       console.error('There was a problem with the fetch operation:', error);
-//     });
-
-// };
