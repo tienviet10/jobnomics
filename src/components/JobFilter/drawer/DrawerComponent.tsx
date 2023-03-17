@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
@@ -10,10 +10,19 @@ import Box from '@mui/material/Box';
 import { CheckBoxEntity, DrawComponentType } from '../../../types/jobTypes';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import styles from "./Drawer.module.css";
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/store';
 
 const choices = ["category", "languages", "framework"];
 
-const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFilter, state, sentFilterRequest, setState }): JSX.Element => {
+const DrawerComponent: React.FC<DrawComponentType> = ({ updateCategoryFilter, sentFilterRequest }): JSX.Element => {
+  const filterState = useSelector((state: RootState) => state.filter.mainFilter);
+  const [state, setState] = useState<boolean>(false);
+
+  const handleSentRequest = () => {
+    sentFilterRequest()
+    setState(false)
+  }
 
   const toggleDrawer =
     (open: boolean) =>
@@ -42,7 +51,7 @@ const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFi
               <FormLabel component="legend">Filtering</FormLabel>
               <FormGroup>
                 {
-                  filter[choice].map((cate: CheckBoxEntity) =>
+                  filterState[choice].map((cate: CheckBoxEntity) =>
                   (<FormControlLabel
                     key={cate.name}
                     control={
@@ -59,7 +68,7 @@ const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFi
           );
         })}
       </Box>
-      <Button variant="contained" onClick={() => sentFilterRequest(filter)}>Filter</Button>
+      <Button variant="contained" onClick={handleSentRequest}>Filter</Button>
     </div>
   );
 

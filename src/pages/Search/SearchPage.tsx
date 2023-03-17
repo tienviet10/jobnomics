@@ -16,7 +16,7 @@ import styles from "./Filter.module.css";
 const theme = createTheme();
 
 const SearchPage = () => {
-  const { filter, updateCategoryFilter, state, sentFilterRequest, setState, setSearchKeyword, listCal, logout } = useManageSearchPage();
+  const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
 
   return (
     <ThemeProvider theme={theme}>
@@ -31,12 +31,12 @@ const SearchPage = () => {
       </AppBar>
       <main>
         <div className={styles.Filter}>
-          <DrawerComponent filter={filter} updateCategoryFilter={updateCategoryFilter} state={state} sentFilterRequest={sentFilterRequest} setState={setState} />
-          <SearchBar setSearchKeyword={setSearchKeyword} />
+          <DrawerComponent updateCategoryFilter={updateCategoryFilter} sentFilterRequest={sentFilterRequest}/>
+          <SearchBar/>
         </div>
         <Container maxWidth="md">
-          <ChipsComponent filter={filter} updateCategoryFilter={updateCategoryFilter} />
-          <FilterList listCal={listCal} />
+          <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
+          <FilterList/>
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>

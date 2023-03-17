@@ -1,8 +1,11 @@
 import React from 'react'
 import TextField from '@mui/material/TextField';
-import { SetSearchKeywordType } from '../../../types/jobTypes';
+import { useDispatch } from 'react-redux';
+import { handleSearch } from '../../../features/filterSlice';
 
-const SearchBar: React.FC<SetSearchKeywordType> = ({setSearchKeyword}): JSX.Element => {
+const SearchBar = (): JSX.Element => {
+  const dispatch = useDispatch();
+
   return (
     <div
     style={{
@@ -14,7 +17,7 @@ const SearchBar: React.FC<SetSearchKeywordType> = ({setSearchKeyword}): JSX.Elem
     <TextField style={{ flex: 1 }}
       placeholder='Search'
       InputLabelProps={{ style: { display: 'none' } }}
-      onChange={(e) => setSearchKeyword(e.target.value)}
+      onChange={(e) => dispatch(handleSearch(e.target.value))}
     />
   </div >
   )
