@@ -174,8 +174,8 @@ const JobList = (): JSX.Element => {
       (job: { id: number; position: number }, index: number) => {
         return {
           jobId: job.id,
-          categoryId: Number(source.droppableId) - 1,
-          newCategoryId: Number(source.droppableId) - 1,
+          categoryId: Number(source.droppableId),
+          newCategoryId: Number(source.droppableId),
           position: job.position,
         };
       }
