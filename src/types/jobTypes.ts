@@ -11,6 +11,11 @@ export type UserJobsType = {
     };
   };
   categoryOrder: string[];
+  modal: {
+    open: boolean;
+    userJobId: { userId: number; jobId: number; categoryId: number };
+  };
+  selectedJob: JobType;
 };
 
 export type JobPreviewType = {
@@ -28,11 +33,12 @@ export type JobType = {
     name: string;
   };
   userId: number;
-  updatedAt: Date;
+  updatedAt: Date | null;
   isFavorite: boolean;
   position: number | null;
   interviewDate?: Date;
   job: {
+    id: number;
     title: string;
     company: string;
     location: string;

@@ -21,7 +21,6 @@ const JobList = (): JSX.Element => {
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
-  console.log(jobState);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
   const [updateJobs, { isLoading: isUpdating }] = useUpdateJobsMutation();
