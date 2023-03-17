@@ -29,14 +29,16 @@ export const jobApi = createApi({
       // providesTags: [{ type: "UserJobsType" }],
     }),
     getJobById: builder.query({
-      query: (id) => `job/${id}`,
-      transformResponse: (response: { data: JobType }, meta, arg) =>
-        response.data,
-      transformErrorResponse: (
-        response: { status: string | number },
-        meta,
-        arg
-      ) => response.status,
+      query: ({ userId, jobId, categoryId }) => ({
+        url: `job/${userId}/${jobId}/${categoryId}`,
+      }),
+      // transformResponse: (response: { data: JobType }, meta, arg) =>
+      //   response.data,
+      // transformErrorResponse: (
+      //   response: { status: string | number },
+      //   meta,
+      //   arg
+      // ) => response.status,
       // providesTags: [{ type: "JobType" }],
     }),
     addJob: builder.mutation({
