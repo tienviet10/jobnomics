@@ -105,7 +105,7 @@ const JobModal = () => {
       </Card>
     </Modal>
   ) : (
-    <></>
+    <>Loading</>
   );
 };
 
