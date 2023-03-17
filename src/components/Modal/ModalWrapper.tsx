@@ -1,17 +1,16 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import type { RootState } from "../../app/store";
 import { Close} from "@mui/icons-material";
 import {
-  setSelectedJob,
   toggleJobModal,
 } from "../../features/jobSlice";
 import { useDispatch, useSelector } from "react-redux";
-import styles from "./MainModal.module.css";
-import { useGetJobByIdQuery } from '../../app/services/job-api';
+import styles from "./JobModal.module.css";
 
 const ModalWrapper = ({children}: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
+
   const state = useSelector((state: RootState) => state.job);
   const modalState = state.modal;
   const selectedJob = state.selectedJob;
@@ -19,23 +18,10 @@ const ModalWrapper = ({children}: { children: React.ReactNode }) => {
     ? new Date(selectedJob.updatedAt)
     : "";
 
-  const { userId, jobId, categoryId } = modalState.userJobId;
-
-  const { data, error, isLoading } = useGetJobByIdQuery({
-    userId,
-    jobId,
-    categoryId,
-  });
-
   const handleClose = () => {
     dispatch(toggleJobModal(false));
   };
 
-  useEffect(() => {
-    dispatch(setSelectedJob(data));
-  }, [data]);
-
-  
   return selectedJob ? (
     <Modal
       open={modalState.open}
