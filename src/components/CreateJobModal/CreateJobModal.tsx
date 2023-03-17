@@ -9,6 +9,8 @@ import {
 import React, { useState, useEffect } from "react";
 
 import { useAddJobMutation } from "../../app/services/job-api";
+import type { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 import styles from "./CreateJobModal.module.css";
 import { Close } from "@mui/icons-material";
@@ -19,8 +21,9 @@ const CreateJobModal = ({
   open,
   setOpen,
 }: CreateJobModalPropType): JSX.Element => {
-  const [value, setValue] = useState<string>();
+  const [value, setValue] = useState<string>("");
 
+  const jobState = useSelector((state: RootState) => state.job.categories);
   const [addJob, { isLoading: isUpdating, isSuccess, isError }] =
     useAddJobMutation();
 
@@ -32,7 +35,11 @@ const CreateJobModal = ({
     event.preventDefault();
 
     console.log(value);
-    addJob({ link: value });
+    addJob({
+      jobLink: value,
+      position: jobState.Bookmarked.jobs.length,
+      interviewDate: null,
+    });
   };
 
   useEffect(() => {
