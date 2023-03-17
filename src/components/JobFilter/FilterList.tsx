@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import { Job, JobListProps } from '../../types/jobTypes';
 
 
-const FilterList:React.FC<JobListProps> = ({listCal}) => {
+const FilterList:React.FC<JobListProps> = ({listCal}): JSX.Element => {
   return (
     <Table size="medium">
       <TableHead>

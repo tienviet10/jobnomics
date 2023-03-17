@@ -5,9 +5,9 @@ import { CheckBoxEntity, RemindersListType } from '../../../types/jobTypes';
 
 const choices = ["category", "languages", "framework"];
 
-const ChipsComponent: React.FC<RemindersListType> = ({ filter, updateCategoryFilter }) => {
+const ChipsComponent: React.FC<RemindersListType> = ({ filter, updateCategoryFilter }): JSX.Element => {
   return (
-    <Stack direction="row" spacing={1} height={20}>
+    <Stack direction="row" spacing={1} height={50} sx={{overflow: 'auto'}}>
       {choices.map((choice) => {
         return filter[choice].map((cate: CheckBoxEntity) => (
           cate.check && (<Chip key={cate.name} label={cate.name}

@@ -2,7 +2,7 @@ import React from 'react'
 import TextField from '@mui/material/TextField';
 import { SetSearchKeywordType } from '../../../types/jobTypes';
 
-const SearchBar: React.FC<SetSearchKeywordType> = ({setSearchKeyword}) => {
+const SearchBar: React.FC<SetSearchKeywordType> = ({setSearchKeyword}): JSX.Element => {
   return (
     <div
     style={{

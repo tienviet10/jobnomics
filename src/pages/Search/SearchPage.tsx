@@ -11,11 +11,12 @@ import ChipsComponent from '../../components/JobFilter/chips';
 import SearchBar from '../../components/JobFilter/searchbar/SearchBar';
 import DrawerComponent from '../../components/JobFilter/drawer';
 import { useManageSearchPage } from './manage-search-page';
+import styles from "./Filter.module.css";
 
 const theme = createTheme();
 
 const SearchPage = () => {
-  const {filter, updateCategoryFilter, state, sentFilterRequest, setState, setSearchKeyword, listCal, logout} = useManageSearchPage();
+  const { filter, updateCategoryFilter, state, sentFilterRequest, setState, setSearchKeyword, listCal, logout } = useManageSearchPage();
 
   return (
     <ThemeProvider theme={theme}>
@@ -29,8 +30,10 @@ const SearchPage = () => {
         </Toolbar>
       </AppBar>
       <main>
-        <DrawerComponent filter={filter} updateCategoryFilter={updateCategoryFilter} state={state} sentFilterRequest={sentFilterRequest} setState={setState}/>
-        <SearchBar setSearchKeyword={setSearchKeyword}/>
+        <div className={styles.Filter}>
+          <DrawerComponent filter={filter} updateCategoryFilter={updateCategoryFilter} state={state} sentFilterRequest={sentFilterRequest} setState={setState} />
+          <SearchBar setSearchKeyword={setSearchKeyword} />
+        </div>
         <Container maxWidth="md">
           <ChipsComponent filter={filter} updateCategoryFilter={updateCategoryFilter} />
           <FilterList listCal={listCal} />

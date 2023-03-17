@@ -5,14 +5,15 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormGroup from '@mui/material/FormGroup';
-import FormHelperText from '@mui/material/FormHelperText';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 import { CheckBoxEntity, DrawComponentType } from '../../../types/jobTypes';
+import FilterListIcon from '@mui/icons-material/FilterList';
+import styles from "./Drawer.module.css";
 
 const choices = ["category", "languages", "framework"];
 
-const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFilter, state, sentFilterRequest, setState }) => {
+const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFilter, state, sentFilterRequest, setState }): JSX.Element => {
 
   const toggleDrawer =
     (open: boolean) =>
@@ -28,41 +29,42 @@ const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFi
       };
 
   const list = () => (
-    <Box
-      sx={{ width: 'auto', display: 'flex' }}
-      role="presentation"
-      // onClick={toggleDrawer(false)}
-      onKeyDown={toggleDrawer(false)}
-    >
-      {choices.map((choice) => {
-        return (
-          <FormControl key={choice} sx={{ m: 3 }} component="fieldset" variant="standard">
-            <FormLabel component="legend">Filtering</FormLabel>
-            <FormGroup>
-              {
-                filter[choice].map((cate: CheckBoxEntity) =>
-                (<FormControlLabel
-                  key={cate.name}
-                  control={
-                    <Checkbox checked={cate.check}
-                      onChange={updateCategoryFilter({ ...cate, cate: choice, auto: false })}
-                      name={cate.name} />
-                  }
-                  label={cate.name}
-                />
-                ))
-              }
-            </FormGroup>
-          </FormControl>
-        );
-      })}
-      <Box><button onClick={() => sentFilterRequest(filter)}>Fetch</button></Box>
-    </Box>
+    <div className={styles.Drawer}>
+      <Box
+        sx={{ width: 'auto', display: 'flex' }}
+        role="presentation"
+        // onClick={toggleDrawer(false)}
+        onKeyDown={toggleDrawer(false)}
+      >
+        {choices.map((choice) => {
+          return (
+            <FormControl key={choice} sx={{ m: 3 }} component="fieldset" variant="standard">
+              <FormLabel component="legend">Filtering</FormLabel>
+              <FormGroup>
+                {
+                  filter[choice].map((cate: CheckBoxEntity) =>
+                  (<FormControlLabel
+                    key={cate.name}
+                    control={
+                      <Checkbox checked={cate.check}
+                        onChange={updateCategoryFilter({ ...cate, cate: choice, auto: false })}
+                        name={cate.name} />
+                    }
+                    label={cate.name}
+                  />
+                  ))
+                }
+              </FormGroup>
+            </FormControl>
+          );
+        })}
+      </Box>
+      <Button variant="contained" onClick={() => sentFilterRequest(filter)}>Filter</Button>
+    </div>
   );
 
   return (
-    <React.Fragment key="top">
-      <Button onClick={toggleDrawer(true)}>top</Button>
+    <>
       <Drawer
         anchor="top"
         open={state}
@@ -70,7 +72,8 @@ const DrawerComponent: React.FC<DrawComponentType> = ({ filter, updateCategoryFi
       >
         {list()}
       </Drawer>
-    </React.Fragment>
+      <Button onClick={toggleDrawer(true)}><FilterListIcon sx={{ fontSize: 30 }} /></Button>
+    </>
   );
 };
 
