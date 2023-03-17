@@ -50,12 +50,18 @@ export type JobType = {
     description: string;
     logo: string;
     summary: string;
-    skills: string[];
+    skills: Skill[];
     interviewExamples?: string;
     platform: string;
   };
 };
 
+type Skill = {
+  createdAt: string;
+  id: number;
+  name: string;
+  updatedAt: string;
+};
 export interface Job {
   company: string;
   id: number;

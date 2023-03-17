@@ -206,8 +206,6 @@ const JobList = (): JSX.Element => {
       type: "update",
     };
 
-    console.log(body);
-
     updateJobs(body);
   };
 

@@ -18,7 +18,7 @@ export function useManageSearchPage(): ManageSearchPageType {
     const res: ResponseData = await filterJob({
       userId: 1,
       category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"],
-      languages: []
+      skills: []
     });
     if (res.data) {
       dispatch(setList(res.data));
@@ -50,13 +50,15 @@ export function useManageSearchPage(): ManageSearchPageType {
     const res: ResponseData = await filterJob({
       userId: 1,
       category: newCategory,
-      languages: languagesAndFramework
+      skills: languagesAndFramework
     });
+    console.log(res);
     if (res.data) {
       dispatch(toggleFirstFetch(false));
       dispatch(setList(res.data));
     }
   };
+
 
   return {
     updateCategoryFilter,

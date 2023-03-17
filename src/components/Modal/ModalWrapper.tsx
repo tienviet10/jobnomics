@@ -74,10 +74,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           </IconButton>
           <div className={styles.JobHeader}>
             <Typography variant="h5" className={styles.JobTitle}>
-              {selectedJob.job.title}
+              {selectedJob.job?.title}
             </Typography>
             <Typography variant="h6" className={styles.JobCompany}>
-              {selectedJob.job.company} | {selectedJob.job.location}
+              {selectedJob.job?.company} | {selectedJob.job?.location}
             </Typography>
             <Typography variant="caption" className={styles.JobUpdatedDate}>
               Last update at: {`${updatedDate.toLocaleString()}`}

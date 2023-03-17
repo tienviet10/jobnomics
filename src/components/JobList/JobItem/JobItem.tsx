@@ -42,7 +42,6 @@ const JobItem = ({
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
     const body = {
       userId: 1,
       jobId: id,
@@ -51,7 +50,6 @@ const JobItem = ({
       interviewDate: null,
       type: "update",
     };
-
     dispatch(toggleFavorite([category, id, !isFavorite]));
     updateJob(body);
   };
