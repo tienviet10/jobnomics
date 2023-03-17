@@ -15,7 +15,6 @@ export const jobApi = createApi({
       return headers;
     },
   }),
-  // tagTypes: ["UserJobsType", "JobType"],
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
@@ -26,7 +25,6 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      // providesTags: [{ type: "UserJobsType" }],
     }),
     getJobById: builder.query({
       query: (id) => `job/${id}`,
@@ -94,6 +92,25 @@ export const jobApi = createApi({
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
       ) {},
     }),
+    filterJob: builder.mutation<any, any>({
+      query(body) {
+        return {
+          url: "job/filter/",
+          method: "PUT",
+          body,
+        };
+      },
+      transformResponse: (response: { data: any; }, meta, arg) => {
+        console.log("mutation", response);
+        return response;
+      },
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+
+    }),
   }),
 });
 
@@ -103,4 +120,5 @@ export const {
   useAddJobMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
+  useFilterJobMutation
 } = jobApi;
