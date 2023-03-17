@@ -44,7 +44,7 @@ export const jobApi = createApi({
       //   arg
       // ) => response.status,
       transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response.data,
+        response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
@@ -95,7 +95,7 @@ export const jobApi = createApi({
         body: patch,
       }),
       transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response.data,
+        response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,

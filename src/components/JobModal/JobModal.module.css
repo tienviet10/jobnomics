@@ -1,25 +1,4 @@
-.JobModalContainer {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.JobModal {
-  background-color: #ffffff;
-  max-width: 90vw;
-  min-width: 50vw;
-  height: 60vmin;
-
-  padding: 30px 40px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.ModalHeader,
 .ModalFooter {
   display: flex;
   justify-content: space-between;
