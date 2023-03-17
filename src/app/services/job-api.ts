@@ -1,6 +1,12 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { security } from "../../components/auth/GlobalAuth";
-import type { UserJobsType, JobType } from "../../types/jobTypes";
+import type { UserJobsType, JobType, ResponseData } from "../../types/jobTypes";
+
+type UserRequest = {
+  userId: number,
+  category: string[],
+  languages: string[];
+};
 
 export const jobApi = createApi({
   reducerPath: "jobApi",
@@ -18,10 +24,10 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
-      transformResponse: (response: { data: UserJobsType }, meta, arg) =>
+      transformResponse: (response: { data: UserJobsType; }, meta, arg) =>
         response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -37,6 +43,13 @@ export const jobApi = createApi({
       //   meta,
       //   arg
       // ) => response.status,
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
+        response.data,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
       // providesTags: [{ type: "JobType" }],
     }),
     addJob: builder.mutation<any, any>({
@@ -47,10 +60,10 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -62,10 +75,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -73,7 +86,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     updateJob: builder.mutation({
       query: ({ id, ...patch }) => ({
@@ -81,10 +94,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -92,9 +105,9 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
-    filterJob: builder.mutation<any, any>({
+    filterJob: builder.mutation<any, UserRequest>({
       query(body) {
         return {
           url: "job/filter/",
@@ -102,12 +115,9 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: any }, meta, arg) => {
-        console.log("mutation", response);
-        return response;
-      },
+      transformResponse: (response: { data: ResponseData; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,

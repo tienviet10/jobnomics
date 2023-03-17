@@ -13,7 +13,7 @@ export type UserJobsType = {
   categoryOrder: string[];
   modal: {
     open: boolean;
-    userJobId: { userId: number; jobId: number; categoryId: number };
+    userJobId: { userId: number; jobId: number; categoryId: number; };
   };
   selectedJob: JobType;
 };
@@ -58,6 +58,7 @@ export interface Job {
   position: number;
   title: string;
   updatedAt: string;
+  categoryId?: number;
 }
 
 export interface Category {
@@ -70,7 +71,25 @@ export type CategoryType = {
   [key: string]: Category;
 };
 
-export type Filter = {
+export type FilterStateType = {
+  mainFilter: Filter;
+  listOfCategories: ListOfCategoriesType;
+  arrayJobs: Job[];
+  searchWord: string;
+  displayArrayJobs: Job[];
+  firstFetch: boolean;
+};
+
+type ListOfCategoriesType = {
+  Bookmarked: Category | {},
+  Applied: Category | {},
+  Interviewing: Category | {},
+  Interviewed: Category | {},
+  "Job Offer": Category | {},
+  "Position Filled": Category | {};
+};
+
+type Filter = {
   [key: string]: CheckBoxEntity[];
 };
 
@@ -91,36 +110,20 @@ export type ResponseData = {
   error?: FetchBaseQueryError | SerializedError;
 };
 
-export type JobListProps = {
-  listCal: Job[];
-};
-
 export interface RemindersListType {
-  filter: Filter;
   updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
 }
 
-export type SetSearchKeywordType = {
-  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-};
-
 export type DrawComponentType = {
-  filter: Filter;
-  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
-  state: boolean;
-  sentFilterRequest: (currentState: Filter) => Promise<void>;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
+  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
+  sentFilterRequest: () => Promise<void>;
 };
 
 export type ManageSearchPageType = {
-  filter: Filter;
-  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
-  state: boolean;
-  setState: React.Dispatch<React.SetStateAction<boolean>>;
-  sentFilterRequest: (currentState: Filter) => Promise<void>;
-  setSearchKeyword: React.Dispatch<React.SetStateAction<string>>;
-  listCal: Job[];
+  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
   logout: (options?: LogoutOptions | undefined) => void;
+  sentFilterRequest: () => Promise<void>;
+  prefetchData: () => Promise<void>;
 };
 
 export type CreateJobModalPropType = {
