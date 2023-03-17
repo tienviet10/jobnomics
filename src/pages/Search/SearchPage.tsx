@@ -19,21 +19,63 @@ import { Stack } from '@mui/system';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
+import { SerializedError } from '@reduxjs/toolkit';
 
 
 // TODO: fix import issue
 // TODO: Fix types
 const theme = createTheme();
 
+interface Job {
+  company: string,
+  id: number,
+  logo: string | null,
+  position: number,
+  title: string,
+  updatedAt: string;
+}
+
+interface Category {
+  id: number;
+  category: string;
+  jobs: Job[];
+}
+
+type CategoryType = {
+  [key: string]: Category;
+};
+
+type Filter = {
+  [key: string]: CheckBoxEntity[];
+};
+
+type CheckBoxEntity = {
+  name: string,
+  check: boolean;
+};
+
+type UpdateFilterType = {
+  auto: boolean,
+  cate: string,
+  check: boolean,
+  name: string;
+};
+
+type ResponseData = {
+  data?: CategoryType;
+  error?: FetchBaseQueryError | SerializedError;
+}
+
 const SearchPage = () => {
   const { logout } = useAuth0();
   const [filterJob] = useFilterJobMutation();
-  const [filter, setFilter] = useState({
+  const [filter, setFilter] = useState<Filter>({
     category: [{ name: "Applied", check: false }, { name: "Bookmarked", check: false }, { name: "Interviewing", check: false }, { name: "Interviewed", check: false }, { name: "Job Offer", check: false }, { name: "Position Filled", check: false }],
     languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
     framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }]
   });
-  const [listOfCategories, setListOfCategories] = useState<any>({
+  const [listOfCategories, setListOfCategories] = useState<CategoryType | {}>({
     Bookmarked: {},
     Applied: {},
     Interviewing: {},
@@ -41,32 +83,36 @@ const SearchPage = () => {
     "Job Offer": {},
     "Position Filled": {}
   });
-  const [state, setState] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState('');
-
+  const [state, setState] = useState<boolean>(false);
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   const prefetchData = async () => {
-    const res: any = await filterJob({
+    const res: ResponseData = await filterJob({
       userId: 1,
       category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"],
       languages: []
     });
-    setListOfCategories(res.data.formatUserJobs);
+    if (res.data){
+      setListOfCategories(res.data);
+    }
   };
 
-  let listCal:any = Object.values(listOfCategories).reduce((acc: any, cate: any) => acc.concat(cate.jobs), []);
-  if (searchKeyword !== ""){
-    listCal = listCal.filter((job:any) => (job.company + job.title + job.updatedAt).toLowerCase().includes(searchKeyword.toLowerCase()));
-  } 
+  let listCal: Job[] = Object.values(listOfCategories).reduce((acc: Job[], cate: Category) => {
 
+    return acc.concat(cate.jobs);
+  }, []);
+  if (searchKeyword !== "") {
+    listCal = listCal.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(searchKeyword.toLowerCase()));
+  }
 
   useEffect(() => {
     prefetchData();
   }, []);
 
-  const updateCategoryFilter = (item: any) => async () => {
-    setFilter((prev: any) => {
-      const res = { ...prev, [item.cate]: prev[item.cate].map((obj: any) => (obj.name === item.name ? { ...obj, check: !obj.check } : obj)) };
+  const updateCategoryFilter = (item: UpdateFilterType) => async () => {
+
+    setFilter((prev: Filter) => {
+      const res: Filter = { ...prev, [item.cate]: prev[item.cate].map((obj: CheckBoxEntity) => (obj.name === item.name ? { ...obj, check: !obj.check } : obj)) };
       if (item.auto) {
         sentFilterRequest(res);
       }
@@ -74,18 +120,19 @@ const SearchPage = () => {
     });
   };
 
-  const sentFilterRequest = async (currentState: any) => {
-    console.log(currentState);
-    const newCategory = currentState.category.filter((obj: any) => obj.check).map((obj: any) => obj.name);
-    const languagesAndFramework = currentState.languages.concat(currentState.framework).filter((obj: any) => obj.check).map((obj: any) => obj.name);
+  const sentFilterRequest = async (currentState: Filter) => {
+    const newCategory = currentState.category.filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
+    const languagesAndFramework = currentState.languages.concat(currentState.framework).filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
 
     setState(false);
-    const res: any = await filterJob({
+    const res: ResponseData = await filterJob({
       userId: 1,
       category: newCategory,
       languages: languagesAndFramework
     });
-    setListOfCategories(res.data.formatUserJobs);
+    if (res.data){
+      setListOfCategories(res.data);
+    }
   };
 
   const toggleDrawer =
@@ -98,7 +145,6 @@ const SearchPage = () => {
         ) {
           return;
         }
-
         setState(open);
       };
 
@@ -173,14 +219,8 @@ const SearchPage = () => {
         <FormHelperText>Be careful</FormHelperText>
       </FormControl>
       <Box><button onClick={() => sentFilterRequest(filter)}>Fetch</button></Box>
-
     </Box>
   );
-
-
-  const handleSearchChange = (e:any) => {
-    setSearchKeyword(e.target.value);
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -215,10 +255,10 @@ const SearchPage = () => {
             display: 'flex',
             flexDirection: 'row'
           }}>
-          <TextField style={{ flex: 1 }} 
+          <TextField style={{ flex: 1 }}
             placeholder='Search'
             InputLabelProps={{ style: { display: 'none' } }}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchKeyword(e.target.value)}
           />
         </div >
 
@@ -249,7 +289,7 @@ const SearchPage = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {listCal.length > 0 && listCal[0] && listCal.map((job: any, index: number) => (
+              {listCal.length > 0 && listCal[0] && listCal.map((job: Job, index: number) => (
                 <TableRow key={index}>
                   <TableCell>{job.company}</TableCell>
                   <TableCell>{job.title}</TableCell>
@@ -262,7 +302,6 @@ const SearchPage = () => {
 
       </main>
       <button onClick={() => logout()}>Logout</button>
-
     </ThemeProvider>
   );
 };
