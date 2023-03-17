@@ -43,6 +43,30 @@ const initialState: UserJobsType = {
     "Job Offer",
     "Position Filled",
   ],
+  modal: { open: false, userJobId: { userId: 0, jobId: 0, categoryId: 0 } },
+  selectedJob: {
+    category: {
+      id: 0,
+      name: "",
+    },
+    userId: 0,
+    updatedAt: null,
+    isFavorite: false,
+    position: null,
+    interviewDate: null,
+    job: {
+      id: 0,
+      title: "",
+      company: "",
+      location: "",
+      description: "",
+      logo: "",
+      summary: "",
+      skills: [],
+      interviewExamples: "",
+      platform: "",
+    },
+  },
 };
 
 export const jobSlice = createSlice({
@@ -54,16 +78,39 @@ export const jobSlice = createSlice({
     },
     toggleFavorite: (state, action) => {
       const [category, jobId, isFavorite] = action.payload;
+      // Update job within the state.categories
       const selectedJob = state.categories[category].jobs.find(
         (job) => job.id === jobId
       );
       if (selectedJob) {
         selectedJob.isFavorite = isFavorite;
       }
+      //Update jbo within state.selectedJob
+      if (
+        state.selectedJob.job.id === jobId &&
+        state.selectedJob.category.name === category
+      ) {
+        state.selectedJob.isFavorite = isFavorite;
+      }
+    },
+    toggleJobModal: (state, action) => {
+      state.modal = { ...state.modal, open: action.payload };
+    },
+    setModalId: (state, action) => {
+      state.modal = { ...state.modal, userJobId: action.payload };
+    },
+    setSelectedJob: (state, action) => {
+      state.selectedJob = action.payload;
     },
   },
 });
 
-export const { updateColumns, toggleFavorite } = jobSlice.actions;
+export const {
+  updateColumns,
+  toggleFavorite,
+  toggleJobModal,
+  setModalId,
+  setSelectedJob,
+} = jobSlice.actions;
 
 export default jobSlice.reducer;

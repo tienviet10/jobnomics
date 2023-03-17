@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 import type { RootState } from "../../../app/store";
@@ -6,11 +6,15 @@ import { useDispatch, useSelector } from "react-redux";
 import Card from "@mui/material/Card/Card";
 
 import styles from "./JobItem.module.css";
-import { Avatar, Icon, Typography } from "@mui/material";
+import { Avatar, Typography } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
 import { useUpdateJobMutation } from "../../../app/services/job-api";
-import { toggleFavorite } from "../../../features/jobSlice";
+import {
+  setModalId,
+  toggleFavorite,
+  toggleJobModal,
+} from "../../../features/jobSlice";
 
 type JobItemProps = {
   draggableId: string;
@@ -24,18 +28,17 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
+
+  const modalState = useSelector((state: RootState) => state.job.modal);
   const jobState = useSelector((state: RootState) => state.job.categories);
   const job = jobState[category].jobs[index];
-  const { id, title, company, logo } = job;
+  const { id, title, company, logo, isFavorite } = job;
+
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-  const [isFavorite, setIsFavorite] = useState(job.isFavorite);
-  console.log(job);
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    setIsFavorite((prev) => !prev);
 
-    // userId, JobId, categoryId
     const body = {
       userId: 1,
       jobId: id,
@@ -49,6 +52,13 @@ const JobItem = ({
     updateJob(body);
   };
 
+  const handleOpenModal = () => {
+    dispatch(toggleJobModal(!modalState.open));
+    dispatch(
+      setModalId({ userId: 1, jobId: id, categoryId: jobState[category].id })
+    );
+  };
+
   return (
     <>
       <Draggable draggableId={draggableId} index={index}>
@@ -60,18 +70,20 @@ const JobItem = ({
             {...provided.dragHandleProps}
             sx={{ bgcolor: snapshot.isDragging ? "#dbe4ff" : "#ffffff" }}
             ref={provided.innerRef}
-            // onClick={handleOpenModal}
           >
-            <Avatar alt={company} src={logo} />
-            <div className={styles.JobDetails}>
-              <Typography variant="h5">{title}</Typography>
-              <Typography variant="h6">{company}</Typography>
+            <Avatar alt={company} src={logo} onClick={handleOpenModal} />
+            <div className={styles.JobDetails} onClick={handleOpenModal}>
+              <Typography variant="body2">{title}</Typography>
+              <Typography variant="caption">{company}</Typography>
             </div>
 
             {isFavorite ? (
-              <Favorite fontSize="large" onClick={handleToggleFavorite} />
+              <Favorite fontSize="medium" onClick={handleToggleFavorite} />
             ) : (
-              <FavoriteBorder fontSize="large" onClick={handleToggleFavorite} />
+              <FavoriteBorder
+                fontSize="medium"
+                onClick={handleToggleFavorite}
+              />
             )}
           </Card>
         )}
