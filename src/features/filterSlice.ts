@@ -45,7 +45,7 @@ export const filterSlice = createSlice({
         listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
       }
       if (state["searchWord"] !== "") {
-        listJobs = listJobs.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(state["searchWord"].toLowerCase()));
+        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt).toLowerCase().includes(state["searchWord"].toLowerCase()));
         console.log(listJobs);
       }
       state["arrayJobs"] = listJobs;
