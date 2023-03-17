@@ -43,6 +43,13 @@ export const jobApi = createApi({
       //   meta,
       //   arg
       // ) => response.status,
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
+        response.data,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
       // providesTags: [{ type: "JobType" }],
     }),
     addJob: builder.mutation<any, any>({
