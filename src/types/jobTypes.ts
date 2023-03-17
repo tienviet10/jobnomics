@@ -1,6 +1,6 @@
-import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query';
-import { SerializedError } from '@reduxjs/toolkit';
-import { LogoutOptions } from '@auth0/auth0-react';
+import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
+import { SerializedError } from "@reduxjs/toolkit";
+import { LogoutOptions } from "@auth0/auth0-react";
 
 export type UserJobsType = {
   categories: {
@@ -11,6 +11,11 @@ export type UserJobsType = {
     };
   };
   categoryOrder: string[];
+  modal: {
+    open: boolean;
+    userJobId: { userId: number; jobId: number; categoryId: number; };
+  };
+  selectedJob: JobType;
 };
 
 export type JobPreviewType = {
@@ -28,11 +33,12 @@ export type JobType = {
     name: string;
   };
   userId: number;
-  updatedAt: Date;
+  updatedAt: Date | null;
   isFavorite: boolean;
   position: number | null;
-  interviewDate?: Date;
+  interviewDate: Date | null;
   job: {
+    id: number;
     title: string;
     company: string;
     location: string;
@@ -46,11 +52,11 @@ export type JobType = {
 };
 
 export interface Job {
-  company: string,
-  id: number,
-  logo: string | null,
-  position: number,
-  title: string,
+  company: string;
+  id: number;
+  logo: string | null;
+  position: number;
+  title: string;
   updatedAt: string;
 }
 
@@ -85,14 +91,14 @@ type Filter = {
 };
 
 export type CheckBoxEntity = {
-  name: string,
+  name: string;
   check: boolean;
 };
 
 export type UpdateFilterType = {
-  auto: boolean,
-  cate: string,
-  check: boolean,
+  auto: boolean;
+  cate: string;
+  check: boolean;
   name: string;
 };
 
@@ -114,4 +120,13 @@ export type ManageSearchPageType = {
   updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
   logout: (options?: LogoutOptions | undefined) => void;
   sentFilterRequest: () => Promise<void>;
+};
+
+export type CreateJobModalPropType = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type CategoryProps = {
+  category: string;
 };

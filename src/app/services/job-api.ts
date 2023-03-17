@@ -33,17 +33,19 @@ export const jobApi = createApi({
       ) => response.status,
     }),
     getJobById: builder.query({
-      query: (id) => `job/${id}`,
-      transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response.data,
-      transformErrorResponse: (
-        response: { status: string | number; },
-        meta,
-        arg
-      ) => response.status,
+      query: ({ userId, jobId, categoryId }) => ({
+        url: `job/${userId}/${jobId}/${categoryId}`,
+      }),
+      // transformResponse: (response: { data: JobType }, meta, arg) =>
+      //   response.data,
+      // transformErrorResponse: (
+      //   response: { status: string | number },
+      //   meta,
+      //   arg
+      // ) => response.status,
       // providesTags: [{ type: "JobType" }],
     }),
-    addJob: builder.mutation({
+    addJob: builder.mutation<any, any>({
       query(body) {
         return {
           url: "auto/",
@@ -112,7 +114,6 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-
     }),
   }),
 });
@@ -123,5 +124,5 @@ export const {
   useAddJobMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
-  useFilterJobMutation
+  useFilterJobMutation,
 } = jobApi;

@@ -31,7 +31,6 @@ export const filterSlice = createSlice({
     handleSearch: (state, action) => {
       state["searchWord"] = action.payload;
       let listCal: Job[] = Object.values(state.listOfCategories).reduce((acc: Job[], cate: any) => acc.concat(cate.jobs), []);
-      console.log(listCal);
       if (action.payload !== "") {
         listCal = listCal.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(action.payload.toLowerCase()));
       }
