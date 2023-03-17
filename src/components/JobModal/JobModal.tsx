@@ -84,7 +84,7 @@ const JobModal = () => {
             </Typography>
           </div>
           <IconButton className={styles.Button} onClick={handleClose}>
-            <Close fontSize="large" />
+            <Close fontSize="medium" />
           </IconButton>
         </div>
         {/* View Changes in here */}
@@ -92,14 +92,14 @@ const JobModal = () => {
           <IconButton className={styles.Button} onClick={handleToggleFavorite}>
             <Typography className={styles.ButtonText}>Favorite</Typography>
             {selectedJob?.isFavorite ? (
-              <Favorite fontSize="large" />
+              <Favorite fontSize="medium" />
             ) : (
-              <FavoriteBorder fontSize="large" />
+              <FavoriteBorder fontSize="medium" />
             )}
           </IconButton>
           <IconButton className={styles.Button}>
             <Typography className={styles.ButtonText}>Delete</Typography>
-            <Delete fontSize="large" />
+            <Delete fontSize="medium" />
           </IconButton>
         </div>
       </Card>

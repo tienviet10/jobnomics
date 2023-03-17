@@ -73,14 +73,17 @@ const JobItem = ({
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="h5">{title}</Typography>
-              <Typography variant="h6">{company}</Typography>
+              <Typography variant="body2">{title}</Typography>
+              <Typography variant="caption">{company}</Typography>
             </div>
 
             {isFavorite ? (
-              <Favorite fontSize="large" onClick={handleToggleFavorite} />
+              <Favorite fontSize="medium" onClick={handleToggleFavorite} />
             ) : (
-              <FavoriteBorder fontSize="large" onClick={handleToggleFavorite} />
+              <FavoriteBorder
+                fontSize="medium"
+                onClick={handleToggleFavorite}
+              />
             )}
           </Card>
         )}

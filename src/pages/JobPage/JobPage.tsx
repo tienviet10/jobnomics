@@ -9,7 +9,7 @@ import { Typography } from "@mui/material";
 const JobPage = () => {
   return (
     <div className={styles.JobPage}>
-      <Typography variant="h3" className={styles.JobPageTitle}>
+      <Typography variant="h4" className={styles.JobPageTitle}>
         (User's) Job Board
       </Typography>
       <JobList />

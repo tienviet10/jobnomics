@@ -28,16 +28,12 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   return (
     <Paper elevation={3} className={styles.JobListContainer}>
       <div className={styles.JobListHeader}>
-        <Typography
-          variant="h5"
-          alignSelf={"flex-start"}
-          className={styles.CategoryLabel}
-        >
+        <Typography variant="subtitle1" className={styles.CategoryLabel}>
           {category}
         </Typography>
         {category === "Bookmarked" && (
           <Button variant="contained" onClick={handleAddJobClick}>
-            <Typography variant="subtitle1">Add New Job</Typography>
+            <Typography variant="subtitle2">Add New Job</Typography>
           </Button>
         )}
       </div>
