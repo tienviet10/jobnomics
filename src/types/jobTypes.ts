@@ -58,6 +58,7 @@ export interface Job {
   position: number;
   title: string;
   updatedAt: string;
+  categoryId?: number;
 }
 
 export interface Category {
@@ -71,10 +72,12 @@ export type CategoryType = {
 };
 
 export type FilterStateType = {
-  mainFilter: Filter,
-  listOfCategories: ListOfCategoriesType,
-  arrayJobs: Job[],
+  mainFilter: Filter;
+  listOfCategories: ListOfCategoriesType;
+  arrayJobs: Job[];
   searchWord: string;
+  displayArrayJobs: Job[];
+  firstFetch: boolean;
 };
 
 type ListOfCategoriesType = {
@@ -120,6 +123,7 @@ export type ManageSearchPageType = {
   updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
   logout: (options?: LogoutOptions | undefined) => void;
   sentFilterRequest: () => Promise<void>;
+  prefetchData: () => Promise<void>;
 };
 
 export type CreateJobModalPropType = {

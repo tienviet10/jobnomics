@@ -5,7 +5,7 @@ import { CheckBoxEntity, ManageSearchPageType, ResponseData, UpdateFilterType } 
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { useDispatch } from 'react-redux';
-import { setList, toggleCheck } from '../../features/filterSlice';
+import { setList, toggleCheck, toggleFirstFetch } from '../../features/filterSlice';
 
 export function useManageSearchPage(): ManageSearchPageType {
   const { logout } = useAuth0();
@@ -53,6 +53,7 @@ export function useManageSearchPage(): ManageSearchPageType {
       languages: languagesAndFramework
     });
     if (res.data) {
+      dispatch(toggleFirstFetch(false));
       dispatch(setList(res.data));
     }
   };
@@ -60,6 +61,7 @@ export function useManageSearchPage(): ManageSearchPageType {
   return {
     updateCategoryFilter,
     logout,
-    sentFilterRequest
+    sentFilterRequest,
+    prefetchData
   };
 }

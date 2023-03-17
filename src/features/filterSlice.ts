@@ -1,7 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Category, CheckBoxEntity, FilterStateType, Job } from "../types/jobTypes";
-
-// import type { UserJobsType } from "../types/jobTypes";
+import { CheckBoxEntity, FilterStateType, Job } from "../types/jobTypes";
 
 const initialState: FilterStateType = {
   mainFilter: {
@@ -9,6 +7,7 @@ const initialState: FilterStateType = {
     languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
     framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }],
   },
+  firstFetch: true,
   listOfCategories: {
     Bookmarked: {},
     Applied: {},
@@ -18,6 +17,7 @@ const initialState: FilterStateType = {
     "Position Filled": {}
   },
   arrayJobs: [],
+  displayArrayJobs: [],
   searchWord: ""
 };
 
@@ -30,25 +30,33 @@ export const filterSlice = createSlice({
     },
     handleSearch: (state, action) => {
       state["searchWord"] = action.payload;
-      let listCal: Job[] = Object.values(state.listOfCategories).reduce((acc: Job[], cate: any) => acc.concat(cate.jobs), []);
+      let listJobs: Job[] = state.arrayJobs;
       if (action.payload !== "") {
-        listCal = listCal.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(action.payload.toLowerCase()));
+        listJobs = listJobs.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(action.payload.toLowerCase()));
       }
-      state["arrayJobs"] = listCal;
+      state["displayArrayJobs"] = listJobs;
     },
     setList: (state, action) => {
       state["listOfCategories"] = action.payload;
 
-      let listCal: Job[] = Object.values(action.payload).reduce((acc: Job[], cate: any) => acc.concat(cate.jobs), []);
-      if (state["searchWord"] !== "") {
-        listCal = listCal.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(state["searchWord"].toLowerCase()));
+      const listCategoryKeys: string[] = Object.keys(action.payload);
+      let listJobs: Job[] = [];
+      for (let key of listCategoryKeys) {
+        listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
       }
-      state["arrayJobs"] = listCal;
-
+      if (state["searchWord"] !== "") {
+        listJobs = listJobs.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(state["searchWord"].toLowerCase()));
+        console.log(listJobs);
+      }
+      state["arrayJobs"] = listJobs;
+      state["displayArrayJobs"] = listJobs;
+    },
+    toggleFirstFetch: (state, action) => {
+      state["firstFetch"] = action.payload;
     }
   },
 });
 
-export const { toggleCheck, handleSearch, setList } = filterSlice.actions;
+export const { toggleCheck, handleSearch, setList, toggleFirstFetch } = filterSlice.actions;
 
 export default filterSlice.reducer;

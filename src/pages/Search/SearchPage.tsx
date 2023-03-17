@@ -16,7 +16,7 @@ import styles from "./Filter.module.css";
 const theme = createTheme();
 
 const SearchPage = () => {
-  const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
+  const { updateCategoryFilter, logout, sentFilterRequest, prefetchData } = useManageSearchPage();
 
   return (
     <ThemeProvider theme={theme}>
@@ -36,7 +36,7 @@ const SearchPage = () => {
         </div>
         <Container maxWidth="md">
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-          <FilterList/>
+          <FilterList prefetchData={prefetchData}/>
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>
