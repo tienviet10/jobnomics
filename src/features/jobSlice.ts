@@ -50,11 +50,20 @@ export const jobSlice = createSlice({
   initialState,
   reducers: {
     updateColumns: (state, action) => {
-      state.categories = { ...action.payload };
+      state.categories = { ...state.categories, ...action.payload };
+    },
+    toggleFavorite: (state, action) => {
+      const [category, jobId, isFavorite] = action.payload;
+      const selectedJob = state.categories[category].jobs.find(
+        (job) => job.id === jobId
+      );
+      if (selectedJob) {
+        selectedJob.isFavorite = isFavorite;
+      }
     },
   },
 });
 
-export const { updateColumns } = jobSlice.actions;
+export const { updateColumns, toggleFavorite } = jobSlice.actions;
 
 export default jobSlice.reducer;
