@@ -12,6 +12,7 @@ import SearchBar from '../../components/JobFilter/searchbar/SearchBar';
 import DrawerComponent from '../../components/JobFilter/drawer';
 import { useManageSearchPage } from './manage-search-page';
 import styles from "./Filter.module.css";
+import JobModal from '../../components/JobModal';
 
 const theme = createTheme();
 
@@ -40,6 +41,7 @@ const SearchPage = () => {
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>
+      <JobModal />
     </ThemeProvider>
   );
 };
