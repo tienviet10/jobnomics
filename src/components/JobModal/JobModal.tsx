@@ -6,6 +6,7 @@ import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
 
 import BookmarkedAppliedView from "./BookmarkedApplied";
+import InterviewedView from "./InterviewedView";
 
 const JobModal = () => {
   const state = useSelector((state: RootState) => state.job);
@@ -16,6 +17,9 @@ const JobModal = () => {
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
           selectedJobCategory === "Applied") && <BookmarkedAppliedView />}
+      {selectedJobCategory && selectedJobCategory === "Interviewed" && (
+        <InterviewedView />
+      )}
     </ModalWrapper>
   );
 };
