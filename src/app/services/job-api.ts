@@ -3,8 +3,8 @@ import { security } from "../../components/auth/GlobalAuth";
 import type { UserJobsType, JobType, ResponseData } from "../../types/jobTypes";
 
 type UserRequest = {
-  userId: number,
-  category: string[],
+  userId: number;
+  category: string[];
   languages: string[];
 };
 
@@ -44,7 +44,7 @@ export const jobApi = createApi({
       //   arg
       // ) => response.status,
       transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response,
+        response.data,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
@@ -95,7 +95,7 @@ export const jobApi = createApi({
         body: patch,
       }),
       transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response,
+        response.data,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
@@ -115,7 +115,8 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: ResponseData; }, meta, arg) => response,
+      transformResponse: (response: { data: ResponseData; }, meta, arg) =>
+        response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,

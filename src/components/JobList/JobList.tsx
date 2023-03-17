@@ -13,6 +13,8 @@ import styles from "./JobList.module.css";
 import JobCategory from "./JobCategory";
 import { Paper } from "@mui/material";
 
+import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
+
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
 
@@ -23,11 +25,17 @@ const JobList = (): JSX.Element => {
   const jobState = useSelector((state: RootState) => state.job.categories);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
-  const [updateJobs, { isLoading: isUpdating }] = useUpdateJobsMutation();
+  const [updateJobs, { isLoading: isUpdating, isSuccess }] =
+    useUpdateJobsMutation();
 
   useEffect(() => {
     if (data) {
-      const newState = data;
+      const newState = JSON.parse(JSON.stringify(data));
+      for (const category of Object.values<categoriesType>(newState)) {
+        category.jobs.sort(
+          (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
+        );
+      }
 
       dispatch(updateColumns(newState));
     }
@@ -54,13 +62,11 @@ const JobList = (): JSX.Element => {
 
     if (startColumn === endColumn) {
       // Moving within the same column
-      const newJobs = [...startColumn.jobs];
+      const newJobs = JSON.parse(JSON.stringify(startColumn.jobs));
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
 
-      newJobs.forEach((job, index) => {
-        // remove bottom line later
-        job.position = index;
+      newJobs.forEach((job: { position: number }, index: number) => {
         if (
           source.index < destination.index &&
           index > source.index &&
@@ -77,91 +83,80 @@ const JobList = (): JSX.Element => {
         }
       });
 
-      newJobs.splice(destination.index, 0, removedJob);
-
+      newJobs.push(removedJob);
+      newJobs.sort(
+        (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
+      );
+      // console.log(newJobs);
       const newColumn = {
         ...startColumn,
-        todos: newJobs,
+        jobs: newJobs,
       };
 
       const newState = {
         ...jobState,
-        [newColumn.id]: newColumn,
+        [sourceCategory]: newColumn,
       };
 
-      console.log(newState);
       dispatch(updateColumns(newState));
 
-      const updatedJobs = newJobs.map((job, index) => {
-        if (
-          (source.index < destination.index &&
-            index > source.index &&
-            index <= destination.index) ||
-          (source.index > destination.index &&
-            index < source.index &&
-            index >= destination.index)
-        )
+      const updatedJobs = newJobs.map(
+        (job: { id: number; position: number }, index: number) => {
           return {
             jobId: job.id,
             categoryId: Number(source.droppableId),
             newCategoryId: Number(destination.droppableId),
             position: job.position,
           };
-      });
+        }
+      );
 
       const body = {
         jobUpdates: updatedJobs,
         type: "update",
       };
+      // console.log(body);
       updateJobs(body);
 
       return;
     }
 
     // Moving to a different column
-    const startJobs = [...startColumn.jobs];
+    const startJobs = JSON.parse(JSON.stringify(startColumn.jobs));
+    const endJobs = JSON.parse(JSON.stringify(endColumn.jobs));
     let [removedJob] = startJobs.splice(source.index, 1);
     removedJob = { ...removedJob, position: destination.index };
 
-    // Get rid of this once we start setting position when adding a new job
-    // At the moment, the jobs don't have a position
-    startColumn.jobs?.forEach((job, index) => {
-      return { ...job, position: index };
-    });
-    endColumn.jobs?.forEach((job, index) => {
-      return { ...job, position: index };
-    });
-    // remove to here
-
     const startColumnUpdatedJobs = startJobs
-      ?.filter((job) => job.position >= source.index)
-      .map((job) => {
+      ?.splice(source.index)
+      .map((job: { position: number }) => {
         return {
           ...job,
           position: job.position - 1,
         };
       });
-    const endColumnUpdatedJobs = endColumn.jobs
-      ?.filter(
-        (job) => job.position === null || job.position >= destination.index
-      )
-      .map((job) => {
+    const endColumnUpdatedJobs = endJobs
+      ?.splice(destination.index)
+      .map((job: { position: number }) => {
         return {
           ...job,
-          position: job.position === null ? 0 : job.position + 1,
+          position: job.position + 1,
         };
       });
-
+    console.log(source.index, startColumnUpdatedJobs);
     const newStartColumn = {
       ...startColumn,
-      jobs: startColumnUpdatedJobs,
+      jobs: [...startJobs, ...startColumnUpdatedJobs],
     };
 
-    const endJobs = [...endColumnUpdatedJobs];
-    endJobs.splice(destination.index, 0, removedJob);
+    endColumnUpdatedJobs.push(removedJob);
+    endColumnUpdatedJobs.sort(
+      (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
+    );
+
     const newEndColumn = {
       ...endColumn,
-      jobs: endJobs,
+      jobs: [...endJobs, ...endColumnUpdatedJobs],
     };
 
     const newState = {
@@ -171,32 +166,47 @@ const JobList = (): JSX.Element => {
     };
 
     dispatch(updateColumns(newState));
-    console.log(newState);
 
-    const updatedJobsInSource = startColumnUpdatedJobs.map((job, index) => {
-      if (index > source.index)
+    // console.log(startColumnUpdatedJobs);
+    // console.log(endColumnUpdatedJobs);
+
+    const updatedJobsInSource = startColumnUpdatedJobs.map(
+      (job: { id: number; position: number }, index: number) => {
         return {
           jobId: job.id,
           categoryId: Number(source.droppableId),
-          newCategoryId: Number(destination.droppableId),
+          newCategoryId: Number(source.droppableId),
           position: job.position,
         };
-    });
+      }
+    );
 
-    const updatedJobsInDestination = endJobs.map((job, index) => {
-      if (index >= destination.index)
+    const updatedJobsInDestination = endColumnUpdatedJobs.map(
+      (job: { id: number; position: number }, index: number) => {
+        console.log(job.position, destination.index);
+        if (job.position === destination.index) {
+          return {
+            jobId: job.id,
+            categoryId: Number(source.droppableId),
+            newCategoryId: Number(destination.droppableId),
+            position: job.position,
+          };
+        }
         return {
           jobId: job.id,
-          categoryId: Number(source.droppableId),
+          categoryId: Number(destination.droppableId),
           newCategoryId: Number(destination.droppableId),
           position: job.position,
         };
-    });
+      }
+    );
 
     const body = {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
       type: "update",
     };
+
+    console.log(body);
 
     updateJobs(body);
   };

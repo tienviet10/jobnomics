@@ -29,6 +29,7 @@ const CreateJobModal = ({
 
   const handleClose = () => {
     setOpen(false);
+    setValue("");
   };
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
