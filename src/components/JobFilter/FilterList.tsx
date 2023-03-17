@@ -12,12 +12,15 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useUpdateJobMutation } from '../../app/services/job-api';
+import { useDispatch } from 'react-redux';
+import { setModalId, toggleJobModal } from '../../features/jobSlice';
 
 type FilterListType = {
-  prefetchData: () => Promise<void>;
-}
+  sentFilterRequest: () => Promise<void>;
+};
 
-const FilterList: React.FC<FilterListType> = ({ prefetchData }): JSX.Element => {
+const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Element => {
+  const dispatch = useDispatch();
   const jobsList = useSelector((state: RootState) => state.filter.displayArrayJobs);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -28,10 +31,19 @@ const FilterList: React.FC<FilterListType> = ({ prefetchData }): JSX.Element => 
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const handleDelete = (job: Job) => {
+  const handleDelete = async (job: Job) => {
     updateJob({ jobId: job.id, categoryId: job.categoryId, type: "delete" });
-    prefetchData();
+    setTimeout(()=>{
+      sentFilterRequest();
+    },500)
     setAnchorEl(null);
+  };
+
+  const handleOpenModal = (job:Job) => {
+    dispatch(toggleJobModal(true));
+    dispatch(
+      setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
+    );
   };
 
   return (
@@ -46,7 +58,7 @@ const FilterList: React.FC<FilterListType> = ({ prefetchData }): JSX.Element => 
       </TableHead>
       <TableBody>
         {jobsList.length > 0 && jobsList[0] && jobsList.map((job: Job, index: number) => (
-          <TableRow key={index}>
+          <TableRow key={index} onClick={() => handleOpenModal(job)}>
             <TableCell>{job.company}</TableCell>
             <TableCell>{job.title}</TableCell>
             <TableCell>{job.updatedAt}</TableCell>

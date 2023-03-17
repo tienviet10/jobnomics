@@ -43,7 +43,7 @@ const initialState: UserJobsType = {
     "Job Offer",
     "Position Filled",
   ],
-  modal: { open: false, userJobId: { userId: 0, jobId: 0, categoryId: 0 } },
+  modal: { open: false, userJobId: { userId: 1, jobId: 1, categoryId: 1 } },
   selectedJob: {
     category: {
       id: 0,
@@ -80,7 +80,7 @@ export const jobSlice = createSlice({
       const [category, jobId, isFavorite] = action.payload;
       // Update job within the state.categories
       const selectedJob = state.categories[category].jobs.find(
-        (job) => job.id === jobId
+        (job) => job?.id === jobId
       );
       if (selectedJob) {
         selectedJob.isFavorite = isFavorite;

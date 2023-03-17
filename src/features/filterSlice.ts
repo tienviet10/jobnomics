@@ -4,7 +4,7 @@ import { CheckBoxEntity, FilterStateType, Job } from "../types/jobTypes";
 const initialState: FilterStateType = {
   mainFilter: {
     category: [{ name: "Applied", check: false }, { name: "Bookmarked", check: false }, { name: "Interviewing", check: false }, { name: "Interviewed", check: false }, { name: "Job Offer", check: false }, { name: "Position Filled", check: false }],
-    languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
+    skills: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
     framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }],
   },
   firstFetch: true,
@@ -53,6 +53,7 @@ export const filterSlice = createSlice({
     },
     toggleFirstFetch: (state, action) => {
       state["firstFetch"] = action.payload;
+
     }
   },
 });

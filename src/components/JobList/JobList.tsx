@@ -32,7 +32,7 @@ const JobList = (): JSX.Element => {
     if (data) {
       const newState = JSON.parse(JSON.stringify(data));
       for (const category of Object.values<categoriesType>(newState)) {
-        category.jobs.sort(
+        category?.jobs.sort(
           (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
         );
       }
@@ -205,8 +205,6 @@ const JobList = (): JSX.Element => {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
       type: "update",
     };
-
-    console.log(body);
 
     updateJobs(body);
   };

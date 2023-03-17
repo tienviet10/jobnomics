@@ -37,7 +37,7 @@ const SearchPage = () => {
         </div>
         <Container maxWidth="md">
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-          <FilterList prefetchData={prefetchData}/>
+          <FilterList sentFilterRequest={sentFilterRequest}/>
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>
