@@ -36,7 +36,7 @@ const JobList = (): JSX.Element => {
           (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
         );
       }
-      console.log(newState);
+
       dispatch(updateColumns(newState));
     }
   }, [data]);
@@ -87,7 +87,7 @@ const JobList = (): JSX.Element => {
       newJobs.sort(
         (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
       );
-      console.log(newJobs);
+      // console.log(newJobs);
       const newColumn = {
         ...startColumn,
         jobs: newJobs,
@@ -115,7 +115,7 @@ const JobList = (): JSX.Element => {
         jobUpdates: updatedJobs,
         type: "update",
       };
-      console.log(body);
+      // console.log(body);
       updateJobs(body);
 
       return;
@@ -143,7 +143,7 @@ const JobList = (): JSX.Element => {
           position: job.position + 1,
         };
       });
-
+    console.log(source.index, startColumnUpdatedJobs);
     const newStartColumn = {
       ...startColumn,
       jobs: [...startJobs, ...startColumnUpdatedJobs],
@@ -167,15 +167,15 @@ const JobList = (): JSX.Element => {
 
     dispatch(updateColumns(newState));
 
-    console.log(startColumnUpdatedJobs);
-    console.log(endColumnUpdatedJobs);
+    // console.log(startColumnUpdatedJobs);
+    // console.log(endColumnUpdatedJobs);
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
         return {
           jobId: job.id,
-          categoryId: Number(source.droppableId),
-          newCategoryId: Number(destination.droppableId),
+          categoryId: Number(source.droppableId) - 1,
+          newCategoryId: Number(source.droppableId) - 1,
           position: job.position,
         };
       }
@@ -183,9 +183,18 @@ const JobList = (): JSX.Element => {
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
+        console.log(job.position, destination.index);
+        if (job.position === destination.index) {
+          return {
+            jobId: job.id,
+            categoryId: Number(source.droppableId),
+            newCategoryId: Number(destination.droppableId),
+            position: job.position,
+          };
+        }
         return {
           jobId: job.id,
-          categoryId: Number(source.droppableId),
+          categoryId: Number(destination.droppableId),
           newCategoryId: Number(destination.droppableId),
           position: job.position,
         };
