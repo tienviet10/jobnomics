@@ -28,6 +28,7 @@ const JobList = (): JSX.Element => {
   useEffect(() => {
     if (data) {
       const newState = data;
+
       dispatch(updateColumns(newState));
     }
   }, [data]);
@@ -88,6 +89,7 @@ const JobList = (): JSX.Element => {
         [newColumn.id]: newColumn,
       };
 
+      console.log(newState);
       dispatch(updateColumns(newState));
 
       const updatedJobs = newJobs.map((job, index) => {
@@ -100,7 +102,6 @@ const JobList = (): JSX.Element => {
             index >= destination.index)
         )
           return {
-            userId: 1,
             jobId: job.id,
             categoryId: Number(source.droppableId),
             newCategoryId: Number(destination.droppableId),
@@ -170,11 +171,11 @@ const JobList = (): JSX.Element => {
     };
 
     dispatch(updateColumns(newState));
+    console.log(newState);
 
     const updatedJobsInSource = startColumnUpdatedJobs.map((job, index) => {
       if (index > source.index)
         return {
-          userId: 1,
           jobId: job.id,
           categoryId: Number(source.droppableId),
           newCategoryId: Number(destination.droppableId),
@@ -185,7 +186,6 @@ const JobList = (): JSX.Element => {
     const updatedJobsInDestination = endJobs.map((job, index) => {
       if (index >= destination.index)
         return {
-          userId: 1,
           jobId: job.id,
           categoryId: Number(source.droppableId),
           newCategoryId: Number(destination.droppableId),
