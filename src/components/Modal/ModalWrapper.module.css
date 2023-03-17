@@ -1,0 +1,61 @@
+.JobModalContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.JobModal {
+  background-color: #ffffff;
+  margin: 40px 30px;
+  max-height: 80vh;
+  height: 700px;
+
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  overflow: auto;
+}
+
+@media screen and (min-width: 600px) {
+  .JobModal {
+    height: 800px;
+    width: 60vw;
+    padding: 30px 40px;
+  }
+}
+
+.ModalMain {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.ModalHeader {
+  display: flex;
+  flex-direction: column;
+}
+
+.ModalFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.Button {
+  color: #000000;
+}
+
+.CloseButton {
+  align-self: flex-end;
+}
+
+.ButtonText {
+  padding-right: 5px;
+}
