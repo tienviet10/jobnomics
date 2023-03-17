@@ -18,6 +18,11 @@ export type UserJobsType = {
   selectedJob: JobType;
 };
 
+export type categoriesType = {
+  category: string;
+  id: number;
+  jobs: JobPreviewType[] | [];
+};
 export type JobPreviewType = {
   id: number;
   title: string;
