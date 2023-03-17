@@ -24,6 +24,9 @@ const JobModal = () => {
   const state = useSelector((state: RootState) => state.job);
   const modalState = state.modal;
   const selectedJob = state.selectedJob;
+  const updatedDate = selectedJob?.updatedAt
+    ? new Date(selectedJob.updatedAt)
+    : "";
 
   const { userId, jobId, categoryId } = modalState.userJobId;
 
@@ -61,7 +64,7 @@ const JobModal = () => {
     );
   };
 
-  return (
+  return selectedJob ? (
     <Modal
       open={modalState.open}
       onClose={handleClose}
@@ -71,13 +74,13 @@ const JobModal = () => {
         <div className={styles.ModalHeader}>
           <div className={styles.JobHeader}>
             <Typography variant="h3" className={styles.JobTitle}>
-              Title
+              {selectedJob.job.title}
             </Typography>
             <Typography variant="h5" className={styles.JobCompany}>
-              Company Name | Location
+              {selectedJob.job.company} | {selectedJob.job.location}
             </Typography>
             <Typography variant="subtitle1" className={styles.JobUpdatedDate}>
-              03/16/2023
+              Last update at: {`${updatedDate.toLocaleString()}`}
             </Typography>
           </div>
           <IconButton className={styles.Button} onClick={handleClose}>
@@ -101,6 +104,8 @@ const JobModal = () => {
         </div>
       </Card>
     </Modal>
+  ) : (
+    <></>
   );
 };
 
