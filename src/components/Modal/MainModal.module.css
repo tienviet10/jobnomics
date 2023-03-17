@@ -19,7 +19,8 @@
   justify-content: space-between;
 }
 
-.ModalHeader {
+.ModalHeader,
+.ModalFooter {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
