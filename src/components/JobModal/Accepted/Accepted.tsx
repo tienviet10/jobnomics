@@ -3,6 +3,7 @@ import Typography from '@mui/material/Typography';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import styles from "./AcceptedModal.module.css";
+import { Container } from '@mui/system';
 
 const Accepted = () => {
 
@@ -17,6 +18,8 @@ const Accepted = () => {
       <Typography variant="body1" className={styles.TopHeader}>
         To help you with the next steps, here are some resources to consider:
       </Typography>
+      <Container>
+
       <Typography variant="body1" className={styles.Paragraph}>
         Salary Negotiation Tips:
       </Typography>
@@ -35,6 +38,7 @@ const Accepted = () => {
       <Typography variant="body1" className={styles.Link}>
         http://www.example.com
       </Typography>
+      </Container>
       {selectedJob?.job?.skills && <Typography variant="body2" className={styles.Skill}>
         <strong>Required Skills:</strong> {selectedJob?.job?.skills?.map((skill) => skill.name).join(", ")}
       </Typography>}

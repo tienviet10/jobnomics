@@ -1,8 +1,6 @@
-import { Button, Typography } from "@mui/material";
 import React, { useState } from "react";
-
+import { Button, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-
 import type { RootState } from "../../../app/store";
 
 import styles from "./BookmarkedAppliedView.module.css";
