@@ -58,10 +58,10 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
       </TableHead>
       <TableBody>
         {jobsList.length > 0 && jobsList[0] && jobsList.map((job: Job, index: number) => (
-          <TableRow key={index} onClick={() => handleOpenModal(job)}>
-            <TableCell>{job.company}</TableCell>
-            <TableCell>{job.title}</TableCell>
-            <TableCell>{job.updatedAt}</TableCell>
+          <TableRow key={index} >
+            <TableCell onClick={() => handleOpenModal(job)}>{job.company}</TableCell>
+            <TableCell onClick={() => handleOpenModal(job)}>{job.title}</TableCell>
+            <TableCell onClick={() => handleOpenModal(job)}>{job.updatedAt}</TableCell>
             <TableCell>
               <div>
                 <Button
