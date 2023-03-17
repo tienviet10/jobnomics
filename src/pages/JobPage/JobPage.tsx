@@ -13,6 +13,7 @@ const JobPage = () => {
         (User's) Job Board
       </Typography>
       <JobList />
+      
       <JobModal />
     </div>
   );

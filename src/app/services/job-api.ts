@@ -24,10 +24,10 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
-      transformResponse: (response: { data: UserJobsType }, meta, arg) =>
+      transformResponse: (response: { data: UserJobsType; }, meta, arg) =>
         response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -36,9 +36,17 @@ export const jobApi = createApi({
       query: ({ userId, jobId, categoryId }) => ({
         url: `job/${userId}/${jobId}/${categoryId}`,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) => response,
+      // transformResponse: (response: { data: JobType }, meta, arg) =>
+      //   response.data,
+      // transformErrorResponse: (
+      //   response: { status: string | number },
+      //   meta,
+      //   arg
+      // ) => response.status,
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
+        response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -52,10 +60,10 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -67,10 +75,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -78,7 +86,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     updateJob: builder.mutation({
       query: ({ id, ...patch }) => ({
@@ -86,10 +94,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -97,7 +105,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     filterJob: builder.mutation<any, UserRequest>({
       query(body) {
@@ -107,10 +115,10 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: ResponseData }, meta, arg) =>
+      transformResponse: (response: { data: ResponseData; }, meta, arg) =>
         response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
