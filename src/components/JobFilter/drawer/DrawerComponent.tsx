@@ -13,7 +13,7 @@ import styles from "./Drawer.module.css";
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 
-const choices = ["category", "skills", "framework"];
+const choices = ["category", "languages", "framework"];
 
 const DrawerComponent: React.FC<DrawComponentType> = ({ updateCategoryFilter, sentFilterRequest }): JSX.Element => {
   const filterState = useSelector((state: RootState) => state.filter.mainFilter);

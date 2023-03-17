@@ -5,7 +5,7 @@ import { CheckBoxEntity, RemindersListType } from '../../../types/jobTypes';
 import { RootState } from '../../../app/store';
 import { useSelector } from 'react-redux';
 
-const choices = ["category", "skills", "framework"];
+const choices = ["category", "languages", "framework"];
 
 const ChipsComponent: React.FC<RemindersListType> = ({ updateCategoryFilter }): JSX.Element => {
   const filterState = useSelector((state: RootState) => state.filter.mainFilter);

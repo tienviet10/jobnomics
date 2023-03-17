@@ -14,6 +14,8 @@ import MenuItem from '@mui/material/MenuItem';
 import { useUpdateJobMutation } from '../../app/services/job-api';
 import { useDispatch } from 'react-redux';
 import { setModalId, toggleJobModal } from '../../features/jobSlice';
+import { Paper } from '@mui/material';
+import styles from "./FilterList.module.css";
 
 type FilterListType = {
   sentFilterRequest: () => Promise<void>;
@@ -33,13 +35,21 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
   };
   const handleDelete = async (job: Job) => {
     updateJob({ jobId: job.id, categoryId: job.categoryId, type: "delete" });
-    setTimeout(()=>{
+    setTimeout(() => {
       sentFilterRequest();
-    },500)
+    }, 500);
     setAnchorEl(null);
   };
 
-  const handleOpenModal = (job:Job) => {
+  // const handleOpenModal = (job:Job) => {
+  //   dispatch(toggleJobModal(true));
+  //   dispatch(
+  //     setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
+  //   );
+  // };
+
+
+  const handleOpenModal = (job: Job) => {
     dispatch(toggleJobModal(true));
     dispatch(
       setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
@@ -47,47 +57,49 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
   };
 
   return (
-    <Table size="medium">
-      <TableHead>
-        <TableRow>
-          <TableCell>Company</TableCell>
-          <TableCell>Job Title</TableCell>
-          <TableCell>Update At</TableCell>
-          <TableCell></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {jobsList.length > 0 && jobsList[0] && jobsList.map((job: Job, index: number) => (
-          <TableRow key={index} >
-            <TableCell onClick={() => handleOpenModal(job)}>{job.company}</TableCell>
-            <TableCell onClick={() => handleOpenModal(job)}>{job.title}</TableCell>
-            <TableCell onClick={() => handleOpenModal(job)}>{job.updatedAt}</TableCell>
-            <TableCell>
-              <div>
-                <Button
-                  aria-controls={open ? 'basic-menu' : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={open ? 'true' : undefined}
-                  onClick={handleClick}
-                >
-                  <MoreVertIcon />
-                </Button>
-                <Menu
-                  anchorEl={anchorEl}
-                  open={open}
-                  onClose={handleClose}
-                  MenuListProps={{
-                    'aria-labelledby': 'basic-button',
-                  }}
-                >
-                  <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
-                </Menu>
-              </div>
-            </TableCell>
+    <Paper elevation={3} className={styles.FilterList}>
+      <Table size="medium">
+        <TableHead>
+          <TableRow>
+            <TableCell>Company</TableCell>
+            <TableCell>Job Title</TableCell>
+            <TableCell>Update At</TableCell>
+            <TableCell></TableCell>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {jobsList.length > 0 && jobsList[0] && jobsList.map((job: Job, index: number) => (
+            <TableRow key={index} >
+              <TableCell onClick={() => handleOpenModal(job)}>{job.company}</TableCell>
+              <TableCell onClick={() => handleOpenModal(job)}>{job.title}</TableCell>
+              <TableCell onClick={() => handleOpenModal(job)}>{job.updatedAt}</TableCell>
+              <TableCell>
+                <div>
+                  <Button
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon />
+                  </Button>
+                  <Menu
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                  >
+                    <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
+                  </Menu>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
   );
 };
 
