@@ -1,6 +1,6 @@
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import type { RootState } from "../../app/store";
 
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
@@ -51,7 +51,7 @@ const JobModal = () => {
       jobId,
       categoryId,
       favorite: !selectedJob.isFavorite,
-      interviewDate: data.interviewDate,
+      interviewDate: selectedJob.interviewDate,
       type: "update",
     };
     updateJob(body);

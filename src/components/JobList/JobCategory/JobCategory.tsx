@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import type { RootState } from "../../../app/store";
 import { useSelector } from "react-redux";
@@ -11,18 +11,19 @@ import { Button, Typography } from "@mui/material";
 import { useAddJobMutation } from "../../../app/services/job-api";
 
 import styles from "./JobCategory.module.css";
+import CreateJobModal from "../../CreateJobModal";
 
-type CategoryProps = {
-  category: string;
-};
+import type { CategoryProps } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const jobState = useSelector((state: RootState) => state.job.categories);
   const categoryObj = jobState[category];
   const [addJob, { isLoading: isUpdating }] = useAddJobMutation();
 
+  const [open, setOpen] = useState(false);
+
   const handleAddJobClick = () => {
-    console.log("Open Link Modal");
+    setOpen(true);
   };
 
   return (
@@ -58,6 +59,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
           </Paper>
         )}
       </Droppable>
+      <CreateJobModal open={open} setOpen={setOpen} />
     </Paper>
   );
 };
