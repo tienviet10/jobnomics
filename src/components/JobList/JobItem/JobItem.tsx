@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { Draggable } from "react-beautiful-dnd";
 import type { RootState } from "../../../app/store";
@@ -9,11 +9,15 @@ import styles from "./JobItem.module.css";
 import { Avatar, Typography } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
-import { useUpdateJobMutation } from "../../../app/services/job-api";
+import {
+  useUpdateJobMutation,
+  useGetJobByIdQuery,
+} from "../../../app/services/job-api";
 import {
   setModalId,
   toggleFavorite,
   toggleJobModal,
+  setSelectedJob,
 } from "../../../features/jobSlice";
 
 type JobItemProps = {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -13,10 +13,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 
 import type { RootState } from "../../app/store";
-import styles from "./MainModal.module.css";
+import styles from "./ModalWrapper.module.css";
 
-
-const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
+const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
 
   const state = useSelector((state: RootState) => state.job);
@@ -42,7 +41,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
   useEffect(() => {
     dispatch(setSelectedJob(data));
   }, [data]);
-
 
   const handleToggleFavorite = () => {
     const body = {
@@ -71,22 +69,22 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
     >
       <Card elevation={5} className={styles.JobModal}>
         <div className={styles.ModalHeader}>
+          <IconButton className={styles.CloseButton} onClick={handleClose}>
+            <Close fontSize="medium" />
+          </IconButton>
           <div className={styles.JobHeader}>
-            <Typography variant="h3" className={styles.JobTitle}>
+            <Typography variant="h5" className={styles.JobTitle}>
               {selectedJob.job.title}
             </Typography>
-            <Typography variant="h5" className={styles.JobCompany}>
+            <Typography variant="h6" className={styles.JobCompany}>
               {selectedJob.job.company} | {selectedJob.job.location}
             </Typography>
-            <Typography variant="subtitle1" className={styles.JobUpdatedDate}>
+            <Typography variant="caption" className={styles.JobUpdatedDate}>
               Last update at: {`${updatedDate.toLocaleString()}`}
             </Typography>
           </div>
-          <IconButton className={styles.Button} onClick={handleClose}>
-            <Close fontSize="medium" />
-          </IconButton>
         </div>
-        {children}
+        <div className={styles.ModalMain}>{children}</div>
         <div className={styles.ModalFooter}>
           <IconButton className={styles.Button} onClick={handleToggleFavorite}>
             <Typography className={styles.ButtonText}>Favorite</Typography>
