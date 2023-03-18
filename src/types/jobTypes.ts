@@ -55,11 +55,8 @@ export type JobType = {
     interviewExamples?: string;
     platform: string;
   };
-<<<<<<< HEAD
   checklists: { id: number; description: string; isComplete: boolean }[];
-=======
   interviewExamples?: string;
->>>>>>> main
 };
 
 type Skill = {

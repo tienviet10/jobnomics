@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
+import { useUpdateNoteMutation } from "../../../app/services/job-api";
 
 import type { RootState } from "../../../app/store";
 
@@ -8,6 +9,7 @@ import { toggleCheckbox } from "../../../features/jobSlice";
 
 import styles from "./InterviewedView.module.css";
 import {
+  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
@@ -23,6 +25,9 @@ const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
   const [isNotepad, setIsNotepad] = useState(false);
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
+  const [note, setNote] = useState("");
+  const [saveNote, { isLoading: isUpdating, isSuccess, isError }] =
+    useUpdateNoteMutation();
 
   const selectedJobState = useSelector(
     (state: RootState) => state.job.selectedJob
@@ -88,6 +93,20 @@ const InterviewedView = (): JSX.Element => {
     setIsNotepad((prev) => !prev);
   };
 
+  const handleNoteChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setNote(event.target.value);
+  };
+
+  const handleSaveNote = () => {
+    saveNote({
+      note,
+      jobId: selectedJobState.job.id,
+      categoryId: selectedJobState.category.id,
+    });
+  };
+
   return (
     <div className={styles.InterviewedContainer}>
       <Tabs
@@ -141,7 +160,10 @@ const InterviewedView = (): JSX.Element => {
               placeholder="Write your notes here..."
               multiline
               fullWidth
+              value={note}
+              onChange={handleNoteChange}
             ></TextField>
+            <Button onClick={handleSaveNote}>Save</Button>
           </>
         )}
       </section>

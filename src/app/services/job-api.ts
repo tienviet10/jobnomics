@@ -33,11 +33,7 @@ export const jobApi = createApi({
       ) => response.status,
     }),
     getJobById: builder.query({
-<<<<<<< HEAD
       query: ({ jobId, categoryId }) => ({
-=======
-      query: ({ userId, jobId, categoryId }) => ({
->>>>>>> main
         url: `job/${jobId}/${categoryId}`,
       }),
       transformResponse: (response: { data: JobType }, meta, arg) => response,
@@ -112,6 +108,25 @@ export const jobApi = createApi({
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
       ) {},
     }),
+    updateNote: builder.mutation({
+      query: ({ ...patch }) => ({
+        url: "job/note",
+        method: "PATCH",
+        body: patch,
+      }),
+      transformResponse: (response: { data: JobType }, meta, arg) =>
+        response.data,
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
+      // invalidatesTags: ["JobType"],
+      async onQueryStarted(
+        arg,
+        { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
+      ) {},
+    }),
     filterJob: builder.mutation<any, UserRequest>({
       query(body) {
         return {
@@ -139,4 +154,5 @@ export const {
   useUpdateJobsMutation,
   useUpdateJobMutation,
   useFilterJobMutation,
+  useUpdateNoteMutation,
 } = jobApi;
