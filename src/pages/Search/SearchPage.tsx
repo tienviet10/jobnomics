@@ -14,6 +14,7 @@ import { useManageSearchPage } from './manage-search-page';
 import styles from "./Filter.module.css";
 import JobModal from '../../components/JobModal';
 import InterviewDateModal from '../../components/InterviewDateModal';
+import { Box } from '@mui/material';
 
 const theme = createTheme();
 
@@ -36,11 +37,11 @@ const SearchPage = () => {
         </Toolbar>
       </AppBar>
       <main>
-        <div className={styles.Filter}>
+        <Container maxWidth="md">
+        <Box className={styles.Filter}>
           <DrawerComponent updateCategoryFilter={updateCategoryFilter} sentFilterRequest={sentFilterRequest}/>
           <SearchBar/>
-        </div>
-        <Container maxWidth="md">
+        </Box>
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
           <FilterList sentFilterRequest={sentFilterRequest}/>
         </Container>

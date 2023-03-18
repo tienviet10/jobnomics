@@ -116,6 +116,23 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
+    rejectedReason: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: "job/rejected-reason",
+        method: "PATCH",
+        body: patch,
+      }),
+      transformResponse: (response: { data: any; }, meta, arg) => {
+        console.log(response);
+        return response.data;
+      },
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+    }),
+
   }),
 });
 
@@ -126,4 +143,5 @@ export const {
   useUpdateJobsMutation,
   useUpdateJobMutation,
   useFilterJobMutation,
+  useRejectedReasonMutation,
 } = jobApi;

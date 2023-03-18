@@ -11,30 +11,40 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { toggleJobModal } from '../../../features/jobSlice';
+import { useRejectedReasonMutation } from '../../../app/services/job-api';
 
 const Rejected = () => {
+  const dispatch = useDispatch();
+  const [updateReason] = useRejectedReasonMutation();
   const state = useSelector((state: RootState) => state.job);
   const selectedJob = state.selectedJob;
-  const [selectedOption, setSelectedOption] = useState('');
-  const [textInput, setTextInput] = useState('');
+  console.log(selectedJob)
+
   const [toggle, setToggle] = useState(false);
+  const [reason, setReason] = useState("");
 
   const handleOptionChange = (e: any) => {
     if (e.target.value === "other") {
       setToggle(true);
     } else {
       setToggle(false);
+      setReason(e.target.value)
     }
-    setSelectedOption(e.target.value);
   };
 
   const handleTextChange = (e: any) => {
-    setTextInput(e.target.value);
+    setReason(e.target.value)
   };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(`Selected option: ${selectedOption}, Text input: ${textInput}`);
+    if (reason) {
+      updateReason({jobId: selectedJob?.job?.id, categoryId: selectedJob?.category?.id, reason});
+      dispatch(toggleJobModal(false));
+    }
+
   };
   return (
     <div className={styles.ModalBody}>
@@ -42,10 +52,11 @@ const Rejected = () => {
         How were you informed about your rejection?
       </Typography>
       <Container className={styles.MainContainer} >
-        <FormControl>
+        <FormControl className={styles.FormStyle}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
+            className={styles.RadioStyles}
           >
             <FormControlLabel value="I got an email" control={<Radio />} label="I got an email" onClick={handleOptionChange} />
             <FormControlLabel value="I received a phone call" control={<Radio />} label="I received a phone call" onClick={handleOptionChange} />
