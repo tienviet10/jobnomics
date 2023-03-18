@@ -20,7 +20,7 @@ export const jobApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ['aJob', 'allJobs'],
+  tagTypes: ['aJob', 'allJobs', 'filterJob'],
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
@@ -163,6 +163,24 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
+    // filterJobTwo: builder.query<any, void>({
+    //   query: (arg) => {
+    //     // const { start, end } = arg;
+    //     console.log('arg: ', arg);
+    //     return {
+    //       url: 'posts/',
+    //       params: { start, end },
+    //     };
+    //   },
+    //   providesTags: ["filterJob"],
+    //   transformResponse: (response: { data: UserJobsType; }, meta, arg) =>
+    //     response,
+    //   transformErrorResponse: (
+    //     response: { status: string | number; },
+    //     meta,
+    //     arg
+    //   ) => response.status,
+    // }),
     rejectedReason: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: "job/rejected-reason",
