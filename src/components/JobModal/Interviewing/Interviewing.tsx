@@ -24,7 +24,7 @@ const Interviewing = () => {
           {selectedJobState?.job?.interviewExamples}
         </Typography>
       </div>
-      <Typography variant="subtitle1" fontWeight="bold">
+      <Typography variant="subtitle1" fontWeight="bold" className={styles.Skills}>
         Skills: <span>{skills}</span>
       </Typography>
     </div>
