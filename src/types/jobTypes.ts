@@ -51,13 +51,23 @@ export type JobType = {
     description: string;
     logo: string;
     summary: string;
-    skills: string[];
+    skills: Skill[];
     interviewExamples?: string;
     platform: string;
   };
+<<<<<<< HEAD
   checklists: { id: number; description: string; isComplete: boolean }[];
+=======
+  interviewExamples?: string;
+>>>>>>> main
 };
 
+type Skill = {
+  createdAt: string;
+  id: number;
+  name: string;
+  updatedAt: string;
+};
 export interface Job {
   company: string;
   id: number;

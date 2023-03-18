@@ -5,7 +5,7 @@ import type { UserJobsType, JobType, ResponseData } from "../../types/jobTypes";
 type UserRequest = {
   userId: number;
   category: string[];
-  languages: string[];
+  skills: string[];
 };
 
 export const jobApi = createApi({
@@ -33,7 +33,11 @@ export const jobApi = createApi({
       ) => response.status,
     }),
     getJobById: builder.query({
+<<<<<<< HEAD
       query: ({ jobId, categoryId }) => ({
+=======
+      query: ({ userId, jobId, categoryId }) => ({
+>>>>>>> main
         url: `job/${jobId}/${categoryId}`,
       }),
       transformResponse: (response: { data: JobType }, meta, arg) => response,

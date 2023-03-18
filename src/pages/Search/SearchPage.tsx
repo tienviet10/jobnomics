@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,11 +13,16 @@ import DrawerComponent from '../../components/JobFilter/drawer';
 import { useManageSearchPage } from './manage-search-page';
 import styles from "./Filter.module.css";
 import JobModal from '../../components/JobModal';
+import InterviewDateModal from '../../components/InterviewDateModal';
 
 const theme = createTheme();
 
 const SearchPage = () => {
   const { updateCategoryFilter, logout, sentFilterRequest, prefetchData } = useManageSearchPage();
+  
+  
+  const [open, setOpen] = useState<boolean>(false);
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -37,11 +42,13 @@ const SearchPage = () => {
         </div>
         <Container maxWidth="md">
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-          <FilterList prefetchData={prefetchData}/>
+          <FilterList sentFilterRequest={sentFilterRequest}/>
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>
       <JobModal />
+      <button onClick={()=> setOpen(true)}>Hi</button>
+      {open && <InterviewDateModal open={open} setOpen={setOpen}/>}
     </ThemeProvider>
   );
 };
