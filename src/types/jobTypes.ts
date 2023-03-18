@@ -13,7 +13,7 @@ export type UserJobsType = {
   categoryOrder: string[];
   modal: {
     open: boolean;
-    userJobId: { userId: number; jobId: number; categoryId: number; };
+    userJobId: { userId: number; jobId: number; categoryId: number };
   };
   selectedJob: JobType;
 };
@@ -54,6 +54,7 @@ export type JobType = {
     interviewExamples?: string;
     platform: string;
   };
+  checklists: { id: number; description: string; isComplete: boolean }[];
 };
 
 export interface Job {
@@ -86,11 +87,11 @@ export type FilterStateType = {
 };
 
 type ListOfCategoriesType = {
-  Bookmarked: Category | {},
-  Applied: Category | {},
-  Interviewing: Category | {},
-  Interviewed: Category | {},
-  "Job Offer": Category | {},
+  Bookmarked: Category | {};
+  Applied: Category | {};
+  Interviewing: Category | {};
+  Interviewed: Category | {};
+  "Job Offer": Category | {};
   "Position Filled": Category | {};
 };
 
@@ -120,12 +121,12 @@ export interface RemindersListType {
 }
 
 export type DrawComponentType = {
-  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
+  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
   sentFilterRequest: () => Promise<void>;
 };
 
 export type ManageSearchPageType = {
-  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>,
+  updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
   logout: (options?: LogoutOptions | undefined) => void;
   sentFilterRequest: () => Promise<void>;
   prefetchData: () => Promise<void>;

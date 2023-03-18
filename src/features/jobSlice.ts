@@ -66,6 +66,7 @@ const initialState: UserJobsType = {
       interviewExamples: "",
       platform: "",
     },
+    checklists: [],
   },
 };
 

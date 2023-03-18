@@ -14,8 +14,6 @@ const BookmarkedAppliedView = () => {
     (state: RootState) => state.job.selectedJob
   );
 
-  console.log(selectedJobState);
-
   const skills = JSON.parse(JSON.stringify(selectedJobState.job.skills))
     .map((skill: { name: string }) => skill.name)
     .join(", ");
