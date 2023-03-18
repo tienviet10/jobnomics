@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import { useUpdateNoteMutation } from "../../../app/services/job-api";
+import {
+  useUpdateNoteMutation,
+  useUpdateJobMutation,
+} from "../../../app/services/job-api";
 
 import type { RootState } from "../../../app/store";
 
@@ -28,16 +31,18 @@ const InterviewedView = (): JSX.Element => {
   const [note, setNote] = useState("");
   const [saveNote, { isLoading: isUpdating, isSuccess, isError }] =
     useUpdateNoteMutation();
+  const [
+    updateJob,
+    { isLoading, isSuccess: isChecklistSuccess, isError: isChecklistError },
+  ] = useUpdateJobMutation();
 
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.selectedJob
-  );
+  const selectedJob = useSelector((state: RootState) => state.job.selectedJob);
 
-  console.log(selectedJobState);
+  console.log(selectedJob);
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
-    const isComplete = !selectedJobState.checklists.find(
+    const isComplete = !selectedJob.checklists.find(
       (checklist) => checklist.id === checkboxId
     )?.isComplete;
     dispatch(
@@ -46,14 +51,25 @@ const InterviewedView = (): JSX.Element => {
         isComplete,
       })
     );
+
+    const body = {
+      userId: 1,
+      jobId: selectedJob.job.id,
+      categoryId: selectedJob.category.id,
+      favorite: !selectedJob.isFavorite,
+      interviewDate: selectedJob.interviewDate,
+      checklists: selectedJob.checklists,
+      type: "update",
+    };
+    updateJob(body);
   };
 
-  const numberOfCompleted = selectedJobState.checklists.filter(
+  const numberOfCompleted = selectedJob.checklists.filter(
     (checklist) => checklist.isComplete
   ).length;
 
   const progress = Math.round(
-    (numberOfCompleted / selectedJobState.checklists?.length) * 100
+    (numberOfCompleted / selectedJob.checklists?.length) * 100
   );
 
   useEffect(() => {
@@ -72,7 +88,7 @@ const InterviewedView = (): JSX.Element => {
     setProgressMessage(message);
   }, [progress]);
 
-  const checklists = selectedJobState.checklists.map((checklist) => {
+  const checklists = selectedJob.checklists.map((checklist) => {
     return (
       <FormControlLabel
         key={checklist.id}
@@ -102,8 +118,8 @@ const InterviewedView = (): JSX.Element => {
   const handleSaveNote = () => {
     saveNote({
       note,
-      jobId: selectedJobState.job.id,
-      categoryId: selectedJobState.category.id,
+      jobId: selectedJob.job.id,
+      categoryId: selectedJob.category.id,
     });
   };
 

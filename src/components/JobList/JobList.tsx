@@ -223,9 +223,6 @@ const JobList = (): JSX.Element => {
     if (destinationCategory === "Interviewed") {
       console.log(removedJob);
       addChecklists({ jobId: removedJob.id });
-
-      //  { jobId: removedJob.id, categoryId: Number(destination.droppableId), interviewDate: SomeDate, favorite: removedJob.isFavorite, checklist: [], type: "update"}
-      // updateJob({isFavorite: , interviewDate, checklists});
     }
   };
 

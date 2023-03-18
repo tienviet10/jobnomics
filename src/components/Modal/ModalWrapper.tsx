@@ -51,6 +51,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       categoryId,
       favorite: !selectedJob.isFavorite,
       interviewDate: selectedJob.interviewDate,
+      checklists: selectedJob.checklists,
       type: "update",
     };
     updateJob(body);

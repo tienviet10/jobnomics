@@ -36,6 +36,8 @@ const JobItem = ({
   const modalState = useSelector((state: RootState) => state.job.modal);
   const jobState = useSelector((state: RootState) => state.job.categories);
   const categories = useSelector((state: RootState) => state.job.categoryOrder);
+  const selectedJob = useSelector((state: RootState) => state.job.selectedJob);
+
   const job = jobState[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
 
@@ -49,6 +51,7 @@ const JobItem = ({
       categoryId: jobState[category].id,
       favorite: !isFavorite,
       interviewDate: null,
+      checklists: selectedJob.checklists,
       type: "update",
     };
     dispatch(toggleFavorite([category, id, !isFavorite]));
