@@ -4,12 +4,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/store';
 import styles from "./AcceptedModal.module.css";
 import { Container } from '@mui/system';
+import { useGetAJob } from '../../../hooks/get-a-job';
+import { Skill } from '../../../types/jobTypes';
 
 const Accepted = () => {
-
-  const state = useSelector((state: RootState) => state.job);
-  const selectedJob = state.selectedJob;
-  
+  const {selectedJob, skills} = useGetAJob();
   return (
     <div className={styles.ModalBody}>
       <Typography variant="h5" className={styles.Congratulation}>
@@ -39,7 +38,7 @@ const Accepted = () => {
         </Typography>
       </Container>
       {selectedJob?.job?.skills && <Typography variant="body2" className={styles.Skill}>
-        <strong>Required Skills:</strong> {selectedJob?.job?.skills?.map((skill) => skill.name).join(", ")}
+        <strong>Required Skills:</strong> {skills}
       </Typography>}
 
     </div>

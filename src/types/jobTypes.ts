@@ -58,7 +58,7 @@ export type JobType = {
   interviewExamples?: string;
 };
 
-type Skill = {
+export type Skill = {
   createdAt: string;
   id: number;
   name: string;
