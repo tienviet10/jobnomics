@@ -18,21 +18,21 @@ const Accepted = () => {
       <Typography variant="body1" className={styles.TopHeader}>
         To help you with the next steps, here are some resources to consider:
       </Typography>
-      <Container>
+      <Container className={styles.Suggestions}>
         <Typography variant="body1" className={styles.Paragraph}>
-          Salary Negotiation Tips:
+          1) Salary Negotiation Tips:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com
         </Typography>
         <Typography variant="body1" className={styles.Paragraph}>
-          Search up the average salary for your role:
+          2) Search up the average salary for your role:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com
         </Typography>
         <Typography variant="body1" className={styles.Paragraph}>
-          Here is a salary calculator to estimate your salary:
+          3) Here is a salary calculator to estimate your salary:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com

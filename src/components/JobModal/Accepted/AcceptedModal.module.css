@@ -14,15 +14,15 @@
   margin-bottom: 20px;
 }
 
-.Paragraph{
-  margin-bottom: 10px;
-}
-
 .Link{
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .Skill{
   font-size: 1rem;
   margin-top: 40px;
+}
+
+.Suggestions {
+  max-height: 230px;
 }
