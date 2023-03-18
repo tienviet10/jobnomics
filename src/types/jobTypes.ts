@@ -54,6 +54,7 @@ export type JobType = {
     interviewExamples?: string;
     platform: string;
   };
+  interviewExamples?: string;
 };
 
 type Skill = {

@@ -4,10 +4,11 @@ import styles from "./JobModal.module.css";
 import ModalWrapper from "../Modal";
 import { RootState } from "../../app/store";
 import { useSelector } from "react-redux";
-import Accepted from "./Accepted/Accepted";
-import Rejected from "./Rejected/Rejected";
 
 import BookmarkedAppliedView from "./BookmarkedApplied";
+import Accepted from "./Accepted";
+import Rejected from "./Rejected";
+import Interviewing from "./Interviewing";
 
 const JobModal = () => {
   const state = useSelector((state: RootState) => state.job);
@@ -18,6 +19,7 @@ const JobModal = () => {
     <ModalWrapper>
       {selectedJob?.category?.name === "Job Offer" && <Accepted/>}
       {selectedJob?.category?.name === "Position Filled" && <Rejected/>}
+      {selectedJob?.category?.name === "Interviewing" && <Interviewing/>}
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
           selectedJobCategory === "Applied") && <BookmarkedAppliedView />}
