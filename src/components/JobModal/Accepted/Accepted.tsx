@@ -19,19 +19,19 @@ const Accepted = () => {
         To help you with the next steps, here are some resources to consider:
       </Typography>
       <Container className={styles.Suggestions}>
-        <Typography variant="body1" className={styles.Paragraph}>
+        <Typography variant="body1">
           1) Salary Negotiation Tips:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com
         </Typography>
-        <Typography variant="body1" className={styles.Paragraph}>
+        <Typography variant="body1">
           2) Search up the average salary for your role:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com
         </Typography>
-        <Typography variant="body1" className={styles.Paragraph}>
+        <Typography variant="body1">
           3) Here is a salary calculator to estimate your salary:
         </Typography>
         <Typography variant="body1" className={styles.Link}>
