@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -14,8 +14,10 @@ import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 
 import type { RootState } from "../../app/store";
 import styles from "./ModalWrapper.module.css";
+import DeleteConfirmModal from "../DeleteConfirmModal";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
 
   const state = useSelector((state: RootState) => state.job);
@@ -63,6 +65,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     );
   };
 
+  const handleOpenDeleteConfirmationModal = () => {
+    setOpenDeleteModal((prev) => !prev);
+  };
+
   return selectedJob ? (
     <Modal
       open={modalState.open}
@@ -86,7 +92,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
             </Typography>
           </div>
         </div>
-        <div className={styles.ModalMain}>{children}</div>
+        <div className={styles.ModalMain}>
+          {children}
+          <DeleteConfirmModal
+            open={openDeleteModal}
+            setOpen={setOpenDeleteModal}
+          />
+        </div>
         <div className={styles.ModalFooter}>
           <IconButton className={styles.Button} onClick={handleToggleFavorite}>
             <Typography className={styles.ButtonText}>Favorite</Typography>
@@ -96,7 +108,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
               <FavoriteBorder fontSize="medium" />
             )}
           </IconButton>
-          <IconButton className={styles.Button}>
+          <IconButton
+            className={styles.Button}
+            onClick={handleOpenDeleteConfirmationModal}
+          >
             <Typography className={styles.ButtonText}>Delete</Typography>
             <Delete fontSize="medium" />
           </IconButton>

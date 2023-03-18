@@ -108,6 +108,9 @@ export const jobSlice = createSlice({
     toggleJobModal: (state, action) => {
       state.modal = { ...state.modal, open: action.payload };
     },
+    toggleDeleteModal: (state, action) => {
+      state.modal = { ...state.modal, open: action.payload };
+    },
     setModalId: (state, action) => {
       console.log("setModalId");
       state.modal = { ...state.modal, userJobId: action.payload };
