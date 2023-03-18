@@ -20,7 +20,6 @@ const Rejected = () => {
   const [updateReason] = useRejectedReasonMutation();
   const state = useSelector((state: RootState) => state.job);
   const selectedJob = state.selectedJob;
-  console.log("selected", )
 
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
