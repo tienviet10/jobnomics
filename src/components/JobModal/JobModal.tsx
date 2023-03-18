@@ -10,7 +10,7 @@ import InterviewedView from "./InterviewedView";
 
 const JobModal = () => {
   const state = useSelector((state: RootState) => state.job);
-  const selectedJobCategory = state.selectedJob?.category.name;
+  const selectedJobCategory = state.selectedJob?.category?.name;
 
   return (
     <ModalWrapper>

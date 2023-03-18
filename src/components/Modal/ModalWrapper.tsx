@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -27,7 +27,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const { userId, jobId, categoryId } = modalState.userJobId;
 
-  const { data, error, isLoading } = useGetJobByIdQuery({
+  const { data, refetch, error, isLoading } = useGetJobByIdQuery({
     userId,
     jobId,
     categoryId,
@@ -38,8 +38,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     dispatch(toggleJobModal(false));
   };
 
+
   useEffect(() => {
-    console.log(data);
+    // refetch();
     dispatch(setSelectedJob(data));
   }, [data]);
 
@@ -75,10 +76,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           </IconButton>
           <div className={styles.JobHeader}>
             <Typography variant="h5" className={styles.JobTitle}>
-              {selectedJob.job.title}
+              {selectedJob.job?.title}
             </Typography>
             <Typography variant="h6" className={styles.JobCompany}>
-              {selectedJob.job.company} | {selectedJob.job.location}
+              {selectedJob.job?.company} | {selectedJob.job?.location}
             </Typography>
             <Typography variant="caption" className={styles.JobUpdatedDate}>
               Last update at: {`${updatedDate.toLocaleString()}`}
