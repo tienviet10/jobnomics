@@ -13,14 +13,13 @@ import InterviewedView from "./InterviewedView";
 
 const JobModal = () => {
   const state = useSelector((state: RootState) => state.job);
-  const selectedJob = state.selectedJob;
   const selectedJobCategory = state.selectedJob?.category?.name;
 
   return (
     <ModalWrapper>
-      {selectedJob?.category?.name === "Job Offer" && <Accepted />}
-      {selectedJob?.category?.name === "Position Filled" && <Rejected />}
-      {selectedJob?.category?.name === "Interviewing" && <Interviewing />}
+      {selectedJobCategory === "Job Offer" && <Accepted />}
+      {selectedJobCategory === "Position Filled" && <Rejected />}
+      {selectedJobCategory === "Interviewing" && <Interviewing />}
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
           selectedJobCategory === "Applied") && <BookmarkedAppliedView />}

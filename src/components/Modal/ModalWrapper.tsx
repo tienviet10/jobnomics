@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -37,7 +37,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     dispatch(toggleJobModal(false));
   };
 
-  console.log(data);
   useEffect(() => {
     console.log(data);
     refetch();
