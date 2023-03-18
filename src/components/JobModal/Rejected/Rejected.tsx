@@ -20,7 +20,7 @@ const Rejected = () => {
   const [updateReason] = useRejectedReasonMutation();
   const state = useSelector((state: RootState) => state.job);
   const selectedJob = state.selectedJob;
-  console.log(selectedJob)
+  console.log("selected", )
 
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
@@ -52,6 +52,9 @@ const Rejected = () => {
       <Typography variant="h5" className={styles.Rejection}>
         How were you informed about your rejection?
       </Typography>
+      {selectedJob?.rejectReason && (
+          <Typography>Reason: {selectedJob?.rejectReason}</Typography>
+        )}
       <Container className={styles.MainContainer} >
         <FormControl className={styles.FormStyle}>
           <RadioGroup
