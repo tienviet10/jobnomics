@@ -72,6 +72,7 @@ export interface Job {
   title: string;
   updatedAt: string;
   categoryId?: number;
+  description?: string;
 }
 
 export interface Category {
