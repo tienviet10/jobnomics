@@ -38,14 +38,6 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
     setAnchorEl(null);
   };
 
-  // const handleOpenModal = (job:Job) => {
-  //   dispatch(toggleJobModal(true));
-  //   dispatch(
-  //     setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
-  //   );
-  // };
-
-
   const handleOpenModal = (job: Job) => {
     dispatch(toggleJobModal(true));
     dispatch(
