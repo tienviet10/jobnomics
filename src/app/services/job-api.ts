@@ -163,24 +163,17 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
-    // filterJobTwo: builder.query<any, void>({
-    //   query: (arg) => {
-    //     // const { start, end } = arg;
-    //     console.log('arg: ', arg);
-    //     return {
-    //       url: 'posts/',
-    //       params: { start, end },
-    //     };
-    //   },
-    //   providesTags: ["filterJob"],
-    //   transformResponse: (response: { data: UserJobsType; }, meta, arg) =>
-    //     response,
-    //   transformErrorResponse: (
-    //     response: { status: string | number; },
-    //     meta,
-    //     arg
-    //   ) => response.status,
-    // }),
+    hello: builder.query<any, any>({
+      query: (arg) => {
+        const { start, end } = arg;
+        console.log('arg: ', arg);
+        return {
+          url: 'posts/',
+          params: { start, end },
+        };
+      },
+      providesTags: ["filterJob"],
+    }),
     rejectedReason: builder.mutation({
       query: ({ id, ...patch }) => ({
         url: "job/rejected-reason",
@@ -199,6 +192,7 @@ export const jobApi = createApi({
 });
 
 export const {
+  useHelloQuery,
   useGetAllJobsQuery,
   useGetJobByIdQuery,
   useAddJobMutation,

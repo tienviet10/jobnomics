@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import CameraIcon from '@mui/icons-material/PhotoCamera';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,15 +15,18 @@ import styles from "./Filter.module.css";
 import JobModal from '../../components/JobModal';
 import InterviewDateModal from '../../components/InterviewDateModal';
 import { Box } from '@mui/material';
+import { useHelloQuery } from '../../app/services/job-api';
 
 const theme = createTheme();
 
 const SearchPage = () => {
   const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
-  
+  const {data} = useHelloQuery({start: "123", end:"1543"})
   
   const [open, setOpen] = useState<boolean>(false);
-
+useEffect(()=>{
+  console.log(data)
+},[])
 
   return (
     <ThemeProvider theme={theme}>
