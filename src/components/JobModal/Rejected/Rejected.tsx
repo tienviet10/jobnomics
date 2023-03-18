@@ -25,20 +25,21 @@ const Rejected = () => {
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
 
-  const handleOptionChange = (e: any) => {
-    if (e.target.value === "other") {
+  const handleOptionChange = (e: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
+    const target = e.target as HTMLInputElement;
+    if (target.value === "other") {
       setToggle(true);
     } else {
       setToggle(false);
-      setReason(e.target.value)
+      setReason(target.value)
     }
   };
 
-  const handleTextChange = (e: any) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setReason(e.target.value)
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     e.preventDefault();
     if (reason) {
       updateReason({jobId: selectedJob?.job?.id, categoryId: selectedJob?.category?.id, reason});
@@ -58,7 +59,7 @@ const Rejected = () => {
             name="radio-buttons-group"
             className={styles.RadioStyles}
           >
-            <FormControlLabel value="I got an email" control={<Radio />} label="I got an email" onClick={handleOptionChange} />
+            <FormControlLabel value="I got an email" control={<Radio />} label="I got an email" onClick={(e)=>handleOptionChange(e)} />
             <FormControlLabel value="I received a phone call" control={<Radio />} label="I received a phone call" onClick={handleOptionChange} />
             <FormControlLabel value="They ghost me" control={<Radio />} label="They ghost me" onClick={handleOptionChange} />
             <FormControlLabel value="other" control={<Radio />} label="Other" onClick={handleOptionChange} />

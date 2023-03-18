@@ -1,12 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { security } from "../../components/auth/GlobalAuth";
-import type { UserJobsType, JobType, ResponseData } from "../../types/jobTypes";
+import type { UserJobsType, JobType, ResponseData, UserRequest } from "../../types/jobTypes";
 
-type UserRequest = {
-  userId: number;
-  category: string[];
-  skills: string[];
-};
+
 
 export const jobApi = createApi({
   reducerPath: "jobApi",
@@ -122,10 +118,7 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: any; }, meta, arg) => {
-        console.log(response);
-        return response.data;
-      },
+      transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,

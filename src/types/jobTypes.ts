@@ -146,3 +146,18 @@ export type CreateJobModalPropType = {
 export type CategoryProps = {
   category: string;
 };
+
+export type InterviewDateModalType = {
+  open: boolean,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type UserRequest = {
+  userId: number;
+  category: string[];
+  skills: string[];
+};
+
+export type FilterListType = {
+  sentFilterRequest: () => Promise<void>;
+};
