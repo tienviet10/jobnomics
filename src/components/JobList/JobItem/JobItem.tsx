@@ -46,7 +46,6 @@ const JobItem = ({
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const body = {
-      userId: 1,
       jobId: id,
       categoryId: jobState[category].id,
       favorite: !isFavorite,
@@ -59,10 +58,10 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    dispatch(toggleJobModal(!modalState.open));
-    dispatch(
-      setModalId({ userId: 1, jobId: id, categoryId: jobState[category].id })
-    );
+    dispatch(setModalId({ jobId: id, categoryId: jobState[category].id }));
+    setTimeout(() => {
+      dispatch(toggleJobModal(!modalState.open));
+    }, 50);
   };
 
   return (

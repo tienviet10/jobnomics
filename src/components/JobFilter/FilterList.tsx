@@ -6,17 +6,16 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import { FilterListType, Job } from "../../types/jobTypes";
 import { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import { useUpdateJobMutation } from "../../app/services/job-api";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModalId, toggleJobModal } from "../../features/jobSlice";
 import { Paper } from "@mui/material";
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
+import { useGetAJob } from "../../hooks/get-a-job";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
@@ -25,39 +24,49 @@ const FilterList: React.FC<FilterListType> = ({
   const jobsList = useSelector(
     (state: RootState) => state.filter.displayArrayJobs
   );
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const { categoryArray } = useGetAJob();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const open = Boolean(anchorEl);
-  const [updateJob] = useUpdateJobMutation();
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+
+  const [menuStates, setMenuStates] = useState<{
+    [key: string]: { anchorEl: Element | null; open: boolean };
+  }>({});
+
   const handleDelete = (job: Job) => {
+    console.log(job);
     setSelectedJob(job);
     setOpenDeleteModal(true);
-    console.log(job);
-    // setTimeout(() => {
-    //   sentFilterRequest();
-    // }, 500);
-    // setAnchorEl(null);
   };
 
-  // const handleOpenModal = (job:Job) => {
-  //   dispatch(toggleJobModal(true));
-  //   dispatch(
-  //     setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
-  //   );
-  // };
-
   const handleOpenModal = (job: Job) => {
-    dispatch(toggleJobModal(true));
-    dispatch(
-      setModalId({ userId: 1, jobId: job.id, categoryId: job.categoryId })
-    );
+    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
+    setTimeout(() => {
+      dispatch(toggleJobModal(true));
+    }, 50);
+  };
+
+  const handleMenuOpen = (
+    job: Job,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setMenuStates((prev) => ({
+      ...prev,
+      [job.id]: {
+        anchorEl: event.currentTarget,
+        open: true,
+      },
+    }));
+  };
+
+  const handleMenuClose = (job: Job) => {
+    setMenuStates((prev) => ({
+      ...prev,
+      [job.id]: {
+        anchorEl: null,
+        open: false,
+      },
+    }));
   };
 
   return (
@@ -68,6 +77,7 @@ const FilterList: React.FC<FilterListType> = ({
             <TableCell>Company</TableCell>
             <TableCell>Job Title</TableCell>
             <TableCell>Update At</TableCell>
+            <TableCell></TableCell>
             <TableCell></TableCell>
           </TableRow>
         </TableHead>
@@ -85,22 +95,25 @@ const FilterList: React.FC<FilterListType> = ({
                 <TableCell onClick={() => handleOpenModal(job)}>
                   {new Date(job.updatedAt).toLocaleString()}
                 </TableCell>
+                <TableCell>{categoryArray[job.categoryId - 1]}</TableCell>
                 <TableCell>
                   <div>
                     <Button
-                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-controls={`basic-menu-${job.id}`}
                       aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
+                      aria-expanded={menuStates[job.id]?.open}
+                      onClick={(event) => handleMenuOpen(job, event)}
                     >
                       <MoreVertIcon />
                     </Button>
                     <Menu
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
+                      id={`basic-menu-${job.id}`}
+                      key={job.id}
+                      anchorEl={menuStates[job.id]?.anchorEl}
+                      open={menuStates[job.id]?.open || false}
+                      onClose={() => handleMenuClose(job)}
                       MenuListProps={{
-                        "aria-labelledby": "basic-button",
+                        "aria-labelledby": `basic-button-${job.id}`,
                       }}
                     >
                       <MenuItem onClick={() => handleDelete(job)}>

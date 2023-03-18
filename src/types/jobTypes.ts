@@ -13,7 +13,7 @@ export type UserJobsType = {
   categoryOrder: string[];
   modal: {
     open: boolean;
-    userJobId: { userId: number; jobId: number; categoryId: number; };
+    jobCategoryId: { jobId: number; categoryId: number };
   };
   selectedJob: JobType;
 };
@@ -37,7 +37,6 @@ export type JobType = {
     id: number;
     name: string;
   };
-  userId: number;
   updatedAt: Date | null;
   isFavorite: boolean;
   position: number | null;
@@ -79,7 +78,7 @@ export interface Job {
   position: number;
   title: string;
   updatedAt: string;
-  categoryId?: number;
+  categoryId: number;
   description?: string;
 }
 
@@ -163,7 +162,6 @@ export type InterviewDateModalType = {
 };
 
 export type UserRequest = {
-  userId: number;
   category: string[];
   skills: string[];
 };

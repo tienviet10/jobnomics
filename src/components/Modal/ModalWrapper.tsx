@@ -34,7 +34,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleToggleFavorite = () => {
     const body = {
-      userId: 1,
       jobId,
       categoryId,
       favorite: !selectedJob.isFavorite,
