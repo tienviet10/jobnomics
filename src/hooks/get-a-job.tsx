@@ -7,6 +7,7 @@ import { Skill } from "../types/jobTypes";
 export function useGetAJob(): any {
   const state = useSelector((state: RootState) => state.job);
   const categoryArray = state.categoryOrder;
+  const allCategories = state.categories;
   const modalState = state.modal;
   const selectedJob = state.selectedJob;
 
@@ -34,5 +35,6 @@ export function useGetAJob(): any {
     isLoading,
     skills,
     categoryArray,
+    allCategories,
   };
 }

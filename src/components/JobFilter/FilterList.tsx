@@ -16,6 +16,8 @@ import { Paper } from "@mui/material";
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useGetAJob } from "../../hooks/get-a-job";
+import { Favorite } from "@mui/icons-material";
+import { useUpdateJobMutation } from "../../app/services/job-api";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
@@ -24,8 +26,10 @@ const FilterList: React.FC<FilterListType> = ({
   const jobsList = useSelector(
     (state: RootState) => state.filter.displayArrayJobs
   );
+  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
 
   const { categoryArray } = useGetAJob();
+
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
@@ -77,6 +81,7 @@ const FilterList: React.FC<FilterListType> = ({
             <TableCell>Company</TableCell>
             <TableCell>Job Title</TableCell>
             <TableCell>Update At</TableCell>
+            <TableCell>Status</TableCell>
             <TableCell></TableCell>
             <TableCell></TableCell>
           </TableRow>
@@ -96,6 +101,9 @@ const FilterList: React.FC<FilterListType> = ({
                   {new Date(job.updatedAt).toLocaleString()}
                 </TableCell>
                 <TableCell>{categoryArray[job.categoryId - 1]}</TableCell>
+                <TableCell>
+                  <Favorite />
+                </TableCell>
                 <TableCell>
                   <div>
                     <Button
