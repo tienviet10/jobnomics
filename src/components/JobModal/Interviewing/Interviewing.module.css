@@ -22,6 +22,10 @@
   justify-content: center;
 }
 
+.Questions{
+  white-space: pre-wrap;
+}
+
 @media screen and (min-width: 600px) {
   .BookedAppliedContainer {
     height: 300px;

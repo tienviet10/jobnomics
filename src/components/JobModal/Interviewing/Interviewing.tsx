@@ -8,8 +8,11 @@ const Interviewing = () => {
   const selectedJobState = useSelector(
     (state: RootState) => state.job.selectedJob
   );
+  const skills = JSON.parse(JSON.stringify(selectedJobState.job.skills))
+    .map((skill: { name: string; }) => skill.name)
+    .join(", ");
 
-  // console.log(selectedJobState)
+  // console.log(selectedJobState?.job?.interviewExamples);
 
   return (
     <div className={styles.BookedAppliedContainer}>
@@ -17,15 +20,15 @@ const Interviewing = () => {
         {/* <Typography variant="h5" fontWeight="bold" gutterBottom>
           Job Summary:
         </Typography> */}
-        <Typography variant="body1" paragraph>
-       
-        </Typography>
-        <Typography variant="subtitle1" fontWeight="bold">
-          {/* Skills: <span>{skills}</span> */}
+        <Typography variant="body1" className={styles.Questions}>
+          {selectedJobState?.job?.interviewExamples}
         </Typography>
       </div>
+      <Typography variant="subtitle1" fontWeight="bold">
+        Skills: <span>{skills}</span>
+      </Typography>
     </div>
   );
-}
+};
 
-export default Interviewing
+export default Interviewing;

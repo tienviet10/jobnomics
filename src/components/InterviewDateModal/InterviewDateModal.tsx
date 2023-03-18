@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { Modal, Card, Box, TextField } from "@mui/material";
+import { Modal, Card, Box, TextField, Button } from "@mui/material";
 import styles from "./InterviewDate.module.css";
 import CelebrationIcon from '@mui/icons-material/Celebration';
 
 const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => {
-  const [value, setValue] = useState(new Date());
+  const [date, setDate] = useState("2023-03-20");
+  const [time, setTime] = useState("07:30");
 
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = () => {
+    const dateTime = new Date(date + "T" + time + ":00")
   };
 
   return (
@@ -22,7 +27,7 @@ const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => 
           <CelebrationIcon sx={{ fontSize: 60 }} className={styles.CelebrationIcon} />
           <span>Congratulation!</span>
         </Box>
-          <Box className={styles.InterviewText}>Interview Date:</Box>
+        <Box className={styles.InterviewText}>Interview Date:</Box>
         <Box className={styles.DateTimePicker}>
           <TextField
             id="date"
@@ -33,6 +38,7 @@ const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => 
               shrink: true,
             }}
             className={styles.DatePicker}
+            onChange={(e) => setDate(e.target.value)}
           />
           <TextField
             id="time"
@@ -43,10 +49,12 @@ const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => 
               shrink: true,
             }}
             inputProps={{
-              step: 300, 
+              step: 300,
             }}
+            onChange={(e) => setTime(e.target.value)}
           />
         </Box>
+        <Button onClick={handleSubmit} className={styles.ButtonSubmit}>Save</Button>
       </Card>
     </Modal>
   );
