@@ -54,6 +54,7 @@ const initialState: UserJobsType = {
     isFavorite: false,
     position: null,
     interviewDate: null,
+    note: "",
     job: {
       id: 1,
       title: "",
@@ -66,6 +67,7 @@ const initialState: UserJobsType = {
       interviewExamples: "",
       platform: "",
     },
+    checklists: [],
   },
 };
 
@@ -93,15 +95,23 @@ export const jobSlice = createSlice({
         state.selectedJob.isFavorite = isFavorite;
       }
     },
+    toggleCheckbox: (state, action) => {
+      const { id, isComplete } = action.payload;
+      const checkbox = state.selectedJob.checklists.find(
+        (checklist) => checklist.id === id
+      );
+      if (checkbox) {
+        const index = state.selectedJob.checklists.indexOf(checkbox);
+        state.selectedJob.checklists[index].isComplete = isComplete;
+      }
+    },
     toggleJobModal: (state, action) => {
       state.modal = { ...state.modal, open: action.payload };
     },
     setModalId: (state, action) => {
-      console.log("setModalId");
       state.modal = { ...state.modal, userJobId: action.payload };
     },
     setSelectedJob: (state, action) => {
-      console.log(action.payload);
       state.selectedJob = action.payload;
     },
   },
@@ -111,6 +121,7 @@ export const {
   updateColumns,
   toggleFavorite,
   toggleJobModal,
+  toggleCheckbox,
   setModalId,
   setSelectedJob,
 } = jobSlice.actions;

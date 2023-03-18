@@ -1,20 +1,13 @@
 import React, { useState } from "react";
 import { Button, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../app/store";
+
 
 import styles from "./BookmarkedAppliedView.module.css";
+import { useGetAJob } from "../../../hooks/get-a-job";
 
 const BookmarkedAppliedView = () => {
   const [isDetail, setIsDetail] = useState(false);
-
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.selectedJob
-  );
-
-  const skills = JSON.parse(JSON.stringify(selectedJobState.job.skills))
-    .map((skill: { name: string }) => skill.name)
-    .join(", ");
+  const {selectedJob, skills} = useGetAJob();
 
   const toggleDetailView = () => {
     setIsDetail((prev) => !prev);
@@ -28,8 +21,8 @@ const BookmarkedAppliedView = () => {
         </Typography>
         <Typography variant="body1" paragraph>
           {isDetail
-            ? selectedJobState.job.description
-            : selectedJobState.job.summary}
+            ? selectedJob?.job?.description
+            : selectedJob?.job?.summary}
         </Typography>
         <Typography variant="subtitle1" fontWeight="bold">
           Skills: <span>{skills}</span>

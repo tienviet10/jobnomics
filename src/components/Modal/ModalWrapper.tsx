@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -16,7 +16,7 @@ import { useGetAJob } from "../../hooks/get-a-job";
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState} = useGetAJob();
+  const {aJob, refetch, selectedJob, jobId, categoryId, modalState} = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -27,9 +27,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    refetch();
     dispatch(setSelectedJob(aJob));
   }, [aJob]);
-
+ 
   const handleToggleFavorite = () => {
     const body = {
       userId: 1,
@@ -37,12 +38,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       categoryId,
       favorite: !selectedJob.isFavorite,
       interviewDate: selectedJob.interviewDate,
+      checklists: selectedJob.checklists,
       type: "update",
     };
     updateJob(body);
     dispatch(
       toggleFavorite([
-        selectedJob.category.name,
+        selectedJob.category?.name,
         selectedJob.job.id,
         !selectedJob.isFavorite,
       ])

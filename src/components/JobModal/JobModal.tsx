@@ -5,6 +5,7 @@ import Accepted from "./Accepted";
 import Rejected from "./Rejected";
 import Interviewing from "./Interviewing";
 import { useGetAJob } from "../../hooks/get-a-job";
+import InterviewedView from "./InterviewedView";
 
 const JobModal = () => {
   const {selectedJob} = useGetAJob();
@@ -18,6 +19,9 @@ const JobModal = () => {
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
           selectedJobCategory === "Applied") && <BookmarkedAppliedView />}
+      {selectedJobCategory && selectedJobCategory === "Interviewed" && (
+        <InterviewedView />
+      )}
     </ModalWrapper>
   );
 };
