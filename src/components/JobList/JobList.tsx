@@ -7,6 +7,7 @@ import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
   useUpdateJobsMutation,
+  useUpdateJobMutation,
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
@@ -23,12 +24,19 @@ const JobList = (): JSX.Element => {
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
+  const selectedJobState = useSelector(
+    (state: RootState) => state.job.selectedJob
+  );
 
   const { data, error, isLoading } = useGetAllJobsQuery();
   const [
     updateJobs,
     { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
   ] = useUpdateJobsMutation();
+  const [
+    updateJob,
+    { isLoading: isUpdateJobUpdating, isSuccess: isUpdateJobSuccess },
+  ] = useUpdateJobMutation();
   const [
     addChecklists,
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
@@ -213,8 +221,11 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
-      console.log(removedJob.id);
+      console.log(removedJob);
       addChecklists({ jobId: removedJob.id });
+
+      //  { jobId: removedJob.id, categoryId: Number(destination.droppableId), interviewDate: SomeDate, favorite: removedJob.isFavorite, checklist: [], type: "update"}
+      // updateJob({isFavorite: , interviewDate, checklists});
     }
   };
 

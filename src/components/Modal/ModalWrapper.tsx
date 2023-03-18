@@ -39,6 +39,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    console.log(data);
     dispatch(setSelectedJob(data));
   }, [data]);
 
