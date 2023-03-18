@@ -5,8 +5,9 @@ import { updateColumns } from "../../features/jobSlice";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import {
   useGetAllJobsQuery,
-  useGetJobByIdQuery,
+  useAddChecklistsMutation,
   useUpdateJobsMutation,
+  useUpdateJobMutation,
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
@@ -23,10 +24,23 @@ const JobList = (): JSX.Element => {
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
+  const selectedJobState = useSelector(
+    (state: RootState) => state.job.selectedJob
+  );
 
   const { data, error, isLoading } = useGetAllJobsQuery();
-  const [updateJobs, { isLoading: isUpdating, isSuccess }] =
-    useUpdateJobsMutation();
+  const [
+    updateJobs,
+    { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
+  ] = useUpdateJobsMutation();
+  const [
+    updateJob,
+    { isLoading: isUpdateJobUpdating, isSuccess: isUpdateJobSuccess },
+  ] = useUpdateJobMutation();
+  const [
+    addChecklists,
+    { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
+  ] = useAddChecklistsMutation();
 
   useEffect(() => {
     if (data) {
@@ -135,6 +149,7 @@ const JobList = (): JSX.Element => {
           position: job.position - 1,
         };
       });
+
     const endColumnUpdatedJobs = endJobs
       ?.splice(destination.index)
       .map((job: { position: number }) => {
@@ -143,7 +158,7 @@ const JobList = (): JSX.Element => {
           position: job.position + 1,
         };
       });
-    console.log(source.index, startColumnUpdatedJobs);
+
     const newStartColumn = {
       ...startColumn,
       jobs: [...startJobs, ...startColumnUpdatedJobs],
@@ -166,9 +181,6 @@ const JobList = (): JSX.Element => {
     };
 
     dispatch(updateColumns(newState));
-
-    // console.log(startColumnUpdatedJobs);
-    // console.log(endColumnUpdatedJobs);
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
@@ -207,12 +219,17 @@ const JobList = (): JSX.Element => {
     };
 
     updateJobs(body);
+
+    if (destinationCategory === "Interviewed") {
+      console.log(removedJob);
+      addChecklists({ jobId: removedJob.id });
+    }
   };
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Paper elevation={1} className={styles.JobBoard}>
-        {jobCategories?.map((category: string, index) => (
+        {jobCategories?.map((category: string, index: number) => (
           <JobCategory key={index} category={category} />
         ))}
       </Paper>

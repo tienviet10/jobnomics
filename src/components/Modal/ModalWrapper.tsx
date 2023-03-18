@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
@@ -27,8 +27,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const { userId, jobId, categoryId } = modalState.userJobId;
 
-  const { data, error, isLoading } = useGetJobByIdQuery({
-    userId,
+  const { data, refetch, error, isLoading } = useGetJobByIdQuery({
     jobId,
     categoryId,
   });
@@ -39,6 +38,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    console.log(data);
+    refetch();
     dispatch(setSelectedJob(data));
   }, [data]);
 
@@ -49,12 +50,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       categoryId,
       favorite: !selectedJob.isFavorite,
       interviewDate: selectedJob.interviewDate,
+      checklists: selectedJob.checklists,
       type: "update",
     };
     updateJob(body);
     dispatch(
       toggleFavorite([
-        selectedJob.category.name,
+        selectedJob.category?.name,
         selectedJob.job.id,
         !selectedJob.isFavorite,
       ])
