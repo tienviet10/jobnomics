@@ -3,6 +3,6 @@
   flex-direction: row-reverse;
 
   overflow: auto;
-  padding: 20px 30px 20px 30px;
+  margin-top: 20px;
 }
 

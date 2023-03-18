@@ -42,6 +42,7 @@ export type JobType = {
   isFavorite: boolean;
   position: number | null;
   interviewDate: Date | null;
+  rejectReason?: string | null;
   job: {
     id: number;
     title: string;
@@ -71,6 +72,7 @@ export interface Job {
   title: string;
   updatedAt: string;
   categoryId?: number;
+  description?: string;
 }
 
 export interface Category {
@@ -145,4 +147,19 @@ export type CreateJobModalPropType = {
 
 export type CategoryProps = {
   category: string;
+};
+
+export type InterviewDateModalType = {
+  open: boolean,
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type UserRequest = {
+  userId: number;
+  category: string[];
+  skills: string[];
+};
+
+export type FilterListType = {
+  sentFilterRequest: () => Promise<void>;
 };

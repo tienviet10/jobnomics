@@ -32,7 +32,7 @@ export const filterSlice = createSlice({
       state["searchWord"] = action.payload;
       let listJobs: Job[] = state.arrayJobs;
       if (action.payload !== "") {
-        listJobs = listJobs.filter((job: Job) => (job.company + job.title + job.updatedAt).toLowerCase().includes(action.payload.toLowerCase()));
+        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(action.payload.toLowerCase()));
       }
       state["displayArrayJobs"] = listJobs;
     },
@@ -45,8 +45,7 @@ export const filterSlice = createSlice({
         listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
       }
       if (state["searchWord"] !== "") {
-        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt).toLowerCase().includes(state["searchWord"].toLowerCase()));
-        console.log(listJobs);
+        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(state["searchWord"].toLowerCase()));
       }
       state["arrayJobs"] = listJobs;
       state["displayArrayJobs"] = listJobs;

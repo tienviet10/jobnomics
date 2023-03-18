@@ -3,8 +3,10 @@ import { Modal, Card, Box, TextField, Button } from "@mui/material";
 import styles from "./InterviewDate.module.css";
 import CelebrationIcon from '@mui/icons-material/Celebration';
 import { useUpdateJobMutation } from '../../app/services/job-api';
+import { InterviewDateModalType } from '../../types/jobTypes';
 
-const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => {
+
+const InterviewDateModal: React.FC<InterviewDateModalType> = ({ open, setOpen }) => {
   const [date, setDate] = useState("2023-03-20");
   const [time, setTime] = useState("07:30");
   const [updateJob] = useUpdateJobMutation();
