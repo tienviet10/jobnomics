@@ -13,7 +13,7 @@ export type UserJobsType = {
   categoryOrder: string[];
   modal: {
     open: boolean;
-    userJobId: { userId: number; jobId: number; categoryId: number };
+    userJobId: { userId: number; jobId: number; categoryId: number; };
   };
   selectedJob: JobType;
 };
@@ -56,11 +56,17 @@ export type JobType = {
     interviewExamples?: string;
     platform: string;
   };
-  checklists: { id: number; description: string; isComplete: boolean }[];
+  checklists: Checklist[];
   interviewExamples?: string;
 };
 
-type Skill = {
+export type Checklist = {
+  id: number;
+  description: string;
+  isComplete: boolean;
+};
+
+export type Skill = {
   createdAt: string;
   id: number;
   name: string;

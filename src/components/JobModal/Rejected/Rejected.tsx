@@ -14,12 +14,13 @@ import { Box } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { toggleJobModal } from '../../../features/jobSlice';
 import { useRejectedReasonMutation } from '../../../app/services/job-api';
+import { useGetAJob } from '../../../hooks/get-a-job';
+import { Skill } from '../../../types/jobTypes';
 
 const Rejected = () => {
   const dispatch = useDispatch();
   const [updateReason] = useRejectedReasonMutation();
-  const state = useSelector((state: RootState) => state.job);
-  const selectedJob = state.selectedJob;
+  const {selectedJob, refetch, skills} = useGetAJob();
 
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
@@ -43,6 +44,7 @@ const Rejected = () => {
     if (reason) {
       updateReason({jobId: selectedJob?.job?.id, categoryId: selectedJob?.category?.id, reason});
       dispatch(toggleJobModal(false));
+      refetch()
     }
 
   };
@@ -79,7 +81,7 @@ const Rejected = () => {
 
       </Container>
       {selectedJob?.job?.skills && <Typography variant="body2" className={styles.Skill}>
-        Required Skills:  <strong>{selectedJob?.job?.skills?.map((skill) => skill.name).join(", ")}</strong>
+        Required Skills:  <strong>{skills}</strong>
       </Typography>}
 
     </div>
