@@ -1,12 +1,11 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { security } from "../../components/auth/GlobalAuth";
-import type { UserJobsType, JobType, ResponseData } from "../../types/jobTypes";
-
-type UserRequest = {
-  userId: number;
-  category: string[];
-  skills: string[];
-};
+import type {
+  UserJobsType,
+  JobType,
+  ResponseData,
+  UserRequest,
+} from "../../types/jobTypes";
 
 export const jobApi = createApi({
   reducerPath: "jobApi",
@@ -143,6 +142,19 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
+    rejectedReason: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: "job/rejected-reason",
+        method: "PATCH",
+        body: patch,
+      }),
+      transformResponse: (response: { message: string }, meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
+    }),
   }),
 });
 
@@ -155,4 +167,5 @@ export const {
   useUpdateJobMutation,
   useFilterJobMutation,
   useUpdateNoteMutation,
+  useRejectedReasonMutation,
 } = jobApi;
