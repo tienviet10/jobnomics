@@ -14,15 +14,16 @@
   margin-bottom: 20px;
 }
 
-.Link{
-  margin-bottom: 30px;
-}
-
 .Skill{
   font-size: 1rem;
   margin-top: 40px;
 }
 
 .Suggestions {
-  max-height: 230px;
+  min-height: 200px;
 }
+
+.Link{
+  padding-bottom: 20px;
+}
+
