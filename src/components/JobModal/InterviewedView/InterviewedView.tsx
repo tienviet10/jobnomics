@@ -14,6 +14,7 @@ import {
   LinearProgress,
   Tab,
   Tabs,
+  TextField,
   Typography,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -26,6 +27,8 @@ const InterviewedView = (): JSX.Element => {
   const selectedJobState = useSelector(
     (state: RootState) => state.job.selectedJob
   );
+
+  console.log(selectedJobState);
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -45,7 +48,7 @@ const InterviewedView = (): JSX.Element => {
   ).length;
 
   const progress = Math.round(
-    (numberOfCompleted / selectedJobState.checklists.length) * 100
+    (numberOfCompleted / selectedJobState.checklists?.length) * 100
   );
 
   useEffect(() => {
@@ -87,7 +90,12 @@ const InterviewedView = (): JSX.Element => {
 
   return (
     <div className={styles.InterviewedContainer}>
-      <Tabs value={isNotepad ? 1 : 0} onChange={handleTabChange} centered>
+      <Tabs
+        value={isNotepad ? 1 : 0}
+        onChange={handleTabChange}
+        centered
+        className={styles.Tabs}
+      >
         <Tab label="Checklist" />
         <Tab label="Note Pad" />
       </Tabs>
@@ -118,27 +126,22 @@ const InterviewedView = (): JSX.Element => {
           </>
         ) : (
           <>
-            <Typography
-              variant="h5"
-              color={progress === 100 ? "#1b5e20" : "primary"}
-              className={styles.ProgressMessage}
-            >
-              {progressMessage}
-              {progress === 100 && (
-                <CheckCircleIcon
-                  fontSize="large"
-                  color="success"
-                  sx={{ marginLeft: "10px" }}
-                />
-              )}
+            <Typography variant="h5">
+              Keep track of your interview experince.
             </Typography>
-            <LinearProgress
-              variant="determinate"
-              value={progress}
-              color={progress === 100 ? "success" : "primary"}
-              className={styles.CheckboxProgressBar}
-            />
-            <FormGroup>{checklists}</FormGroup>
+            <Typography variant="body2" gutterBottom>
+              What questions did you get? How did you respond? What did you
+              learn? How do you feel about this company? Did you receive any
+              feedback? What can you do better next time?
+            </Typography>
+            <TextField
+              className={styles.NoteTextField}
+              sx={{ "& fieldset": { outline: "none" } }}
+              rows={10}
+              placeholder="Write your notes here..."
+              multiline
+              fullWidth
+            ></TextField>
           </>
         )}
       </section>

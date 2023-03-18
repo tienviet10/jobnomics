@@ -213,6 +213,7 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
+      console.log(removedJob.id);
       addChecklists({ jobId: removedJob.id });
     }
   };

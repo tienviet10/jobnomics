@@ -22,6 +22,8 @@ const BookmarkedAppliedView = () => {
     setIsDetail((prev) => !prev);
   };
 
+  console.log(selectedJobState);
+
   return (
     <div className={styles.BookedAppliedContainer}>
       <div className={styles.JobDescription}>

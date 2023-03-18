@@ -1,16 +1,24 @@
 .InterviewedContainer {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
   margin-bottom: 10px;
 }
 
 .InterviewedMain {
-  border: 1px solid #0000004b;
   border-radius: 10px;
-  padding: 25px 40px;
+  padding: 20px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
   overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .ProgressMessage {
@@ -24,11 +32,27 @@
 
 .CheckboxProgressBar {
   height: 10px;
+  width: 100%;
   border-radius: 10px;
-  margin: 20px 0;
 }
 
-/* @media screen and (min-width: 600px) {
+.NoteTextField:focus {
+  flex: 1;
+}
+
+@media screen and (min-width: 600px) {
   .InterviewedContainer {
+    height: 100%;
+    width: 80%;
   }
-} */
+  .Tabs {
+    margin-top: 40px;
+  }
+  .InterviewedMain {
+    height: 100%;
+    padding: 25px 40px;
+  }
+  .CheckboxProgressBar {
+    margin: 20px 0;
+  }
+}
