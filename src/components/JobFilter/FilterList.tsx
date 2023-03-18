@@ -4,7 +4,7 @@ import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { Job } from '../../types/jobTypes';
+import { FilterListType, Job } from '../../types/jobTypes';
 import { RootState } from '../../app/store';
 import { useSelector } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -17,9 +17,6 @@ import { setModalId, toggleJobModal } from '../../features/jobSlice';
 import { Paper } from '@mui/material';
 import styles from "./FilterList.module.css";
 
-type FilterListType = {
-  sentFilterRequest: () => Promise<void>;
-};
 
 const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Element => {
   const dispatch = useDispatch();
