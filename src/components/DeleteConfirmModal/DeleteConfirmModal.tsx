@@ -3,6 +3,7 @@ import React from "react";
 import styles from "./DeleteConfirmModal.module.css";
 import { Button, Card, IconButton, Modal, Typography } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
+import { useUpdateJobMutation } from "../../app/services/job-api";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -13,11 +14,15 @@ const DeleteConfirmModal = ({
   open,
   setOpen,
 }: DeleteConfirmModalProps): JSX.Element => {
+  const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
+
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDelete = () => {};
+  const handleDelete = () => {
+    deleteJob({ type: "delete" });
+  };
 
   return (
     <Modal
@@ -30,12 +35,16 @@ const DeleteConfirmModal = ({
           <CloseRounded fontSize="medium" />
         </IconButton>
         <section className={styles.DeleteConfirmModalMain}>
-          <Typography variant="body1">
+          <Typography variant="body1" textAlign="center">
             Are you sure you want to delete this job? This action cannot be
             undone.
           </Typography>
           <div className={styles.DeleteConfirmButtons}>
-            <Button variant="contained" onClick={handleDelete} className={}>
+            <Button
+              variant="contained"
+              onClick={handleDelete}
+              className={styles.DeleteButton}
+            >
               Delete
             </Button>
             <Button variant="outlined" onClick={handleClose}>
