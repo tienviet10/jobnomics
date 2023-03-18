@@ -27,8 +27,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const { userId, jobId, categoryId } = modalState.userJobId;
 
-  const { data, error, isLoading } = useGetJobByIdQuery({
-    userId,
+  const { data, refetch, error, isLoading } = useGetJobByIdQuery({
     jobId,
     categoryId,
   });
@@ -38,8 +37,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     dispatch(toggleJobModal(false));
   };
 
+  console.log(data);
   useEffect(() => {
     console.log(data);
+    refetch();
     dispatch(setSelectedJob(data));
   }, [data]);
 
@@ -55,7 +56,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     updateJob(body);
     dispatch(
       toggleFavorite([
-        selectedJob.category.name,
+        selectedJob.category?.name,
         selectedJob.job.id,
         !selectedJob.isFavorite,
       ])
@@ -75,10 +76,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           </IconButton>
           <div className={styles.JobHeader}>
             <Typography variant="h5" className={styles.JobTitle}>
-              {selectedJob.job.title}
+              {selectedJob.job?.title}
             </Typography>
             <Typography variant="h6" className={styles.JobCompany}>
-              {selectedJob.job.company} | {selectedJob.job.location}
+              {selectedJob.job?.company} | {selectedJob.job?.location}
             </Typography>
             <Typography variant="caption" className={styles.JobUpdatedDate}>
               Last update at: {`${updatedDate.toLocaleString()}`}

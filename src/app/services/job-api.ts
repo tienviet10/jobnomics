@@ -33,8 +33,8 @@ export const jobApi = createApi({
       ) => response.status,
     }),
     getJobById: builder.query({
-      query: ({ userId, jobId, categoryId }) => ({
-        url: `job/${userId}/${jobId}/${categoryId}`,
+      query: ({ jobId, categoryId }) => ({
+        url: `job/${jobId}/${categoryId}`,
       }),
       transformResponse: (response: { data: JobType }, meta, arg) => response,
       transformErrorResponse: (

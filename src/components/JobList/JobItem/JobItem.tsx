@@ -35,6 +35,7 @@ const JobItem = ({
 
   const modalState = useSelector((state: RootState) => state.job.modal);
   const jobState = useSelector((state: RootState) => state.job.categories);
+  const categories = useSelector((state: RootState) => state.job.categoryOrder);
   const job = jobState[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
 
