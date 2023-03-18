@@ -12,11 +12,11 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { useDispatch, useSelector } from "react-redux";
 import { setModalId, toggleJobModal } from "../../features/jobSlice";
-import { Paper } from "@mui/material";
+import { IconButton, Paper } from "@mui/material";
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useGetAJob } from "../../hooks/get-a-job";
-import { Favorite } from "@mui/icons-material";
+import { Favorite, FavoriteOutlined } from "@mui/icons-material";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 
 const FilterList: React.FC<FilterListType> = ({
@@ -47,7 +47,7 @@ const FilterList: React.FC<FilterListType> = ({
     dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
     setTimeout(() => {
       dispatch(toggleJobModal(true));
-    }, 50);
+    }, 60);
   };
 
   const handleMenuOpen = (
@@ -71,6 +71,15 @@ const FilterList: React.FC<FilterListType> = ({
         open: false,
       },
     }));
+  };
+
+  const handleToggleFavorite = (job: Job) => {
+    updateJob({
+      jobId: job.id,
+      categoryId: job.categoryId,
+      isFavorite: !job.isFavorite,
+      interviewDate: job.interviewDate,
+    });
   };
 
   return (
@@ -102,7 +111,9 @@ const FilterList: React.FC<FilterListType> = ({
                 </TableCell>
                 <TableCell>{categoryArray[job.categoryId - 1]}</TableCell>
                 <TableCell>
-                  <Favorite />
+                  <IconButton onClick={() => handleToggleFavorite(job)}>
+                    {job.isFavorite ? <Favorite /> : <FavoriteOutlined />}
+                  </IconButton>
                 </TableCell>
                 <TableCell>
                   <div>

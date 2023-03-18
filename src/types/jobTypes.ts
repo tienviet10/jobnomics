@@ -72,6 +72,8 @@ export type Skill = {
   updatedAt: string;
 };
 export interface Job {
+  isFavorite: boolean;
+  interviewDate: Date | null;
   company: string;
   id: number;
   logo: string | null;

@@ -59,7 +59,7 @@ const JobItem = ({
     dispatch(setModalId({ jobId: id, categoryId: jobState[category].id }));
     setTimeout(() => {
       dispatch(toggleJobModal(!modalState.open));
-    }, 50);
+    }, 60);
   };
 
   return (
