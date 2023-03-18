@@ -82,39 +82,67 @@ const InterviewedView = (): JSX.Element => {
   });
 
   const handleTabChange = () => {
-    setIsNotepad(true);
+    setIsNotepad((prev) => !prev);
   };
 
   return (
-    <>
-      <Tabs value={isNotepad} onChange={handleTabChange} centered>
+    <div className={styles.InterviewedContainer}>
+      <Tabs value={isNotepad ? 1 : 0} onChange={handleTabChange} centered>
         <Tab label="Checklist" />
         <Tab label="Note Pad" />
       </Tabs>
-      <div className={styles.InterviewedContainer}>
-        <Typography
-          variant="h5"
-          color={progress === 100 ? "#1b5e20" : "primary"}
-          className={styles.ProgressMessage}
-        >
-          {progressMessage}
-          {progress === 100 && (
-            <CheckCircleIcon
-              fontSize="large"
-              color="success"
-              sx={{ marginLeft: "10px" }}
+      <section className={styles.InterviewedMain}>
+        {!isNotepad ? (
+          <>
+            <Typography
+              variant="h5"
+              color={progress === 100 ? "#1b5e20" : "primary"}
+              className={styles.ProgressMessage}
+            >
+              {progressMessage}
+              {progress === 100 && (
+                <CheckCircleIcon
+                  fontSize="large"
+                  color="success"
+                  sx={{ marginLeft: "10px" }}
+                />
+              )}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              color={progress === 100 ? "success" : "primary"}
+              className={styles.CheckboxProgressBar}
             />
-          )}
-        </Typography>
-        <LinearProgress
-          variant="determinate"
-          value={progress}
-          color={progress === 100 ? "success" : "primary"}
-          className={styles.CheckboxProgressBar}
-        />
-        <FormGroup>{checklists}</FormGroup>
-      </div>
-    </>
+            <FormGroup>{checklists}</FormGroup>
+          </>
+        ) : (
+          <>
+            <Typography
+              variant="h5"
+              color={progress === 100 ? "#1b5e20" : "primary"}
+              className={styles.ProgressMessage}
+            >
+              {progressMessage}
+              {progress === 100 && (
+                <CheckCircleIcon
+                  fontSize="large"
+                  color="success"
+                  sx={{ marginLeft: "10px" }}
+                />
+              )}
+            </Typography>
+            <LinearProgress
+              variant="determinate"
+              value={progress}
+              color={progress === 100 ? "success" : "primary"}
+              className={styles.CheckboxProgressBar}
+            />
+            <FormGroup>{checklists}</FormGroup>
+          </>
+        )}
+      </section>
+    </div>
   );
 };
 
