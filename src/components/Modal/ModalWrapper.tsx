@@ -6,43 +6,31 @@ import {
   setSelectedJob,
 } from "../../features/jobSlice";
 import {
-  useGetJobByIdQuery,
   useUpdateJobMutation,
 } from "../../app/services/job-api";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
-
-import type { RootState } from "../../app/store";
 import styles from "./ModalWrapper.module.css";
+import { useGetAJob } from "../../hooks/get-a-job";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
+  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
+  const {aJob, refetch, selectedJob, jobId, categoryId, modalState} = useGetAJob();
 
-  const state = useSelector((state: RootState) => state.job);
-  const modalState = state.modal;
-  const selectedJob = state.selectedJob;
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
     : "";
-
-  const { userId, jobId, categoryId } = modalState.userJobId;
-
-  const { data, refetch, error, isLoading } = useGetJobByIdQuery({
-    jobId,
-    categoryId,
-  });
-  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
 
   const handleClose = () => {
     dispatch(toggleJobModal(false));
   };
 
   useEffect(() => {
-    console.log(data);
     refetch();
-    dispatch(setSelectedJob(data));
-  }, [data]);
-
+    dispatch(setSelectedJob(aJob));
+  }, [aJob]);
+ 
   const handleToggleFavorite = () => {
     const body = {
       userId: 1,

@@ -1,27 +1,16 @@
-import React, { useState } from "react";
-import { Button, Typography } from "@mui/material";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../app/store";
+import React from "react";
+import { Typography } from "@mui/material";
 
 import styles from "./Interviewing.module.css";
+import { useGetAJob } from "../../../hooks/get-a-job";
 const Interviewing = () => {
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.selectedJob
-  );
-  const skills = JSON.parse(JSON.stringify(selectedJobState.job.skills))
-    .map((skill: { name: string; }) => skill.name)
-    .join(", ");
-
-  // console.log(selectedJobState?.job?.interviewExamples);
+  const {selectedJob, skills} = useGetAJob();
 
   return (
     <div className={styles.BookedAppliedContainer}>
       <div className={styles.JobDescription}>
-        {/* <Typography variant="h5" fontWeight="bold" gutterBottom>
-          Job Summary:
-        </Typography> */}
         <Typography variant="body1" className={styles.Questions}>
-          {selectedJobState?.job?.interviewExamples}
+          {selectedJob?.job?.interviewExamples}
         </Typography>
       </div>
       <Typography variant="subtitle1" fontWeight="bold" className={styles.Skills}>

@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
   useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
-
-import type { RootState } from "../../../app/store";
-
 import { toggleCheckbox } from "../../../features/jobSlice";
-
 import styles from "./InterviewedView.module.css";
 import {
   Button,
@@ -23,6 +18,8 @@ import {
   Typography,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { useGetAJob } from "../../../hooks/get-a-job";
+import { Checklist } from "../../../types/jobTypes";
 
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -36,9 +33,9 @@ const InterviewedView = (): JSX.Element => {
     { isLoading, isSuccess: isChecklistSuccess, isError: isChecklistError },
   ] = useUpdateChecklistMutation();
 
-  const selectedJob = useSelector((state: RootState) => state.job.selectedJob);
+  const {selectedJob} = useGetAJob();
   const [note, setNote] = useState("");
-  // console.log(selectedJob);
+
 
   useEffect(() => {
     if (selectedJob) {
@@ -49,7 +46,7 @@ const InterviewedView = (): JSX.Element => {
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
     const isComplete = !selectedJob.checklists.find(
-      (checklist) => checklist.id === checkboxId
+      (checklist:Checklist) => checklist.id === checkboxId
     )?.isComplete;
     dispatch(
       toggleCheckbox({
@@ -68,7 +65,7 @@ const InterviewedView = (): JSX.Element => {
   };
 
   const numberOfCompleted = selectedJob.checklists.filter(
-    (checklist) => checklist.isComplete
+    (checklist:Checklist) => checklist.isComplete
   ).length;
 
   const progress = Math.round(
@@ -91,7 +88,7 @@ const InterviewedView = (): JSX.Element => {
     setProgressMessage(message);
   }, [progress]);
 
-  const checklists = selectedJob.checklists.map((checklist) => {
+  const checklists = selectedJob.checklists.map((checklist:Checklist) => {
     return (
       <FormControlLabel
         key={checklist.id}
