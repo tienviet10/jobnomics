@@ -54,6 +54,7 @@ const initialState: UserJobsType = {
     isFavorite: false,
     position: null,
     interviewDate: null,
+    note: "",
     job: {
       id: 1,
       title: "",

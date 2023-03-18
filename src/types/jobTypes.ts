@@ -42,7 +42,7 @@ export type JobType = {
   isFavorite: boolean;
   position: number | null;
   interviewDate: Date | null;
-  note?: string;
+  note: string;
   rejectReason?: string | null;
   job: {
     id: number;

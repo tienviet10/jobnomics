@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
-  useUpdateJobMutation,
+  useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
 
 import type { RootState } from "../../../app/store";
@@ -28,17 +28,23 @@ const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
   const [isNotepad, setIsNotepad] = useState(false);
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
-  const [note, setNote] = useState("");
+
   const [saveNote, { isLoading: isUpdating, isSuccess, isError }] =
     useUpdateNoteMutation();
   const [
-    updateJob,
+    updateChecklist,
     { isLoading, isSuccess: isChecklistSuccess, isError: isChecklistError },
-  ] = useUpdateJobMutation();
+  ] = useUpdateChecklistMutation();
 
   const selectedJob = useSelector((state: RootState) => state.job.selectedJob);
+  const [note, setNote] = useState("");
+  // console.log(selectedJob);
 
-  console.log(selectedJob);
+  useEffect(() => {
+    if (selectedJob) {
+      setNote(selectedJob.note);
+    }
+  }, [selectedJob]);
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -53,15 +59,12 @@ const InterviewedView = (): JSX.Element => {
     );
 
     const body = {
-      userId: 1,
+      checklistId: checkboxId,
       jobId: selectedJob.job.id,
-      categoryId: selectedJob.category.id,
-      favorite: !selectedJob.isFavorite,
-      interviewDate: selectedJob.interviewDate,
-      checklists: selectedJob.checklists,
-      type: "update",
+      isComplete: isComplete,
     };
-    updateJob(body);
+
+    updateChecklist(body);
   };
 
   const numberOfCompleted = selectedJob.checklists.filter(
@@ -73,8 +76,8 @@ const InterviewedView = (): JSX.Element => {
   );
 
   useEffect(() => {
-    let message = "";
-    if (progress >= 0 && progress <= 20) {
+    let message = "Reminder for you";
+    if (progress > 0 && progress <= 20) {
       message = "Good start!";
     } else if (progress > 20 && progress <= 40) {
       message = "Great job!";
@@ -116,6 +119,11 @@ const InterviewedView = (): JSX.Element => {
   };
 
   const handleSaveNote = () => {
+    console.log({
+      note,
+      jobId: selectedJob.job.id,
+      categoryId: selectedJob.category.id,
+    });
     saveNote({
       note,
       jobId: selectedJob.job.id,
