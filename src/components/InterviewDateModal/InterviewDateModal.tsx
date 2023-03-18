@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Modal, Card, Box, TextField, Button } from "@mui/material";
 import styles from "./InterviewDate.module.css";
 import CelebrationIcon from '@mui/icons-material/Celebration';
+import { useUpdateJobMutation } from '../../app/services/job-api';
 
 const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => {
   const [date, setDate] = useState("2023-03-20");
   const [time, setTime] = useState("07:30");
-
+  const [updateJob] = useUpdateJobMutation();
 
   const handleClose = () => {
     setOpen(false);
@@ -14,6 +15,8 @@ const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => 
 
   const handleSubmit = () => {
     const dateTime = new Date(date + "T" + time + ":00")
+    updateJob({jobId: 2, categoryId: 3, interviewDate: dateTime.toISOString(), favorite: true, type: "update"});
+    setOpen(false)
   };
 
   return (
@@ -54,7 +57,7 @@ const InterviewDateModal = ({ open, setOpen }: { open: any, setOpen: any; }) => 
             onChange={(e) => setTime(e.target.value)}
           />
         </Box>
-        <Button onClick={handleSubmit} className={styles.ButtonSubmit}>Save</Button>
+        <Button onClick={handleSubmit} className={styles.ButtonSubmit}>Schedule</Button>
       </Card>
     </Modal>
   );

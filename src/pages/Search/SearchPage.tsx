@@ -18,7 +18,7 @@ import InterviewDateModal from '../../components/InterviewDateModal';
 const theme = createTheme();
 
 const SearchPage = () => {
-  const { updateCategoryFilter, logout, sentFilterRequest, prefetchData } = useManageSearchPage();
+  const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
   
   
   const [open, setOpen] = useState<boolean>(false);
