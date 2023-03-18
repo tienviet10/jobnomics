@@ -52,7 +52,7 @@ export function useManageSearchPage(): ManageSearchPageType {
       category: newCategory,
       skills: languagesAndFramework
     });
-    console.log(res);
+
     if (res.data) {
       dispatch(toggleFirstFetch(false));
       dispatch(setList(res.data));
