@@ -17,7 +17,7 @@ import { Job } from "../../types/jobTypes";
 type DeleteConfirmModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  job?: Job;
+  job?: Job | null;
 };
 
 const DeleteConfirmModal = ({
@@ -52,16 +52,28 @@ const DeleteConfirmModal = ({
         </IconButton>
         {!isLoading && !isSuccess && !isError && (
           <section className={styles.DeleteConfirmModalMain}>
-            <Typography variant="body1" textAlign="center">
-              Are you sure you want to delete the job
+            <div className={styles.DeleteMessageContainer}>
               <Typography
+                variant="body1"
+                className={styles.DeleteMessage}
+                sx={{ paddingRight: "5px" }}
+              >
+                Are you sure you want to delete the job
+              </Typography>
+              <Typography
+                variant="body1"
+                className={styles.DeleteMessage}
                 fontWeight="bold"
-                sx={{ display: "inline-block", paddingLeft: "5px" }}
               >
                 {job?.title || selectedJob?.job.title}
               </Typography>
-              ? This action cannot be undone.
-            </Typography>
+              <Typography variant="body1" className={styles.DeleteMessage}>
+                ?
+              </Typography>
+              <Typography variant="body1" className={styles.DeleteMessage}>
+                This action cannot be undone.
+              </Typography>
+            </div>
             <div className={styles.DeleteConfirmButtons}>
               <Button
                 variant="contained"

@@ -27,6 +27,7 @@ const FilterList: React.FC<FilterListType> = ({
   );
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
   const open = Boolean(anchorEl);
   const [updateJob] = useUpdateJobMutation();
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -36,6 +37,7 @@ const FilterList: React.FC<FilterListType> = ({
     setAnchorEl(null);
   };
   const handleDelete = (job: Job) => {
+    setSelectedJob(job);
     setOpenDeleteModal(true);
     console.log(job);
     // setTimeout(() => {
@@ -73,51 +75,49 @@ const FilterList: React.FC<FilterListType> = ({
           {jobsList.length > 0 &&
             jobsList[0] &&
             jobsList.map((job: Job, index: number) => (
-              <>
-                <TableRow key={index}>
-                  <TableCell onClick={() => handleOpenModal(job)}>
-                    {job.company}
-                  </TableCell>
-                  <TableCell onClick={() => handleOpenModal(job)}>
-                    {job.title}
-                  </TableCell>
-                  <TableCell onClick={() => handleOpenModal(job)}>
-                    {new Date(job.updatedAt).toLocaleString()}
-                  </TableCell>
-                  <TableCell>
-                    <div>
-                      <Button
-                        aria-controls={open ? "basic-menu" : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
-                        onClick={handleClick}
-                      >
-                        <MoreVertIcon />
-                      </Button>
-                      <Menu
-                        anchorEl={anchorEl}
-                        open={open}
-                        onClose={handleClose}
-                        MenuListProps={{
-                          "aria-labelledby": "basic-button",
-                        }}
-                      >
-                        <MenuItem onClick={() => handleDelete(job)}>
-                          Delete
-                        </MenuItem>
-                      </Menu>
-                    </div>
-                  </TableCell>
-                </TableRow>
-                <DeleteConfirmModal
-                  open={openDeleteModal}
-                  setOpen={setOpenDeleteModal}
-                  job={job}
-                />
-              </>
+              <TableRow key={index}>
+                <TableCell onClick={() => handleOpenModal(job)}>
+                  {job.company}
+                </TableCell>
+                <TableCell onClick={() => handleOpenModal(job)}>
+                  {job.title}
+                </TableCell>
+                <TableCell onClick={() => handleOpenModal(job)}>
+                  {new Date(job.updatedAt).toLocaleString()}
+                </TableCell>
+                <TableCell>
+                  <div>
+                    <Button
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      <MoreVertIcon />
+                    </Button>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <MenuItem onClick={() => handleDelete(job)}>
+                        Delete
+                      </MenuItem>
+                    </Menu>
+                  </div>
+                </TableCell>
+              </TableRow>
             ))}
         </TableBody>
       </Table>
+      <DeleteConfirmModal
+        open={openDeleteModal}
+        setOpen={setOpenDeleteModal}
+        job={selectedJob}
+      />
     </Paper>
   );
 };
