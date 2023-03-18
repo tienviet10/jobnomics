@@ -11,6 +11,21 @@
   flex-direction: column;
 }
 
+.ProgressMessage {
+  align-self: center;
+  font-weight: bold;
+  font-size: 1.7rem;
+
+  display: flex;
+  align-items: center;
+}
+
+.CheckboxProgressBar {
+  height: 10px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
 /* @media screen and (min-width: 600px) {
   .InterviewedContainer {
   }
