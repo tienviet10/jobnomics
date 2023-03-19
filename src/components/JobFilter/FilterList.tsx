@@ -16,6 +16,7 @@ import {
   Button,
   Menu,
   MenuItem,
+  Avatar,
 } from "@mui/material";
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
@@ -77,7 +78,7 @@ const FilterList: React.FC<FilterListType> = ({
   };
 
   const handleToggleFavorite = (job: Job) => {
-    console.log(job.isFavorite);
+    console.log(job);
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,
@@ -92,6 +93,7 @@ const FilterList: React.FC<FilterListType> = ({
       <Table size="medium">
         <TableHead>
           <TableRow>
+            <TableCell></TableCell>
             <TableCell>Company</TableCell>
             <TableCell>Job Title</TableCell>
             <TableCell>Update At</TableCell>
@@ -106,6 +108,9 @@ const FilterList: React.FC<FilterListType> = ({
             jobsList.map((job: Job, index: number) => (
               <TableRow key={index}>
                 <TableCell onClick={() => handleOpenModal(job)}>
+                  <Avatar variant="square" src={job.logo} alt={job.company} />
+                </TableCell>
+                <TableCell onClick={() => handleOpenModal(job)}>
                   {job.company}
                 </TableCell>
                 <TableCell onClick={() => handleOpenModal(job)}>
@@ -114,10 +119,13 @@ const FilterList: React.FC<FilterListType> = ({
                 <TableCell onClick={() => handleOpenModal(job)}>
                   {new Date(job.updatedAt).toLocaleString()}
                 </TableCell>
-                <TableCell>{categoryArray[job.categoryId - 1]}</TableCell>
                 <TableCell>
                   <IconButton onClick={() => handleToggleFavorite(job)}>
-                    {job.isFavorite ? <Favorite /> : <FavoriteOutlined />}
+                    {job.isFavorite === true ? (
+                      <Favorite />
+                    ) : (
+                      <FavoriteOutlined />
+                    )}
                   </IconButton>
                 </TableCell>
                 <TableCell>

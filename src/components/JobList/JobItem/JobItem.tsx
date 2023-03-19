@@ -48,7 +48,6 @@ const JobItem = ({
       categoryId: jobState[category].id,
       favorite: !isFavorite,
       interviewDate: null,
-      checklists: selectedJob.checklists,
       type: "update",
     };
     dispatch(toggleFavorite([category, id, !isFavorite]));

@@ -76,7 +76,7 @@ export interface Job {
   interviewDate: Date | null;
   company: string;
   id: number;
-  logo: string | null;
+  logo: string;
   position: number;
   title: string;
   updatedAt: string;
