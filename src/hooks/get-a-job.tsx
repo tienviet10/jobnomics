@@ -29,7 +29,6 @@ export function useGetAJob(): any {
   return {
     selectedJob,
     aJob,
-    refetch,
     modalState,
     error,
     isLoading,

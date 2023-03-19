@@ -20,7 +20,7 @@ import { Skill } from '../../../types/jobTypes';
 const Rejected = () => {
   const dispatch = useDispatch();
   const [updateReason] = useRejectedReasonMutation();
-  const {selectedJob, refetch, skills} = useGetAJob();
+  const {selectedJob, skills} = useGetAJob();
 
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
@@ -44,7 +44,6 @@ const Rejected = () => {
     if (reason) {
       updateReason({jobId: selectedJob?.job?.id, categoryId: selectedJob?.category?.id, reason});
       dispatch(toggleJobModal(false));
-      refetch()
     }
 
   };

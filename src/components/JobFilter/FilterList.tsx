@@ -21,12 +21,7 @@ import {
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useGetAJob } from "../../hooks/get-a-job";
-import {
-  Favorite,
-  FavoriteBorder,
-  FavoriteOutlined,
-  MoreVert,
-} from "@mui/icons-material";
+import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 
 const FilterList: React.FC<FilterListType> = ({

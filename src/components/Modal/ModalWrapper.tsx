@@ -16,8 +16,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-  const { aJob, refetch, selectedJob, jobId, categoryId, modalState } =
-    useGetAJob();
+  const { aJob, selectedJob, jobId, categoryId, modalState } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -28,7 +27,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    refetch();
     dispatch(setSelectedJob(aJob));
   }, [aJob]);
 
