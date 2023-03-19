@@ -70,6 +70,15 @@ export const jobApi = createApi({
         };
       },
     }),
+    addInterviewQuestions: builder.mutation<any, any>({
+      query(body) {
+        return {
+          url: "job/interview-questions",
+          method: "POST",
+          body,
+        };
+      },
+    }),
     updateJobs: builder.mutation({
       query: ({ ...patch }) => ({
         url: "job",
@@ -192,6 +201,7 @@ export const {
   useGetJobByIdQuery,
   useAddJobMutation,
   useAddChecklistsMutation,
+  useAddInterviewQuestionsMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
   useFilterJobMutation,

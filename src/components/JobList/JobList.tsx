@@ -8,6 +8,7 @@ import {
   useAddChecklistsMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
+  useAddInterviewQuestionsMutation,
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
@@ -43,6 +44,10 @@ const JobList = (): JSX.Element => {
     addChecklists,
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
   ] = useAddChecklistsMutation();
+
+  const [
+    addInterviewQuestions,
+  ] = useAddInterviewQuestionsMutation();
 
   useEffect(() => {
     if (data) {
@@ -82,7 +87,7 @@ const JobList = (): JSX.Element => {
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
 
-      newJobs.forEach((job: { position: number }, index: number) => {
+      newJobs.forEach((job: { position: number; }, index: number) => {
         if (
           source.index < destination.index &&
           index > source.index &&
@@ -117,7 +122,7 @@ const JobList = (): JSX.Element => {
       dispatch(updateColumns(newState));
 
       const updatedJobs = newJobs.map(
-        (job: { id: number; position: number }, index: number) => {
+        (job: { id: number; position: number; }, index: number) => {
           return {
             jobId: job.id,
             categoryId: Number(source.droppableId),
@@ -145,7 +150,7 @@ const JobList = (): JSX.Element => {
 
     const startColumnUpdatedJobs = startJobs
       ?.splice(source.index)
-      .map((job: { position: number }) => {
+      .map((job: { position: number; }) => {
         return {
           ...job,
           position: job.position - 1,
@@ -154,7 +159,7 @@ const JobList = (): JSX.Element => {
 
     const endColumnUpdatedJobs = endJobs
       ?.splice(destination.index)
-      .map((job: { position: number }) => {
+      .map((job: { position: number; }) => {
         return {
           ...job,
           position: job.position + 1,
@@ -185,7 +190,7 @@ const JobList = (): JSX.Element => {
     dispatch(updateColumns(newState));
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+      (job: { id: number; position: number; }, index: number) => {
         return {
           jobId: job.id,
           categoryId: Number(source.droppableId),
@@ -196,7 +201,7 @@ const JobList = (): JSX.Element => {
     );
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+      (job: { id: number; position: number; }, index: number) => {
         console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
@@ -223,8 +228,12 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
-      console.log(removedJob);
       addChecklists({ jobId: removedJob.id });
+    }
+
+
+    if (destinationCategory === "Interviewing") {
+      addInterviewQuestions({ jobId: removedJob.id });
     }
   };
 
