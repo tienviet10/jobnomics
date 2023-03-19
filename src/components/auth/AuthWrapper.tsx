@@ -3,7 +3,9 @@ import React from "react";
 import { PageLoader } from "../../pages/PageLoader/PageLoader";
 import { AuthenticationGuardProps } from "../../types/auth";
 
-export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({ component }) => {
+export const AuthenticationGuard: React.FC<AuthenticationGuardProps> = ({
+  component,
+}) => {
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => (
       <div className="page-layout">

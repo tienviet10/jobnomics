@@ -1,25 +1,31 @@
-import React, { useEffect, useState } from 'react';
-import AppBar from '@mui/material/AppBar';
-import CameraIcon from '@mui/icons-material/PhotoCamera';
-import CssBaseline from '@mui/material/CssBaseline';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import FilterList from '../../components/JobFilter';
-import ChipsComponent from '../../components/JobFilter/chips';
-import SearchBar from '../../components/JobFilter/searchbar/SearchBar';
-import DrawerComponent from '../../components/JobFilter/drawer';
-import { useManageSearchPage } from './manage-search-page';
+import React, { useState } from "react";
+
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Camera } from "@mui/icons-material";
+import {
+  AppBar,
+  CssBaseline,
+  Toolbar,
+  Typography,
+  Container,
+  Box,
+} from "@mui/material";
 import styles from "./Filter.module.css";
-import JobModal from '../../components/JobModal';
-import InterviewDateModal from '../../components/InterviewDateModal';
-import { Box } from '@mui/material';
+
+import FilterList from "../../components/JobFilter";
+import ChipsComponent from "../../components/JobFilter/chips";
+import SearchBar from "../../components/JobFilter/searchbar/SearchBar";
+import DrawerComponent from "../../components/JobFilter/drawer";
+import JobModal from "../../components/JobModal";
+import InterviewDateModal from "../../components/InterviewDateModal";
+
+import { useManageSearchPage } from "./manage-search-page";
 
 const theme = createTheme();
 
 const SearchPage = () => {
-  const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
+  const { updateCategoryFilter, logout, sentFilterRequest } =
+    useManageSearchPage();
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -28,7 +34,7 @@ const SearchPage = () => {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon sx={{ mr: 2 }} />
+          <Camera sx={{ mr: 2 }} />
           <Typography variant="h6" color="inherit" noWrap>
             Search Page
           </Typography>
@@ -37,7 +43,10 @@ const SearchPage = () => {
       <main>
         <Container maxWidth="md">
           <Box className={styles.Filter}>
-            <DrawerComponent updateCategoryFilter={updateCategoryFilter} sentFilterRequest={sentFilterRequest} />
+            <DrawerComponent
+              updateCategoryFilter={updateCategoryFilter}
+              sentFilterRequest={sentFilterRequest}
+            />
             <SearchBar />
           </Box>
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />

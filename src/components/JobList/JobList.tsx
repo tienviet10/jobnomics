@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
+
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import { updateColumns } from "../../features/jobSlice";
-import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
@@ -11,8 +11,10 @@ import {
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
-import JobCategory from "./JobCategory";
+import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
+
+import JobCategory from "./JobCategory";
 
 import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
 

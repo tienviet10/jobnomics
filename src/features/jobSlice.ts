@@ -43,13 +43,12 @@ const initialState: UserJobsType = {
     "Job Offer",
     "Position Filled",
   ],
-  modal: { open: false, userJobId: { userId: 1, jobId: 1, categoryId: 1 } },
+  modal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },
   selectedJob: {
     category: {
       id: 1,
       name: "",
     },
-    userId: 1,
     updatedAt: null,
     isFavorite: false,
     position: null,
@@ -108,8 +107,11 @@ export const jobSlice = createSlice({
     toggleJobModal: (state, action) => {
       state.modal = { ...state.modal, open: action.payload };
     },
+    toggleDeleteModal: (state, action) => {
+      state.modal = { ...state.modal, open: action.payload };
+    },
     setModalId: (state, action) => {
-      state.modal = { ...state.modal, userJobId: action.payload };
+      state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {
       state.selectedJob = action.payload;
