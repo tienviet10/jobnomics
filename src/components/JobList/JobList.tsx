@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateColumns } from "../../features/jobSlice";
+import { setInterviewedModalId, toggleInterviewedModal, updateColumns } from "../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
@@ -202,7 +202,7 @@ const JobList = (): JSX.Element => {
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
       (job: { id: number; position: number; }, index: number) => {
-        console.log(job.position, destination.index);
+        // console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
             jobId: job.id,
@@ -228,7 +228,9 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
+      dispatch(setInterviewedModalId({jobId: removedJob.id, categoryId: Number(destination?.droppableId)}));
       addChecklists({ jobId: removedJob.id });
+      dispatch(toggleInterviewedModal(true));
     }
 
 

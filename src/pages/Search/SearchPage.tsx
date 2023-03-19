@@ -17,8 +17,6 @@ import ChipsComponent from "../../components/JobFilter/chips";
 import SearchBar from "../../components/JobFilter/searchbar/SearchBar";
 import DrawerComponent from "../../components/JobFilter/drawer";
 import JobModal from "../../components/JobModal";
-import InterviewDateModal from "../../components/InterviewDateModal";
-
 import { useManageSearchPage } from "./manage-search-page";
 
 const theme = createTheme();
@@ -27,7 +25,6 @@ const SearchPage = () => {
   const { updateCategoryFilter, logout, sentFilterRequest } =
     useManageSearchPage();
 
-  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <ThemeProvider theme={theme}>
@@ -55,8 +52,6 @@ const SearchPage = () => {
       </main>
       <button onClick={() => logout()}>Logout</button>
       <JobModal />
-      <button onClick={() => setOpen(true)}>Hi</button>
-      {open && <InterviewDateModal open={open} setOpen={setOpen} />}
     </ThemeProvider>
   );
 };
