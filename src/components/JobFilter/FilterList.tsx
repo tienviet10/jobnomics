@@ -1,22 +1,26 @@
 import React, { useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+
 import { FilterListType, Job } from "../../types/jobTypes";
 import { RootState } from "../../app/store";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import Button from "@mui/material/Button";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+
 import { useDispatch, useSelector } from "react-redux";
 import { setModalId, toggleJobModal } from "../../features/jobSlice";
-import { IconButton, Paper } from "@mui/material";
+import {
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Button,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import styles from "./FilterList.module.css";
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useGetAJob } from "../../hooks/get-a-job";
-import { Favorite, FavoriteOutlined } from "@mui/icons-material";
+import { Favorite, FavoriteOutlined, MoreVert } from "@mui/icons-material";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 
 const FilterList: React.FC<FilterListType> = ({
@@ -38,7 +42,6 @@ const FilterList: React.FC<FilterListType> = ({
   }>({});
 
   const handleDelete = (job: Job) => {
-    console.log(job);
     setSelectedJob(job);
     setOpenDeleteModal(true);
   };
@@ -47,7 +50,7 @@ const FilterList: React.FC<FilterListType> = ({
     dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
     setTimeout(() => {
       dispatch(toggleJobModal(true));
-    }, 60);
+    }, 70);
   };
 
   const handleMenuOpen = (
@@ -74,11 +77,13 @@ const FilterList: React.FC<FilterListType> = ({
   };
 
   const handleToggleFavorite = (job: Job) => {
+    console.log(job.isFavorite);
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,
-      isFavorite: !job.isFavorite,
+      favorite: !job.isFavorite,
       interviewDate: job.interviewDate,
+      type: "update",
     });
   };
 
@@ -123,7 +128,7 @@ const FilterList: React.FC<FilterListType> = ({
                       aria-expanded={menuStates[job.id]?.open}
                       onClick={(event) => handleMenuOpen(job, event)}
                     >
-                      <MoreVertIcon />
+                      <MoreVert />
                     </Button>
                     <Menu
                       id={`basic-menu-${job.id}`}
