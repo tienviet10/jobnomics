@@ -15,18 +15,13 @@ import styles from "./Filter.module.css";
 import JobModal from '../../components/JobModal';
 import InterviewDateModal from '../../components/InterviewDateModal';
 import { Box } from '@mui/material';
-import { useHelloQuery } from '../../app/services/job-api';
 
 const theme = createTheme();
 
 const SearchPage = () => {
   const { updateCategoryFilter, logout, sentFilterRequest } = useManageSearchPage();
-  const {data} = useHelloQuery({start: "123", end:"1543"})
-  
+
   const [open, setOpen] = useState<boolean>(false);
-useEffect(()=>{
-  console.log(data)
-},[])
 
   return (
     <ThemeProvider theme={theme}>
@@ -41,18 +36,18 @@ useEffect(()=>{
       </AppBar>
       <main>
         <Container maxWidth="md">
-        <Box className={styles.Filter}>
-          <DrawerComponent updateCategoryFilter={updateCategoryFilter} sentFilterRequest={sentFilterRequest}/>
-          <SearchBar/>
-        </Box>
+          <Box className={styles.Filter}>
+            <DrawerComponent updateCategoryFilter={updateCategoryFilter} sentFilterRequest={sentFilterRequest} />
+            <SearchBar />
+          </Box>
           <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-          <FilterList sentFilterRequest={sentFilterRequest}/>
+          <FilterList sentFilterRequest={sentFilterRequest} />
         </Container>
       </main>
       <button onClick={() => logout()}>Logout</button>
       <JobModal />
-      <button onClick={()=> setOpen(true)}>Hi</button>
-      {open && <InterviewDateModal open={open} setOpen={setOpen}/>}
+      <button onClick={() => setOpen(true)}>Hi</button>
+      {open && <InterviewDateModal open={open} setOpen={setOpen} />}
     </ThemeProvider>
   );
 };

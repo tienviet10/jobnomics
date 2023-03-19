@@ -9,7 +9,6 @@ import type {
 
 export const jobApi = createApi({
   reducerPath: "jobApi",
-  // baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: async (headers) => {
@@ -163,15 +162,11 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
-    hello: builder.query<any, any>({
-      query: (arg) => {
-        const { start, end } = arg;
-        console.log('arg: ', arg);
-        return {
-          url: 'posts/',
-          params: { start, end },
-        };
-      },
+    filterJobs: builder.query<any, any>({
+      query: (params) => ({
+        url: 'job/filter',
+        params,
+      }),
       providesTags: ["filterJob"],
     }),
     rejectedReason: builder.mutation({
@@ -192,7 +187,7 @@ export const jobApi = createApi({
 });
 
 export const {
-  useHelloQuery,
+  useFilterJobsQuery,
   useGetAllJobsQuery,
   useGetJobByIdQuery,
   useAddJobMutation,

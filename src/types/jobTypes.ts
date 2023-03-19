@@ -145,7 +145,7 @@ export type ManageSearchPageType = {
   updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
   logout: (options?: LogoutOptions | undefined) => void;
   sentFilterRequest: () => Promise<void>;
-  prefetchData: () => Promise<void>;
+  prefetchData?: () => Promise<void>;
 };
 
 export type CreateJobModalPropType = {
