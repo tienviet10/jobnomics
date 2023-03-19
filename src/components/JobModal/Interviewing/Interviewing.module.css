@@ -17,6 +17,12 @@
   margin-bottom: 40px;
 }
 
+.Refresh{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .ToggleDetailButton {
   width: 100%;
   align-self: center;
