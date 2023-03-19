@@ -4,7 +4,10 @@ import { FilterListType, Job } from "../../types/jobTypes";
 import { RootState } from "../../app/store";
 
 import { useDispatch, useSelector } from "react-redux";
+
 import { setModalId, toggleJobModal } from "../../features/jobSlice";
+
+import styles from "./FilterList.module.css";
 import {
   IconButton,
   Paper,
@@ -18,10 +21,9 @@ import {
   MenuItem,
   Avatar,
 } from "@mui/material";
-import styles from "./FilterList.module.css";
-import DeleteConfirmModal from "../DeleteConfirmModal";
-import { useGetAJob } from "../../hooks/get-a-job";
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
+
+import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 
 const FilterList: React.FC<FilterListType> = ({
@@ -32,8 +34,6 @@ const FilterList: React.FC<FilterListType> = ({
     (state: RootState) => state.filter.displayArrayJobs
   );
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-
-  const { categoryArray } = useGetAJob();
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+
 import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
   useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
 import { toggleCheckbox } from "../../../features/jobSlice";
+
 import styles from "./InterviewedView.module.css";
 import {
   Button,
@@ -17,7 +19,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+
+import { CheckCircle } from "@mui/icons-material";
+
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 
@@ -33,9 +37,8 @@ const InterviewedView = (): JSX.Element => {
     { isLoading, isSuccess: isChecklistSuccess, isError: isChecklistError },
   ] = useUpdateChecklistMutation();
 
-  const {selectedJob} = useGetAJob();
+  const { selectedJob } = useGetAJob();
   const [note, setNote] = useState("");
-
 
   useEffect(() => {
     if (selectedJob) {
@@ -46,7 +49,7 @@ const InterviewedView = (): JSX.Element => {
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
     const isComplete = !selectedJob.checklists.find(
-      (checklist:Checklist) => checklist.id === checkboxId
+      (checklist: Checklist) => checklist.id === checkboxId
     )?.isComplete;
     dispatch(
       toggleCheckbox({
@@ -65,7 +68,7 @@ const InterviewedView = (): JSX.Element => {
   };
 
   const numberOfCompleted = selectedJob.checklists.filter(
-    (checklist:Checklist) => checklist.isComplete
+    (checklist: Checklist) => checklist.isComplete
   ).length;
 
   const progress = Math.round(
@@ -88,7 +91,7 @@ const InterviewedView = (): JSX.Element => {
     setProgressMessage(message);
   }, [progress]);
 
-  const checklists = selectedJob.checklists.map((checklist:Checklist) => {
+  const checklists = selectedJob.checklists.map((checklist: Checklist) => {
     return (
       <FormControlLabel
         key={checklist.id}
@@ -149,7 +152,7 @@ const InterviewedView = (): JSX.Element => {
             >
               {progressMessage}
               {progress === 100 && (
-                <CheckCircleIcon
+                <CheckCircle
                   fontSize="large"
                   color="success"
                   sx={{ marginLeft: "10px" }}
