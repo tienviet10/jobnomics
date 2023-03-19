@@ -102,7 +102,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob"],
+      invalidatesTags: ["aJob", "filterJob"],
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }

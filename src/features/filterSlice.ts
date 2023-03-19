@@ -18,7 +18,8 @@ const initialState: FilterStateType = {
   },
   arrayJobs: [],
   displayArrayJobs: [],
-  searchWord: ""
+  searchWord: "",
+  selectedJob: null
 };
 
 export const filterSlice = createSlice({
@@ -53,10 +54,15 @@ export const filterSlice = createSlice({
     toggleFirstFetch: (state, action) => {
       state["firstFetch"] = action.payload;
 
-    }
+    },
+    setFilterSelectedJob: (state, action) => {
+      console.log(action.payload);
+      state["selectedJob"] = action.payload;
+
+    },
   },
 });
 
-export const { toggleCheck, handleSearch, setList, toggleFirstFetch } = filterSlice.actions;
+export const { toggleCheck, handleSearch, setList, toggleFirstFetch, setFilterSelectedJob } = filterSlice.actions;
 
 export default filterSlice.reducer;

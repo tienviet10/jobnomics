@@ -25,26 +25,30 @@ import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
 import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useUpdateJobMutation } from "../../app/services/job-api";
+import { setFilterSelectedJob } from "../../features/filterSlice";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
 }): JSX.Element => {
   const dispatch = useDispatch();
-  const jobsList = useSelector(
-    (state: RootState) => state.filter.displayArrayJobs
+  const state = useSelector(
+    (state: RootState) => state.filter
   );
+  const jobsList = state.displayArrayJobs;
+  const selectedJob = state.selectedJob;
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   const [menuStates, setMenuStates] = useState<{
     [key: string]: { anchorEl: Element | null; open: boolean };
   }>({});
 
   const handleDelete = (job: Job) => {
-    setSelectedJob(job);
+    dispatch(setFilterSelectedJob(job));
+    handleMenuClose(job)
     setOpenDeleteModal(true);
+    // console.log(menuStates)
   };
 
   const handleOpenModal = (job: Job) => {
@@ -68,6 +72,7 @@ const FilterList: React.FC<FilterListType> = ({
   };
 
   const handleMenuClose = (job: Job) => {
+    console.log(job)
     setMenuStates((prev) => ({
       ...prev,
       [job.id]: {
@@ -78,7 +83,6 @@ const FilterList: React.FC<FilterListType> = ({
   };
 
   const handleToggleFavorite = (job: Job) => {
-    console.log(job);
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,
@@ -86,6 +90,7 @@ const FilterList: React.FC<FilterListType> = ({
       interviewDate: job.interviewDate,
       type: "update",
     });
+    // sentFilterRequest()
   };
 
   return (

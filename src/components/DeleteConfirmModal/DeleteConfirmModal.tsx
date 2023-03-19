@@ -13,6 +13,9 @@ import { CloseRounded } from "@mui/icons-material";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 import { useGetAJob } from "../../hooks/get-a-job";
 import { Job } from "../../types/jobTypes";
+import { toggleJobModal } from "../../features/jobSlice";
+import { useDispatch } from "react-redux";
+import { setFilterSelectedJob } from "../../features/filterSlice";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -25,6 +28,7 @@ const DeleteConfirmModal = ({
   setOpen,
   job,
 }: DeleteConfirmModalProps): JSX.Element => {
+  const dispatch = useDispatch()
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
 
@@ -33,9 +37,11 @@ const DeleteConfirmModal = ({
   };
 
   const handleDelete = () => {
+    dispatch(setFilterSelectedJob(null));
+    dispatch(toggleJobModal(false));
     deleteJob({
-      jobId: job?.id || selectedJob?.job.id,
-      categoryId: job?.categoryId || selectedJob?.category.id,
+      jobId: job?.id || selectedJob?.job?.id,
+      categoryId: job?.categoryId || selectedJob?.category?.id,
       type: "delete",
     });
   };
@@ -65,7 +71,7 @@ const DeleteConfirmModal = ({
                 className={styles.DeleteMessage}
                 fontWeight="bold"
               >
-                {job?.title || selectedJob?.job.title}
+                {job?.title || selectedJob?.job?.title}
               </Typography>
               <Typography variant="body1" className={styles.DeleteMessage}>
                 ?

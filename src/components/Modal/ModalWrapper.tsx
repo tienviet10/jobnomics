@@ -31,9 +31,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    console.log("first")
     dispatch(setSelectedJob(aJob));
- 
   }, [aJob]);
 
   const handleToggleFavorite = () => {
