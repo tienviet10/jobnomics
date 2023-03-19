@@ -1,24 +1,18 @@
-import React, { useEffect } from "react";
+import React from "react";
 
-import { Draggable } from "react-beautiful-dnd";
-import type { RootState } from "../../../app/store";
-import { useDispatch, useSelector } from "react-redux";
-import Card from "@mui/material/Card/Card";
-
-import styles from "./JobItem.module.css";
-import { Avatar, Typography } from "@mui/material";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
-
-import {
-  useUpdateJobMutation,
-  useGetJobByIdQuery,
-} from "../../../app/services/job-api";
+import { useDispatch } from "react-redux";
 import {
   setModalId,
   toggleFavorite,
   toggleJobModal,
-  setSelectedJob,
 } from "../../../features/jobSlice";
+import { useUpdateJobMutation } from "../../../app/services/job-api";
+
+import { Draggable } from "react-beautiful-dnd";
+import styles from "./JobItem.module.css";
+import { Avatar, Typography, Card } from "@mui/material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+
 import { useGetAJob } from "../../../hooks/get-a-job";
 
 type JobItemProps = {
@@ -34,12 +28,12 @@ const JobItem = ({
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const { selectedJob, allCategories: jobState, modalState } = useGetAJob();
+  const { allCategories: jobState, modalState } = useGetAJob();
 
   const job = jobState[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
 
-  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
+  const [updateJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();

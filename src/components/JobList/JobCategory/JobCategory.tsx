@@ -2,15 +2,13 @@ import React, { useState } from "react";
 
 import type { RootState } from "../../../app/store";
 import { useSelector } from "react-redux";
-
-import { Droppable } from "react-beautiful-dnd";
-import JobItem from "../JobItem";
-import Paper from "@mui/material/Paper/Paper";
-import { Button, Typography } from "@mui/material";
-
 import { useAddJobMutation } from "../../../app/services/job-api";
 
+import { Droppable } from "react-beautiful-dnd";
+import { Button, Typography, Paper } from "@mui/material";
 import styles from "./JobCategory.module.css";
+
+import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
 import type { CategoryProps } from "../../../types/jobTypes";

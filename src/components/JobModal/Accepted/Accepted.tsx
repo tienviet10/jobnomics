@@ -1,14 +1,13 @@
-import React from 'react';
-import Typography from '@mui/material/Typography';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/store';
+import React from "react";
+
+import { Typography } from "@mui/material";
+
 import styles from "./AcceptedModal.module.css";
-import { Container } from '@mui/system';
-import { useGetAJob } from '../../../hooks/get-a-job';
-import { Skill } from '../../../types/jobTypes';
+import { Container } from "@mui/system";
+import { useGetAJob } from "../../../hooks/get-a-job";
 
 const Accepted = () => {
-  const {selectedJob, skills} = useGetAJob();
+  const { selectedJob, skills } = useGetAJob();
   return (
     <div className={styles.ModalBody}>
       <Typography variant="h5" className={styles.Congratulation}>
@@ -18,9 +17,7 @@ const Accepted = () => {
         To help you with the next steps, here are some resources to consider:
       </Typography>
       <Container className={styles.Suggestions}>
-        <Typography variant="body1">
-          1) Salary Negotiation Tips:
-        </Typography>
+        <Typography variant="body1">1) Salary Negotiation Tips:</Typography>
         <Typography variant="body1" className={styles.Link}>
           http://www.example.com
         </Typography>
@@ -37,12 +34,13 @@ const Accepted = () => {
           http://www.example.com
         </Typography>
       </Container>
-      {selectedJob?.job?.skills && <Typography variant="body2" className={styles.Skill}>
-        <strong>Required Skills:</strong> {skills}
-      </Typography>}
-
+      {selectedJob?.job?.skills && (
+        <Typography variant="body2" className={styles.Skill}>
+          <strong>Required Skills:</strong> {skills}
+        </Typography>
+      )}
     </div>
   );
 };
 
-export default Accepted;;
+export default Accepted;

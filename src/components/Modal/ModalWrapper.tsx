@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Typography, Modal, IconButton, Card } from "@mui/material";
+
 import {
   toggleFavorite,
   toggleJobModal,
@@ -7,9 +7,13 @@ import {
 } from "../../features/jobSlice";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 import { useDispatch } from "react-redux";
-import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
+
 import styles from "./ModalWrapper.module.css";
+import { Typography, Modal, IconButton, Card } from "@mui/material";
+import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
+
 import DeleteConfirmModal from "../DeleteConfirmModal";
+
 import { useGetAJob } from "../../hooks/get-a-job";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {

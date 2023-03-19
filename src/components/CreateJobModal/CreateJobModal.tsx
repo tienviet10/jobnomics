@@ -1,3 +1,10 @@
+import React, { useState, useEffect } from "react";
+
+import { useAddJobMutation } from "../../app/services/job-api";
+import type { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
+
+import styles from "./CreateJobModal.module.css";
 import {
   Card,
   IconButton,
@@ -6,13 +13,6 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useState, useEffect } from "react";
-
-import { useAddJobMutation } from "../../app/services/job-api";
-import type { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
-
-import styles from "./CreateJobModal.module.css";
 import { Close } from "@mui/icons-material";
 
 import { CreateJobModalPropType } from "../../types/jobTypes";
