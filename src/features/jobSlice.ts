@@ -114,6 +114,7 @@ export const jobSlice = createSlice({
       state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {
+      console.log(action.payload);
       state.selectedJob = action.payload;
     },
   },

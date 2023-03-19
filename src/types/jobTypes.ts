@@ -13,7 +13,7 @@ export type UserJobsType = {
   categoryOrder: string[];
   modal: {
     open: boolean;
-    jobCategoryId: { jobId: number; categoryId: number };
+    jobCategoryId: { jobId: number; categoryId: number; };
   };
   selectedJob: JobType;
 };
@@ -101,6 +101,7 @@ export type FilterStateType = {
   searchWord: string;
   displayArrayJobs: Job[];
   firstFetch: boolean;
+  selectedJob: Job | null;
 };
 
 type ListOfCategoriesType = {
