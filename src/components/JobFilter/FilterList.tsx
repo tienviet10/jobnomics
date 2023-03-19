@@ -23,9 +23,9 @@ import {
 } from "@mui/material";
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
-import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 import { setFilterSelectedJob } from "../../features/filterSlice";
+import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
@@ -34,10 +34,10 @@ const FilterList: React.FC<FilterListType> = ({
   const state = useSelector(
     (state: RootState) => state.filter
   );
-  const jobsList = state.displayArrayJobs;
-  const selectedJob = state.selectedJob;
+  const jobsList = state.displayArrayJobs
+  const selectedJob = state.selectedJob
+  console.log(selectedJob)
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [menuStates, setMenuStates] = useState<{
@@ -45,7 +45,6 @@ const FilterList: React.FC<FilterListType> = ({
   }>({});
 
   const handleDelete = (job: Job) => {
-    dispatch(setFilterSelectedJob(job));
     handleMenuClose(job)
     setOpenDeleteModal(true);
     // console.log(menuStates)
@@ -62,17 +61,18 @@ const FilterList: React.FC<FilterListType> = ({
     job: Job,
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    setMenuStates((prev) => ({
+    setMenuStates((prev) => {
+      dispatch(setFilterSelectedJob(job));
+      return {
       ...prev,
       [job.id]: {
         anchorEl: event.currentTarget,
         open: true,
       },
-    }));
+    }});
   };
 
   const handleMenuClose = (job: Job) => {
-    console.log(job)
     setMenuStates((prev) => ({
       ...prev,
       [job.id]: {
@@ -163,7 +163,7 @@ const FilterList: React.FC<FilterListType> = ({
             ))}
         </TableBody>
       </Table>
-      <DeleteConfirmModal
+      <FilterDeleteConfirmModal
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}
         job={selectedJob}

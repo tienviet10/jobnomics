@@ -11,10 +11,8 @@ import { useDispatch } from "react-redux";
 import styles from "./ModalWrapper.module.css";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
-
-import DeleteConfirmModal from "../DeleteConfirmModal";
-
 import { useGetAJob } from "../../hooks/get-a-job";
+import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -82,7 +80,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         </div>
         <div className={styles.ModalMain}>
           {children}
-          <DeleteConfirmModal
+          <DeleteJobConfirmModal
             open={openDeleteModal}
             setOpen={setOpenDeleteModal}
           />

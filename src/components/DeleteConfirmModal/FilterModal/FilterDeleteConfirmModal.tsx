@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 
-import styles from "./DeleteConfirmModal.module.css";
+import styles from "./FilterDeleteConfirmModal.module.css";
 import {
   Button,
   Card,
@@ -10,12 +10,11 @@ import {
   Typography,
 } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
-import { useUpdateJobMutation } from "../../app/services/job-api";
-import { useGetAJob } from "../../hooks/get-a-job";
-import { Job } from "../../types/jobTypes";
-import { toggleJobModal } from "../../features/jobSlice";
 import { useDispatch } from "react-redux";
-import { setFilterSelectedJob } from "../../features/filterSlice";
+import { Job } from "../../../types/jobTypes";
+import { useUpdateJobMutation } from "../../../app/services/job-api";
+import { setFilterSelectedJob } from "../../../features/filterSlice";
+import { toggleJobModal } from "../../../features/jobSlice";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -23,27 +22,27 @@ type DeleteConfirmModalProps = {
   job?: Job | null;
 };
 
-const DeleteConfirmModal = ({
+const FilterDeleteConfirmModal = ({
   open,
   setOpen,
   job,
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch()
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
-  const { selectedJob } = useGetAJob();
-
+  const [deletedJobTitle, setDeletedJobTitle] = useState<any>()
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleDelete = () => {
     dispatch(setFilterSelectedJob(null));
-    dispatch(toggleJobModal(false));
+    setDeletedJobTitle(job?.title)
     deleteJob({
-      jobId: job?.id || selectedJob?.job?.id,
-      categoryId: job?.categoryId || selectedJob?.category?.id,
+      jobId: job?.id,
+      categoryId: job?.categoryId,
       type: "delete",
     });
+    dispatch(toggleJobModal(false));
   };
 
   return (
@@ -56,7 +55,7 @@ const DeleteConfirmModal = ({
         <IconButton onClick={handleClose} className={styles.CloseButton}>
           <CloseRounded fontSize="medium" />
         </IconButton>
-        {!isLoading && !isSuccess && !isError && (
+        {job && !isLoading && !isError && (
           <section className={styles.DeleteConfirmModalMain}>
             <div className={styles.DeleteMessageContainer}>
               <Typography
@@ -71,7 +70,7 @@ const DeleteConfirmModal = ({
                 className={styles.DeleteMessage}
                 fontWeight="bold"
               >
-                {job?.title || selectedJob?.job?.title}
+                {job?.title}
               </Typography>
               <Typography variant="body1" className={styles.DeleteMessage}>
                 ?
@@ -98,8 +97,8 @@ const DeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {isLoading && <CircularProgress />}
-        {isSuccess && (
+        { isLoading && <CircularProgress />}
+        {!job && isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>
               The job
@@ -107,7 +106,7 @@ const DeleteConfirmModal = ({
                 fontWeight="bold"
                 sx={{ display: "inline-block", padding: "0 3px" }}
               >
-                {job?.title || selectedJob?.job.title}
+                {deletedJobTitle}
               </Typography>
               was successfully deleted!
             </Typography>
@@ -121,7 +120,7 @@ const DeleteConfirmModal = ({
                 fontWeight="bold"
                 sx={{ display: "inline-block", padding: "0 3px" }}
               >
-                {job?.title || selectedJob?.job.title}
+                {job?.title}
               </Typography>
               could not be deleted. Please try again.
             </Typography>
@@ -132,4 +131,4 @@ const DeleteConfirmModal = ({
   );
 };
 
-export default DeleteConfirmModal;
+export default FilterDeleteConfirmModal;
