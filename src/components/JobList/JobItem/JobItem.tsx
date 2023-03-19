@@ -19,6 +19,7 @@ import {
   toggleJobModal,
   setSelectedJob,
 } from "../../../features/jobSlice";
+import { useGetAJob } from "../../../hooks/get-a-job";
 
 type JobItemProps = {
   draggableId: string;
@@ -33,10 +34,7 @@ const JobItem = ({
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
 
-  const modalState = useSelector((state: RootState) => state.job.modal);
-  const jobState = useSelector((state: RootState) => state.job.categories);
-  const categories = useSelector((state: RootState) => state.job.categoryOrder);
-  const selectedJob = useSelector((state: RootState) => state.job.selectedJob);
+  const { selectedJob, allCategories: jobState, modalState } = useGetAJob();
 
   const job = jobState[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
@@ -46,12 +44,10 @@ const JobItem = ({
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const body = {
-      userId: 1,
       jobId: id,
       categoryId: jobState[category].id,
       favorite: !isFavorite,
       interviewDate: null,
-      checklists: selectedJob.checklists,
       type: "update",
     };
     dispatch(toggleFavorite([category, id, !isFavorite]));
@@ -59,10 +55,10 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    dispatch(toggleJobModal(!modalState.open));
-    dispatch(
-      setModalId({ userId: 1, jobId: id, categoryId: jobState[category].id })
-    );
+    dispatch(setModalId({ jobId: id, categoryId: jobState[category].id }));
+    setTimeout(() => {
+      dispatch(toggleJobModal(!modalState.open));
+    }, 60);
   };
 
   return (

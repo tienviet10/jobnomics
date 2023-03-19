@@ -1,22 +1,22 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { Typography, Modal, IconButton, Card } from "@mui/material";
 import {
   toggleFavorite,
   toggleJobModal,
   setSelectedJob,
 } from "../../features/jobSlice";
-import {
-  useUpdateJobMutation,
-} from "../../app/services/job-api";
+import { useUpdateJobMutation } from "../../app/services/job-api";
 import { useDispatch } from "react-redux";
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import styles from "./ModalWrapper.module.css";
+import DeleteConfirmModal from "../DeleteConfirmModal";
 import { useGetAJob } from "../../hooks/get-a-job";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState} = useGetAJob();
+  const { aJob, selectedJob, jobId, categoryId, modalState } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -29,10 +29,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     dispatch(setSelectedJob(aJob));
   }, [aJob]);
- 
+
   const handleToggleFavorite = () => {
     const body = {
-      userId: 1,
       jobId,
       categoryId,
       favorite: !selectedJob.isFavorite,
@@ -48,6 +47,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         !selectedJob.isFavorite,
       ])
     );
+  };
+
+  const handleOpenDeleteConfirmationModal = () => {
+    setOpenDeleteModal((prev) => !prev);
   };
 
   return selectedJob ? (
@@ -73,7 +76,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
             </Typography>
           </div>
         </div>
-        <div className={styles.ModalMain}>{children}</div>
+        <div className={styles.ModalMain}>
+          {children}
+          <DeleteConfirmModal
+            open={openDeleteModal}
+            setOpen={setOpenDeleteModal}
+          />
+        </div>
         <div className={styles.ModalFooter}>
           <IconButton className={styles.Button} onClick={handleToggleFavorite}>
             <Typography className={styles.ButtonText}>Favorite</Typography>
@@ -83,7 +92,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
               <FavoriteBorder fontSize="medium" />
             )}
           </IconButton>
-          <IconButton className={styles.Button}>
+          <IconButton
+            className={styles.Button}
+            onClick={handleOpenDeleteConfirmationModal}
+          >
             <Typography className={styles.ButtonText}>Delete</Typography>
             <Delete fontSize="medium" />
           </IconButton>

@@ -1,0 +1,61 @@
+.DeleteConfirmModalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.DeleteConfirmModal {
+  height: 40vmin;
+  width: 70vw;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.CloseButton {
+  align-self: flex-end;
+}
+
+.DeleteConfirmModalMain {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-bottom: 15px;
+}
+
+.DeleteMessageContainer {
+  text-align: center;
+}
+
+.DeleteMessage {
+  display: inline-block;
+}
+
+.DeleteConfirmButtons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.Button {
+  flex: 1;
+}
+
+.Button:first-child {
+  margin-right: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .DeleteConfirmModal {
+    height: 300px;
+    width: 500px;
+  }
+}
