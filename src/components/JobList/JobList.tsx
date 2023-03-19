@@ -1,4 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { io } from "socket.io-client";
 
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +22,9 @@ import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
+  const socket = io("http://localhost:8080", {
+    withCredentials: true,
+  });
 
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
@@ -31,6 +36,8 @@ const JobList = (): JSX.Element => {
   );
 
   const { data, error, isLoading } = useGetAllJobsQuery();
+
+  const [jobsArray, setJobsArray] = useState(data);
   const [
     updateJobs,
     { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
@@ -43,6 +50,26 @@ const JobList = (): JSX.Element => {
     addChecklists,
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
   ] = useAddChecklistsMutation();
+
+  useEffect(() => {
+    const onConnect = () => {
+      console.log("Connected!");
+    };
+
+    const onAddJob = (data: any) => {
+      console.log(data);
+      setJobsArray(data);
+    };
+
+    socket.on("connect", onConnect);
+
+    socket.on("add-job", onAddJob);
+
+    return () => {
+      socket.off("connect", onConnect);
+      socket.off("add-job", onAddJob);
+    };
+  }, [jobsArray]);
 
   useEffect(() => {
     if (data) {
