@@ -11,7 +11,7 @@ export function useGetAJob(): any {
   const selectedJob = state.selectedJob;
 
   const { userId, jobId, categoryId } = modalState.userJobId;
-  const { data: aJob, refetch, error, isLoading } = useGetJobByIdQuery({
+  const { data: aJob, error, isLoading } = useGetJobByIdQuery({
     userId,
     jobId,
     categoryId,
@@ -22,7 +22,6 @@ export function useGetAJob(): any {
   return {
     selectedJob,
     aJob,
-    refetch,
     modalState,
     error,
     isLoading,
