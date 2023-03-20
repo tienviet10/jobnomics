@@ -1,5 +1,11 @@
 import React from "react";
-import { useUpdateJobMutation } from "../../../app/services/job-api";
+import { useGetAllJobsQuery, useUpdateJobMutation, useUpdateJobsMutation } from "../../../app/services/job-api";
+// import React, { useEffect } from "react";
+
+// import {
+//   useUpdateJobMutation,
+//   useUpdateJobsMutation,
+// } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 
 import styles from "./JobDeleteConfirmModal.module.css";
@@ -28,9 +34,13 @@ const JobDeleteConfirmModal = ({
   setOpen,
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
+  const { data } = useGetAllJobsQuery();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
-  
+  const [
+    updateJobs,
+  ] = useUpdateJobsMutation();
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -41,12 +51,49 @@ const JobDeleteConfirmModal = ({
       categoryId: selectedJob?.category.id,
       type: "delete",
     });
+    const currentJob = data[selectedJob?.category.name].jobs;
+    const allJobsWithinCategory = [];
+    const updatedJobs = [];
+    for (const index in currentJob) {
+      console.log(currentJob[index])
+      const newPosition = currentJob[index].position - 1;
+      if (index < selectedJob?.position) {
+        allJobsWithinCategory.push({...currentJob[index]})
+      } else if (index > selectedJob?.position){
+        allJobsWithinCategory.push({...currentJob[index], position: newPosition})
+      }
 
-    setTimeout(()=>{
-      dispatch(setSelectedJob(null))
+      if (index > selectedJob?.position){
+        updatedJobs.push({
+          jobId: currentJob[index].id,
+          categoryId: selectedJob?.category.id,
+          newCategoryId: selectedJob?.category.id,
+          position: newPosition,
+        })
+      }
+    }
+
+    const newState = {
+      ...data,
+      [selectedJob?.category?.name]: {...data[selectedJob?.category.name] ,jobs:allJobsWithinCategory}
+    };
+
+    console.log("updatedJobs", updatedJobs)
+    console.log("newState", newState)
+  
+    const body = {
+      jobUpdates: updatedJobs,
+      newState,
+      type: "update",
+    };
+
+    await updateJobs(body);
+
+    setTimeout(() => {
+      dispatch(setSelectedJob(null));
       setOpen(false);
       dispatch(toggleJobModal(false));
-    }, 3000)
+    }, 3000);
   };
   return (
     <Modal

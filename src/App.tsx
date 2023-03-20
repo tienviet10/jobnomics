@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import "./App.css";
 
@@ -11,6 +11,7 @@ import { security } from "./components/auth/GlobalAuth";
 import Home from "./pages/Home/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
@@ -19,6 +20,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -27,8 +29,7 @@ function App() {
           />
           <Route
             path="/job"
-            element={<JobPage />}
-            // element={<AuthenticationGuard component={JobPage} />}
+            element={<AuthenticationGuard component={JobPage} />}
           />
           <Route path="*" element={<Home />} />
         </Routes>
