@@ -107,7 +107,6 @@ const NavBar = () => {
     });
   }
 
-  console.log(user);
   return (
     <AppBar position="fixed">
       <Container maxWidth="xl">
