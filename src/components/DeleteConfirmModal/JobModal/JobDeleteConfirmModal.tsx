@@ -78,7 +78,7 @@ const JobDeleteConfirmModal = ({
                 className={styles.DeleteMessage}
                 fontWeight="bold"
               >
-                {selectedJob?.job.title}
+                {selectedJob?.job?.title}
               </Typography>
               <Typography variant="body1" className={styles.DeleteMessage}>
                 ?
@@ -114,7 +114,7 @@ const JobDeleteConfirmModal = ({
                 fontWeight="bold"
                 sx={{ display: "inline-block", padding: "0 3px" }}
               >
-                {selectedJob?.job.title}
+                {selectedJob?.job?.title}
               </Typography>
               was successfully deleted!
             </Typography>
@@ -128,7 +128,7 @@ const JobDeleteConfirmModal = ({
                 fontWeight="bold"
                 sx={{ display: "inline-block", padding: "0 3px" }}
               >
-                {selectedJob?.job.title}
+                {selectedJob?.job?.title}
               </Typography>
               could not be deleted. Please try again.
             </Typography>
