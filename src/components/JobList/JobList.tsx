@@ -30,7 +30,7 @@ const JobList = (): JSX.Element => {
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
   );
-  const jobState = useSelector((state: RootState) => state.job.categories);
+  // const jobState = useSelector((state: RootState) => state.job.categories);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
   const [
@@ -47,14 +47,14 @@ const JobList = (): JSX.Element => {
 
   useEffect(() => {
     if (data) {
-      const newState = JSON.parse(JSON.stringify(data));
-      for (const category of Object.values<categoriesType>(newState)) {
-        category.jobs?.sort(
-          (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
-        );
-      }
+      // const newState = JSON.parse(JSON.stringify(data));
+      // for (const category of Object.values<categoriesType>(newState)) {
+      //   category.jobs?.sort(
+      //     (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
+      //   );
+      // }
 
-      dispatch(updateColumns(newState));
+      dispatch(updateColumns(data));
     }
   }, [data]);
 
@@ -74,8 +74,8 @@ const JobList = (): JSX.Element => {
     const destinationCategory =
       jobCategories[Number(destination.droppableId) - 1];
 
-    const startColumn = jobState[sourceCategory];
-    const endColumn = jobState[destinationCategory];
+    const startColumn = data[sourceCategory];
+    const endColumn = data[destinationCategory];
 
     if (startColumn === endColumn) {
       // Moving within the same column
@@ -111,16 +111,15 @@ const JobList = (): JSX.Element => {
       };
 
       const newState = {
-        ...jobState,
+        ...data,
         [sourceCategory]: newColumn,
       };
-
-      dispatch(updateColumns(newState));
+      // dispatch(updateColumns(newState));
 
       const updatedJobs = newJobs.map(
         (job: { id: number; position: number }, index: number) => {
           return {
-            jobId: job.id,
+            jobId: job?.id,
             categoryId: Number(source.droppableId),
             newCategoryId: Number(destination.droppableId),
             position: job.position,
@@ -130,9 +129,10 @@ const JobList = (): JSX.Element => {
 
       const body = {
         jobUpdates: updatedJobs,
+        newState,
         type: "update",
       };
-      // console.log(body);
+
       updateJobs(body);
 
       return;
@@ -178,20 +178,20 @@ const JobList = (): JSX.Element => {
     };
 
     const newState = {
-      ...jobState,
+      ...data,
       [sourceCategory]: newStartColumn,
       [destinationCategory]: newEndColumn,
     };
 
-    dispatch(updateColumns(newState));
+    // dispatch(updateColumns(newState));
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
         return {
-          jobId: job.id,
+          jobId: job?.id,
           categoryId: Number(source.droppableId),
           newCategoryId: Number(source.droppableId),
-          position: job.position,
+          position: job?.position,
         };
       }
     );
@@ -201,17 +201,17 @@ const JobList = (): JSX.Element => {
         // console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
-            jobId: job.id,
+            jobId: job?.id,
             categoryId: Number(source.droppableId),
             newCategoryId: Number(destination.droppableId),
             position: job.position,
           };
         }
         return {
-          jobId: job.id,
+          jobId: job?.id,
           categoryId: Number(destination.droppableId),
           newCategoryId: Number(destination.droppableId),
-          position: job.position,
+          position: job?.position,
         };
       }
     );
@@ -224,17 +224,17 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
-      addChecklists({ jobId: removedJob.id });
+      addChecklists({ jobId: removedJob?.id });
     }
 
     if (destinationCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
-          jobId: removedJob.id,
+          jobId: removedJob?.id,
           categoryId: Number(destination?.droppableId),
         })
       );
-      addInterviewQuestions({ jobId: removedJob.id });
+      addInterviewQuestions({ jobId: removedJob?.id });
       dispatch(toggleInterviewedModal(true));
     }
   };
@@ -242,7 +242,7 @@ const JobList = (): JSX.Element => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Paper elevation={1} className={styles.JobBoard}>
-        {jobCategories?.map((category: string, index: number) => (
+        {data && Object.keys(data).map((category: string, index: number) => (
           <JobCategory key={index} category={category} />
         ))}
       </Paper>

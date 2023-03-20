@@ -5,6 +5,7 @@ import type {
   JobType,
   ResponseData,
   UserRequest,
+  Category,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -24,10 +25,12 @@ export const jobApi = createApi({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
       providesTags: ["allJobs"],
-      transformResponse: (response: { data: UserJobsType }, meta, arg) =>
-        response,
+      transformResponse: (response: { data: UserJobsType; }, meta, arg) => {
+        console.log(response);
+        return response;
+      },
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -36,9 +39,9 @@ export const jobApi = createApi({
       query: ({ jobId, categoryId }) => ({
         url: `job/${jobId}/${categoryId}`,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) => response,
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -52,10 +55,10 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -80,23 +83,71 @@ export const jobApi = createApi({
       },
     }),
     updateJobs: builder.mutation({
-      query: ({ ...patch }) => ({
-        url: "job",
-        method: "PATCH",
-        body: patch,
-      }),
-      invalidatesTags: ["allJobs"],
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      query: ({ ...patch }) => {
+        patch["newState"] = {};
+        return {
+          url: "job",
+          method: "PATCH",
+          body: patch,
+        };
+      },
+      // invalidatesTags: ["allJobs"],
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
-      async onQueryStarted(
-        arg,
-        { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+        // const patchResult = dispatch(
+        //   jobApi.util.updateQueryData('getAllJobs', id, (draft) => {
+        //     Object.assign(draft, patch)
+        //   })
+        // )
+        console.log(patch.newState);
+        // console.log(Object.values(patch.newState));
+        // const newCache: any = {};
+        // for (const val of Object.values(patch.newState)) {
+        //   if ((val as Category).jobs?.length > 0) {
+        //     newCache[(val as Category).category] = val;
+        //   }
+        // }
+        // console.log("newCache", newCache);
+        const patchResult = dispatch(
+          jobApi.util.updateQueryData('getAllJobs', undefined, (draft) => {
+            // for (const key in newCache) {
+            //   draft[key as string].jobs = newCache[key].jobs;
+            // }
+            // const keys = Object.keys(draft);
+            // console.log("keys", keys);
+            draft = patch.newState;
+            return draft;
+            // patch?.newState.map(())
+            // draft = patch?.newState;
+            // const categories = Object.keys(patch)
+
+            // Object.assign(draft, { "hello": "world" });
+
+
+            // console.log(JSON.stringify(draft));
+            // Object.assign(draft, patch);
+          })
+        );
+        try {
+          await queryFulfilled;
+          // const createdProject = await queryFulfilled;
+          // console.log("createdProject", createdProject);
+        } catch {
+          patchResult.undo();
+
+          /**
+           * Alternatively, on failure you can invalidate the corresponding cache tags
+           * to trigger a re-fetch:
+           * dispatch(api.util.invalidateTags(['Post']))
+           */
+        }
+      },
     }),
     updateJob: builder.mutation({
       query: ({ id, ...patch }) => ({
@@ -104,10 +155,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -115,7 +166,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     updateChecklist: builder.mutation({
       query: ({ ...patch }) => ({
@@ -123,10 +174,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -134,7 +185,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     updateNote: builder.mutation({
       query: ({ ...patch }) => ({
@@ -142,10 +193,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -153,7 +204,7 @@ export const jobApi = createApi({
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) {},
+      ) { },
     }),
     filterJob: builder.mutation<any, UserRequest>({
       query(body) {
@@ -163,10 +214,10 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: ResponseData }, meta, arg) =>
+      transformResponse: (response: { data: ResponseData; }, meta, arg) =>
         response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -185,9 +236,9 @@ export const jobApi = createApi({
         body: patch,
       }),
       invalidatesTags: ["aJob"],
-      transformResponse: (response: { message: string }, meta, arg) => response,
+      transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,

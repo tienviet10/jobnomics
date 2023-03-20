@@ -39,7 +39,7 @@ const JobItem = ({
     event.preventDefault();
     const body = {
       jobId: id,
-      categoryId: jobState[category].id,
+      categoryId: jobState[category]?.id,
       favorite: !isFavorite,
       interviewDate: null,
       type: "update",
@@ -49,7 +49,7 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    dispatch(setModalId({ jobId: id, categoryId: jobState[category].id }));
+    dispatch(setModalId({ jobId: id, categoryId: jobState[category]?.id }));
     setTimeout(() => {
       dispatch(toggleJobModal(!modalState.open));
     }, 60);
