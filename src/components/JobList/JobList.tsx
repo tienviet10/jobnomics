@@ -30,20 +30,14 @@ const JobList = (): JSX.Element => {
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
   );
-
   const jobState = useSelector((state: RootState) => state.job.categories);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
-
-  const [jobsArray, setJobsArray] = useState(data);
   const [
     updateJobs,
     { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
   ] = useUpdateJobsMutation();
-  const [
-    updateJob,
-    { isLoading: isUpdateJobUpdating, isSuccess: isUpdateJobSuccess },
-  ] = useUpdateJobMutation();
+
   const [
     addChecklists,
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
@@ -92,10 +86,10 @@ const JobList = (): JSX.Element => {
       newJobs.forEach((job: { position: number }, index: number) => {
         if (
           source.index < destination.index &&
-          index > source.index &&
-          index <= destination.index
+          index >= source.index &&
+          index < destination.index
         ) {
-          job.position = index - 1;
+          job.position = index;
         }
         if (
           source.index > destination.index &&
@@ -230,18 +224,18 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
+      addChecklists({ jobId: removedJob.id });
+    }
+
+    if (destinationCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
           jobId: removedJob.id,
           categoryId: Number(destination?.droppableId),
         })
       );
-      addChecklists({ jobId: removedJob.id });
-      dispatch(toggleInterviewedModal(true));
-    }
-
-    if (destinationCategory === "Interviewing") {
       addInterviewQuestions({ jobId: removedJob.id });
+      dispatch(toggleInterviewedModal(true));
     }
   };
 
