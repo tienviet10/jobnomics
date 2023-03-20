@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 
-import { useUpdateJobMutation } from "../../../app/services/job-api";
+import {
+  useUpdateJobMutation,
+  useUpdateJobsMutation,
+} from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 
 import styles from "./JobDeleteConfirmModal.module.css";
@@ -30,7 +33,11 @@ const JobDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
-  const { selectedJob } = useGetAJob();
+  const [
+    updateJobs,
+    { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
+  ] = useUpdateJobsMutation();
+  const { selectedJob, allCategories } = useGetAJob();
 
   useEffect(() => {
     if (isSuccess || isError) {
@@ -38,6 +45,29 @@ const JobDeleteConfirmModal = ({
         setOpen(false);
         dispatch(toggleJobModal(false));
       }, 3000);
+    }
+
+    if (isSuccess && !isError) {
+      const affectedJobs = JSON.parse(
+        JSON.stringify(allCategories[selectedJob?.category.name].jobs)
+      ).splice(selectedJob?.position);
+      const updatedJobs = affectedJobs.map(
+        (job: { id: number; position: number }) => {
+          return {
+            jobId: job.id,
+            categoryId: selectedJob?.category.id,
+            newCategoryId: selectedJob?.category.id,
+            position: job.position - 1,
+          };
+        }
+      );
+
+      const body = {
+        jobUpdates: updatedJobs,
+        type: "update",
+      };
+
+      updateJobs(body);
     }
   }, [isSuccess, isError]);
 

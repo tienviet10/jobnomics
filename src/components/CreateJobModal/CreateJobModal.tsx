@@ -41,7 +41,6 @@ const CreateJobModal = ({
 
   const handleClose = () => {
     setOpen(false);
-    setValue("");
   };
 
   useEffect(() => {

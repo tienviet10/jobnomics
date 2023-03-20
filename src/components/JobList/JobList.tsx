@@ -54,6 +54,7 @@ const JobList = (): JSX.Element => {
         );
       }
 
+      console.log(newState);
       dispatch(updateColumns(newState));
     }
   }, [data]);
@@ -183,6 +184,7 @@ const JobList = (): JSX.Element => {
       [destinationCategory]: newEndColumn,
     };
 
+    console.log(newState);
     dispatch(updateColumns(newState));
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
