@@ -1,15 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { Camera } from "@mui/icons-material";
-import {
-  AppBar,
-  CssBaseline,
-  Toolbar,
-  Typography,
-  Container,
-  Box,
-} from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import { Container, Box } from "@mui/material";
 import styles from "./Filter.module.css";
 
 import FilterList from "../../components/JobFilter";
@@ -19,40 +11,26 @@ import DrawerComponent from "../../components/JobFilter/drawer";
 import JobModal from "../../components/JobModal";
 import { useManageSearchPage } from "./manage-search-page";
 
-const theme = createTheme();
-
 const SearchPage = () => {
   const { updateCategoryFilter, logout, sentFilterRequest } =
     useManageSearchPage();
 
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppBar position="relative">
-        <Toolbar>
-          <Camera sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Search Page
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <main>
-        <Container maxWidth="md">
-          <Box className={styles.Filter}>
-            <DrawerComponent
-              updateCategoryFilter={updateCategoryFilter}
-              sentFilterRequest={sentFilterRequest}
-            />
-            <SearchBar />
-          </Box>
-          <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-          <FilterList sentFilterRequest={sentFilterRequest} />
-        </Container>
-      </main>
+    <main>
+      <Container maxWidth="md">
+        <Box className={styles.Filter}>
+          <DrawerComponent
+            updateCategoryFilter={updateCategoryFilter}
+            sentFilterRequest={sentFilterRequest}
+          />
+          <SearchBar />
+        </Box>
+        <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
+        <FilterList sentFilterRequest={sentFilterRequest} />
+      </Container>
       <button onClick={() => logout()}>Logout</button>
       <JobModal />
-    </ThemeProvider>
+    </main>
   );
 };
 

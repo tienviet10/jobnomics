@@ -74,6 +74,14 @@ const CreateJobModal = ({
     };
   }, [isSuccess]);
 
+  // useState(()=>{
+  //   // ...
+  //   // receive data
+  //   // -> put -> update the bookmarked last index
+  //   // ...
+  //   // ...
+  // },[])
+
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
