@@ -118,7 +118,7 @@ const InterviewedView = (): JSX.Element => {
     setNote(event.target.value);
   };
 
-  const handleSaveNote = () => {
+  const handleSaveNote = async () => {
     console.log({
       note,
       jobId: selectedJob.job.id,
