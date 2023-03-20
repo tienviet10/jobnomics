@@ -142,7 +142,8 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["filterJob"],
+      //TODO: Favorite needs allJobs to refresh to make it live -> maybe can get rid of it somehow
+      invalidatesTags: ["allJobs", "filterJob"],
     }),
     updateChecklist: builder.mutation({
       query: ({ ...patch }) => ({
