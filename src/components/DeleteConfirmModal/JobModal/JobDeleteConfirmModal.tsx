@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { useUpdateJobMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
@@ -16,7 +16,7 @@ import { CloseRounded } from "@mui/icons-material";
 
 import { Job } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
-import { toggleJobModal } from "../../../features/jobSlice";
+import { setSelectedJob, toggleJobModal } from "../../../features/jobSlice";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -31,28 +31,24 @@ const JobDeleteConfirmModal = ({
   const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
-
-  useEffect(() => {
-    if (isSuccess || isError) {
-      setTimeout(() => {
-        setOpen(false);
-        dispatch(toggleJobModal(false));
-      }, 3000);
-    }
-  }, [isSuccess, isError]);
-
+  // const [state, setState] = useState("confirm");
+  const state = useRef("confirm")
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleDelete = () => {
-    deleteJob({
+  const handleDelete = async () => {
+    state.current = "delete"
+    // dispatch(setSelectedJob(null))
+    const res = await deleteJob({
       jobId: selectedJob?.job.id,
       categoryId: selectedJob?.category.id,
       type: "delete",
     });
+    console.log("res",res)
+    
   };
-
+  console.log(state.current)
   return (
     <Modal
       open={open}
@@ -63,7 +59,7 @@ const JobDeleteConfirmModal = ({
         <IconButton onClick={handleClose} className={styles.CloseButton}>
           <CloseRounded fontSize="medium" />
         </IconButton>
-        {!isLoading && !isSuccess && !isError && (
+        {state.current === "confirm" && (
           <section className={styles.DeleteConfirmModalMain}>
             <div className={styles.DeleteMessageContainer}>
               <Typography
@@ -105,8 +101,8 @@ const JobDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {isLoading && <CircularProgress />}
-        {isSuccess && (
+        {state.current === "loading" && <CircularProgress />}
+        {state.current === "delete" && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>
               The job
@@ -120,7 +116,7 @@ const JobDeleteConfirmModal = ({
             </Typography>
           </section>
         )}
-        {isError && (
+        {/* {isError && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>
               The job
@@ -133,7 +129,7 @@ const JobDeleteConfirmModal = ({
               could not be deleted. Please try again.
             </Typography>
           </section>
-        )}
+        )} */}
       </Card>
     </Modal>
   );

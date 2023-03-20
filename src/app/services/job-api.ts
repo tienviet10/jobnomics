@@ -5,7 +5,6 @@ import type {
   JobType,
   ResponseData,
   UserRequest,
-  Category,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -105,39 +104,16 @@ export const jobApi = createApi({
         //     Object.assign(draft, patch)
         //   })
         // )
-        console.log(patch.newState);
-        // console.log(Object.values(patch.newState));
-        // const newCache: any = {};
-        // for (const val of Object.values(patch.newState)) {
-        //   if ((val as Category).jobs?.length > 0) {
-        //     newCache[(val as Category).category] = val;
-        //   }
-        // }
-        // console.log("newCache", newCache);
+        // console.log(patch.newState);
+
         const patchResult = dispatch(
           jobApi.util.updateQueryData('getAllJobs', undefined, (draft) => {
-            // for (const key in newCache) {
-            //   draft[key as string].jobs = newCache[key].jobs;
-            // }
-            // const keys = Object.keys(draft);
-            // console.log("keys", keys);
             draft = patch.newState;
             return draft;
-            // patch?.newState.map(())
-            // draft = patch?.newState;
-            // const categories = Object.keys(patch)
-
-            // Object.assign(draft, { "hello": "world" });
-
-
-            // console.log(JSON.stringify(draft));
-            // Object.assign(draft, patch);
           })
         );
         try {
           await queryFulfilled;
-          // const createdProject = await queryFulfilled;
-          // console.log("createdProject", createdProject);
         } catch {
           patchResult.undo();
 
@@ -150,23 +126,24 @@ export const jobApi = createApi({
       },
     }),
     updateJob: builder.mutation({
-      query: ({ id, ...patch }) => ({
-        url: "job/user-job",
-        method: "PATCH",
-        body: patch,
-      }),
-      transformResponse: (response: { data: JobType; }, meta, arg) =>
-        response.data,
+      query: ({ id, ...patch }) => {
+        console.log("patch", patch);
+        return {
+          url: "job/user-job",
+          method: "PATCH",
+          body: patch,
+        };
+      },
+      transformResponse: (response: { data: JobType; }, meta, arg) => {
+        console.log(response);
+        return response;
+      },
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob", "allJobs", "filterJob"],
-      async onQueryStarted(
-        arg,
-        { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
-      ) { },
+      invalidatesTags: ["allJobs", "filterJob"],
     }),
     updateChecklist: builder.mutation({
       query: ({ ...patch }) => ({

@@ -3,13 +3,6 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
 export type UserJobsType = {
-  categories: {
-    [key: string]: {
-      category: string;
-      id: number;
-      jobs: JobPreviewType[] | [];
-    };
-  };
   categoryOrder: string[];
   modal: ModalType;
   interviewModal: ModalType;

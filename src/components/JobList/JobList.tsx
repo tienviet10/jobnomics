@@ -1,19 +1,14 @@
-import React, { useEffect, useState } from "react";
-
-import { io } from "socket.io-client";
-
+import React from "react";
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setInterviewedModalId,
   toggleInterviewedModal,
-  updateColumns,
 } from "../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
   useUpdateJobsMutation,
-  useUpdateJobMutation,
   useAddInterviewQuestionsMutation,
 } from "../../app/services/job-api";
 
@@ -22,41 +17,19 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
 
 import JobCategory from "./JobCategory";
-import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
+import type { JobPreviewType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
-
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
   );
-  // const jobState = useSelector((state: RootState) => state.job.categories);
 
   const { data, error, isLoading } = useGetAllJobsQuery();
-  const [
-    updateJobs,
-    { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
-  ] = useUpdateJobsMutation();
+  const [updateJobs] = useUpdateJobsMutation();
 
-  const [
-    addChecklists,
-    { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
-  ] = useAddChecklistsMutation();
-
+  const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions] = useAddInterviewQuestionsMutation();
-
-  useEffect(() => {
-    if (data) {
-      // const newState = JSON.parse(JSON.stringify(data));
-      // for (const category of Object.values<categoriesType>(newState)) {
-      //   category.jobs?.sort(
-      //     (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
-      //   );
-      // }
-
-      dispatch(updateColumns(data));
-    }
-  }, [data]);
 
   const handleOnDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -104,7 +77,7 @@ const JobList = (): JSX.Element => {
       newJobs.sort(
         (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
       );
-      // console.log(newJobs);
+
       const newColumn = {
         ...startColumn,
         jobs: newJobs,
@@ -114,7 +87,6 @@ const JobList = (): JSX.Element => {
         ...data,
         [sourceCategory]: newColumn,
       };
-      // dispatch(updateColumns(newState));
 
       const updatedJobs = newJobs.map(
         (job: { id: number; position: number }, index: number) => {
@@ -183,8 +155,6 @@ const JobList = (): JSX.Element => {
       [destinationCategory]: newEndColumn,
     };
 
-    // dispatch(updateColumns(newState));
-
     const updatedJobsInSource = startColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
         return {
@@ -198,7 +168,6 @@ const JobList = (): JSX.Element => {
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
-        // console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
             jobId: job?.id,
@@ -218,6 +187,7 @@ const JobList = (): JSX.Element => {
 
     const body = {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
+      newState,
       type: "update",
     };
 
@@ -242,6 +212,7 @@ const JobList = (): JSX.Element => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Paper elevation={1} className={styles.JobBoard}>
+        {isLoading && <div>Knock Knock</div>}
         {data && Object.keys(data).map((category: string, index: number) => (
           <JobCategory key={index} category={category} />
         ))}

@@ -17,8 +17,8 @@ import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
-  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState, isLoading} = useGetAJob();
+  const [updateJob] = useUpdateJobMutation();
+  const {aJob, selectedJob, jobId, categoryId, modalState, isFetching} = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -38,7 +38,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       categoryId,
       favorite: !selectedJob.isFavorite,
       interviewDate: selectedJob.interviewDate,
-      checklists: selectedJob.checklists,
       type: "update",
     };
     updateJob(body);
@@ -55,7 +54,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     setOpenDeleteModal((prev) => !prev);
   };
 
-  return selectedJob ? (
+  return selectedJob && !isFetching ? (
     <Modal
       open={modalState.open}
       onClose={handleClose}
