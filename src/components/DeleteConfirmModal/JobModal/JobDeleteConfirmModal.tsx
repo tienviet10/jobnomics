@@ -1,5 +1,5 @@
 import React from "react";
-import { useGetAllJobsQuery, useUpdateJobMutation, useUpdateJobsMutation } from "../../../app/services/job-api";
+import { useGetAllJobsQuery, useUpdateJobsMutation } from "../../../app/services/job-api";
 // import React, { useEffect } from "react";
 
 // import {
@@ -35,10 +35,9 @@ const JobDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const { data } = useGetAllJobsQuery();
-  const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
   const [
-    updateJobs,
+    updateJobs, {isError, isLoading, isSuccess}
   ] = useUpdateJobsMutation();
 
   const handleClose = () => {
@@ -46,29 +45,35 @@ const JobDeleteConfirmModal = ({
   };
 
   const handleDelete = async () => {
-    await deleteJob({
-      jobId: selectedJob?.job.id,
-      categoryId: selectedJob?.category.id,
-      type: "delete",
-    });
     const currentJob = data[selectedJob?.category.name].jobs;
     const allJobsWithinCategory = [];
     const updatedJobs = [];
+
     for (const index in currentJob) {
-      console.log(currentJob[index])
       const newPosition = currentJob[index].position - 1;
-      if (index < selectedJob?.position) {
+      if (Number(index) < selectedJob?.position) {
         allJobsWithinCategory.push({...currentJob[index]})
       } else if (index > selectedJob?.position){
         allJobsWithinCategory.push({...currentJob[index], position: newPosition})
       }
 
-      if (index > selectedJob?.position){
+      if (Number(index) > selectedJob?.position){
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,
           newCategoryId: selectedJob?.category.id,
           position: newPosition,
+          isDeleted: false
+        })
+      }
+
+      if (Number(index) === selectedJob?.position) {
+        updatedJobs.push({
+          jobId: currentJob[index].id,
+          categoryId: selectedJob?.category.id,
+          newCategoryId: selectedJob?.category.id,
+          position: -1,
+          isDeleted: true
         })
       }
     }
@@ -77,9 +82,6 @@ const JobDeleteConfirmModal = ({
       ...data,
       [selectedJob?.category?.name]: {...data[selectedJob?.category.name] ,jobs:allJobsWithinCategory}
     };
-
-    console.log("updatedJobs", updatedJobs)
-    console.log("newState", newState)
   
     const body = {
       jobUpdates: updatedJobs,
@@ -162,7 +164,7 @@ const JobDeleteConfirmModal = ({
             </Typography>
           </section>
         )}
-        {/* {isError && (
+        {isError && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>
               The job
@@ -175,7 +177,7 @@ const JobDeleteConfirmModal = ({
               could not be deleted. Please try again.
             </Typography>
           </section>
-        )} */}
+        )}
       </Card>
     </Modal>
   );

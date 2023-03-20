@@ -23,6 +23,11 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
+      // Pess:
+      // FE display info -> User update the info, FE send request to BE -> FE invalidate cache to get the new update -> FE displays to user
+
+      // Optimistic Update:
+      //  FE display info -> User update the info, display the new INFO to user through MANIPULATING CURRENT CACHE -> FE send request to BE -> FE Get the response -> RTK will compare between these 2 cache to see if they are the same, override with the new response if they are different
       providesTags: ["allJobs"],
       transformResponse: (response: { data: UserJobsType; }, meta, arg) => response,
       transformErrorResponse: (
@@ -95,7 +100,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      async onQueryStarted({ id, ...patch }, { dispatch, queryFulfilled }) {
+      async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
         // const patchResult = dispatch(
         //   jobApi.util.updateQueryData('getAllJobs', id, (draft) => {
         //     Object.assign(draft, patch)
@@ -104,11 +109,12 @@ export const jobApi = createApi({
         // console.log(patch.newState);
 
         const patchResult = dispatch(
-          jobApi.util.updateQueryData('getAllJobs', undefined, (draft) => {
-            draft = patch.newState;
-            return draft;
+          jobApi.util.updateQueryData('getAllJobs', undefined, (allJobsDraft) => {
+            allJobsDraft = patch.newState;
+            return allJobsDraft;
           })
         );
+
         try {
           await queryFulfilled;
         } catch {
@@ -136,7 +142,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["allJobs", "filterJob"],
+      invalidatesTags: ["filterJob"],
     }),
     updateChecklist: builder.mutation({
       query: ({ ...patch }) => ({
@@ -170,7 +176,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob"],
+      // invalidatesTags: ["aJob"],
       async onQueryStarted(
         arg,
         { dispatch, getState, queryFulfilled, requestId, extra, getCacheEntry }
