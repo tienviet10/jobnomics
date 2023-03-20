@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
-
 import { io } from "socket.io-client";
-
-import { useAddJobMutation } from "../../app/services/job-api";
-import type { RootState } from "../../app/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useAddJobMutation, useGetAllJobsQuery } from "../../app/services/job-api";
 
 import styles from "./CreateJobModal.module.css";
 import {
@@ -16,13 +12,9 @@ import {
   Button,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-
 import {
   CreateJobModalPropType,
-  JobPreviewType,
-  categoriesType,
 } from "../../types/jobTypes";
-import { updateColumns } from "../../features/jobSlice";
 
 const socket = io("http://localhost:8080", {
   withCredentials: true,
@@ -32,10 +24,8 @@ const CreateJobModal = ({
   open,
   setOpen,
 }: CreateJobModalPropType): JSX.Element => {
-  const dispatch = useDispatch();
   const [value, setValue] = useState<string>("");
-
-  const jobState = useSelector((state: RootState) => state.job.categories);
+  const { data: jobState, refetch } = useGetAllJobsQuery();
   const [addJob, { isLoading: isUpdating, isSuccess, isError }] =
     useAddJobMutation();
 
@@ -49,16 +39,7 @@ const CreateJobModal = ({
     };
 
     const onAddJob = (data: any) => {
-      if (data) {
-        const newState = JSON.parse(JSON.stringify(data));
-        for (const category of Object.values<categoriesType>(newState)) {
-          category.jobs?.sort(
-            (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
-          );
-        }
-
-        dispatch(updateColumns(newState));
-      }
+      refetch()
     };
 
     socket.on("connect", onConnect);
@@ -84,7 +65,6 @@ const CreateJobModal = ({
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
 
-    console.log(value);
     addJob({
       jobLink: value,
       position: jobState.Bookmarked.jobs.length,

@@ -1,23 +1,15 @@
 import React, { useState } from "react";
-
-import type { RootState } from "../../../app/store";
-import { useSelector } from "react-redux";
-import { useAddJobMutation } from "../../../app/services/job-api";
-
+import {useGetAllJobsQuery } from "../../../app/services/job-api";
 import { Droppable } from "react-beautiful-dnd";
 import { Button, Typography, Paper } from "@mui/material";
 import styles from "./JobCategory.module.css";
-
 import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
-import type { CategoryProps } from "../../../types/jobTypes";
+import type { CategoryProps, Job } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
-  const jobState = useSelector((state: RootState) => state.job.categories);
-  const categoryObj = jobState[category];
-  const [addJob, { isLoading: isUpdating }] = useAddJobMutation();
-
+  const { data: jobState } = useGetAllJobsQuery();
   const [open, setOpen] = useState(false);
 
   const handleAddJobClick = () => {
@@ -25,7 +17,9 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   };
 
   return (
-    <Paper elevation={3} className={styles.JobListContainer}>
+    <>
+    {jobState && (
+      <Paper elevation={3} className={styles.JobListContainer}>
       <div className={styles.JobListHeader}>
         <Typography variant="subtitle1" className={styles.CategoryLabel}>
           {category}
@@ -36,7 +30,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
           </Button>
         )}
       </div>
-      <Droppable droppableId={String(categoryObj.id)}>
+      <Droppable droppableId={String(jobState[category]?.id)}>
         {(provided, snapshot) => (
           <Paper
             elevation={0}
@@ -45,10 +39,10 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
             ref={provided.innerRef}
             sx={{ bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8" }}
           >
-            {categoryObj.jobs?.map((job, index) => (
-              <JobItem
-                key={`${job.id}-chores`}
-                draggableId={`${job.id}`}
+            {jobState[category].jobs.length > 0 && jobState[category].jobs?.map((job:Job, index:number) => (
+             <JobItem
+                key={`${job?.id}-chores`}
+                draggableId={`${job?.id}`}
                 index={index}
                 category={category}
               />
@@ -59,6 +53,8 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
       </Droppable>
       <CreateJobModal open={open} setOpen={setOpen} />
     </Paper>
+    )}
+    </>
   );
 };
 

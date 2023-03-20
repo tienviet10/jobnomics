@@ -56,9 +56,7 @@ export const filterSlice = createSlice({
 
     },
     setFilterSelectedJob: (state, action) => {
-      console.log(action.payload);
       state["selectedJob"] = action.payload;
-
     },
   },
 });

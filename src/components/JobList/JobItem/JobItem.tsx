@@ -6,13 +6,11 @@ import {
   toggleFavorite,
   toggleJobModal,
 } from "../../../features/jobSlice";
-import { useUpdateJobMutation } from "../../../app/services/job-api";
-
+import { useGetAllJobsQuery, useUpdateJobMutation } from "../../../app/services/job-api";
 import { Draggable } from "react-beautiful-dnd";
 import styles from "./JobItem.module.css";
 import { Avatar, Typography, Card } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-
 import { useGetAJob } from "../../../hooks/get-a-job";
 
 type JobItemProps = {
@@ -27,19 +25,18 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-
-  const { allCategories: jobState, modalState } = useGetAJob();
-
-  const job = jobState[category].jobs[index];
+  const { modalState } = useGetAJob();
+  const { data } = useGetAllJobsQuery();
+  const job = data[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
 
-  const [updateJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
+  const [updateJob] = useUpdateJobMutation();
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     const body = {
       jobId: id,
-      categoryId: jobState[category].id,
+      categoryId: data[category]?.id,
       favorite: !isFavorite,
       interviewDate: null,
       type: "update",
@@ -49,10 +46,8 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    dispatch(setModalId({ jobId: id, categoryId: jobState[category].id }));
-    setTimeout(() => {
-      dispatch(toggleJobModal(!modalState.open));
-    }, 60);
+    dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
+    dispatch(toggleJobModal(!modalState.open));
   };
 
   return (

@@ -3,38 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { UserJobsType } from "../types/jobTypes";
 
 const initialState: UserJobsType = {
-  categories: {
-    Bookmarked: {
-      category: "Bookmarked",
-      id: 1,
-      jobs: [],
-    },
-    Applied: {
-      category: "Applied",
-      id: 2,
-      jobs: [],
-    },
-    Interviewing: {
-      category: "Interviewing",
-      id: 3,
-      jobs: [],
-    },
-    Interviewed: {
-      category: "Interviewed",
-      id: 4,
-      jobs: [],
-    },
-    "Job Offer": {
-      category: "Job Offer",
-      id: 5,
-      jobs: [],
-    },
-    "Position Filled": {
-      category: "Position Filled",
-      id: 6,
-      jobs: [],
-    },
-  },
   categoryOrder: [
     "Bookmarked",
     "Applied",
@@ -75,22 +43,11 @@ export const jobSlice = createSlice({
   name: "job",
   initialState,
   reducers: {
-    updateColumns: (state, action) => {
-      state.categories = { ...state.categories, ...action.payload };
-    },
     toggleFavorite: (state, action) => {
       const [category, jobId, isFavorite] = action.payload;
-      // Update job within the state.categories
-      const selectedJob = state.categories[category].jobs.find(
-        (job) => job?.id === jobId
-      );
-      if (selectedJob) {
-        selectedJob.isFavorite = isFavorite;
-      }
-      //Update jbo within state.selectedJob
       if (
-        state.selectedJob?.job.id === jobId &&
-        state.selectedJob.category.name === category
+        state.selectedJob?.job?.id === jobId &&
+        state.selectedJob?.category?.name === category
       ) {
         state.selectedJob.isFavorite = isFavorite;
       }
@@ -115,21 +72,18 @@ export const jobSlice = createSlice({
       state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {
-      console.log(action.payload);
       state.selectedJob = action.payload;
     },
     toggleInterviewedModal: (state, action) => {
       state.interviewModal = { ...state.interviewModal, open: action.payload };
     },
     setInterviewedModalId: (state, action) => {
-      // console.log(action.payload);
       state.interviewModal = { ...state.interviewModal, jobCategoryId: action.payload };
     },
   },
 });
 
 export const {
-  updateColumns,
   toggleFavorite,
   toggleJobModal,
   toggleCheckbox,
