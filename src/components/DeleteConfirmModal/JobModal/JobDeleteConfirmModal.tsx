@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useUpdateJobMutation } from "../../../app/services/job-api";
+import { useDispatch } from "react-redux";
 
 import styles from "./JobDeleteConfirmModal.module.css";
 import {
@@ -10,10 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
+
 import { Job } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
-import { useUpdateJobMutation } from "../../../app/services/job-api";
-
+import { toggleJobModal } from "../../../features/jobSlice";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -25,8 +28,18 @@ const JobDeleteConfirmModal = ({
   open,
   setOpen,
 }: DeleteConfirmModalProps): JSX.Element => {
+  const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
+
+  useEffect(() => {
+    if (isSuccess || isError) {
+      setTimeout(() => {
+        setOpen(false);
+        dispatch(toggleJobModal(false));
+      }, 3000);
+    }
+  }, [isSuccess, isError]);
 
   const handleClose = () => {
     setOpen(false);

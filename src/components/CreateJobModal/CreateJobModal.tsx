@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 
+import { io } from "socket.io-client";
+
 import { useAddJobMutation } from "../../app/services/job-api";
 import type { RootState } from "../../app/store";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import styles from "./CreateJobModal.module.css";
 import {
@@ -15,12 +17,22 @@ import {
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
-import { CreateJobModalPropType } from "../../types/jobTypes";
+import {
+  CreateJobModalPropType,
+  JobPreviewType,
+  categoriesType,
+} from "../../types/jobTypes";
+import { updateColumns } from "../../features/jobSlice";
+
+const socket = io("http://localhost:8080", {
+  withCredentials: true,
+});
 
 const CreateJobModal = ({
   open,
   setOpen,
 }: CreateJobModalPropType): JSX.Element => {
+  const dispatch = useDispatch();
   const [value, setValue] = useState<string>("");
 
   const jobState = useSelector((state: RootState) => state.job.categories);
@@ -31,6 +43,36 @@ const CreateJobModal = ({
     setOpen(false);
     setValue("");
   };
+
+  useEffect(() => {
+    const onConnect = () => {
+      console.log("Connected!");
+    };
+
+    const onAddJob = (data: any) => {
+      if (data) {
+        const newState = JSON.parse(JSON.stringify(data));
+        for (const category of Object.values<categoriesType>(newState)) {
+          category.jobs?.sort(
+            (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
+          );
+        }
+
+        dispatch(updateColumns(newState));
+      }
+    };
+
+    socket.on("connect", onConnect);
+
+    socket.emit("add-job");
+
+    socket.on("add-job", onAddJob);
+
+    return () => {
+      socket.off("connect");
+      socket.off("add-job");
+    };
+  }, [isSuccess]);
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -93,7 +135,6 @@ const CreateJobModal = ({
           </Button>
         </div>
         {isUpdating && <div>Updating...</div>}
-        {isSuccess && <div>Success!</div>}
         {isError && <div>There was an error please try again</div>}
         <div className={styles.ModalFooter}></div>
       </Card>

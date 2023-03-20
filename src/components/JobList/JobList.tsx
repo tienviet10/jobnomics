@@ -1,8 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+
+import { io } from "socket.io-client";
 
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setInterviewedModalId, toggleInterviewedModal, updateColumns } from "../../features/jobSlice";
+import {
+  setInterviewedModalId,
+  toggleInterviewedModal,
+  updateColumns,
+} from "../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
@@ -16,7 +22,6 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
 
 import JobCategory from "./JobCategory";
-
 import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
@@ -27,11 +32,10 @@ const JobList = (): JSX.Element => {
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.selectedJob
-  );
 
   const { data, error, isLoading } = useGetAllJobsQuery();
+
+  const [jobsArray, setJobsArray] = useState(data);
   const [
     updateJobs,
     { isLoading: isUpdateJobsUpdating, isSuccess: isUpdateJobsSuccess },
@@ -45,9 +49,7 @@ const JobList = (): JSX.Element => {
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
   ] = useAddChecklistsMutation();
 
-  const [
-    addInterviewQuestions,
-  ] = useAddInterviewQuestionsMutation();
+  const [addInterviewQuestions] = useAddInterviewQuestionsMutation();
 
   useEffect(() => {
     if (data) {
@@ -87,7 +89,7 @@ const JobList = (): JSX.Element => {
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
 
-      newJobs.forEach((job: { position: number; }, index: number) => {
+      newJobs.forEach((job: { position: number }, index: number) => {
         if (
           source.index < destination.index &&
           index > source.index &&
@@ -122,7 +124,7 @@ const JobList = (): JSX.Element => {
       dispatch(updateColumns(newState));
 
       const updatedJobs = newJobs.map(
-        (job: { id: number; position: number; }, index: number) => {
+        (job: { id: number; position: number }, index: number) => {
           return {
             jobId: job.id,
             categoryId: Number(source.droppableId),
@@ -150,7 +152,7 @@ const JobList = (): JSX.Element => {
 
     const startColumnUpdatedJobs = startJobs
       ?.splice(source.index)
-      .map((job: { position: number; }) => {
+      .map((job: { position: number }) => {
         return {
           ...job,
           position: job.position - 1,
@@ -159,7 +161,7 @@ const JobList = (): JSX.Element => {
 
     const endColumnUpdatedJobs = endJobs
       ?.splice(destination.index)
-      .map((job: { position: number; }) => {
+      .map((job: { position: number }) => {
         return {
           ...job,
           position: job.position + 1,
@@ -190,7 +192,7 @@ const JobList = (): JSX.Element => {
     dispatch(updateColumns(newState));
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
-      (job: { id: number; position: number; }, index: number) => {
+      (job: { id: number; position: number }, index: number) => {
         return {
           jobId: job.id,
           categoryId: Number(source.droppableId),
@@ -201,7 +203,7 @@ const JobList = (): JSX.Element => {
     );
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
-      (job: { id: number; position: number; }, index: number) => {
+      (job: { id: number; position: number }, index: number) => {
         // console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
@@ -228,11 +230,15 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
-      dispatch(setInterviewedModalId({jobId: removedJob.id, categoryId: Number(destination?.droppableId)}));
+      dispatch(
+        setInterviewedModalId({
+          jobId: removedJob.id,
+          categoryId: Number(destination?.droppableId),
+        })
+      );
       addChecklists({ jobId: removedJob.id });
       dispatch(toggleInterviewedModal(true));
     }
-
 
     if (destinationCategory === "Interviewing") {
       addInterviewQuestions({ jobId: removedJob.id });
