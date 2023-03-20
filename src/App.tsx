@@ -8,31 +8,19 @@ import { AuthenticationGuard } from "./components/auth/AuthWrapper";
 import { useAuth0 } from "@auth0/auth0-react";
 import { security } from "./components/auth/GlobalAuth";
 
-import { AppBar, Toolbar, Typography } from "@mui/material";
-import { Camera } from "@mui/icons-material";
-
 import Home from "./pages/Home/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
-import { useManageSearchPage } from "./pages/Search/manage-search-page";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
   security.setAccessTokenSilently(getAccessTokenSilently);
 
-  const { logout } = useManageSearchPage();
-
   return (
     <div className="App">
-      <AppBar position="relative">
-        <Toolbar>
-          <Camera sx={{ mr: 2 }} />
-          <Typography variant="h6" color="inherit" noWrap>
-            Search Page
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <BrowserRouter>
+        <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
