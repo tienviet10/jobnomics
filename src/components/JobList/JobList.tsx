@@ -4,12 +4,17 @@ import { io } from "socket.io-client";
 
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { updateColumns } from "../../features/jobSlice";
+import {
+  setInterviewedModalId,
+  toggleInterviewedModal,
+  updateColumns,
+} from "../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useAddChecklistsMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
+  useAddInterviewQuestionsMutation,
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
@@ -44,26 +49,7 @@ const JobList = (): JSX.Element => {
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
   ] = useAddChecklistsMutation();
 
-  // useEffect(() => {
-  //   const onConnect = () => {
-  //     console.log("Connected!");
-  //     setIsConnected(true);
-  //   };
-
-  //   const onAddJob = (data: any) => {
-  //     console.log(data);
-  //     setJobsArray(data);
-  //   };
-
-  //   socket.on("connect", onConnect);
-
-  //   socket.on("add-job", onAddJob);
-
-  //   return () => {
-  //     socket.off("connect");
-  //     socket.off("add-job");
-  //   };
-  // });
+  const [addInterviewQuestions] = useAddInterviewQuestionsMutation();
 
   useEffect(() => {
     if (data) {
@@ -218,7 +204,7 @@ const JobList = (): JSX.Element => {
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
       (job: { id: number; position: number }, index: number) => {
-        console.log(job.position, destination.index);
+        // console.log(job.position, destination.index);
         if (job.position === destination.index) {
           return {
             jobId: job.id,
@@ -244,8 +230,18 @@ const JobList = (): JSX.Element => {
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
-      console.log(removedJob);
+      dispatch(
+        setInterviewedModalId({
+          jobId: removedJob.id,
+          categoryId: Number(destination?.droppableId),
+        })
+      );
       addChecklists({ jobId: removedJob.id });
+      dispatch(toggleInterviewedModal(true));
+    }
+
+    if (destinationCategory === "Interviewing") {
+      addInterviewQuestions({ jobId: removedJob.id });
     }
   };
 

@@ -9,7 +9,7 @@
 .JobModal {
   background-color: #ffffff;
   margin: 40px 40px;
-  padding: 60px;
+  padding: 40px;
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -25,6 +25,7 @@
   margin-top: 20px;
   font-size: 1.4rem;
   font-weight: 800;
+
 }
 
 .CelebrationIcon {
@@ -56,3 +57,6 @@
   margin-top: 10px;
 }
 
+.CloseButton {
+  align-self: flex-end;
+}

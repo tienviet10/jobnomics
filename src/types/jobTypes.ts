@@ -11,11 +11,14 @@ export type UserJobsType = {
     };
   };
   categoryOrder: string[];
-  modal: {
-    open: boolean;
-    jobCategoryId: { jobId: number; categoryId: number };
-  };
+  modal: ModalType;
+  interviewModal: ModalType;
   selectedJob: JobType;
+};
+
+type ModalType = {
+  open: boolean;
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type categoriesType = {
@@ -101,6 +104,7 @@ export type FilterStateType = {
   searchWord: string;
   displayArrayJobs: Job[];
   firstFetch: boolean;
+  selectedJob: Job | null;
 };
 
 type ListOfCategoriesType = {

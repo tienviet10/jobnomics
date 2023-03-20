@@ -1,20 +1,23 @@
 import React from "react";
 
 import styles from "./Interviewing.module.css";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
 
 const Interviewing = () => {
-  const { selectedJob, skills } = useGetAJob();
+  const { selectedJob, skills, refetch } = useGetAJob();
 
   return (
     <div className={styles.BookedAppliedContainer}>
+      {!selectedJob?.job?.interviewExamples && <div className={styles.Refresh}><Button variant="contained" onClick={() => refetch()}>Refresh</Button></div>}
+
       <div className={styles.JobDescription}>
         <Typography variant="body1" className={styles.Questions}>
           {selectedJob?.job?.interviewExamples}
         </Typography>
       </div>
+
       <Typography
         variant="subtitle1"
         fontWeight="bold"

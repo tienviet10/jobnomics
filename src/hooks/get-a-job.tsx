@@ -35,5 +35,6 @@ export function useGetAJob(): any {
     skills,
     categoryArray,
     allCategories,
+    refetch
   };
 }

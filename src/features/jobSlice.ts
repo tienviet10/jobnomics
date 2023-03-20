@@ -44,6 +44,7 @@ const initialState: UserJobsType = {
     "Position Filled",
   ],
   modal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },
+  interviewModal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },
   selectedJob: {
     category: {
       id: 1,
@@ -114,7 +115,15 @@ export const jobSlice = createSlice({
       state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {
+      console.log(action.payload);
       state.selectedJob = action.payload;
+    },
+    toggleInterviewedModal: (state, action) => {
+      state.interviewModal = { ...state.interviewModal, open: action.payload };
+    },
+    setInterviewedModalId: (state, action) => {
+      // console.log(action.payload);
+      state.interviewModal = { ...state.interviewModal, jobCategoryId: action.payload };
     },
   },
 });
@@ -126,6 +135,8 @@ export const {
   toggleCheckbox,
   setModalId,
   setSelectedJob,
+  toggleInterviewedModal,
+  setInterviewedModalId
 } = jobSlice.actions;
 
 export default jobSlice.reducer;
