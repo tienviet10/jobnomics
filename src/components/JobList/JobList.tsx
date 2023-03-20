@@ -17,23 +17,16 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
 
 import JobCategory from "./JobCategory";
-
 import type { JobPreviewType, categoriesType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
-  const socket = io("http://localhost:8080", {
-    withCredentials: true,
-  });
 
   const jobCategories = useSelector(
     (state: RootState) => state.job.categoryOrder
   );
 
   const jobState = useSelector((state: RootState) => state.job.categories);
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.selectedJob
-  );
 
   const { data, error, isLoading } = useGetAllJobsQuery();
 
@@ -51,25 +44,26 @@ const JobList = (): JSX.Element => {
     { isLoading: isAddChecklistsUpdating, isSuccess: isAddChecklistsSuccess },
   ] = useAddChecklistsMutation();
 
-  useEffect(() => {
-    const onConnect = () => {
-      console.log("Connected!");
-    };
+  // useEffect(() => {
+  //   const onConnect = () => {
+  //     console.log("Connected!");
+  //     setIsConnected(true);
+  //   };
 
-    const onAddJob = (data: any) => {
-      console.log(data);
-      setJobsArray(data);
-    };
+  //   const onAddJob = (data: any) => {
+  //     console.log(data);
+  //     setJobsArray(data);
+  //   };
 
-    socket.on("connect", onConnect);
+  //   socket.on("connect", onConnect);
 
-    socket.on("add-job", onAddJob);
+  //   socket.on("add-job", onAddJob);
 
-    return () => {
-      socket.off("connect", onConnect);
-      socket.off("add-job", onAddJob);
-    };
-  }, [jobsArray]);
+  //   return () => {
+  //     socket.off("connect");
+  //     socket.off("add-job");
+  //   };
+  // });
 
   useEffect(() => {
     if (data) {

@@ -59,7 +59,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      // invalidatesTags: [{ type: "Posts", id: "LIST" }],
+      invalidatesTags: ["allJobs"],
     }),
     addChecklists: builder.mutation<any, any>({
       query(body) {
@@ -76,7 +76,7 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      // invalidatesTags: ["allJobs"],
+      invalidatesTags: ["allJobs"],
       transformResponse: (response: { data: JobType }, meta, arg) =>
         response.data,
       transformErrorResponse: (
