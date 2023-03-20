@@ -38,7 +38,7 @@ const CreateJobModal = ({
       console.log("Connected!");
     };
 
-    const onAddJob = (data: any) => {
+    const onAddJob = () => {
       refetch()
     };
 
@@ -53,14 +53,6 @@ const CreateJobModal = ({
       socket.off("add-job");
     };
   }, [isSuccess]);
-
-  // useState(()=>{
-  //   // ...
-  //   // receive data
-  //   // -> put -> update the bookmarked last index
-  //   // ...
-  //   // ...
-  // },[])
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();

@@ -2,9 +2,11 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useGetJobByIdQuery } from "../app/services/job-api";
 import { RootState } from "../app/store";
-import { Skill } from "../types/jobTypes";
+import { GetAJobType, Skill } from "../types/jobTypes";
 
-export function useGetAJob(): any {
+
+
+export function useGetAJob(): GetAJobType {
   const state = useSelector((state: RootState) => state.job);
   const categoryArray = state.categoryOrder;
   const modalState = state.modal;

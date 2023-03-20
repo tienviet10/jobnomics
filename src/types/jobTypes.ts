@@ -168,3 +168,18 @@ export type UserRequest = {
 export type FilterListType = {
   sentFilterRequest: () => Promise<void>;
 };
+
+export type GetAJobType = {
+  selectedJob: JobType,
+  aJob: {
+    data: JobType;
+  } | undefined,
+  modalState: ModalType,
+  error: FetchBaseQueryError | SerializedError | undefined,
+  isFetching: boolean,
+  skills: string,
+  categoryArray: string[],
+  refetch: any,
+  jobId: number,
+  categoryId: number;
+};
