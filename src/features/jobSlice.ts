@@ -78,7 +78,6 @@ export const jobSlice = createSlice({
       state.interviewModal = { ...state.interviewModal, open: action.payload };
     },
     setInterviewedModalId: (state, action) => {
-      // console.log(action.payload);
       state.interviewModal = { ...state.interviewModal, jobCategoryId: action.payload };
     },
   },

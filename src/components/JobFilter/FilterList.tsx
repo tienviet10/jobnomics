@@ -36,7 +36,6 @@ const FilterList: React.FC<FilterListType> = ({
   );
   const jobsList = state.displayArrayJobs
   const selectedJob = state.selectedJob
-  console.log(selectedJob)
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -51,10 +50,8 @@ const FilterList: React.FC<FilterListType> = ({
   };
 
   const handleOpenModal = (job: Job) => {
-    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
-    setTimeout(() => {
-      dispatch(toggleJobModal(true));
-    }, 70);
+    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }))
+    dispatch(toggleJobModal(true));
   };
 
   const handleMenuOpen = (

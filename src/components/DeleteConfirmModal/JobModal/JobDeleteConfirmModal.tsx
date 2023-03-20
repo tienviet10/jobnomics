@@ -1,5 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
-
+import React from "react";
 import { useUpdateJobMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 
@@ -31,24 +30,24 @@ const JobDeleteConfirmModal = ({
   const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const { selectedJob } = useGetAJob();
-  // const [state, setState] = useState("confirm");
-  const state = useRef("confirm")
+  
   const handleClose = () => {
     setOpen(false);
   };
 
   const handleDelete = async () => {
-    state.current = "delete"
-    // dispatch(setSelectedJob(null))
-    const res = await deleteJob({
+    await deleteJob({
       jobId: selectedJob?.job.id,
       categoryId: selectedJob?.category.id,
       type: "delete",
     });
-    console.log("res",res)
-    
+
+    setTimeout(()=>{
+      dispatch(setSelectedJob(null))
+      setOpen(false);
+      dispatch(toggleJobModal(false));
+    }, 3000)
   };
-  console.log(state.current)
   return (
     <Modal
       open={open}
@@ -59,7 +58,7 @@ const JobDeleteConfirmModal = ({
         <IconButton onClick={handleClose} className={styles.CloseButton}>
           <CloseRounded fontSize="medium" />
         </IconButton>
-        {state.current === "confirm" && (
+        {!isLoading && !isSuccess && !isError && (
           <section className={styles.DeleteConfirmModalMain}>
             <div className={styles.DeleteMessageContainer}>
               <Typography
@@ -101,8 +100,8 @@ const JobDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {state.current === "loading" && <CircularProgress />}
-        {state.current === "delete" && (
+        {isLoading && <CircularProgress />}
+        {isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>
               The job

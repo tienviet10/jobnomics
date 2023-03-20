@@ -24,10 +24,7 @@ export const jobApi = createApi({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
       providesTags: ["allJobs"],
-      transformResponse: (response: { data: UserJobsType; }, meta, arg) => {
-        console.log(response);
-        return response;
-      },
+      transformResponse: (response: { data: UserJobsType; }, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
@@ -127,17 +124,13 @@ export const jobApi = createApi({
     }),
     updateJob: builder.mutation({
       query: ({ id, ...patch }) => {
-        console.log("patch", patch);
         return {
           url: "job/user-job",
           method: "PATCH",
           body: patch,
         };
       },
-      transformResponse: (response: { data: JobType; }, meta, arg) => {
-        console.log(response);
-        return response;
-      },
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
