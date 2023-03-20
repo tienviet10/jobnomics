@@ -11,7 +11,7 @@ import { Button, Stack, Box, Typography, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const { loginWithPopup } = useAuth0();
+  const { loginWithPopup, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
 
   const handleClick = (
@@ -76,49 +76,53 @@ const Home = () => {
     // </div>
     <main>
       {/* Hero unit */}
-      <Box
-        sx={{
-          bgcolor: "background.paper",
-          pt: 8,
-          pb: 6,
-        }}
-      >
-        <Container maxWidth="sm">
-          <Typography
-            component="h1"
-            variant="h2"
-            align="center"
-            color="text.primary"
-            gutterBottom
-          >
-            Jobnomics
-          </Typography>
-          <Typography
-            variant="h5"
-            align="center"
-            color="text.secondary"
-            paragraph
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi ipsam
-            commodi vero animi tempore amet. Aliquid at dolorem numquam sapiente
-            dicta tempora quidem, impedit libero quibusdam. Optio amet tenetur
-            non.
-          </Typography>
-          <Stack
-            sx={{ pt: 4 }}
-            direction="row"
-            spacing={2}
-            justifyContent="center"
-          >
-            <Button onClick={() => handleClick()} variant="contained">
-              Log In
-            </Button>
-            <Button onClick={() => handleClick()} variant="outlined">
-              Sign Up
-            </Button>
-          </Stack>
-        </Container>
-      </Box>
+      {isAuthenticated ? (
+        <div>Logged in home page</div>
+      ) : (
+        <Box
+          sx={{
+            bgcolor: "background.paper",
+            pt: 8,
+            pb: 6,
+          }}
+        >
+          <Container maxWidth="sm">
+            <Typography
+              component="h1"
+              variant="h2"
+              align="center"
+              color="text.primary"
+              gutterBottom
+            >
+              Jobnomics
+            </Typography>
+            <Typography
+              variant="h5"
+              align="center"
+              color="text.secondary"
+              paragraph
+            >
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi
+              ipsam commodi vero animi tempore amet. Aliquid at dolorem numquam
+              sapiente dicta tempora quidem, impedit libero quibusdam. Optio
+              amet tenetur non.
+            </Typography>
+            <Stack
+              sx={{ pt: 4 }}
+              direction="row"
+              spacing={2}
+              justifyContent="center"
+            >
+              <Button onClick={() => handleClick()} variant="contained">
+                Log In
+              </Button>
+              <Button onClick={() => handleClick()} variant="outlined">
+                Sign Up
+              </Button>
+            </Stack>
+          </Container>
+        </Box>
+      )}
     </main>
   );
 };
