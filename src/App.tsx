@@ -8,10 +8,10 @@ import { AuthenticationGuard } from "./components/auth/AuthWrapper";
 import { useAuth0 } from "@auth0/auth0-react";
 import { security } from "./components/auth/GlobalAuth";
 
-import Home from "./pages/Home/Home";
+import Home from "./pages/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "./components/NavBar";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
