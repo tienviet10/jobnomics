@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 import styles from "./BookmarkedAppliedView.module.css";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
@@ -14,7 +14,10 @@ const BookmarkedAppliedView = () => {
   };
 
   return (
-    <div className={styles.BookedAppliedContainer}>
+    <Box
+      className={styles.BookedAppliedContainer}
+      sx={{ height: { xs: "55vh", sm: "47vh" } }}
+    >
       <div className={styles.JobDescription}>
         <Typography variant="h5" fontWeight="bold" gutterBottom>
           Job Summary:
@@ -35,7 +38,7 @@ const BookmarkedAppliedView = () => {
           {isDetail ? "View Summary" : "View Details"}
         </Button>
       }
-    </div>
+    </Box>
   );
 };
 

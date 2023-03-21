@@ -8,17 +8,17 @@
 
 .JobModal {
   background-color: #ffffff;
-  max-height: 90vh;
-  height: 800px;
-
-  padding: 30px;
-
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  overflow: hidden;
 
-  overflow: auto;
   position: relative;
+}
+
+@media screen and (max-width: 350px) {
+  .JobModal {
+    max-height: 95vh;
+  }
 }
 
 .JobCompany {
@@ -30,7 +30,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  margin: 20px 0;
 }
 
 .ModalHeader {

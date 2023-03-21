@@ -64,7 +64,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       <Card
         elevation={5}
         className={styles.JobModal}
-        sx={{ width: { xs: "90vw", lg: "1000px" } }}
+        sx={{
+          width: { xs: "90vw", lg: "1000px" },
+          padding: { xs: "30px", md: "50px" },
+        }}
       >
         <div className={styles.ModalHeader}>
           <IconButton className={styles.CloseButton} onClick={handleClose}>
