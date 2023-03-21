@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { FilterListType, Job } from "../../types/jobTypes";
 import { RootState } from "../../app/store";
 
@@ -28,6 +30,7 @@ import { setFilterSelectedJob } from "../../features/filterSlice";
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
 const FilterList: React.FC<FilterListType> = (): JSX.Element => {
+  const { user } = useAuth0();
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.filter);
   const jobsList = state.displayArrayJobs;
@@ -90,16 +93,16 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
       <Table size="medium" className={styles.FilterTable}>
         <TableHead className={styles.JobTableHead}>
           <TableRow>
-            <TableCell align="center" className={styles.TableLabel}></TableCell>
-            <TableCell className={styles.TableLabel}>Company</TableCell>
-            <TableCell className={styles.TableLabel}>Job Title</TableCell>
-            <TableCell align="center" className={styles.TableLabel}>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}></TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Company</TableCell>
+            <TableCell sx={{ fontWeight: "bold" }}>Job Title</TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
               Update At
             </TableCell>
-            <TableCell align="center" className={styles.TableLabel}>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
               Favorites
             </TableCell>
-            <TableCell align="center" className={styles.TableLabel}></TableCell>
+            <TableCell align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody className={styles.JobTableBody}>
@@ -120,7 +123,7 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
                   {job.title}
                 </TableCell>
                 <TableCell align="center" onClick={() => handleOpenModal(job)}>
-                  {new Date(job.updatedAt).toLocaleDateString()}
+                  {new Date(job.updatedAt).toLocaleDateString(user?.locale)}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton onClick={() => handleToggleFavorite(job)}>
