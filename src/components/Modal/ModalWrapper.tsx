@@ -18,13 +18,15 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState, isFetching} = useGetAJob();
+  const {aJob, selectedJob, jobId, categoryId, modalState, isLoading} = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
     : "";
 
   const handleClose = () => {
+    // Add this so when the modal load up, we dont see the previous selectedJob
+    dispatch(setSelectedJob(null))
     dispatch(toggleJobModal(false));
   };
 
@@ -54,7 +56,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     setOpenDeleteModal((prev) => !prev);
   };
 
-  return selectedJob && !isFetching ? (
+  return selectedJob && !isLoading? (
     <Modal
       open={modalState.open}
       onClose={handleClose}

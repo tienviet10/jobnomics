@@ -7,11 +7,12 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
+  previousJob: { jobId: number, categoryId: number; };
 };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type categoriesType = {
@@ -176,10 +177,11 @@ export type GetAJobType = {
   } | undefined,
   modalState: ModalType,
   error: FetchBaseQueryError | SerializedError | undefined,
-  isFetching: boolean,
+  isLoading: boolean,
   skills: string,
   categoryArray: string[],
   refetch: any,
   jobId: number,
   categoryId: number;
+  previousJob: { jobId: number, categoryId: number; };
 };

@@ -10,14 +10,14 @@ export function useGetAJob(): GetAJobType {
   const state = useSelector((state: RootState) => state.job);
   const categoryArray = state.categoryOrder;
   const modalState = state.modal;
+  const previousJob = state.previousJob;
   const selectedJob = state.selectedJob;
-
   const { jobId, categoryId } = modalState.jobCategoryId;
   const {
     data: aJob,
     refetch,
     error,
-    isFetching,
+    isLoading
   } = useGetJobByIdQuery({
     jobId,
     categoryId,
@@ -32,11 +32,12 @@ export function useGetAJob(): GetAJobType {
     aJob,
     modalState,
     error,
-    isFetching,
     skills,
     categoryArray,
     refetch,
     jobId,
     categoryId,
+    isLoading,
+    previousJob
   };
 }

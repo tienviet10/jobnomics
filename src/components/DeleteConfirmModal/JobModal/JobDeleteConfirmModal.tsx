@@ -6,7 +6,6 @@ import styles from "./JobDeleteConfirmModal.module.css";
 import {
   Button,
   Card,
-  CircularProgress,
   IconButton,
   Modal,
   Typography,
