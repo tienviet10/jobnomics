@@ -45,9 +45,12 @@ const InterviewingView = () => {
       <Typography
         variant="subtitle1"
         className={styles.Skills}
-        sx={{ fontSize: { xs: "13px" } }}
+        sx={{
+          fontSize: { xs: "13px", md: "16px" },
+          lineHeight: { xs: "16px", md: "20px" },
+        }}
       >
-        Skills: <span>{skills}</span>
+        <strong>Required Skills:</strong> {skills}
       </Typography>
     </>
   );
