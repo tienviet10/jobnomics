@@ -74,7 +74,9 @@ const JobItem = ({
               <Typography variant="body1" className={styles.JobTitle}>
                 {title}
               </Typography>
-              <Typography variant="caption">{company}</Typography>
+              <Typography variant="caption" className={styles.Company}>
+                {company}
+              </Typography>
             </div>
 
             {isFavorite ? (

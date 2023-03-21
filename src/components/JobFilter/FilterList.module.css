@@ -1,4 +1,27 @@
 .FilterList {
-  justify-content: center;
-  overflow-x: auto;
+  height: calc(100vh - 64px - 160px - 64px);
+  overflow-y: auto;
+}
+
+.FilterTable {
+  position: relative;
+}
+
+.JobTableHead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: rgb(246, 246, 246);
+}
+
+.TableLabel {
+  font-weight: bold;
+}
+
+.JobRow:hover {
+  cursor: pointer;
+}
+
+.JobLogo {
+  padding-left: 20px;
 }

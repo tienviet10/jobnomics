@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
+import { CheckBoxEntity, DrawComponentType } from "../../../types/jobTypes";
+
+import { FilterList } from "@mui/icons-material";
 import {
   Drawer,
   Button,
@@ -9,17 +14,17 @@ import {
   FormGroup,
   FormLabel,
   Box,
+  Typography,
 } from "@mui/material";
+import styles from "./FilterDrawer.module.css";
 
-import { CheckBoxEntity, DrawComponentType } from "../../../types/jobTypes";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import styles from "./Drawer.module.css";
-import { useSelector } from "react-redux";
-import { RootState } from "../../../app/store";
+const choices = [
+  { name: "Application Status", filter: "category" },
+  { name: "Languages", filter: "languages" },
+  { name: "Framework", filter: "framework" },
+];
 
-const choices = ["category", "languages", "framework"];
-
-const DrawerComponent: React.FC<DrawComponentType> = ({
+const FilterDrawer: React.FC<DrawComponentType> = ({
   updateCategoryFilter,
   sentFilterRequest,
 }): JSX.Element => {
@@ -46,9 +51,9 @@ const DrawerComponent: React.FC<DrawComponentType> = ({
     };
 
   const list = () => (
-    <div className={styles.Drawer}>
+    <>
       <Box
-        sx={{ width: "auto", display: "flex" }}
+        className={styles.FilterDrawerContainer}
         role="presentation"
         // onClick={toggleDrawer(false)}
         onKeyDown={toggleDrawer(false)}
@@ -56,14 +61,21 @@ const DrawerComponent: React.FC<DrawComponentType> = ({
         {choices.map((choice) => {
           return (
             <FormControl
-              key={choice}
-              sx={{ m: 3 }}
+              key={choice.filter}
+              sx={{
+                mt: { xs: 5, sm: 8 },
+                ml: { xs: 4, sm: 10, lg: 15 },
+                width: { xs: "100%", sm: "150px" },
+              }}
               component="fieldset"
               variant="standard"
+              className={styles.FilterColumn}
             >
-              <FormLabel component="legend">Filtering</FormLabel>
+              <FormLabel component="legend" sx={{ pb: 2 }}>
+                {choice.name}
+              </FormLabel>
               <FormGroup>
-                {filterState[choice].map((cate: CheckBoxEntity) => (
+                {filterState[choice.filter].map((cate: CheckBoxEntity) => (
                   <FormControlLabel
                     key={cate.name}
                     control={
@@ -71,7 +83,7 @@ const DrawerComponent: React.FC<DrawComponentType> = ({
                         checked={cate.check}
                         onChange={updateCategoryFilter({
                           ...cate,
-                          cate: choice,
+                          cate: choice.filter,
                           auto: false,
                         })}
                         name={cate.name}
@@ -85,10 +97,15 @@ const DrawerComponent: React.FC<DrawComponentType> = ({
           );
         })}
       </Box>
-      <Button variant="contained" onClick={handleSentRequest}>
+      <Button
+        variant="contained"
+        onClick={handleSentRequest}
+        sx={{ width: { xs: "100%", md: "200px" }, margin: "30px 0" }}
+        className={styles.FilterButton}
+      >
         Filter
       </Button>
-    </div>
+    </>
   );
 
   return (
@@ -96,11 +113,12 @@ const DrawerComponent: React.FC<DrawComponentType> = ({
       <Drawer anchor="top" open={state} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-      <Button onClick={toggleDrawer(true)}>
-        <FilterListIcon sx={{ fontSize: 30 }} />
+      <Button onClick={toggleDrawer(true)} className={styles.FilterIconButton}>
+        <FilterList fontSize="large" />
+        <Typography variant="caption">Filter</Typography>
       </Button>
     </>
   );
 };
 
-export default DrawerComponent;
+export default FilterDrawer;

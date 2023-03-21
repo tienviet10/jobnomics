@@ -1,26 +1,23 @@
-import React from 'react'
-import TextField from '@mui/material/TextField';
-import { useDispatch } from 'react-redux';
-import { handleSearch } from '../../../features/filterSlice';
+import React from "react";
+
+import { useDispatch } from "react-redux";
+import { handleSearch } from "../../../features/filterSlice";
+
+import styles from "./SearchBar.module.css";
+import { TextField } from "@mui/material";
 
 const SearchBar = (): JSX.Element => {
   const dispatch = useDispatch();
 
   return (
-    <div
-    style={{
-      alignItems: 'center',
-      width: '200px',
-      display: 'flex',
-      flexDirection: 'row'
-    }}>
-    <TextField style={{ flex: 1 }}
-      placeholder='Search'
-      InputLabelProps={{ style: { display: 'none' } }}
+    <TextField
+      placeholder="Type here..."
+      label="Search"
       onChange={(e) => dispatch(handleSearch(e.target.value))}
+      sx={{ margin: "10px 0", background: "#ffffff" }}
+      className={styles.SearchBar}
     />
-  </div >
-  )
-}
+  );
+};
 
-export default SearchBar
+export default SearchBar;
