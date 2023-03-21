@@ -1,6 +1,5 @@
 .HomeUserContainer {
-  height: 100vh;
+  height: calc(100vh - 68.5px);
   width: 100%;
-  margin-top: 68.5px;
   overflow: hidden;
 }

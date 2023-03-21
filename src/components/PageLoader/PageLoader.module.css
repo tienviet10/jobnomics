@@ -1,71 +1,64 @@
 .PageLoaderContainer {
-}
-
-.loader-circle-9 {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100px;
-  height: 100px;
-  background: transparent;
-  border: 5px solid #ebebeb;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 100px;
-  font-family: sans-serif;
-  font-size: 15px;
-  color: #b67bfd;
-  text-transform: uppercase;
-  box-shadow: 0 0 20px rgba(236, 236, 236, 0.5);
-}
-.loader-circle-9:before {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: -6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  height: 100%;
-  border: 5px solid transparent;
-  border-top: 5px solid #b67bfd;
-  border-right: 5px solid #b67bfd;
-  border-radius: 50%;
-  animation: animateC 2s linear infinite;
+  height: 100vh;
+
+  /****** center box
+  width: 300px;
+  height: 300px;
+  border: solid 1px #aaa;
+  ******/
 }
-.loader-circle-9 span {
-  display: block;
+body {
+  background-color: #202628;
+}
+.loader-circle-105 {
+  position: relative;
+  width: 150px;
+  height: 100px;
+  display: inline-block;
+}
+.loader-circle-105 > div {
   position: absolute;
-  top: 50%;
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  animation: anm-CL-105-move 3s infinite;
   left: 50%;
-  width: 52%;
-  background: transparent;
-  transform-origin: left;
-  animation: animate 2s linear infinite;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
-.loader-circle-9 span:before {
-  content: "";
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #b67bfd;
-  top: -10px;
-  right: -8px;
-  box-shadow: 0 0 20px #b67bfd;
+.loader-circle-105 > div:nth-child(1) {
+  border: 5px solid #2196f3;
 }
-@keyframes animateC {
+.loader-circle-105 > div:nth-child(2) {
+  animation-delay: 1s;
+  border: 5px solid #e91e63;
+}
+.loader-circle-105 > div:nth-child(3) {
+  animation-delay: 2s;
+  border: 5px solid #cddc39;
+}
+@keyframes anm-CL-105-move {
   0% {
-    transform: rotate(0deg);
+    left: 1px;
+  }
+  25% {
+    height: 50px;
+    width: 50px;
+  }
+  50% {
+    left: 150px;
+    height: 25px;
+    width: 25px;
+  }
+  75% {
+    height: 50px;
+    width: 50px;
   }
   100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes animate {
-  0% {
-    transform: rotate(45deg);
-  }
-  100% {
-    transform: rotate(405deg);
+    left: 1px;
   }
 }
