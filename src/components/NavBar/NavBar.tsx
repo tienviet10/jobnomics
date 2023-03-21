@@ -108,7 +108,7 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar position="fixed">
+    <AppBar>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Camera sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />

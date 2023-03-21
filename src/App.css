@@ -4,8 +4,7 @@ html,
   height: 100%;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+.App {
+  display: flex;
+  flex-direction: column;
 }

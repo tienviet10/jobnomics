@@ -1,0 +1,71 @@
+.PageLoaderContainer {
+}
+
+.loader-circle-9 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100px;
+  height: 100px;
+  background: transparent;
+  border: 5px solid #ebebeb;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100px;
+  font-family: sans-serif;
+  font-size: 15px;
+  color: #b67bfd;
+  text-transform: uppercase;
+  box-shadow: 0 0 20px rgba(236, 236, 236, 0.5);
+}
+.loader-circle-9:before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 100%;
+  height: 100%;
+  border: 5px solid transparent;
+  border-top: 5px solid #b67bfd;
+  border-right: 5px solid #b67bfd;
+  border-radius: 50%;
+  animation: animateC 2s linear infinite;
+}
+.loader-circle-9 span {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 52%;
+  background: transparent;
+  transform-origin: left;
+  animation: animate 2s linear infinite;
+}
+.loader-circle-9 span:before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #b67bfd;
+  top: -10px;
+  right: -8px;
+  box-shadow: 0 0 20px #b67bfd;
+}
+@keyframes animateC {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes animate {
+  0% {
+    transform: rotate(45deg);
+  }
+  100% {
+    transform: rotate(405deg);
+  }
+}
