@@ -18,6 +18,7 @@ import { Paper } from "@mui/material";
 
 import JobCategory from "./JobCategory";
 import type { JobPreviewType } from "../../types/jobTypes";
+import PageLoader from "../PageLoader";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -212,10 +213,11 @@ const JobList = (): JSX.Element => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       <Paper elevation={1} className={styles.JobBoard}>
-        {isLoading && <div>Knock Knock</div>}
-        {data && Object.keys(data).map((category: string, index: number) => (
-          <JobCategory key={index} category={category} />
-        ))}
+        {isLoading && <PageLoader />}
+        {data &&
+          Object.keys(data).map((category: string, index: number) => (
+            <JobCategory key={index} category={category} />
+          ))}
       </Paper>
     </DragDropContext>
   );
