@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { toggleJobModal } from "../../../features/jobSlice";
 import { useRejectedReasonMutation } from "../../../app/services/job-api";
 
-import styles from "./RejectedModal.module.css";
+import styles from "./RejectedView.module.css";
 import { Container } from "@mui/system";
 import {
   Radio,
@@ -20,7 +20,7 @@ import {
 
 import { useGetAJob } from "../../../hooks/get-a-job";
 
-const Rejected = () => {
+const RejectedView = () => {
   const dispatch = useDispatch();
   const [updateReason] = useRejectedReasonMutation();
   const { selectedJob, skills } = useGetAJob();
@@ -28,9 +28,7 @@ const Rejected = () => {
   const [toggle, setToggle] = useState(false);
   const [reason, setReason] = useState("");
 
-  const handleOptionChange = (
-    e: React.MouseEvent<HTMLLabelElement, MouseEvent>
-  ) => {
+  const handleOptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     if (target.value === "other") {
       setToggle(true);
@@ -52,63 +50,65 @@ const Rejected = () => {
         categoryId: selectedJob?.category?.id,
         reason,
       });
-      dispatch(toggleJobModal(false));
     }
   };
   return (
-    <div className={styles.ModalBody}>
-      <Typography variant="h5" className={styles.Rejection}>
+    <Box
+      className={styles.ModalBody}
+      sx={{
+        height: { xs: "62vh", sm: "40vh" },
+        p: { xs: "0", sm: "40px", md: "50px" },
+        pb: 0,
+      }}
+    >
+      <Typography variant="h5" className={styles.Question}>
         How did the company inform you of their decision to move on with another
         candidate?
       </Typography>
-      {selectedJob?.rejectReason && (
-        <Alert severity="success">
-          Your response: "{selectedJob?.rejectReason}." Has been saved!
-        </Alert>
-      )}
+
       <Container className={styles.MainContainer}>
         <FormControl className={styles.FormStyle}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
             name="radio-buttons-group"
             className={styles.RadioStyles}
+            onChange={handleOptionChange}
           >
             <FormControlLabel
               value="I got an email"
               control={<Radio />}
               label="I got an email"
-              onClick={(e) => handleOptionChange(e)}
             />
             <FormControlLabel
               value="I received a phone call"
               control={<Radio />}
               label="I received a phone call"
-              onClick={handleOptionChange}
             />
             <FormControlLabel
               value="They ghost me"
               control={<Radio />}
               label="They ghost me"
-              onClick={handleOptionChange}
             />
             <FormControlLabel
               value="other"
               control={<Radio />}
-              label="Other"
-              onClick={handleOptionChange}
+              label={
+                <Box className={styles.OtherInput}>
+                  <Typography>Other</Typography>
+                  <TextField
+                    variant="standard"
+                    color="primary"
+                    focused
+                    fullWidth
+                    placeholder="Type Here"
+                    onChange={handleTextChange}
+                    className={styles.OtherInputField}
+                    sx={{ display: toggle ? "block" : "none" }}
+                  />
+                </Box>
+              }
+              className={styles.FormControlLabel}
             />
-            {toggle ? (
-              <TextField
-                variant="standard"
-                color="primary"
-                focused
-                placeholder="Type Here"
-                onChange={handleTextChange}
-                className={styles.TextStyle}
-              />
-            ) : (
-              <Box className={styles.Placeholder}></Box>
-            )}
           </RadioGroup>
         </FormControl>
         <Box className={styles.BtnBox}>
@@ -121,13 +121,25 @@ const Rejected = () => {
           </Button>
         </Box>
       </Container>
+      {selectedJob?.rejectReason && (
+        <Alert severity="success" className={styles.SuccessAlert}>
+          Your response: "{selectedJob?.rejectReason}." Has been saved!
+        </Alert>
+      )}
       {selectedJob?.job?.skills && (
-        <Typography variant="body2" className={styles.Skill}>
-          Required Skills: <strong>{skills}</strong>
+        <Typography
+          variant="subtitle1"
+          className={styles.Skills}
+          sx={{
+            fontSize: { xs: "13px", md: "16px" },
+            lineHeight: { xs: "16px", md: "20px" },
+          }}
+        >
+          <strong>Required Skills:</strong> {skills}
         </Typography>
       )}
-    </div>
+    </Box>
   );
 };
 
-export default Rejected;
+export default RejectedView;

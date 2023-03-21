@@ -2,7 +2,7 @@ import React from "react";
 
 import BookmarkedAppliedView from "./BookmarkedApplied";
 import AcceptedView from "./AcceptedView";
-import Rejected from "./Rejected";
+import RejectedView from "./RejectedView";
 import InterviewingView from "./InterviewingView";
 import ModalWrapper from "../Modal";
 import InterviewedView from "./InterviewedView";
@@ -16,7 +16,7 @@ const JobModal = () => {
   return (
     <ModalWrapper>
       {selectedJobCategory === "Job Offer" && <AcceptedView />}
-      {selectedJobCategory === "Position Filled" && <Rejected />}
+      {selectedJobCategory === "Position Filled" && <RejectedView />}
       {selectedJobCategory === "Interviewing" && <InterviewingView />}
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
