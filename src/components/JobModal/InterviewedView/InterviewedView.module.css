@@ -1,58 +1,47 @@
-.InterviewedContainer {
+div.ChecklistMain {
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-
-  height: 100%;
+  align-items: center;
+  width: 100%;
   margin-bottom: 10px;
 }
 
-.InterviewedMain {
-  border-radius: 10px;
-  padding: 20px;
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+@media screen and (max-width: 350px) {
+  div.ChecklistMain {
+    height: 28vh;
+  }
+}
 
-  overflow-y: auto;
-  overflow-x: hidden;
-  box-sizing: border-box;
+@media screen and (max-height: 670px) {
+  div.ChecklistMain {
+    justify-content: flex-start;
+  }
 }
 
 .ProgressMessage {
   align-self: center;
   font-weight: bold;
-  font-size: 1.7rem;
 
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .CheckboxProgressBar {
-  height: 10px;
-  width: 100%;
   border-radius: 10px;
+}
+
+.Checklist {
+  align-self: flex-start;
 }
 
 .NoteTextField:focus {
   flex: 1;
 }
 
-@media screen and (min-width: 600px) {
-  .InterviewedContainer {
-    height: 100%;
-    width: 80%;
-  }
-  .Tabs {
-    margin-top: 40px;
-  }
-  .InterviewedMain {
-    height: 100%;
-    padding: 25px 40px;
-  }
-  .CheckboxProgressBar {
-    margin: 20px 0;
-  }
+.Skills {
+  color: #2d799d;
+  padding-top: 10px;
 }
