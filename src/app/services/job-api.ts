@@ -56,18 +56,13 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: JobType; }, meta, arg) => {
-        console.log("data", response);
-        return response.data;
-      },
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
+        response.data,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
         arg
-      ) => {
-        console.log("error", response);
-        return response.status;
-      },
+      ) => response.status,
       invalidatesTags: ["allJobs"],
     }),
     addChecklists: builder.mutation<any, any>({
