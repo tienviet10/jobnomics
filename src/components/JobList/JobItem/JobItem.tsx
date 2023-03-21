@@ -28,7 +28,7 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState, previousJob, refetch } = useGetAJob();
+  const { modalState } = useGetAJob();
   const { data } = useGetAllJobsQuery();
   const job = data[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
@@ -49,11 +49,8 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    if (previousJob.categoryId === data[category]?.id && previousJob.jobId === id) {
-      refetch()
-    }else{
       dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
-    }
+    
     dispatch(toggleJobModal(!modalState.open));
   };
 

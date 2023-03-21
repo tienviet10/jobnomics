@@ -7,7 +7,6 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number, categoryId: number; };
 };
 
 type ModalType = {
@@ -183,5 +182,5 @@ export type GetAJobType = {
   refetch: any,
   jobId: number,
   categoryId: number;
-  previousJob: { jobId: number, categoryId: number; };
+  isFetching: boolean;
 };

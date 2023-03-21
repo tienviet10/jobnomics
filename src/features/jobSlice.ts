@@ -37,7 +37,6 @@ const initialState: UserJobsType = {
     },
     checklists: [],
   },
-  previousJob: { jobId: -1, categoryId: -1 }
 };
 
 export const jobSlice = createSlice({
@@ -70,7 +69,6 @@ export const jobSlice = createSlice({
       state.modal = { ...state.modal, open: action.payload };
     },
     setModalId: (state, action) => {
-      state.previousJob = state.modal.jobCategoryId;
       state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {

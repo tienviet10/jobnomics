@@ -58,7 +58,6 @@ const InterviewedView = (): JSX.Element => {
   };
 
   const progressBar = () => {
-    console.log(selectedJob.checklists)
     const numberOfCompleted = selectedJob.checklists.filter(
       (checklist: Checklist) => checklist.isComplete
     ).length;
