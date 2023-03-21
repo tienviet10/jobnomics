@@ -1,3 +1,3 @@
-import Interviewing from "./Interviewing";
+import InterviewingView from "./InterviewingView";
 
-export default Interviewing;
+export default InterviewingView;

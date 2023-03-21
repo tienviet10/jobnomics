@@ -37,7 +37,6 @@ const BookmarkedAppliedView = () => {
           variant="text"
           className={styles.ToggleDetailButton}
           onClick={toggleDetailView}
-          sx={{ p: "10px 0" }}
         >
           {isDetail ? "View Summary" : "View Details"}
         </Button>

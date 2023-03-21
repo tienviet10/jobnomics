@@ -49,9 +49,11 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-      dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
-    
-    dispatch(toggleJobModal(!modalState.open));
+    dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
+
+    setTimeout(() => {
+      dispatch(toggleJobModal(!modalState.open));
+    }, 70);
   };
 
   return (

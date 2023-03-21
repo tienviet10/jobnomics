@@ -1,8 +1,6 @@
 .BookedAppliedContainer {
   border: 1px solid #0000004b;
   border-radius: 10px;
-  /* padding: 20px; */
-  padding-bottom: 0;
 
   overflow-y: auto;
 
@@ -24,4 +22,5 @@
   width: 100%;
   align-self: center;
   justify-content: center;
+  padding: 10px 0;
 }
