@@ -1,3 +1,3 @@
-import DrawerComponent from "../drawer";
+import SearchBar from "./SearchBar";
 
-export default DrawerComponent;
+export default SearchBar;

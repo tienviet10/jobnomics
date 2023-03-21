@@ -1,0 +1,19 @@
+.FilterIconButton {
+  display: flex;
+  flex-direction: column;
+}
+
+.FilterDrawerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.FilterColumn {
+  display: flex;
+  /* width: 100%; */
+}
+
+.FilterButton {
+  align-self: center;
+}
