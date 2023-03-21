@@ -83,6 +83,9 @@ export const jobSlice = createSlice({
         jobCategoryId: action.payload,
       };
     },
+    setNewNote: (state, action) => {
+      state.selectedJob.note = action.payload;
+    },
   },
 });
 
@@ -94,6 +97,7 @@ export const {
   setSelectedJob,
   toggleInterviewedModal,
   setInterviewedModalId,
+  setNewNote
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

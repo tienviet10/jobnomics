@@ -11,7 +11,7 @@ export type UserJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type categoriesType = {
@@ -167,4 +167,20 @@ export type UserRequest = {
 
 export type FilterListType = {
   sentFilterRequest: () => Promise<void>;
+};
+
+export type GetAJobType = {
+  selectedJob: JobType,
+  aJob: {
+    data: JobType;
+  } | undefined,
+  modalState: ModalType,
+  error: FetchBaseQueryError | SerializedError | undefined,
+  isLoading: boolean,
+  skills: string,
+  categoryArray: string[],
+  refetch: any,
+  jobId: number,
+  categoryId: number;
+  isFetching: boolean;
 };

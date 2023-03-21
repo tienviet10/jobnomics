@@ -43,8 +43,8 @@ const CreateJobModal = ({
       console.log("Connected!");
     };
 
-    const onAddJob = (data: any) => {
-      refetch();
+    const onAddJob = () => {
+      refetch()
     };
 
     socket.on("connect", onConnect);

@@ -14,11 +14,11 @@ import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 
-const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
+const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState, isFetching} = useGetAJob();
+  const { aJob, selectedJob, jobId, categoryId, modalState, isLoading, isFetching } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -29,6 +29,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    // Add this so when the modal load up, we dont see the previous selectedJob
     dispatch(setSelectedJob(aJob));
   }, [aJob]);
 
@@ -54,7 +55,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     setOpenDeleteModal((prev) => !prev);
   };
 
-  return selectedJob && !isFetching ? (
+  return selectedJob && !isLoading ? (
     <Modal
       open={modalState.open}
       onClose={handleClose}
@@ -65,17 +66,19 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           <IconButton className={styles.CloseButton} onClick={handleClose}>
             <Close fontSize="medium" />
           </IconButton>
-          <div className={styles.JobHeader}>
-            <Typography variant="h5" className={styles.JobTitle}>
-              {selectedJob.job?.title}
-            </Typography>
-            <Typography variant="h6" className={styles.JobCompany}>
-              {selectedJob.job?.company} | {selectedJob.job?.location}
-            </Typography>
-            <Typography variant="caption" className={styles.JobUpdatedDate}>
-              Last update at: {`${updatedDate.toLocaleString()}`}
-            </Typography>
-          </div>
+          {!isFetching && (
+            <div className={styles.JobHeader}>
+              <Typography variant="h5" className={styles.JobTitle}>
+                {selectedJob.job?.title}
+              </Typography>
+              <Typography variant="h6" className={styles.JobCompany}>
+                {selectedJob.job?.company} | {selectedJob.job?.location}
+              </Typography>
+              <Typography variant="caption" className={styles.JobUpdatedDate}>
+                Last update at: {`${updatedDate.toLocaleString()}`}
+              </Typography>
+            </div>
+          )}
         </div>
         <div className={styles.ModalMain}>
           {children}

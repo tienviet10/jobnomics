@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useFilterJobsQuery } from '../../app/services/job-api';
-import { CheckBoxEntity, ManageSearchPageType, UpdateFilterType } from '../../types/jobTypes';
+import { CheckBoxEntity, ManageSearchPageType, UpdateFilterType, UserRequest } from '../../types/jobTypes';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../app/store';
 import { useDispatch } from 'react-redux';
 import { setList, toggleCheck } from '../../features/filterSlice';
-
 
 export function useManageSearchPage(): ManageSearchPageType {
   const { logout } = useAuth0();
   const dispatch = useDispatch();
   const filterState = useSelector((state: RootState) => state.filter.mainFilter);
   // If you want to make multiple GET request with different params, you can useState to get new information and store in the same cache name (like 'aJob')
-  const [queryStr, setQueryStr] = useState<any>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [] });
+  const [queryStr, setQueryStr] = useState<UserRequest>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [] });
   const { data, isLoading } = useFilterJobsQuery(queryStr);
 
   useEffect(() => {
@@ -29,7 +28,7 @@ export function useManageSearchPage(): ManageSearchPageType {
       const newCategory = queryStr["category"].filter((val: string) => val !== item.name);
       const newSkills = queryStr["skills"].filter((val: string) => val !== item.name);
 
-      setQueryStr((prev: any) => ({
+      setQueryStr((prev: UserRequest) => ({
         ...prev,
         category: newCategory,
         skills: newSkills
