@@ -15,6 +15,7 @@ const JobModal = () => {
 
   return (
     <ModalWrapper>
+      
       {selectedJobCategory === "Job Offer" && <Accepted />}
       {selectedJobCategory === "Position Filled" && <Rejected />}
       {selectedJobCategory === "Interviewing" && <Interviewing />}

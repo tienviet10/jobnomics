@@ -4,7 +4,6 @@ import styles from "./FilterDeleteConfirmModal.module.css";
 import {
   Button,
   Card,
-  CircularProgress,
   IconButton,
   Modal,
   Typography,
@@ -30,7 +29,7 @@ const FilterDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
-  const [deletedJobTitle, setDeletedJobTitle] = useState<any>();
+  const [deletedJobTitle, setDeletedJobTitle] = useState<string>()
   const handleClose = () => {
     setOpen(false);
   };

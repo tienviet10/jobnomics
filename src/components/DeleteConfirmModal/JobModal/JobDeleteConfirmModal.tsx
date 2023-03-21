@@ -1,21 +1,11 @@
 import React from "react";
-import {
-  useGetAllJobsQuery,
-  useUpdateJobsMutation,
-} from "../../../app/services/job-api";
-// import React, { useEffect } from "react";
-
-// import {
-//   useUpdateJobMutation,
-//   useUpdateJobsMutation,
-// } from "../../../app/services/job-api";
+import { useGetAllJobsQuery, useUpdateJobsMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 
 import styles from "./JobDeleteConfirmModal.module.css";
 import {
   Button,
   Card,
-  CircularProgress,
   IconButton,
   Modal,
   Typography,
@@ -54,16 +44,13 @@ const JobDeleteConfirmModal = ({
 
     for (const index in currentJob) {
       const newPosition = currentJob[index].position - 1;
-      if (Number(index) < selectedJob?.position) {
-        allJobsWithinCategory.push({ ...currentJob[index] });
-      } else if (index > selectedJob?.position) {
-        allJobsWithinCategory.push({
-          ...currentJob[index],
-          position: newPosition,
-        });
+      if (selectedJob.position && Number(index) < selectedJob.position) {
+        allJobsWithinCategory.push({...currentJob[index]})
+      } else if (selectedJob.position && Number(index) > selectedJob.position){
+        allJobsWithinCategory.push({...currentJob[index], position: newPosition})
       }
 
-      if (Number(index) > selectedJob?.position) {
+      if (selectedJob.position && Number(index) > selectedJob?.position){
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,
@@ -73,7 +60,7 @@ const JobDeleteConfirmModal = ({
         });
       }
 
-      if (Number(index) === selectedJob?.position) {
+      if (selectedJob.position && Number(index) === selectedJob?.position) {
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,

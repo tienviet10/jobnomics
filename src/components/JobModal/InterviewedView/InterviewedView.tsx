@@ -5,7 +5,7 @@ import {
   useUpdateNoteMutation,
   useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
-import { toggleCheckbox } from "../../../features/jobSlice";
+import { setNewNote, toggleCheckbox } from "../../../features/jobSlice";
 
 import styles from "./InterviewedView.module.css";
 import {
@@ -27,24 +27,14 @@ import { Checklist } from "../../../types/jobTypes";
 
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
-  const [isNotepad, setIsNotepad] = useState(false);
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
+  const [progress, setProgress] = useState(0);
+  const [isNotepad, setIsNotepad] = useState(false);
 
-  const [saveNote, { isLoading: isUpdating, isSuccess, isError }] =
-    useUpdateNoteMutation();
-  const [
-    updateChecklist,
-    { isLoading, isSuccess: isChecklistSuccess, isError: isChecklistError },
-  ] = useUpdateChecklistMutation();
+  const [saveNote] = useUpdateNoteMutation();
+  const [updateChecklist] = useUpdateChecklistMutation();
 
   const { selectedJob } = useGetAJob();
-  const [note, setNote] = useState("");
-
-  useEffect(() => {
-    if (selectedJob) {
-      setNote(selectedJob.note);
-    }
-  }, [selectedJob]);
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -67,15 +57,15 @@ const InterviewedView = (): JSX.Element => {
     updateChecklist(body);
   };
 
-  const numberOfCompleted = selectedJob.checklists.filter(
-    (checklist: Checklist) => checklist.isComplete
-  ).length;
+  const progressBar = () => {
+    const numberOfCompleted = selectedJob.checklists.filter(
+      (checklist: Checklist) => checklist.isComplete
+    ).length;
+  
+    const progress = Math.round(
+      (numberOfCompleted / selectedJob.checklists?.length) * 100
+    );
 
-  const progress = Math.round(
-    (numberOfCompleted / selectedJob.checklists?.length) * 100
-  );
-
-  useEffect(() => {
     let message = "Reminder for you";
     if (progress > 0 && progress <= 20) {
       message = "Good start!";
@@ -88,8 +78,13 @@ const InterviewedView = (): JSX.Element => {
     } else if (progress === 100) {
       message = "Congrats you did it!";
     }
+    setProgress(progress);
     setProgressMessage(message);
-  }, [progress]);
+  }
+
+  useEffect(() => {
+    progressBar()
+  }, []);
 
   const checklists = selectedJob.checklists.map((checklist: Checklist) => {
     return (
@@ -109,23 +104,18 @@ const InterviewedView = (): JSX.Element => {
   });
 
   const handleTabChange = () => {
-    setIsNotepad((prev) => !prev);
+    setIsNotepad(!isNotepad)
   };
 
   const handleNoteChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setNote(event.target.value);
+    dispatch(setNewNote(event.target.value));
   };
 
   const handleSaveNote = async () => {
-    console.log({
-      note,
-      jobId: selectedJob.job.id,
-      categoryId: selectedJob.category.id,
-    });
     saveNote({
-      note,
+      note: selectedJob.note,
       jobId: selectedJob.job.id,
       categoryId: selectedJob.category.id,
     });
@@ -184,7 +174,7 @@ const InterviewedView = (): JSX.Element => {
               placeholder="Write your notes here..."
               multiline
               fullWidth
-              value={note}
+              value={selectedJob.note}
               onChange={handleNoteChange}
             ></TextField>
             <Button onClick={handleSaveNote}>Save</Button>
