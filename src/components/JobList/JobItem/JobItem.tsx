@@ -6,7 +6,10 @@ import {
   toggleFavorite,
   toggleJobModal,
 } from "../../../features/jobSlice";
-import { useGetAllJobsQuery, useUpdateJobMutation } from "../../../app/services/job-api";
+import {
+  useGetAllJobsQuery,
+  useUpdateJobMutation,
+} from "../../../app/services/job-api";
 import { Draggable } from "react-beautiful-dnd";
 import styles from "./JobItem.module.css";
 import { Avatar, Typography, Card } from "@mui/material";
@@ -64,7 +67,9 @@ const JobItem = ({
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="body2">{title}</Typography>
+              <Typography variant="body1" className={styles.JobTitle}>
+                {title}
+              </Typography>
               <Typography variant="caption">{company}</Typography>
             </div>
 
