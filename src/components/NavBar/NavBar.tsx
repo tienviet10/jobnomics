@@ -21,7 +21,8 @@ import { Camera, MenuRounded } from "@mui/icons-material";
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 
 const NavBar = () => {
-  const { user, loginWithPopup, isAuthenticated } = useAuth0();
+  const { user, loginWithPopup, loginWithRedirect, isAuthenticated } =
+    useAuth0();
   const navigate = useNavigate();
   const { logout } = useManageSearchPage();
 
@@ -69,7 +70,7 @@ const NavBar = () => {
 
   const handleAuthentication = () => {
     handleCloseUserMenu();
-    loginWithPopup();
+    loginWithRedirect();
     navigate("/job");
   };
 

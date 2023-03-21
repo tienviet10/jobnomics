@@ -18,7 +18,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const {aJob, selectedJob, jobId, categoryId, modalState, isFetching} = useGetAJob();
+  const { aJob, selectedJob, jobId, categoryId, modalState, isFetching } =
+    useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -60,16 +61,28 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       onClose={handleClose}
       className={styles.JobModalContainer}
     >
-      <Card elevation={5} className={styles.JobModal}>
+      <Card
+        elevation={5}
+        className={styles.JobModal}
+        sx={{ width: { xs: "90vw", lg: "1000px" } }}
+      >
         <div className={styles.ModalHeader}>
           <IconButton className={styles.CloseButton} onClick={handleClose}>
             <Close fontSize="medium" />
           </IconButton>
           <div className={styles.JobHeader}>
-            <Typography variant="h5" className={styles.JobTitle}>
+            <Typography
+              variant="h5"
+              className={styles.JobTitle}
+              sx={{ fontSize: { xs: "20px", sm: "24px" }, fontWeight: "bold" }}
+            >
               {selectedJob.job?.title}
             </Typography>
-            <Typography variant="h6" className={styles.JobCompany}>
+            <Typography
+              variant="h6"
+              className={styles.JobCompany}
+              sx={{ fontSize: { xs: "15px", sm: "20px" } }}
+            >
               {selectedJob.job?.company} | {selectedJob.job?.location}
             </Typography>
             <Typography variant="caption" className={styles.JobUpdatedDate}>

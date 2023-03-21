@@ -67,7 +67,7 @@ const JobItem = ({
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="body1" className={styles.JobTitle}>
+              <Typography variant="body2" className={styles.JobTitle}>
                 {title}
               </Typography>
               <Typography variant="caption" className={styles.Company}>

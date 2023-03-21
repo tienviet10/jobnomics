@@ -8,25 +8,21 @@
 
 .JobModal {
   background-color: #ffffff;
-  margin: 40px 30px;
-  max-height: 80vh;
-  height: 700px;
+  max-height: 90vh;
+  height: 800px;
 
-  padding: 20px;
+  padding: 30px;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   overflow: auto;
+  position: relative;
 }
 
-@media screen and (min-width: 600px) {
-  .JobModal {
-    height: 800px;
-    width: 60vw;
-    padding: 30px 40px;
-  }
+.JobCompany {
+  color: #2d799d;
 }
 
 .ModalMain {
@@ -40,6 +36,8 @@
 .ModalHeader {
   display: flex;
   flex-direction: column;
+
+  padding-top: 20px;
 }
 
 .ModalFooter {
@@ -53,7 +51,9 @@
 }
 
 .CloseButton {
-  align-self: flex-end;
+  position: absolute;
+  top: 15px;
+  right: 15px;
 }
 
 .ButtonText {
