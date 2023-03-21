@@ -35,7 +35,7 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
   const state = useSelector((state: RootState) => state.filter);
   const jobsList = state.displayArrayJobs;
   const selectedJob = state.selectedJob;
-  const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
+  const [updateJob] = useUpdateJobMutation();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [menuStates, setMenuStates] = useState<{

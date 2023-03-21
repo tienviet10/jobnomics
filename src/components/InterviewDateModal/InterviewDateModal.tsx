@@ -27,7 +27,7 @@ const InterviewDateModal = () => {
 
   const handleSubmit = () => {
     const dateTime = new Date(date + "T" + time + ":00");
-    updateJob({ jobId: selectedJobState?.jobCategoryId?.jobId, categoryId: selectedJobState?.jobCategoryId?.categoryId, interviewDate: dateTime.toISOString(), favorite: true, type: "update" });
+    updateJob({ jobId: selectedJobState?.jobCategoryId?.jobId, categoryId: selectedJobState?.jobCategoryId?.categoryId, interviewDate: dateTime.toISOString(), type: "update" });
     dispatch(toggleInterviewedModal(false));
   };
 
