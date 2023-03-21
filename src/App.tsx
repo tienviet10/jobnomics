@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
 import NavBar from "./components/NavBar";
+import { CssBaseline } from "@mui/material";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
@@ -19,6 +20,7 @@ function App() {
 
   return (
     <div className="App">
+      <CssBaseline />
       <BrowserRouter>
         <NavBar />
         <Routes>

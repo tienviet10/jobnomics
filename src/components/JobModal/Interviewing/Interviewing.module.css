@@ -17,7 +17,7 @@
   margin-bottom: 40px;
 }
 
-.Refresh{
+.Refresh {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -29,12 +29,19 @@
   justify-content: center;
 }
 
-.Questions{
+.Questions {
   white-space: pre-wrap;
 }
 
-.Skills{
+.Skills {
   margin-bottom: 20px;
+}
+
+.LoadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 @media screen and (min-width: 600px) {

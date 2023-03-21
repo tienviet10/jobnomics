@@ -43,3 +43,10 @@
   margin-top: 20px;
   align-self: flex-end;
 }
+
+.LoadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

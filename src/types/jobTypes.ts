@@ -11,7 +11,7 @@ export type UserJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 export type categoriesType = {

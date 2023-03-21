@@ -4,7 +4,6 @@ import styles from "./FilterDeleteConfirmModal.module.css";
 import {
   Button,
   Card,
-  CircularProgress,
   IconButton,
   Modal,
   Typography,
@@ -15,6 +14,7 @@ import { Job } from "../../../types/jobTypes";
 import { useUpdateJobMutation } from "../../../app/services/job-api";
 import { setFilterSelectedJob } from "../../../features/filterSlice";
 import { toggleJobModal } from "../../../features/jobSlice";
+import LoadingAnimation from "../../LoadingAnimation";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -27,7 +27,7 @@ const FilterDeleteConfirmModal = ({
   setOpen,
   job,
 }: DeleteConfirmModalProps): JSX.Element => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
   const [deletedJobTitle, setDeletedJobTitle] = useState<string>()
   const handleClose = () => {
@@ -36,7 +36,7 @@ const FilterDeleteConfirmModal = ({
 
   const handleDelete = () => {
     dispatch(setFilterSelectedJob(null));
-    setDeletedJobTitle(job?.title)
+    setDeletedJobTitle(job?.title);
     deleteJob({
       jobId: job?.id,
       categoryId: job?.categoryId,
@@ -97,7 +97,7 @@ const FilterDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        { isLoading && <CircularProgress />}
+        {isLoading && <LoadingAnimation />}
         {!job && isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>

@@ -37,6 +37,6 @@ export function useGetAJob(): GetAJobType {
     categoryArray,
     refetch,
     jobId,
-    categoryId
+    categoryId,
   };
 }
