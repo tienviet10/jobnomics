@@ -1,8 +1,8 @@
 .JobListContainer {
   background-color: #f8f8f8;
-  width: 270px;
-  min-width: 250px;
-  height: 80vh;
+  width: 275px;
+  min-width: 275px;
+  min-height: calc(80vh - 64px);
   padding: 20px 10px;
   margin: 10px 5px;
 

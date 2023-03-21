@@ -1,0 +1,38 @@
+div.InterviewingContainer {
+  border: 1px solid #0000004b;
+  border-radius: 10px;
+  width: 100%;
+  overflow-y: auto;
+
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 350px) {
+  div.InterviewingContainer {
+    height: 32vh;
+  }
+}
+
+div.QuestionsContainer {
+  flex: 1;
+}
+
+.Questions {
+  white-space: pre-wrap;
+}
+
+.Skills {
+  color: #2d799d;
+  padding: 10px 10px 0;
+}
+
+.LoadingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding: 20px;
+}

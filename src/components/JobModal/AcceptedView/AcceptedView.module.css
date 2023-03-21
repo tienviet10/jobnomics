@@ -1,0 +1,41 @@
+.AcceptedContainer {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+@media screen and (max-width: 350px) {
+  div.AcceptedContainer {
+    height: 32vh;
+  }
+}
+
+.AcceptedMain {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Congratulation {
+  margin-bottom: 20px;
+}
+
+.TopHeader {
+  margin-bottom: 20px;
+}
+
+.Skills {
+  color: #2d799d;
+  padding-top: 10px;
+}
+
+.Suggestions {
+  margin-bottom: 20px;
+}
+
+.Link {
+  padding-bottom: 20px;
+}

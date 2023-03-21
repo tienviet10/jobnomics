@@ -1,9 +1,9 @@
 import React from "react";
 
 import BookmarkedAppliedView from "./BookmarkedApplied";
-import Accepted from "./Accepted";
+import AcceptedView from "./AcceptedView";
 import Rejected from "./Rejected";
-import Interviewing from "./Interviewing";
+import InterviewingView from "./InterviewingView";
 import ModalWrapper from "../Modal";
 import InterviewedView from "./InterviewedView";
 
@@ -15,10 +15,9 @@ const JobModal = () => {
 
   return (
     <ModalWrapper>
-      
-      {selectedJobCategory === "Job Offer" && <Accepted />}
+      {selectedJobCategory === "Job Offer" && <AcceptedView />}
       {selectedJobCategory === "Position Filled" && <Rejected />}
-      {selectedJobCategory === "Interviewing" && <Interviewing />}
+      {selectedJobCategory === "Interviewing" && <InterviewingView />}
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
           selectedJobCategory === "Applied") && <BookmarkedAppliedView />}
