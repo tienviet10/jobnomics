@@ -8,4 +8,11 @@
 
 .JobDetails {
   padding-left: 7px;
+  flex: 1;
+  min-width: 0;
+  white-space: normal;
+}
+
+.JobTitle {
+  line-height: 20px;
 }

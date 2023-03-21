@@ -1,5 +1,5 @@
 .JobBoard {
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
