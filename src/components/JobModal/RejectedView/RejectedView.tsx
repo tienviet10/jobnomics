@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 
-import { useDispatch } from "react-redux";
-import { toggleJobModal } from "../../../features/jobSlice";
 import { useRejectedReasonMutation } from "../../../app/services/job-api";
 
 import styles from "./RejectedView.module.css";
-import { Container } from "@mui/system";
 import {
   Radio,
   RadioGroup,
@@ -21,7 +18,6 @@ import {
 import { useGetAJob } from "../../../hooks/get-a-job";
 
 const RejectedView = () => {
-  const dispatch = useDispatch();
   const [updateReason] = useRejectedReasonMutation();
   const { selectedJob, skills } = useGetAJob();
 
@@ -54,19 +50,22 @@ const RejectedView = () => {
   };
   return (
     <Box
-      className={styles.ModalBody}
+      className={styles.RejectedContainer}
       sx={{
-        height: { xs: "62vh", sm: "40vh" },
-        p: { xs: "0", sm: "40px", md: "50px" },
+        height: { xs: "62vh", sm: "50vh", md: "60vh" },
+        px: { xs: "0", sm: "20px", md: "30px" },
         pb: 0,
       }}
     >
-      <Typography variant="h5" className={styles.Question}>
-        How did the company inform you of their decision to move on with another
-        candidate?
-      </Typography>
-
-      <Container className={styles.MainContainer}>
+      <Box className={styles.RejectedMain}>
+        <Typography
+          variant="h5"
+          className={styles.Question}
+          sx={{ fontSize: { xs: "18px", sm: "20px", md: "24px" } }}
+        >
+          How did the company inform you of their decision to move on with
+          another candidate?
+        </Typography>
         <FormControl className={styles.FormStyle}>
           <RadioGroup
             aria-labelledby="demo-radio-buttons-group-label"
@@ -98,7 +97,6 @@ const RejectedView = () => {
                   <TextField
                     variant="standard"
                     color="primary"
-                    focused
                     fullWidth
                     placeholder="Type Here"
                     onChange={handleTextChange}
@@ -108,21 +106,27 @@ const RejectedView = () => {
                 </Box>
               }
               className={styles.FormControlLabel}
+              sx={{ mr: 0 }}
             />
           </RadioGroup>
         </FormControl>
-        <Box className={styles.BtnBox}>
-          <Button
-            variant="contained"
-            className={styles.Btn}
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
-        </Box>
-      </Container>
+        <Button
+          variant="contained"
+          className={styles.SubmitButton}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+      </Box>
       {selectedJob?.rejectReason && (
-        <Alert severity="success" className={styles.SuccessAlert}>
+        <Alert
+          severity="success"
+          sx={{
+            my: { xs: 1, sm: 2 },
+            fontSize: { xs: 13, sm: 16 },
+            p: { xs: 1, sm: 2 },
+          }}
+        >
           Your response: "{selectedJob?.rejectReason}." Has been saved!
         </Alert>
       )}

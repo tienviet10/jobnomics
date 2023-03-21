@@ -1,36 +1,30 @@
-.ModalBody {
-  height: 100%;
+.RejectedContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+@media screen and (max-height: 670px) {
+  div.RejectedContainer {
+    height: 45vh;
+    padding: 0 20px;
+  }
+}
+
+.RejectedMain {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .Question {
   margin-bottom: 20px;
 }
 
-.MainContainer {
-  display: flex;
-  flex-direction: column;
-}
-
-.Paragraph {
-  margin-bottom: 10px;
-}
-
-.BtnBox {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-.Btn {
-  margin: 10px 0;
+.SubmitButton {
+  align-self: flex-end;
   max-width: 100px;
-}
-
-.Placeholder {
-  height: 56px;
+  margin: 20px 0 10px;
 }
 
 div.OtherInput {
@@ -46,10 +40,6 @@ div.OtherInputField {
 
 label.FormControlLabel :last-child {
   flex: 1;
-}
-
-.SuccessAlert {
-  margin: 20px 0;
 }
 
 .Skills {
