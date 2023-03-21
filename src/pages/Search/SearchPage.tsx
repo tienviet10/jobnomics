@@ -5,7 +5,7 @@ import styles from "./SearchPage.module.css";
 
 import FilterList from "../../components/JobFilter";
 import ChipsComponent from "../../components/JobFilter/chips";
-import SearchBar from "../../components/JobFilter/searchbar/SearchBar";
+import SearchBar from "../../components/JobFilter/SearchBar";
 import DrawerComponent from "../../components/JobFilter/drawer";
 import JobModal from "../../components/JobModal";
 import { useManageSearchPage } from "./manage-search-page";

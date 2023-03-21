@@ -90,12 +90,16 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
       <Table size="medium" className={styles.FilterTable}>
         <TableHead className={styles.JobTableHead}>
           <TableRow>
-            <TableCell align="center"></TableCell>
-            <TableCell>Company</TableCell>
-            <TableCell>Job Title</TableCell>
-            <TableCell align="center">Update At</TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center"></TableCell>
+            <TableCell align="center" className={styles.TableLabel}></TableCell>
+            <TableCell className={styles.TableLabel}>Company</TableCell>
+            <TableCell className={styles.TableLabel}>Job Title</TableCell>
+            <TableCell align="center" className={styles.TableLabel}>
+              Update At
+            </TableCell>
+            <TableCell align="center" className={styles.TableLabel}>
+              Favorites
+            </TableCell>
+            <TableCell align="center" className={styles.TableLabel}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody className={styles.JobTableBody}>
