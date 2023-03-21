@@ -122,7 +122,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           />
         </div>
         <div className={styles.ModalFooter}>
-          <IconButton className={styles.Button} onClick={handleToggleFavorite}>
+          <IconButton
+            className={styles.Button}
+            onClick={handleToggleFavorite}
+            disableRipple
+          >
             <Typography className={styles.ButtonText}>Favorite</Typography>
             {selectedJob?.isFavorite ? (
               <Favorite fontSize="medium" />
@@ -133,6 +137,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           <IconButton
             className={styles.Button}
             onClick={handleOpenDeleteConfirmationModal}
+            disableRipple
           >
             <Typography className={styles.ButtonText}>Delete</Typography>
             <Delete fontSize="medium" />

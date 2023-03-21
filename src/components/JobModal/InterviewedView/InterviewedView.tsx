@@ -9,12 +9,13 @@ import { setNewNote, toggleCheckbox } from "../../../features/jobSlice";
 
 import styles from "./InterviewedView.module.css";
 import {
+  Alert,
   Box,
-  Button,
   Checkbox,
   FormControlLabel,
   FormGroup,
   LinearProgress,
+  Snackbar,
   Tab,
   Tabs,
   TextField,
@@ -26,16 +27,27 @@ import { CheckCircle } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 
+type AlertMessageType = {
+  severity: "success" | "info" | "error" | undefined;
+  message: string;
+};
+
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
   const [progress, setProgress] = useState(0);
   const [isNotepad, setIsNotepad] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
 
-  const [saveNote] = useUpdateNoteMutation();
+  const [saveNote, { isLoading, isSuccess, isError }] = useUpdateNoteMutation();
   const [updateChecklist] = useUpdateChecklistMutation();
 
   const { selectedJob, skills } = useGetAJob();
+
+  const [alertMessage, setAlertMessage] = useState<AlertMessageType>({
+    severity: "info",
+    message: "Your note is being saved...",
+  });
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -126,8 +138,16 @@ const InterviewedView = (): JSX.Element => {
     });
   };
 
+  const handleAlertClose = () => {
+    setAlertOpen(false);
+  };
+
+  useEffect(() => {
+    if (isSuccess) setAlertOpen(true);
+  }, [isSuccess]);
+
   return (
-    <Box className={styles.InterviewedContainer}>
+    <Box className={styles.InterviewedContainer} sx={{ mb: 2 }}>
       <Tabs
         value={isNotepad ? 1 : 0}
         onChange={handleTabChange}
@@ -181,16 +201,16 @@ const InterviewedView = (): JSX.Element => {
         </Box>
       ) : (
         <Box
-          className={styles.InterviewedMain}
+          className={styles.NotepadMain}
           sx={{ px: { xs: "15px", sm: "40px", md: "50px" }, py: 2, pb: 0 }}
         >
           <Typography variant="h5">
             Keep track of your interview experince.
           </Typography>
           <Typography variant="body2" gutterBottom>
-            What questions did you get? How did you respond? What did you learn?
-            How do you feel about this company? Did you receive any feedback?
-            What can you do better next time?
+            Record interview questions and your response, what you learned, how
+            you feel about the company, reflections, learning, feedback
+            received, and future improvements.
           </Typography>
           <TextField
             className={styles.NoteTextField}
@@ -201,22 +221,24 @@ const InterviewedView = (): JSX.Element => {
             fullWidth
             value={selectedJob.note}
             onChange={handleNoteChange}
+            onBlur={handleSaveNote}
           ></TextField>
-          <Button onClick={handleSaveNote}>Save</Button>
+          {isSuccess && alertMessage && (
+            <Snackbar
+              open={alertOpen}
+              autoHideDuration={6000}
+              onClose={handleAlertClose}
+            >
+              <Alert
+                onClose={handleAlertClose}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                Your note is successfully saved!
+              </Alert>
+            </Snackbar>
+          )}
         </Box>
-      )}
-
-      {selectedJob?.job?.skills && (
-        <Typography
-          variant="subtitle1"
-          className={styles.Skills}
-          sx={{
-            fontSize: { xs: "13px", md: "16px" },
-            lineHeight: { xs: "16px", md: "20px" },
-          }}
-        >
-          <strong>Required Skills:</strong> {skills}
-        </Typography>
       )}
     </Box>
   );
