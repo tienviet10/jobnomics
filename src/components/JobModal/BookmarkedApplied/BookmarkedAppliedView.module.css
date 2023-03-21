@@ -1,7 +1,7 @@
 .BookedAppliedContainer {
   border: 1px solid #0000004b;
   border-radius: 10px;
-  padding: 20px;
+  /* padding: 20px; */
   padding-bottom: 0;
 
   overflow-y: auto;
@@ -11,8 +11,8 @@
 }
 
 @media screen and (max-width: 350px) {
-  .BookedAppliedContainer {
-    height: 45vh !important;
+  div.BookedAppliedContainer {
+    height: 45vh;
   }
 }
 
@@ -24,14 +24,4 @@
   width: 100%;
   align-self: center;
   justify-content: center;
-}
-
-@media screen and (min-width: 600px) {
-  /* .BookedAppliedContainer {
-    height: 300px;
-  } */
-
-  .ToggleDetailButton {
-    max-width: 300px;
-  }
 }

@@ -67,10 +67,14 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         sx={{
           width: { xs: "90vw", lg: "1000px" },
           padding: { xs: "30px", md: "50px" },
+          position: "relative",
         }}
       >
         <div className={styles.ModalHeader}>
-          <IconButton className={styles.CloseButton} onClick={handleClose}>
+          <IconButton
+            onClick={handleClose}
+            sx={{ position: "absolute", top: "15px", right: "15px" }}
+          >
             <Close fontSize="medium" />
           </IconButton>
           <div className={styles.JobHeader}>

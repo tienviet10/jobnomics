@@ -18,7 +18,10 @@ const BookmarkedAppliedView = () => {
       className={styles.BookedAppliedContainer}
       sx={{ height: { xs: "55vh", sm: "47vh" } }}
     >
-      <div className={styles.JobDescription}>
+      <Box
+        className={styles.JobDescription}
+        sx={{ p: { xs: "15px", sm: "30px", md: "40px" }, pb: 0 }}
+      >
         <Typography variant="h5" fontWeight="bold" gutterBottom>
           Job Summary:
         </Typography>
@@ -28,12 +31,13 @@ const BookmarkedAppliedView = () => {
         <Typography variant="subtitle1" fontWeight="bold">
           Skills: <span>{skills}</span>
         </Typography>
-      </div>
+      </Box>
       {
         <Button
           variant="text"
           className={styles.ToggleDetailButton}
           onClick={toggleDetailView}
+          sx={{ p: "10px 0" }}
         >
           {isDetail ? "View Summary" : "View Details"}
         </Button>

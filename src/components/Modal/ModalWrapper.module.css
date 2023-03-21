@@ -11,8 +11,6 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
-
-  position: relative;
 }
 
 @media screen and (max-width: 350px) {
@@ -48,12 +46,6 @@
 
 .Button {
   color: #000000;
-}
-
-.CloseButton {
-  position: absolute;
-  top: 15px;
-  right: 15px;
 }
 
 .ButtonText {
