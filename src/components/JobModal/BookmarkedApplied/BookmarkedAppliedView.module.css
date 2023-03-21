@@ -1,15 +1,17 @@
-.BookedAppliedContainer {
+div.BookedAppliedContainer {
   border: 1px solid #0000004b;
   border-radius: 10px;
-  padding: 20px;
-  padding-bottom: 0;
-  width: 80%;
-  margin: 20px 0;
-  height: 400px;
+
   overflow-y: auto;
 
   display: flex;
   flex-direction: column;
+}
+
+@media screen and (max-width: 350px) {
+  div.BookedAppliedContainer {
+    height: 45vh;
+  }
 }
 
 .JobDescription {
@@ -20,14 +22,5 @@
   width: 100%;
   align-self: center;
   justify-content: center;
-}
-
-@media screen and (min-width: 600px) {
-  .BookedAppliedContainer {
-    height: 300px;
-  }
-
-  .ToggleDetailButton {
-    max-width: 300px;
-  }
+  padding: 10px 0;
 }

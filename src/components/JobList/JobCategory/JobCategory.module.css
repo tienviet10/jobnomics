@@ -1,8 +1,8 @@
 .JobListContainer {
   background-color: #f8f8f8;
-  width: 270px;
-  min-width: 250px;
-  height: 80vh;
+  width: 275px;
+  min-width: 275px;
+  height: calc(84vh - 64px);
   padding: 20px 10px;
   margin: 10px 5px;
 
@@ -34,4 +34,25 @@
   transition: background-color 0.2s ease;
   margin-top: 10px;
   overflow-y: auto;
+  overflow: overlay;
+}
+
+.JobItems:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+.JobItems:not(:hover) {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
 }

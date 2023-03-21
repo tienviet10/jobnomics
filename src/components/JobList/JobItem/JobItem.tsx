@@ -50,11 +50,10 @@ const JobItem = ({
 
   const handleOpenModal = () => {
     dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
-    
-    // // Add refetch since if the modal is already opened and the user click on it -> RTK query wont send a new request
-    // refetch()
 
-    dispatch(toggleJobModal(!modalState.open));
+    setTimeout(() => {
+      dispatch(toggleJobModal(!modalState.open));
+    }, 70);
   };
 
   return (
@@ -71,7 +70,7 @@ const JobItem = ({
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="body1" className={styles.JobTitle}>
+              <Typography variant="body2" className={styles.JobTitle}>
                 {title}
               </Typography>
               <Typography variant="caption" className={styles.Company}>

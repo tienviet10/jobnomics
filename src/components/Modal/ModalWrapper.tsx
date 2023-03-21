@@ -14,11 +14,21 @@ import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 
-const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
+const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const { aJob, selectedJob, jobId, categoryId, modalState, isLoading, isFetching, previousJob } = useGetAJob();
+
+  const {
+    aJob,
+    selectedJob,
+    jobId,
+    categoryId,
+    modalState,
+    isLoading,
+    isFetching,
+    previousJob,
+  } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -55,29 +65,54 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
     setOpenDeleteModal((prev) => !prev);
   };
 
-
   return selectedJob && !isLoading ? (
     <Modal
       open={modalState.open}
       onClose={handleClose}
       className={styles.JobModalContainer}
     >
-      <Card elevation={5} className={styles.JobModal}>
+      <Card
+        elevation={5}
+        className={styles.JobModal}
+        sx={{
+          width: { xs: "90vw", lg: "1000px" },
+          padding: { xs: "30px", md: "50px" },
+          position: "relative",
+        }}
+      >
         <div className={styles.ModalHeader}>
-          <IconButton className={styles.CloseButton} onClick={handleClose}>
+          <IconButton
+            onClick={handleClose}
+            sx={{ position: "absolute", top: "15px", right: "15px" }}
+          >
             <Close fontSize="medium" />
           </IconButton>
-          { ((previousJob.categoryId === modalState.jobCategoryId.categoryId && previousJob.jobId === modalState.jobCategoryId.jobId) || !isFetching) && <div className={styles.JobHeader}>
-            <Typography variant="h5" className={styles.JobTitle}>
-              {selectedJob.job?.title}
-            </Typography>
-            <Typography variant="h6" className={styles.JobCompany}>
-              {selectedJob.job?.company} | {selectedJob.job?.location}
-            </Typography>
-            <Typography variant="caption" className={styles.JobUpdatedDate}>
-              Last update at: {`${updatedDate.toLocaleString()}`}
-            </Typography>
-          </div>}
+          {((previousJob.categoryId === modalState.jobCategoryId.categoryId &&
+            previousJob.jobId === modalState.jobCategoryId.jobId) ||
+            !isFetching) && (
+            <div className={styles.JobHeader}>
+              <Typography
+                variant="h5"
+                className={styles.JobTitle}
+                sx={{
+                  fontSize: { xs: "20px", sm: "24px" },
+                  fontWeight: "bold",
+                }}
+              >
+                {selectedJob.job?.title}
+              </Typography>
+              <Typography
+                variant="h6"
+                className={styles.JobCompany}
+                sx={{ fontSize: { xs: "15px", sm: "20px" } }}
+              >
+                {selectedJob.job?.company} | {selectedJob.job?.location}
+              </Typography>
+              <Typography variant="caption" className={styles.JobUpdatedDate}>
+                Last update at: {`${updatedDate.toLocaleString()}`}
+              </Typography>
+            </div>
+          )}
         </div>
         <div className={styles.ModalMain}>
           {children}
@@ -87,7 +122,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
           />
         </div>
         <div className={styles.ModalFooter}>
-          <IconButton className={styles.Button} onClick={handleToggleFavorite}>
+          <IconButton
+            className={styles.Button}
+            onClick={handleToggleFavorite}
+            disableRipple
+          >
             <Typography className={styles.ButtonText}>Favorite</Typography>
             {selectedJob?.isFavorite ? (
               <Favorite fontSize="medium" />
@@ -98,6 +137,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
           <IconButton
             className={styles.Button}
             onClick={handleOpenDeleteConfirmationModal}
+            disableRipple
           >
             <Typography className={styles.ButtonText}>Delete</Typography>
             <Delete fontSize="medium" />
