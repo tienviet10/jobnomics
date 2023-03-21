@@ -84,7 +84,7 @@ const InterviewedView = (): JSX.Element => {
 
   useEffect(() => {
     progressBar()
-  }, []);
+  }, [selectedJob.checklists]);
 
   const checklists = selectedJob.checklists.map((checklist: Checklist) => {
     return (
