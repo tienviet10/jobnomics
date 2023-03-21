@@ -185,4 +185,5 @@ export type GetAJobType = {
   categoryId: number;
   isFetching: boolean;
   previousJob: { jobId: number; categoryId: number; };
+  isSuccess: boolean;
 };

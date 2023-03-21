@@ -28,7 +28,7 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState } = useGetAJob();
+  const { modalState, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
   const job = data[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
@@ -49,8 +49,11 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-      dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
+    dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
     
+    // // Add refetch since if the modal is already opened and the user click on it -> RTK query wont send a new request
+    // refetch()
+
     dispatch(toggleJobModal(!modalState.open));
   };
 

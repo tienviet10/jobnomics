@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 
 import styles from "./Interviewing.module.css";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
-import RefreshIcon from "@mui/icons-material/Refresh";
+// import RefreshIcon from "@mui/icons-material/Refresh";
 import LoadingAnimation from "../../LoadingAnimation";
 
 const Interviewing = () => {
@@ -12,7 +12,7 @@ const Interviewing = () => {
 
   return (
     <div className={styles.BookedAppliedContainer}>
-      {selectedJob?.interviewExamples ? (
+      {!selectedJob?.job?.interviewExamples ? (
         <div className={styles.LoadingContainer}>
           <LoadingAnimation />
           <Typography variant="subtitle2">
