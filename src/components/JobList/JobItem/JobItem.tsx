@@ -28,7 +28,7 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState } = useGetAJob();
+  const { modalState, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
   const job = data[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;

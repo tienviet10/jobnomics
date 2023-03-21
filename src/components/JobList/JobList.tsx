@@ -1,6 +1,5 @@
-import React from "react";
-import type { RootState } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
   setInterviewedModalId,
   toggleInterviewedModal,
@@ -15,25 +14,62 @@ import {
 import styles from "./JobList.module.css";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
-
+import { useGetAJob } from "../../hooks/get-a-job";
 import JobCategory from "./JobCategory";
 import type { JobPreviewType } from "../../types/jobTypes";
 import PageLoader from "../PageLoader";
 
+// import { io } from "socket.io-client";
+// const socket = io("http://localhost:8080", {
+//   withCredentials: true,
+// });
+
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
-  const jobCategories = useSelector(
-    (state: RootState) => state.job.categoryOrder
-  );
+  // const jobCategories = useSelector(
+  //   (state: RootState) => state.job.categoryOrder
+  // );
+  // const { refetch: refetchAJob, isSuccess: isSuccessFromAJob, categoryArray } = useGetAJob();
+  // const { data, error, isLoading, refetch } = useGetAllJobsQuery();
 
-  const { data, error, isLoading } = useGetAllJobsQuery();
+  const { categoryArray,refetch } = useGetAJob();
+  const { data, isLoading } = useGetAllJobsQuery();
   const [updateJobs] = useUpdateJobsMutation();
-
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
-    useAddInterviewQuestionsMutation();
+  const [addInterviewQuestions, { isError, isSuccess }] = useAddInterviewQuestionsMutation();
 
-  const handleOnDragEnd = (result: DropResult) => {
+  useEffect(()=>{
+    refetch()
+  },[isSuccess])
+
+  // const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
+  //   useAddInterviewQuestionsMutation();
+  // const onConnect = () => {
+  //   console.log("Connected!");
+  // };
+  // const onAddJob = () => {
+  //   console.log("onAddJOb");
+  //   refetch();
+  // };
+  // const onAddInterviewQuestions = (payload:any) => {
+  //   console.log(payload);
+  //   console.log("first")
+  //   refetchAJob();
+  //   // refetch()
+  // };
+
+  // useEffect(() => {
+  //   socket.on("connect", onConnect);
+  //   socket.emit("add-job");
+  //   socket.on("add-job", onAddJob);
+  //   return () => {
+  //     socket.off("connect");
+  //     socket.off("add-job");
+  //   };
+  // }, [isSuccess, isSuccessFromAJob]);
+
+
+  const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
     if (!destination) return;
@@ -45,9 +81,9 @@ const JobList = (): JSX.Element => {
       return;
     }
 
-    const sourceCategory = jobCategories[Number(source.droppableId) - 1];
+    const sourceCategory = categoryArray[Number(source.droppableId) - 1];
     const destinationCategory =
-      jobCategories[Number(destination.droppableId) - 1];
+      categoryArray[Number(destination.droppableId) - 1];
 
     const startColumn = data[sourceCategory];
     const endColumn = data[destinationCategory];
@@ -58,7 +94,7 @@ const JobList = (): JSX.Element => {
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
 
-      newJobs.forEach((job: { position: number }, index: number) => {
+      newJobs.forEach((job: { position: number; }, index: number) => {
         if (
           source.index < destination.index &&
           index >= source.index &&
@@ -91,7 +127,7 @@ const JobList = (): JSX.Element => {
       };
 
       const updatedJobs = newJobs.map(
-        (job: { id: number; position: number }, index: number) => {
+        (job: { id: number; position: number; }, index: number) => {
           return {
             jobId: job?.id,
             categoryId: Number(source.droppableId),
@@ -120,7 +156,7 @@ const JobList = (): JSX.Element => {
 
     const startColumnUpdatedJobs = startJobs
       ?.splice(source.index)
-      .map((job: { position: number }) => {
+      .map((job: { position: number; }) => {
         return {
           ...job,
           position: job.position - 1,
@@ -129,7 +165,7 @@ const JobList = (): JSX.Element => {
 
     const endColumnUpdatedJobs = endJobs
       ?.splice(destination.index)
-      .map((job: { position: number }) => {
+      .map((job: { position: number; }) => {
         return {
           ...job,
           position: job.position + 1,
@@ -158,7 +194,7 @@ const JobList = (): JSX.Element => {
     };
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+      (job: { id: number; position: number; }, index: number) => {
         return {
           jobId: job?.id,
           categoryId: Number(source.droppableId),
@@ -169,7 +205,7 @@ const JobList = (): JSX.Element => {
     );
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+      (job: { id: number; position: number; }, index: number) => {
         if (job.position === destination.index) {
           return {
             jobId: job?.id,

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { io } from "socket.io-client";
+// import { io } from "socket.io-client";
 import {
   useAddJobMutation,
-  useGetAllJobsQuery,
 } from "../../app/services/job-api";
 
 import styles from "./CreateJobModal.module.css";
@@ -21,16 +20,15 @@ import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
 
-const socket = io("http://localhost:8080", {
-  withCredentials: true,
-});
+// const socket = io("http://localhost:8080", {
+//   withCredentials: true,
+// });
 
 const CreateJobModal = ({
   open,
   setOpen,
 }: CreateJobModalPropType): JSX.Element => {
   const [value, setValue] = useState<string>("");
-  const { data: jobState, refetch } = useGetAllJobsQuery();
   const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
 
@@ -38,33 +36,32 @@ const CreateJobModal = ({
     setOpen(false);
   };
 
-  useEffect(() => {
-    const onConnect = () => {
-      console.log("Connected!");
-    };
+  // useEffect(() => {
+  //   const onConnect = () => {
+  //     console.log("Connected!");
+  //   };
 
-    const onAddJob = () => {
-      refetch()
-    };
+  //   const onAddJob = () => {
+  //     refetch()
+  //   };
 
-    socket.on("connect", onConnect);
+  //   socket.on("connect", onConnect);
 
-    socket.emit("add-job");
+  //   socket.emit("add-job");
 
-    socket.on("add-job", onAddJob);
+  //   socket.on("add-job", onAddJob);
 
-    return () => {
-      socket.off("connect");
-      socket.off("add-job");
-    };
-  }, [isSuccess]);
+  //   return () => {
+  //     socket.off("connect");
+  //     socket.off("add-job");
+  //   };
+  // }, [isSuccess]);
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-
     addJob({
       jobLink: value,
-      position: jobState.Bookmarked.jobs.length,
+      position: 100,
       interviewDate: null,
     });
   };
@@ -74,7 +71,7 @@ const CreateJobModal = ({
       setValue("");
       setOpen(false);
     }
-  }, [isPosting, isSuccess, isError]);
+  }, [isSuccess, isError]);
 
   return (
     <Modal

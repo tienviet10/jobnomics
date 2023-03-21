@@ -4,8 +4,6 @@ import { useGetJobByIdQuery } from "../app/services/job-api";
 import { RootState } from "../app/store";
 import { GetAJobType, Skill } from "../types/jobTypes";
 
-
-
 export function useGetAJob(): GetAJobType {
   const state = useSelector((state: RootState) => state.job);
   const categoryArray = state.categoryOrder;
@@ -18,7 +16,8 @@ export function useGetAJob(): GetAJobType {
     refetch,
     error,
     isLoading,
-    isFetching
+    isFetching,
+    isSuccess
   } = useGetJobByIdQuery({
     jobId,
     categoryId,
@@ -40,6 +39,7 @@ export function useGetAJob(): GetAJobType {
     categoryId,
     isLoading,
     isFetching,
-    previousJob
+    previousJob,
+    isSuccess
   };
 }

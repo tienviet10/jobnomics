@@ -15,7 +15,7 @@ const InterviewingView = () => {
         className={styles.InterviewingContainer}
         sx={{ height: { xs: "46vh", sm: "47vh" } }}
       >
-        {selectedJob?.interviewExamples ? (
+        {!selectedJob?.job?.interviewExamples ? (
           <div className={styles.LoadingContainer}>
             <LoadingAnimation />
             <Typography variant="subtitle2" sx={{ pt: 2 }}>
