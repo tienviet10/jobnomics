@@ -1,0 +1,11 @@
+.SearchPage {
+  margin-top: 64px;
+  padding: 50px 20px;
+}
+
+.FilterContainer {
+  display: flex;
+  flex-direction: row-reverse;
+
+  overflow: auto;
+}
