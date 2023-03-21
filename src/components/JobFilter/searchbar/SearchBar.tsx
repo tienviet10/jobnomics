@@ -13,8 +13,8 @@ const SearchBar = (): JSX.Element => {
     <TextField
       placeholder="Type here..."
       label="Search"
-      size="small"
       onChange={(e) => dispatch(handleSearch(e.target.value))}
+      sx={{ margin: "10px 0", background: "#ffffff" }}
       className={styles.SearchBar}
     />
   );
