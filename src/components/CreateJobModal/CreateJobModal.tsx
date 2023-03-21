@@ -57,7 +57,7 @@ const CreateJobModal = ({
   //   };
   // }, [isSuccess]);
 
-  const handleSaveJobClick = (event: { preventDefault: () => void }) => {
+  const handleSaveJobClick = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     addJob({
       jobLink: value,
@@ -70,6 +70,9 @@ const CreateJobModal = ({
     if (isSuccess) {
       setValue("");
       setOpen(false);
+    }
+    if (isError) {
+      console.log(isError);
     }
   }, [isSuccess, isError]);
 
