@@ -27,15 +27,11 @@ import { useUpdateJobMutation } from "../../app/services/job-api";
 import { setFilterSelectedJob } from "../../features/filterSlice";
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
-const FilterList: React.FC<FilterListType> = ({
-  sentFilterRequest,
-}): JSX.Element => {
+const FilterList: React.FC<FilterListType> = (): JSX.Element => {
   const dispatch = useDispatch();
-  const state = useSelector(
-    (state: RootState) => state.filter
-  );
-  const jobsList = state.displayArrayJobs
-  const selectedJob = state.selectedJob
+  const state = useSelector((state: RootState) => state.filter);
+  const jobsList = state.displayArrayJobs;
+  const selectedJob = state.selectedJob;
   const [updateJob, { isLoading: isUpdating }] = useUpdateJobMutation();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
@@ -44,13 +40,12 @@ const FilterList: React.FC<FilterListType> = ({
   }>({});
 
   const handleDelete = (job: Job) => {
-    handleMenuClose(job)
+    handleMenuClose(job);
     setOpenDeleteModal(true);
-    // console.log(menuStates)
   };
 
   const handleOpenModal = (job: Job) => {
-    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }))
+    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
     dispatch(toggleJobModal(true));
   };
 
@@ -61,12 +56,13 @@ const FilterList: React.FC<FilterListType> = ({
     setMenuStates((prev) => {
       dispatch(setFilterSelectedJob(job));
       return {
-      ...prev,
-      [job.id]: {
-        anchorEl: event.currentTarget,
-        open: true,
-      },
-    }});
+        ...prev,
+        [job.id]: {
+          anchorEl: event.currentTarget,
+          open: true,
+        },
+      };
+    });
   };
 
   const handleMenuClose = (job: Job) => {
@@ -87,29 +83,30 @@ const FilterList: React.FC<FilterListType> = ({
       interviewDate: job.interviewDate,
       type: "update",
     });
-    // sentFilterRequest()
   };
 
   return (
-    <Paper elevation={3} className={styles.FilterList}>
-      <Table size="medium">
-        <TableHead>
+    <Paper elevation={2} className={styles.FilterList}>
+      <Table size="medium" className={styles.FilterTable}>
+        <TableHead className={styles.JobTableHead}>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell align="center"></TableCell>
             <TableCell>Company</TableCell>
             <TableCell>Job Title</TableCell>
-            <TableCell>Update At</TableCell>
-            <TableCell>Status</TableCell>
-            <TableCell></TableCell>
-            <TableCell></TableCell>
+            <TableCell align="center">Update At</TableCell>
+            <TableCell align="center">Status</TableCell>
+            <TableCell align="center"></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
+        <TableBody className={styles.JobTableBody}>
           {jobsList.length > 0 &&
             jobsList[0] &&
             jobsList.map((job: Job, index: number) => (
-              <TableRow key={index}>
-                <TableCell onClick={() => handleOpenModal(job)}>
+              <TableRow key={index} hover>
+                <TableCell
+                  className={styles.JobLogo}
+                  onClick={() => handleOpenModal(job)}
+                >
                   <Avatar variant="square" src={job.logo} alt={job.company} />
                 </TableCell>
                 <TableCell onClick={() => handleOpenModal(job)}>
@@ -118,10 +115,10 @@ const FilterList: React.FC<FilterListType> = ({
                 <TableCell onClick={() => handleOpenModal(job)}>
                   {job.title}
                 </TableCell>
-                <TableCell onClick={() => handleOpenModal(job)}>
-                  {new Date(job.updatedAt).toLocaleString()}
+                <TableCell align="center" onClick={() => handleOpenModal(job)}>
+                  {new Date(job.updatedAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>
+                <TableCell align="center">
                   <IconButton onClick={() => handleToggleFavorite(job)}>
                     {job.isFavorite === true ? (
                       <Favorite />
@@ -130,36 +127,35 @@ const FilterList: React.FC<FilterListType> = ({
                     )}
                   </IconButton>
                 </TableCell>
-                <TableCell>
-                  <div>
-                    <Button
-                      aria-controls={`basic-menu-${job.id}`}
-                      aria-haspopup="true"
-                      aria-expanded={menuStates[job.id]?.open}
-                      onClick={(event) => handleMenuOpen(job, event)}
-                    >
-                      <MoreVert />
-                    </Button>
-                    <Menu
-                      id={`basic-menu-${job.id}`}
-                      key={job.id}
-                      anchorEl={menuStates[job.id]?.anchorEl}
-                      open={menuStates[job.id]?.open || false}
-                      onClose={() => handleMenuClose(job)}
-                      MenuListProps={{
-                        "aria-labelledby": `basic-button-${job.id}`,
-                      }}
-                    >
-                      <MenuItem onClick={() => handleDelete(job)}>
-                        Delete
-                      </MenuItem>
-                    </Menu>
-                  </div>
+                <TableCell align="center">
+                  <Button
+                    aria-controls={`basic-menu-${job.id}`}
+                    aria-haspopup="true"
+                    aria-expanded={menuStates[job.id]?.open}
+                    onClick={(event) => handleMenuOpen(job, event)}
+                  >
+                    <MoreVert />
+                  </Button>
+                  <Menu
+                    id={`basic-menu-${job.id}`}
+                    key={job.id}
+                    anchorEl={menuStates[job.id]?.anchorEl}
+                    open={menuStates[job.id]?.open || false}
+                    onClose={() => handleMenuClose(job)}
+                    MenuListProps={{
+                      "aria-labelledby": `basic-button-${job.id}`,
+                    }}
+                  >
+                    <MenuItem onClick={() => handleDelete(job)}>
+                      Delete
+                    </MenuItem>
+                  </Menu>
                 </TableCell>
               </TableRow>
             ))}
         </TableBody>
       </Table>
+
       <FilterDeleteConfirmModal
         open={openDeleteModal}
         setOpen={setOpenDeleteModal}

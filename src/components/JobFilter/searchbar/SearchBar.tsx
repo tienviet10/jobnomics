@@ -11,7 +11,8 @@ const SearchBar = (): JSX.Element => {
 
   return (
     <TextField
-      placeholder="Search"
+      placeholder="Type here..."
+      label="Search"
       size="small"
       onChange={(e) => dispatch(handleSearch(e.target.value))}
       className={styles.SearchBar}

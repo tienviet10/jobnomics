@@ -1,5 +1,6 @@
 .SearchBar {
   flex: 1;
+  margin: 10px 0;
 }
 
 @media screen and (min-width: 800px) {

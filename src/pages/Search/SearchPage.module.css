@@ -1,6 +1,7 @@
 .SearchPage {
   margin-top: 64px;
   padding: 50px 20px;
+  overflow: hidden;
 }
 
 .FilterContainer {
