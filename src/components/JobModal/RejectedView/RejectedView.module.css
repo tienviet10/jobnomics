@@ -1,0 +1,48 @@
+.RejectedContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+@media screen and (max-height: 670px) {
+  div.RejectedContainer {
+    height: 45vh;
+    padding: 0 20px;
+  }
+}
+
+.RejectedMain {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+.Question {
+  margin-bottom: 20px;
+}
+
+.SubmitButton {
+  align-self: flex-end;
+  max-width: 100px;
+  margin: 20px 0 10px;
+}
+
+div.OtherInput {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+div.OtherInputField {
+  margin-left: 10px;
+}
+
+label.FormControlLabel :last-child {
+  flex: 1;
+}
+
+.Skills {
+  color: #2d799d;
+  padding-top: 10px;
+}

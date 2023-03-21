@@ -15,8 +15,15 @@
 }
 
 @media screen and (max-width: 350px) {
-  .JobModal {
+  div.JobModal {
     max-height: 95vh;
+    padding: 25px 18px;
+  }
+}
+
+@media screen and (max-height: 700px) {
+  div.JobModal {
+    max-height: 90vh;
   }
 }
 

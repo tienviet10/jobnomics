@@ -34,4 +34,25 @@
   transition: background-color 0.2s ease;
   margin-top: 10px;
   overflow-y: auto;
+  overflow: overlay;
+}
+
+.JobItems:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+.JobItems:not(:hover) {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #e5e5e5;
 }

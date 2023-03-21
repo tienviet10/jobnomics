@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {useGetAllJobsQuery } from "../../../app/services/job-api";
+import { useGetAllJobsQuery } from "../../../app/services/job-api";
 import { Droppable } from "react-beautiful-dnd";
 import { Button, Typography, Paper } from "@mui/material";
 import styles from "./JobCategory.module.css";
@@ -18,42 +18,46 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
 
   return (
     <>
-    {jobState && (
-      <Paper elevation={3} className={styles.JobListContainer}>
-      <div className={styles.JobListHeader}>
-        <Typography variant="subtitle1" className={styles.CategoryLabel}>
-          {category}
-        </Typography>
-        {category === "Bookmarked" && (
-          <Button variant="contained" onClick={handleAddJobClick}>
-            <Typography variant="subtitle2">Add New Job</Typography>
-          </Button>
-        )}
-      </div>
-      <Droppable droppableId={String(jobState[category]?.id)}>
-        {(provided, snapshot) => (
-          <Paper
-            elevation={0}
-            className={styles.JobItems}
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            sx={{ bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8" }}
-          >
-            {jobState[category].jobs.length > 0 && jobState[category].jobs?.map((job:Job, index:number) => (
-             <JobItem
-                key={`${job?.id}-chores`}
-                draggableId={`${job?.id}`}
-                index={index}
-                category={category}
-              />
-            ))}
-            {provided.placeholder}
-          </Paper>
-        )}
-      </Droppable>
-      <CreateJobModal open={open} setOpen={setOpen} />
-    </Paper>
-    )}
+      {jobState && (
+        <Paper elevation={3} className={styles.JobListContainer}>
+          <div className={styles.JobListHeader}>
+            <Typography variant="subtitle1" className={styles.CategoryLabel}>
+              {category}
+            </Typography>
+            {category === "Bookmarked" && (
+              <Button variant="contained" onClick={handleAddJobClick}>
+                <Typography variant="subtitle2">Add New Job</Typography>
+              </Button>
+            )}
+          </div>
+          <Droppable droppableId={String(jobState[category]?.id)}>
+            {(provided, snapshot) => (
+              <Paper
+                elevation={0}
+                className={styles.JobItems}
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                sx={{
+                  bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8",
+                  pb: snapshot.isDraggingOver ? 5 : 2,
+                }}
+              >
+                {jobState[category].jobs.length > 0 &&
+                  jobState[category].jobs?.map((job: Job, index: number) => (
+                    <JobItem
+                      key={`${job?.id}-chores`}
+                      draggableId={`${job?.id}`}
+                      index={index}
+                      category={category}
+                    />
+                  ))}
+                {provided.placeholder}
+              </Paper>
+            )}
+          </Droppable>
+          <CreateJobModal open={open} setOpen={setOpen} />
+        </Paper>
+      )}
     </>
   );
 };
