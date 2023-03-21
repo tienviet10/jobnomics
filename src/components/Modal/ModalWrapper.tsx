@@ -13,8 +13,9 @@ import { Typography, Modal, IconButton, Card } from "@mui/material";
 import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
+import ModalPlaceholder from "./ModalPlaceholder";
 
-const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
+const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
@@ -80,69 +81,73 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           position: "relative",
         }}
       >
-        <div className={styles.ModalHeader}>
-          <IconButton
-            onClick={handleClose}
-            sx={{ position: "absolute", top: "15px", right: "15px" }}
-          >
-            <Close fontSize="medium" />
-          </IconButton>
-          {((previousJob.categoryId === modalState.jobCategoryId.categoryId &&
-            previousJob.jobId === modalState.jobCategoryId.jobId) ||
-            !isFetching) && (
-            <div className={styles.JobHeader}>
-              <Typography
-                variant="h5"
-                className={styles.JobTitle}
-                sx={{
-                  fontSize: { xs: "20px", sm: "24px" },
-                  fontWeight: "bold",
-                }}
-              >
-                {selectedJob.job?.title}
-              </Typography>
-              <Typography
-                variant="h6"
-                className={styles.JobCompany}
-                sx={{ fontSize: { xs: "15px", sm: "20px" } }}
-              >
-                {selectedJob.job?.company} | {selectedJob.job?.location}
-              </Typography>
-              <Typography variant="caption" className={styles.JobUpdatedDate}>
-                Last update at: {`${updatedDate.toLocaleString()}`}
-              </Typography>
-            </div>
+        {((previousJob.categoryId === modalState.jobCategoryId.categoryId &&
+          previousJob.jobId === modalState.jobCategoryId.jobId) ||
+          !isFetching) ? (
+            <>
+              <div className={styles.ModalHeader}>
+                <IconButton
+                  onClick={handleClose}
+                  sx={{ position: "absolute", top: "15px", right: "15px" }}
+                >
+                  <Close fontSize="medium" />
+                </IconButton>
+                <div className={styles.JobHeader}>
+                  <Typography
+                    variant="h5"
+                    className={styles.JobTitle}
+                    sx={{
+                      fontSize: { xs: "20px", sm: "24px" },
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {selectedJob.job?.title}
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    className={styles.JobCompany}
+                    sx={{ fontSize: { xs: "15px", sm: "20px" } }}
+                  >
+                    {selectedJob.job?.company} | {selectedJob.job?.location}
+                  </Typography>
+                  <Typography variant="caption" className={styles.JobUpdatedDate}>
+                    Last update at: {`${updatedDate.toLocaleString()}`}
+                  </Typography>
+                </div>
+              </div>
+              <div className={styles.ModalMain}>
+                {children}
+                <DeleteJobConfirmModal
+                  open={openDeleteModal}
+                  setOpen={setOpenDeleteModal}
+                />
+              </div>
+              <div className={styles.ModalFooter}>
+                <IconButton
+                  className={styles.Button}
+                  onClick={handleToggleFavorite}
+                  disableRipple
+                >
+                  <Typography className={styles.ButtonText}>Favorite</Typography>
+                  {selectedJob?.isFavorite ? (
+                    <Favorite fontSize="medium" />
+                  ) : (
+                    <FavoriteBorder fontSize="medium" />
+                  )}
+                </IconButton>
+                <IconButton
+                  className={styles.Button}
+                  onClick={handleOpenDeleteConfirmationModal}
+                  disableRipple
+                >
+                  <Typography className={styles.ButtonText}>Delete</Typography>
+                  <Delete fontSize="medium" />
+                </IconButton>
+              </div>
+            </>
+          ): (
+            <ModalPlaceholder/>
           )}
-        </div>
-        <div className={styles.ModalMain}>
-          {children}
-          <DeleteJobConfirmModal
-            open={openDeleteModal}
-            setOpen={setOpenDeleteModal}
-          />
-        </div>
-        <div className={styles.ModalFooter}>
-          <IconButton
-            className={styles.Button}
-            onClick={handleToggleFavorite}
-            disableRipple
-          >
-            <Typography className={styles.ButtonText}>Favorite</Typography>
-            {selectedJob?.isFavorite ? (
-              <Favorite fontSize="medium" />
-            ) : (
-              <FavoriteBorder fontSize="medium" />
-            )}
-          </IconButton>
-          <IconButton
-            className={styles.Button}
-            onClick={handleOpenDeleteConfirmationModal}
-            disableRipple
-          >
-            <Typography className={styles.ButtonText}>Delete</Typography>
-            <Delete fontSize="medium" />
-          </IconButton>
-        </div>
       </Card>
     </Modal>
   ) : (
