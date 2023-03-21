@@ -5,19 +5,8 @@ div.ChecklistMain {
   justify-content: center;
   align-items: center;
   width: 100%;
+
   margin-bottom: 10px;
-}
-
-@media screen and (max-width: 350px) {
-  div.ChecklistMain {
-    height: 28vh;
-  }
-}
-
-@media screen and (max-height: 670px) {
-  div.ChecklistMain {
-    justify-content: flex-start;
-  }
 }
 
 .ProgressMessage {
@@ -37,11 +26,40 @@ div.ChecklistMain {
   align-self: flex-start;
 }
 
-.NoteTextField:focus {
-  flex: 1;
+.NotepadMain {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.NoteTextField {
+  max-height: 100%;
+  height: 80%;
 }
 
 .Skills {
   color: #2d799d;
   padding-top: 10px;
+}
+
+@media screen and (max-width: 350px) {
+  div.ChecklistMain {
+    height: 28vh;
+  }
+}
+
+@media screen and (max-height: 670px) {
+  div.ChecklistMain,
+  div.NotepadMain {
+    justify-content: flex-start;
+  }
+
+  div.ChecklistMain,
+  div.NotepadMain {
+    height: 28vh;
+  }
 }

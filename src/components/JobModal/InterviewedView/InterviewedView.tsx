@@ -147,7 +147,7 @@ const InterviewedView = (): JSX.Element => {
   }, [isSuccess]);
 
   return (
-    <Box className={styles.InterviewedContainer} sx={{ mb: 2 }}>
+    <Box className={styles.InterviewedContainer}>
       <Tabs
         value={isNotepad ? 1 : 0}
         onChange={handleTabChange}
@@ -161,7 +161,7 @@ const InterviewedView = (): JSX.Element => {
         <Box
           className={styles.ChecklistMain}
           sx={{
-            height: { xs: "40vh", sm: "40vh" },
+            height: { xs: "40vh", sm: "45vh" },
             width: "100%",
             px: { xs: "0", sm: "40px", md: "50px" },
           }}
@@ -202,7 +202,12 @@ const InterviewedView = (): JSX.Element => {
       ) : (
         <Box
           className={styles.NotepadMain}
-          sx={{ px: { xs: "15px", sm: "40px", md: "50px" }, py: 2, pb: 0 }}
+          sx={{
+            height: { xs: "55vh" },
+            px: { xs: "0", sm: "20px", md: "30px" },
+            py: 2,
+            pb: 0,
+          }}
         >
           <Typography variant="h5">
             Keep track of your interview experince.
@@ -214,8 +219,16 @@ const InterviewedView = (): JSX.Element => {
           </Typography>
           <TextField
             className={styles.NoteTextField}
-            sx={{ "& fieldset": { outline: "none" } }}
-            rows={10}
+            sx={{
+              "& fieldset": {
+                outline: "none",
+              },
+              "& .MuiInputBase-root": {
+                height: "100%",
+                display: "flex",
+                alignItems: "start",
+              },
+            }}
             placeholder="Write your notes here..."
             multiline
             fullWidth
