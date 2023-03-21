@@ -37,6 +37,7 @@ const initialState: UserJobsType = {
     },
     checklists: [],
   },
+  previousJob: { jobId: 1, categoryId: 1 }
 };
 
 export const jobSlice = createSlice({
@@ -53,14 +54,7 @@ export const jobSlice = createSlice({
       }
     },
     toggleCheckbox: (state, action) => {
-      const { id, isComplete } = action.payload;
-      const checkbox = state.selectedJob.checklists.find(
-        (checklist) => checklist.id === id
-      );
-      if (checkbox) {
-        const index = state.selectedJob.checklists.indexOf(checkbox);
-        state.selectedJob.checklists[index].isComplete = isComplete;
-      }
+      state.previousJob = state.modal.jobCategoryId;
     },
     toggleJobModal: (state, action) => {
       state.modal = { ...state.modal, open: action.payload };
@@ -69,6 +63,7 @@ export const jobSlice = createSlice({
       state.modal = { ...state.modal, open: action.payload };
     },
     setModalId: (state, action) => {
+      state.previousJob = state.modal.jobCategoryId;
       state.modal = { ...state.modal, jobCategoryId: action.payload };
     },
     setSelectedJob: (state, action) => {
@@ -84,8 +79,10 @@ export const jobSlice = createSlice({
       };
     },
     setNewNote: (state, action) => {
+      state.previousJob = state.modal.jobCategoryId;
       state.selectedJob.note = action.payload;
     },
+
   },
 });
 

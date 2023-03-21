@@ -18,7 +18,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const { aJob, selectedJob, jobId, categoryId, modalState, isLoading, isFetching } = useGetAJob();
+  const { aJob, selectedJob, jobId, categoryId, modalState, isLoading, isFetching, previousJob } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -55,6 +55,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
     setOpenDeleteModal((prev) => !prev);
   };
 
+
   return selectedJob && !isLoading ? (
     <Modal
       open={modalState.open}
@@ -66,19 +67,17 @@ const ModalWrapper = ({ children }: { children: React.ReactNode; }) => {
           <IconButton className={styles.CloseButton} onClick={handleClose}>
             <Close fontSize="medium" />
           </IconButton>
-          {!isFetching && (
-            <div className={styles.JobHeader}>
-              <Typography variant="h5" className={styles.JobTitle}>
-                {selectedJob.job?.title}
-              </Typography>
-              <Typography variant="h6" className={styles.JobCompany}>
-                {selectedJob.job?.company} | {selectedJob.job?.location}
-              </Typography>
-              <Typography variant="caption" className={styles.JobUpdatedDate}>
-                Last update at: {`${updatedDate.toLocaleString()}`}
-              </Typography>
-            </div>
-          )}
+          { ((previousJob.categoryId === modalState.jobCategoryId.categoryId && previousJob.jobId === modalState.jobCategoryId.jobId) || !isFetching) && <div className={styles.JobHeader}>
+            <Typography variant="h5" className={styles.JobTitle}>
+              {selectedJob.job?.title}
+            </Typography>
+            <Typography variant="h6" className={styles.JobCompany}>
+              {selectedJob.job?.company} | {selectedJob.job?.location}
+            </Typography>
+            <Typography variant="caption" className={styles.JobUpdatedDate}>
+              Last update at: {`${updatedDate.toLocaleString()}`}
+            </Typography>
+          </div>}
         </div>
         <div className={styles.ModalMain}>
           {children}

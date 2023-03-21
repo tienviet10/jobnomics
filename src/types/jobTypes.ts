@@ -7,6 +7,7 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
+  previousJob: { jobId: number, categoryId: number; };
 };
 
 type ModalType = {
@@ -183,4 +184,5 @@ export type GetAJobType = {
   jobId: number,
   categoryId: number;
   isFetching: boolean;
+  previousJob: { jobId: number; categoryId: number; };
 };

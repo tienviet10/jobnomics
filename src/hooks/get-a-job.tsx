@@ -11,6 +11,7 @@ export function useGetAJob(): GetAJobType {
   const categoryArray = state.categoryOrder;
   const modalState = state.modal;
   const selectedJob = state.selectedJob;
+  const previousJob = state.previousJob
   const { jobId, categoryId } = modalState.jobCategoryId;
   const {
     data: aJob,
@@ -38,6 +39,7 @@ export function useGetAJob(): GetAJobType {
     jobId,
     categoryId,
     isLoading,
-    isFetching
+    isFetching,
+    previousJob
   };
 }
