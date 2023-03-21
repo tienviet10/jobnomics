@@ -18,6 +18,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
+
   const {
     aJob,
     selectedJob,
@@ -26,6 +27,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     modalState,
     isLoading,
     isFetching,
+    previousJob,
   } = useGetAJob();
 
   const updatedDate = selectedJob?.updatedAt
@@ -85,7 +87,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           >
             <Close fontSize="medium" />
           </IconButton>
-          {!isFetching && (
+          {((previousJob.categoryId === modalState.jobCategoryId.categoryId &&
+            previousJob.jobId === modalState.jobCategoryId.jobId) ||
+            !isFetching) && (
             <div className={styles.JobHeader}>
               <Typography
                 variant="h5"

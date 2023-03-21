@@ -39,7 +39,6 @@ export function useManageSearchPage(): ManageSearchPageType {
   const sentFilterRequest = async () => {
     const newCategory = filterState.category.filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
     const languagesAndFramework = filterState.languages.concat(filterState.framework).filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
-
     setQueryStr({ category: newCategory, skills: languagesAndFramework });
   };
 

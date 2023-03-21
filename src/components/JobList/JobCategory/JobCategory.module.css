@@ -33,4 +33,5 @@
   width: 100%;
   transition: background-color 0.2s ease;
   margin-top: 10px;
+  overflow-y: auto;
 }
