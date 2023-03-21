@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -30,7 +30,8 @@ const JobList = (): JSX.Element => {
   const [updateJobs] = useUpdateJobsMutation();
 
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions] = useAddInterviewQuestionsMutation();
+  const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
+    useAddInterviewQuestionsMutation();
 
   const handleOnDragEnd = (result: DropResult) => {
     const { source, destination } = result;

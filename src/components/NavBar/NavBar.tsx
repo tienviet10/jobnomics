@@ -188,7 +188,11 @@ const NavBar = () => {
                 <Button
                   key={page.name}
                   onClick={(event) => handleClickLink(event, page.path)}
-                  sx={{ my: 2, color: "white", display: "block" }}
+                  sx={{
+                    color: "white",
+                    display: "block",
+                    fontSize: "16px",
+                  }}
                 >
                   {page.name}
                 </Button>
@@ -250,7 +254,7 @@ const NavBar = () => {
                   <Button
                     key={setting.name}
                     onClick={setting.handleAuthentication}
-                    sx={{ my: 2, color: "white", display: "block" }}
+                    sx={{ color: "white", display: "block", fontSize: "16px" }}
                   >
                     {setting.name}
                   </Button>
