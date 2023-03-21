@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +18,7 @@ import { Paper } from "@mui/material";
 
 import JobCategory from "./JobCategory";
 import type { JobPreviewType } from "../../types/jobTypes";
+import PageLoader from "../PageLoader";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -29,7 +30,8 @@ const JobList = (): JSX.Element => {
   const [updateJobs] = useUpdateJobsMutation();
 
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions] = useAddInterviewQuestionsMutation();
+  const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
+    useAddInterviewQuestionsMutation();
 
   const handleOnDragEnd = (result: DropResult) => {
     const { source, destination } = result;
@@ -211,12 +213,14 @@ const JobList = (): JSX.Element => {
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      <Paper elevation={1} className={styles.JobBoard}>
-        {isLoading && <div>Knock Knock</div>}
-        {data && Object.keys(data).map((category: string, index: number) => (
-          <JobCategory key={index} category={category} />
-        ))}
-      </Paper>
+      {isLoading && <PageLoader />}
+      {data && (
+        <Paper elevation={1} className={styles.JobBoard}>
+          {Object.keys(data).map((category: string, index: number) => (
+            <JobCategory key={index} category={category} />
+          ))}
+        </Paper>
+      )}
     </DragDropContext>
   );
 };

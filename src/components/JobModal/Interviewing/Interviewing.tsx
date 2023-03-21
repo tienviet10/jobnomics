@@ -1,36 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import styles from "./Interviewing.module.css";
 import { Button, Typography } from "@mui/material";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
-import RefreshIcon from '@mui/icons-material/Refresh';
+import RefreshIcon from "@mui/icons-material/Refresh";
+import LoadingAnimation from "../../LoadingAnimation";
 
 const Interviewing = () => {
   const { selectedJob, skills, refetch } = useGetAJob();
 
   return (
     <div className={styles.BookedAppliedContainer}>
-      {!selectedJob?.job?.interviewExamples && (
+      {selectedJob?.interviewExamples ? (
+        <div className={styles.LoadingContainer}>
+          <LoadingAnimation />
+          <Typography variant="subtitle2">
+            Preparing sample interview questions and answers...
+          </Typography>
+        </div>
+      ) : (
         <>
-        <Typography>It would take a moment to prepare the interview questions! Please refresh after a few seconds!</Typography>
-        <div className={styles.Refresh}><Button variant="contained" onClick={() => refetch()}><RefreshIcon></RefreshIcon></Button></div>
+          <div className={styles.JobDescription}>
+            <Typography variant="body1" className={styles.Questions}>
+              {selectedJob?.job?.interviewExamples}
+            </Typography>
+          </div>
+
+          <Typography
+            variant="subtitle1"
+            fontWeight="bold"
+            className={styles.Skills}
+          >
+            Skills: <span>{skills}</span>
+          </Typography>
         </>
       )}
-
-      <div className={styles.JobDescription}>
-        <Typography variant="body1" className={styles.Questions}>
-          {selectedJob?.job?.interviewExamples}
-        </Typography>
-      </div>
-
-      <Typography
-        variant="subtitle1"
-        fontWeight="bold"
-        className={styles.Skills}
-      >
-        Skills: <span>{skills}</span>
-      </Typography>
     </div>
   );
 };

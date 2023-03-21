@@ -14,7 +14,7 @@ const JobPage = () => {
 
   return (
     <div className={styles.JobPage}>
-      <Typography variant="h4" className={styles.JobPageTitle}>
+      <Typography variant="h5" className={styles.JobPageTitle}>
         <span>
           {user?.name ||
             user?.given_name ||

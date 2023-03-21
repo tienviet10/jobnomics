@@ -15,6 +15,7 @@ import {
   Button,
   Box,
   Typography,
+  Alert,
 } from "@mui/material";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
@@ -57,10 +58,13 @@ const Rejected = () => {
   return (
     <div className={styles.ModalBody}>
       <Typography variant="h5" className={styles.Rejection}>
-        How were you informed about your rejection?
+        How did the company inform you of their decision to move on with another
+        candidate?
       </Typography>
       {selectedJob?.rejectReason && (
-        <Typography>Reason: {selectedJob?.rejectReason}</Typography>
+        <Alert severity="success">
+          Your response: "{selectedJob?.rejectReason}." Has been saved!
+        </Alert>
       )}
       <Container className={styles.MainContainer}>
         <FormControl className={styles.FormStyle}>

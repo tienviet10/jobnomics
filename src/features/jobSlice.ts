@@ -78,7 +78,10 @@ export const jobSlice = createSlice({
       state.interviewModal = { ...state.interviewModal, open: action.payload };
     },
     setInterviewedModalId: (state, action) => {
-      state.interviewModal = { ...state.interviewModal, jobCategoryId: action.payload };
+      state.interviewModal = {
+        ...state.interviewModal,
+        jobCategoryId: action.payload,
+      };
     },
   },
 });
@@ -90,7 +93,7 @@ export const {
   setModalId,
   setSelectedJob,
   toggleInterviewedModal,
-  setInterviewedModalId
+  setInterviewedModalId,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
-import { useAddJobMutation, useGetAllJobsQuery } from "../../app/services/job-api";
+import {
+  useAddJobMutation,
+  useGetAllJobsQuery,
+} from "../../app/services/job-api";
 
 import styles from "./CreateJobModal.module.css";
 import {
@@ -10,11 +13,13 @@ import {
   Input,
   Typography,
   Button,
+  Alert,
+  AlertTitle,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import {
-  CreateJobModalPropType,
-} from "../../types/jobTypes";
+import { CreateJobModalPropType } from "../../types/jobTypes";
+
+import LoadingAnimation from "../LoadingAnimation";
 
 const socket = io("http://localhost:8080", {
   withCredentials: true,
@@ -26,7 +31,7 @@ const CreateJobModal = ({
 }: CreateJobModalPropType): JSX.Element => {
   const [value, setValue] = useState<string>("");
   const { data: jobState, refetch } = useGetAllJobsQuery();
-  const [addJob, { isLoading: isUpdating, isSuccess, isError }] =
+  const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
 
   const handleClose = () => {
@@ -39,7 +44,7 @@ const CreateJobModal = ({
     };
 
     const onAddJob = (data: any) => {
-      refetch()
+      refetch();
     };
 
     socket.on("connect", onConnect);
@@ -53,14 +58,6 @@ const CreateJobModal = ({
       socket.off("add-job");
     };
   }, [isSuccess]);
-
-  // useState(()=>{
-  //   // ...
-  //   // receive data
-  //   // -> put -> update the bookmarked last index
-  //   // ...
-  //   // ...
-  // },[])
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
@@ -77,7 +74,7 @@ const CreateJobModal = ({
       setValue("");
       setOpen(false);
     }
-  }, [isUpdating, isSuccess, isError]);
+  }, [isPosting, isSuccess, isError]);
 
   return (
     <Modal
@@ -95,35 +92,54 @@ const CreateJobModal = ({
         </IconButton>
 
         <div className={styles.ModalMain}>
-          <div className={styles.FormInstruction}>
-            <Typography variant="h5" gutterBottom>
-              Copy and paste the link to the job posting below:
+          {!isError && !isPosting && (
+            <>
+              <div className={styles.FormInstruction}>
+                <Typography variant="h6" gutterBottom>
+                  Copy and paste the link to the job posting below:
+                </Typography>
+                <Alert severity="info">
+                  <AlertTitle>Info</AlertTitle>
+                  At the moment, we only support{" "}
+                  <strong style={{ fontWeight: "bold" }}>
+                    LinkedIn
+                  </strong> and{" "}
+                  <strong style={{ fontWeight: "bold" }}>ZipRecruiter</strong>.
+                </Alert>
+              </div>
+              <Input
+                placeholder="https://"
+                autoFocus={false}
+                size="medium"
+                fullWidth
+                value={value}
+                onChange={(event) => {
+                  setValue(event.target.value);
+                }}
+              />
+              <Button
+                variant="contained"
+                className={styles.saveButton}
+                onClick={handleSaveJobClick}
+              >
+                Save New Job
+              </Button>
+            </>
+          )}
+          {isPosting && (
+            <div className={styles.LoadingContainer}>
+              <LoadingAnimation />
+              <Typography variant="subtitle2">
+                Preparing Job Summary...
+              </Typography>
+            </div>
+          )}
+          {isError && (
+            <Typography variant="body1">
+              There was an error. Please try again!
             </Typography>
-            <Typography variant="subtitle1">
-              At the moment, we support LinkedIn, Indeed, and ZipRecruiter
-            </Typography>
-          </div>
-          <Input
-            placeholder="https://"
-            autoFocus={false}
-            size="small"
-            fullWidth
-            value={value}
-            onChange={(event) => {
-              setValue(event.target.value);
-            }}
-          />
-          <Button
-            variant="contained"
-            className={styles.saveButton}
-            onClick={handleSaveJobClick}
-          >
-            Save New Job!
-          </Button>
+          )}
         </div>
-        {isUpdating && <div>Updating...</div>}
-        {isError && <div>There was an error please try again</div>}
-        <div className={styles.ModalFooter}></div>
       </Card>
     </Modal>
   );

@@ -1,5 +1,8 @@
 import React from "react";
-import { useGetAllJobsQuery, useUpdateJobsMutation } from "../../../app/services/job-api";
+import {
+  useGetAllJobsQuery,
+  useUpdateJobsMutation,
+} from "../../../app/services/job-api";
 // import React, { useEffect } from "react";
 
 // import {
@@ -22,6 +25,7 @@ import { CloseRounded } from "@mui/icons-material";
 import { Job } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { setSelectedJob, toggleJobModal } from "../../../features/jobSlice";
+import LoadingAnimation from "../../LoadingAnimation";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -36,9 +40,8 @@ const JobDeleteConfirmModal = ({
   const dispatch = useDispatch();
   const { data } = useGetAllJobsQuery();
   const { selectedJob } = useGetAJob();
-  const [
-    updateJobs, {isError, isLoading, isSuccess}
-  ] = useUpdateJobsMutation();
+  const [updateJobs, { isError, isLoading, isSuccess }] =
+    useUpdateJobsMutation();
 
   const handleClose = () => {
     setOpen(false);
@@ -52,19 +55,22 @@ const JobDeleteConfirmModal = ({
     for (const index in currentJob) {
       const newPosition = currentJob[index].position - 1;
       if (Number(index) < selectedJob?.position) {
-        allJobsWithinCategory.push({...currentJob[index]})
-      } else if (index > selectedJob?.position){
-        allJobsWithinCategory.push({...currentJob[index], position: newPosition})
+        allJobsWithinCategory.push({ ...currentJob[index] });
+      } else if (index > selectedJob?.position) {
+        allJobsWithinCategory.push({
+          ...currentJob[index],
+          position: newPosition,
+        });
       }
 
-      if (Number(index) > selectedJob?.position){
+      if (Number(index) > selectedJob?.position) {
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,
           newCategoryId: selectedJob?.category.id,
           position: newPosition,
-          isDeleted: false
-        })
+          isDeleted: false,
+        });
       }
 
       if (Number(index) === selectedJob?.position) {
@@ -73,16 +79,19 @@ const JobDeleteConfirmModal = ({
           categoryId: selectedJob?.category.id,
           newCategoryId: selectedJob?.category.id,
           position: -1,
-          isDeleted: true
-        })
+          isDeleted: true,
+        });
       }
     }
 
     const newState = {
       ...data,
-      [selectedJob?.category?.name]: {...data[selectedJob?.category.name] ,jobs:allJobsWithinCategory}
+      [selectedJob?.category?.name]: {
+        ...data[selectedJob?.category.name],
+        jobs: allJobsWithinCategory,
+      },
     };
-  
+
     const body = {
       jobUpdates: updatedJobs,
       newState,
@@ -149,7 +158,7 @@ const JobDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {isLoading && <CircularProgress />}
+        {isLoading && <LoadingAnimation />}
         {isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>

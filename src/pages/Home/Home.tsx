@@ -1,14 +1,16 @@
 import React from "react";
 
+import { useNavigate } from "react-router-dom";
 import {
   PopupConfigOptions,
   PopupLoginOptions,
   useAuth0,
 } from "@auth0/auth0-react";
 
+import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
 
-import { useNavigate } from "react-router-dom";
+import PageLoader from "../../components/PageLoader";
 
 const Home = () => {
   const { loginWithPopup, isAuthenticated } = useAuth0();
@@ -77,7 +79,9 @@ const Home = () => {
     <main>
       {/* Hero unit */}
       {isAuthenticated ? (
-        <div>Logged in home page</div>
+        <div className={styles.HomeUserContainer}>
+          <PageLoader></PageLoader>
+        </div>
       ) : (
         <Box
           sx={{
