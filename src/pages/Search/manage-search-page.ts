@@ -13,7 +13,7 @@ export function useManageSearchPage(): ManageSearchPageType {
   const filterState = useSelector((state: RootState) => state.filter.mainFilter);
   const columnFilterState = useSelector((state: RootState) => state.filter.columnFilter);
   // If you want to make multiple GET request with different params, you can useState to get new information and store in the same cache name (like 'aJob')
-  const [queryStr, setQueryStr] = useState<UserRequest>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [], columnFilter: ["updatedAt", 'asc'] });
+  const [queryStr, setQueryStr] = useState<UserRequest>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [], columnFilter: ["createdAt", 'desc'] });
   const { data, isLoading } = useFilterJobsQuery(queryStr);
 
   useEffect(() => {
