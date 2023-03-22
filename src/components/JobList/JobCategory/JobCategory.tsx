@@ -45,7 +45,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
                 {jobState[category].jobs.length > 0 &&
                   jobState[category].jobs?.map((job: Job, index: number) => (
                     <JobItem
-                      key={`${job?.id}-chores`}
+                      key={`${job?.id}-${job?.title}`}
                       draggableId={`${job?.id}`}
                       index={index}
                       category={category}

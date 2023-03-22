@@ -10,13 +10,11 @@
   background-color: #ffffff;
   max-width: 90vw;
   min-width: 50vw;
-  height: 60vmin;
-
-  padding: 60px;
 
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 
   position: relative;
 }
@@ -26,13 +24,26 @@
 
   width: 20px;
   height: 20px;
-  top: 40px;
-  right: 40px;
+  top: 25px;
+  right: 25px;
 }
 
 .ModalMain {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+@media screen and (max-width: 300px) {
+  div.FormContainer {
+    width: 80vw;
+  }
+
+  div.ShortInputContainer {
+    width: 80vw;
+  }
 }
 
 .FormInstruction {
@@ -40,7 +51,6 @@
 }
 
 .saveButton {
-  margin-top: 20px;
   align-self: flex-end;
 }
 
@@ -49,4 +59,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 50vh;
+  min-width: 60vw;
+}
+
+.toggleCreateFormButton {
+  margin-top: 10px;
 }

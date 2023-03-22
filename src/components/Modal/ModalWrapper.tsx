@@ -100,68 +100,72 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handleStatusChange = async (event: { target: { value: string } }) => {
-    const startJobs = data[selectedJob?.category.name].jobs;
-    const updatedSourceJobArray = [];
-    const allUpdatedJobs = [];
     const chosenJobCategory = event.target.value;
     const chosenJobCategoryId = categoryArray.indexOf(chosenJobCategory) + 1;
+    const startCategory = selectedJob.category.name;
+    const startCategoryId = selectedJob.category.id;
+    const startPosition = selectedJob.position;
+    const newPosition = data[chosenJobCategory].jobs.length;
 
-    let [removedJob] = [...startJobs].splice(selectedJob?.position, 1);
-    removedJob = {
-      ...removedJob,
-      position: data[chosenJobCategory].jobs.length,
-    };
+    const startJobs = JSON.parse(
+      JSON.stringify(data[selectedJob?.category.name].jobs)
+    );
 
-    const endJobs = [...data[chosenJobCategory].jobs, removedJob];
+    const endJobs = JSON.parse(JSON.stringify(data[chosenJobCategory].jobs));
+    let [removedJob] = startJobs.splice(startPosition, 1);
+    console.log(startPosition);
+    removedJob = { ...removedJob, position: newPosition };
+    endJobs.push(removedJob);
 
     setJobStatus(chosenJobCategory);
 
-    for (const index in startJobs) {
-      const newPosition = startJobs[index].position - 1;
-      if (Number(index) < selectedJob.position) {
-        updatedSourceJobArray.push({ ...startJobs[index] });
-      } else if (selectedJob.position && Number(index) > selectedJob.position) {
-        updatedSourceJobArray.push({
-          ...startJobs[index],
-          position: newPosition,
-        });
-      }
+    const startColumnUpdatedJobs = startJobs
+      ?.splice(startPosition)
+      .map((job: { position: number }) => {
+        return {
+          ...job,
+          position: job.position - 1,
+        };
+      });
 
-      if (Number(index) > selectedJob?.position) {
-        allUpdatedJobs.push({
-          jobId: startJobs[index].id,
-          categoryId: selectedJob?.category.id,
-          newCategoryId: selectedJob?.category.id,
-          position: newPosition,
-          isDeleted: false,
-        });
-      }
+    const newStartColumn = {
+      ...data[startCategory],
+      jobs: [...startJobs, ...startColumnUpdatedJobs],
+    };
 
-      if (Number(index) === selectedJob?.position) {
-        allUpdatedJobs.push({
-          jobId: selectedJob.job.id,
-          categoryId: selectedJob?.category.id,
-          newCategoryId: chosenJobCategoryId,
-          position: data[chosenJobCategory].jobs.length,
-          isDeleted: false,
-        });
-      }
-    }
+    const newEndColumn = {
+      ...data[chosenJobCategory],
+      jobs: endJobs,
+    };
 
     const newState = {
       ...data,
-      [selectedJob?.category?.name]: {
-        ...data[selectedJob?.category.name],
-        jobs: updatedSourceJobArray,
-      },
-      [chosenJobCategory]: {
-        ...data[chosenJobCategory],
-        jobs: endJobs,
-      },
+      [startCategory]: newStartColumn,
+      [chosenJobCategory]: newEndColumn,
     };
 
+    const updatedJobsInSource = startColumnUpdatedJobs.map(
+      (job: { id: number; position: number }) => {
+        return {
+          jobId: job?.id,
+          categoryId: Number(startCategoryId),
+          newCategoryId: Number(startCategoryId),
+          position: job?.position,
+        };
+      }
+    );
+
+    const updatedJob = {
+      jobId: removedJob.id,
+      categoryId: Number(startCategoryId),
+      newCategoryId: Number(chosenJobCategoryId),
+      position: removedJob.position,
+    };
+
+    console.log(updatedJob);
+
     const body = {
-      jobUpdates: allUpdatedJobs,
+      jobUpdates: [...updatedJobsInSource, updatedJob],
       newState,
       type: "update",
     };
