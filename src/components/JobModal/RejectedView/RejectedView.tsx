@@ -52,7 +52,7 @@ const RejectedView = () => {
     <Box
       className={styles.RejectedContainer}
       sx={{
-        height: { xs: "62vh", sm: "50vh", md: "60vh" },
+        maxHeight: { xs: "50vh", sm: "50vh", md: "60vh" },
         px: { xs: "0", sm: "20px", md: "30px" },
         pb: 0,
       }}
