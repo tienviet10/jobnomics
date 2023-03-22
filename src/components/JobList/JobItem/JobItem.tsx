@@ -54,9 +54,7 @@ const JobItem = ({
     if (previousJob.jobId === id) {
       refetch();
     }
-
-      dispatch(toggleJobModal(!modalState.open));
-
+    dispatch(toggleJobModal(!modalState.open));
   };
 
   return (
