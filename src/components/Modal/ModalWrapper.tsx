@@ -6,6 +6,7 @@ import {
   setSelectedJob,
   setInterviewedModalId,
   toggleInterviewedModal,
+  setModalId,
 } from "../../features/jobSlice";
 import {
   useUpdateJobMutation,
@@ -170,7 +171,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       type: "update",
     };
 
-    await updateJobs(body);
+    updateJobs(body);
+
+    dispatch(setModalId({ jobId: selectedJob?.job?.id, categoryId: chosenJobCategoryId }));
 
     if (chosenJobCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });

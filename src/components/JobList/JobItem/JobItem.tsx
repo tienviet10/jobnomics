@@ -51,9 +51,11 @@ const JobItem = ({
   const handleOpenModal = () => {
     dispatch(setModalId({ jobId: id, categoryId: data[category]?.id }));
 
+    // Needed for the same card to refresh
     if (previousJob.jobId === id) {
       refetch();
     }
+
     dispatch(toggleJobModal(!modalState.open));
   };
 
