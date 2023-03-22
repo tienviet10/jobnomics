@@ -93,7 +93,7 @@ export type CategoryType = {
 
 export type FilterStateType = {
   mainFilter: Filter;
-  listOfCategories: ListOfCategoriesType;
+  // listOfCategories: ListOfCategoriesType;
   arrayJobs: Job[];
   searchWord: string;
   displayArrayJobs: Job[];

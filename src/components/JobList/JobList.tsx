@@ -16,22 +16,11 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import JobCategory from "./JobCategory";
-import type { JobPreviewType } from "../../types/jobTypes";
 import PageLoader from "../PageLoader";
 import { processColumns } from "../../helper/react-dnd-logic";
 
-// import { io } from "socket.io-client";
-// const socket = io("http://localhost:8080", {
-//   withCredentials: true,
-// });
-
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
-  // const jobCategories = useSelector(
-  //   (state: RootState) => state.job.categoryOrder
-  // );
-  // const { refetch: refetchAJob, isSuccess: isSuccessFromAJob, categoryArray } = useGetAJob();
-  // const { data, error, isLoading, refetch } = useGetAllJobsQuery();
 
   const { categoryArray, refetch } = useGetAJob();
   const { data, isLoading } = useGetAllJobsQuery();
@@ -43,32 +32,6 @@ const JobList = (): JSX.Element => {
   useEffect(() => {
     refetch();
   }, [isSuccess]);
-
-  // const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
-  //   useAddInterviewQuestionsMutation();
-  // const onConnect = () => {
-  //   console.log("Connected!");
-  // };
-  // const onAddJob = () => {
-  //   console.log("onAddJOb");
-  //   refetch();
-  // };
-  // const onAddInterviewQuestions = (payload:any) => {
-  //   console.log(payload);
-  //   console.log("first")
-  //   refetchAJob();
-  //   // refetch()
-  // };
-
-  // useEffect(() => {
-  //   socket.on("connect", onConnect);
-  //   socket.emit("add-job");
-  //   socket.on("add-job", onAddJob);
-  //   return () => {
-  //     socket.off("connect");
-  //     socket.off("add-job");
-  //   };
-  // }, [isSuccess, isSuccessFromAJob]);
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
@@ -85,7 +48,6 @@ const JobList = (): JSX.Element => {
     const sourceCategory = categoryArray[Number(source.droppableId) - 1];
     const destinationCategory =
       categoryArray[Number(destination.droppableId) - 1];
-
     const startColumn = data[sourceCategory];
   
     // Moving to a different column
@@ -93,7 +55,6 @@ const JobList = (): JSX.Element => {
     let [removedJob] = startJobs.splice(source.index, 1);
 
     const body = processColumns(source, destination, data, categoryArray);
-
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {

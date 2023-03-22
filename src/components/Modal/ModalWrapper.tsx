@@ -41,16 +41,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const dispatch = useDispatch();
   const [updateJob] = useUpdateJobMutation();
-  const [
-    updateJobs,
-    {
-      isError: isUpdateJobsError,
-      isLoading: isUpdatingJobs,
-      isSuccess: isUpdateJobsSuccess,
-    },
-  ] = useUpdateJobsMutation();
+  const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions, {isLoading: loadingInterviewQuestions}] =
+  const [addInterviewQuestions, {isSuccess}] =
     useAddInterviewQuestionsMutation();
   const { data } = useGetAllJobsQuery();
   const {
@@ -65,7 +58,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     categoryArray,
     refetch
   } = useGetAJob();
-  const [jobStatus, setJobStatus] = useState<string>("");
+  // const [jobStatus, setJobStatus] = useState<string>("");
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -76,12 +69,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    if (!loadingInterviewQuestions){
+    // For refreshing interview questions when inside the modal
+    if (isSuccess){
       refetch()
     }
-
     dispatch(setSelectedJob(aJob));
-  }, [aJob,loadingInterviewQuestions]);
+  }, [aJob, isSuccess]);
 
   const handleToggleFavorite = () => {
     const body = {
@@ -268,7 +261,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                       labelId="job-status-label"
                       id="job-status"
                       label="Job Status"
-                      value={jobStatus}
+                      // value={jobStatus}
                       onChange={handleStatusChange}
                     >
                       {categoryArray.map((category, index) => (
