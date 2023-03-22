@@ -70,8 +70,8 @@ const CreateJobModal = ({
     event.preventDefault();
     if (value.trim()) {
       addJob({
+        manualForm: null,
         jobLink: value,
-        position: 100,
         interviewDate: null,
         type: "link",
       });
@@ -86,6 +86,14 @@ const CreateJobModal = ({
     const prepareLink = formResponse.link.trim();
     const prepareDescription = formResponse.description.trim();
 
+    console.log(
+      prepareTitle,
+      prepareCompany,
+      prepareLocation,
+      preparePlatform,
+      prepareLink,
+      prepareDescription
+    );
     if (
       prepareTitle &&
       prepareCompany &&
@@ -104,8 +112,7 @@ const CreateJobModal = ({
 
       addJob({
         manualForm: data,
-        jobLink: "",
-        position: -1,
+        jobLink: prepareLink,
         interviewDate: null,
         type: "manual",
       });
@@ -116,6 +123,15 @@ const CreateJobModal = ({
     if (isSuccess) {
       setValue("");
       setOpen(false);
+      setFormResponse({
+        title: "",
+        company: "",
+        location: "",
+        platform: "",
+        link: "",
+        description: "",
+      });
+      setUseLink(true);
     }
     if (isError) {
       console.log(isError);
@@ -132,8 +148,8 @@ const CreateJobModal = ({
         elevation={5}
         className={styles.CreateJobModal}
         sx={{
-          px: { xs: 4, sm: "20px", md: "30px" },
-          py: { xs: 4, sm: "50px", md: "100px" },
+          px: { xs: 4, sm: "60px", md: "100px" },
+          py: { xs: 4, sm: "80px", md: "100px" },
           pb: { xs: 2, sm: 4, md: 6 },
         }}
       >
@@ -248,7 +264,7 @@ const CreateJobModal = ({
                 >
                   <TextField
                     required
-                    placeholder="e.g., Toronto, ON"
+                    placeholder="e.g., Toronto, ON (Remote)"
                     autoFocus={false}
                     size="small"
                     value={formResponse.location}
@@ -324,10 +340,8 @@ const CreateJobModal = ({
                   type="submit"
                   variant="contained"
                   className={styles.saveButton}
-                  onClick={handleSaveJobClick}
                   sx={{
                     width: { xs: "100%", sm: "200px" },
-                    alignSelf: "flex-end",
                   }}
                 >
                   Save New Job

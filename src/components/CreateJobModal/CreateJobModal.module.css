@@ -59,6 +59,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 50vh;
+  min-width: 60vw;
 }
 
 .toggleCreateFormButton {
