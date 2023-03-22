@@ -130,18 +130,6 @@ const RejectedView = () => {
           Your response: "{selectedJob?.rejectReason}." Has been saved!
         </Alert>
       )}
-      {selectedJob?.job?.skills && (
-        <Typography
-          variant="subtitle1"
-          className={styles.Skills}
-          sx={{
-            fontSize: { xs: "13px", md: "16px" },
-            lineHeight: { xs: "16px", md: "20px" },
-          }}
-        >
-          <strong>Required Skills:</strong> {skills}
-        </Typography>
-      )}
     </Box>
   );
 };
