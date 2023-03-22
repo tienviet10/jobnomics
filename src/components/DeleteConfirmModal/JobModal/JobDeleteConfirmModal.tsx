@@ -42,16 +42,16 @@ const JobDeleteConfirmModal = ({
     //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
     for (const index in currentJob) {
       const newPosition = currentJob[index].position - 1;
-      if (selectedJob.position && Number(index) < selectedJob.position) {
+      if (Number(index) < selectedJob.position) {
         allJobsWithinCategory.push({ ...currentJob[index] });
-      } else if (selectedJob.position && Number(index) > selectedJob.position) {
+      } else if (Number(index) > selectedJob.position) {
         allJobsWithinCategory.push({
           ...currentJob[index],
           position: newPosition,
         });
       }
 
-      if (selectedJob.position && Number(index) > selectedJob?.position) {
+      if (Number(index) > selectedJob?.position) {
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,
@@ -61,7 +61,7 @@ const JobDeleteConfirmModal = ({
         });
       }
 
-      if (selectedJob.position && Number(index) === selectedJob?.position) {
+      if (Number(index) === selectedJob?.position) {
         updatedJobs.push({
           jobId: currentJob[index].id,
           categoryId: selectedJob?.category.id,

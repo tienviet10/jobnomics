@@ -141,8 +141,8 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
             </TableCell>
             <TableCell key="favorite" align="center" sx={{ fontWeight: "bold" }}>
               <TableSortLabel
-                active={valueToOrderBy === "favorite"}
-                direction={valueToOrderBy === "favorite" ? orderDirection : 'asc'}
+                active={valueToOrderBy === "isFavorite"}
+                direction={valueToOrderBy === "isFavorite" ? orderDirection : 'asc'}
                 onClick={() => handleRequestSort("isFavorite")}
                 >
                 Favorites
