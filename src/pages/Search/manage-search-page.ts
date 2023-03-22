@@ -11,8 +11,9 @@ export function useManageSearchPage(): ManageSearchPageType {
   const { logout } = useAuth0();
   const dispatch = useDispatch();
   const filterState = useSelector((state: RootState) => state.filter.mainFilter);
+  const columnFilterState = useSelector((state: RootState) => state.filter.columnFilter);
   // If you want to make multiple GET request with different params, you can useState to get new information and store in the same cache name (like 'aJob')
-  const [queryStr, setQueryStr] = useState<UserRequest>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [] });
+  const [queryStr, setQueryStr] = useState<UserRequest>({ category: ["Bookmarked", "Applied", "Interviewing", "Interviewed", "Job Offer", "Position Filled"], skills: [], columnFilter: ["updatedAt", 'asc'] });
   const { data, isLoading } = useFilterJobsQuery(queryStr);
 
   useEffect(() => {
@@ -39,7 +40,8 @@ export function useManageSearchPage(): ManageSearchPageType {
   const sentFilterRequest = async () => {
     const newCategory = filterState.category.filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
     const languagesAndFramework = filterState.languages.concat(filterState.framework).filter((obj: CheckBoxEntity) => obj.check).map((obj: CheckBoxEntity) => obj.name);
-    setQueryStr({ category: newCategory, skills: languagesAndFramework });
+
+    setQueryStr({ category: newCategory, skills: languagesAndFramework, columnFilter: columnFilterState });
   };
 
   return {

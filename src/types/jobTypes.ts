@@ -7,12 +7,12 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
 };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type categoriesType = {
@@ -99,7 +99,9 @@ export type FilterStateType = {
   displayArrayJobs: Job[];
   firstFetch: boolean;
   selectedJob: Job | null;
+  columnFilter: string[];
 };
+
 
 type ListOfCategoriesType = {
   Bookmarked: Category | {};
@@ -164,6 +166,7 @@ export type InterviewDateModalType = {
 export type UserRequest = {
   category: string[];
   skills: string[];
+  columnFilter: string[];
 };
 
 export type FilterListType = {
@@ -173,10 +176,10 @@ export type FilterListType = {
 export type GetAJobType = {
   selectedJob: JobType;
   aJob:
-    | {
-        data: JobType;
-      }
-    | undefined;
+  | {
+    data: JobType;
+  }
+  | undefined;
   modalState: ModalType;
   error: FetchBaseQueryError | SerializedError | undefined;
   isLoading: boolean;
@@ -186,6 +189,6 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
   isSuccess: boolean;
 };
