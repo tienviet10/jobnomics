@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useUpdateJobMutation } from "../../app/services/job-api";
+import { toggleInterviewedModal } from "../../features/jobSlice";
+import { RootState } from "../../app/store";
+
 import {
   Modal,
   Card,
@@ -9,17 +14,12 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "./InterviewDate.module.css";
-import CelebrationIcon from "@mui/icons-material/Celebration";
-import { useUpdateJobMutation } from "../../app/services/job-api";
-import { useSelector } from "react-redux";
-import { RootState } from "../../app/store";
-import { useDispatch } from "react-redux";
-import { toggleInterviewedModal } from "../../features/jobSlice";
+
 import { Close } from "@mui/icons-material";
 
 const InterviewDateModal = () => {
-  const [date, setDate] = useState("2023-03-20");
-  const [time, setTime] = useState("07:30");
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
   const [updateJob] = useUpdateJobMutation();
   const dispatch = useDispatch();
   const selectedJobState = useSelector(
@@ -27,6 +27,18 @@ const InterviewDateModal = () => {
   );
 
   const open = selectedJobState?.open;
+
+  useEffect(() => {
+    let today = new Date();
+    const currentDate = today.toISOString().split("T")[0];
+    setDate(currentDate);
+
+    let hours = String(today.getHours());
+    let minutes = String(today.getMinutes());
+    const currentTime = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
+
+    setTime(currentTime);
+  }, []);
 
   const handleClose = () => {
     dispatch(toggleInterviewedModal(false));
@@ -76,7 +88,7 @@ const InterviewDateModal = () => {
             id="date"
             label="Date"
             type="date"
-            defaultValue="2023-03-20"
+            value={date}
             InputLabelProps={{
               shrink: true,
             }}
@@ -87,7 +99,7 @@ const InterviewDateModal = () => {
             id="time"
             label="Time"
             type="time"
-            defaultValue="07:30"
+            value={time}
             InputLabelProps={{
               shrink: true,
             }}
