@@ -56,7 +56,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     isFetching,
     previousJob,
     categoryArray,
-    refetch
+    refetch,
   } = useGetAJob();
   // const [jobStatus, setJobStatus] = useState<string>("");
 
@@ -70,8 +70,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // For refreshing interview questions when inside the modal
-    if (isSuccess){
-      refetch()
+    if (isSuccess) {
+      refetch();
     }
     dispatch(setSelectedJob(aJob));
   }, [aJob, isSuccess]);
@@ -170,7 +170,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     const body = processColumns({droppableId: selectedJob.category.id, index: selectedJob?.position}, {droppableId: categoryArray.indexOf(chosenJobCategory) + 1, index: data[chosenJobCategory].jobs.length}, data, categoryArray);
     updateJobs(body);
 
-    dispatch(setModalId({ jobId: selectedJob?.job?.id, categoryId: chosenJobCategoryId }));
+    dispatch(
+      setModalId({
+        jobId: selectedJob?.job?.id,
+        categoryId: chosenJobCategoryId,
+      })
+    );
 
     if (chosenJobCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
@@ -252,7 +257,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                     sx={{
                       minWidth: { xs: "200px" },
                       width: { xs: "100%", sm: "200px" },
-                      mt: 0.5,
+                      mt: 2,
                     }}
                     size="small"
                   >

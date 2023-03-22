@@ -7,11 +7,11 @@
 
 @media screen and (max-width: 350px) {
   div.AcceptedContainer {
-    height: 32vh;
+    height: 23vh;
   }
 }
 
-.AcceptedMain {
+div.AcceptedMain {
   flex: 1;
 
   display: flex;
@@ -19,23 +19,31 @@
   justify-content: center;
 }
 
-.Congratulation {
+@media screen and (max-height: 670px) {
+  div.AcceptedMain {
+    justify-content: flex-start;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  div.AcceptedMain {
+    height: 18vh;
+  }
+}
+
+h5.Congratulation {
   margin-bottom: 20px;
 }
 
-.TopHeader {
+p.TopHeader {
   margin-bottom: 20px;
 }
 
-.Skills {
-  color: #2d799d;
-  padding-top: 10px;
-}
-
-.Suggestions {
-  margin-bottom: 20px;
+div.Suggestions {
+  display: flex;
+  flex-direction: column;
 }
 
 .Link {
-  padding-bottom: 20px;
+  padding-bottom: 10px;
 }

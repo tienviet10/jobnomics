@@ -52,7 +52,7 @@ const RejectedView = () => {
     <Box
       className={styles.RejectedContainer}
       sx={{
-        height: { xs: "62vh", sm: "50vh", md: "60vh" },
+        maxHeight: { xs: "50vh", sm: "50vh", md: "60vh" },
         px: { xs: "0", sm: "20px", md: "30px" },
         pb: 0,
       }}
@@ -129,18 +129,6 @@ const RejectedView = () => {
         >
           Your response: "{selectedJob?.rejectReason}." Has been saved!
         </Alert>
-      )}
-      {selectedJob?.job?.skills && (
-        <Typography
-          variant="subtitle1"
-          className={styles.Skills}
-          sx={{
-            fontSize: { xs: "13px", md: "16px" },
-            lineHeight: { xs: "16px", md: "20px" },
-          }}
-        >
-          <strong>Required Skills:</strong> {skills}
-        </Typography>
       )}
     </Box>
   );

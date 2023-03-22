@@ -6,8 +6,14 @@
 
 @media screen and (max-height: 670px) {
   div.RejectedContainer {
-    height: 45vh;
+    height: 43vh;
     padding: 0 20px;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  div.RejectedContainer {
+    height: 38vh;
   }
 }
 
