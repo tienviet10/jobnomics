@@ -75,6 +75,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
+    // For refreshing interview questions when inside the modal
     if (isSuccess){
       refetch()
     }
