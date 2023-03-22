@@ -140,7 +140,7 @@ const InterviewedView = (): JSX.Element => {
     <Box
       className={styles.InterviewedContainer}
       sx={{
-        height: { xs: "55vh", sm: "47vh" },
+        maxHeight: { xs: "55vh", sm: "47vh" },
         width: { xs: "100%", sm: "90%" },
       }}
     >
@@ -157,7 +157,7 @@ const InterviewedView = (): JSX.Element => {
         <Box
           className={styles.ChecklistMain}
           sx={{
-            height: { xs: "50vh", sm: "45vh" },
+            maxHeight: { xs: "50vh", sm: "45vh" },
             px: { xs: "0", sm: "40px", md: "50px" },
           }}
         >
