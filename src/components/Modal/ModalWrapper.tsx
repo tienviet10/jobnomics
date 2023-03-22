@@ -189,7 +189,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
     setTimeout(() => {
       dispatch(toggleJobModal(false));
-    }, 1000);
+    }, 100);
   };
 
   return selectedJob && !isLoading ? (
