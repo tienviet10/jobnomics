@@ -8,9 +8,15 @@ div.BookedAppliedContainer {
   flex-direction: column;
 }
 
-@media screen and (max-width: 350px) {
+@media screen and (max-height: 700px) {
   div.BookedAppliedContainer {
     height: 45vh;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  div.BookedAppliedContainer {
+    height: 35vh;
   }
 }
 

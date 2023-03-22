@@ -47,12 +47,12 @@
 
 ::-webkit-scrollbar {
   width: 5px;
-  height: 5px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #e5e5e5;
+  background: #c8c8c8;
 }

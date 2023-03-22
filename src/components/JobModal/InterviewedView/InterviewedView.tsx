@@ -137,7 +137,13 @@ const InterviewedView = (): JSX.Element => {
   }, [isSuccess]);
 
   return (
-    <Box className={styles.InterviewedContainer}>
+    <Box
+      className={styles.InterviewedContainer}
+      sx={{
+        height: { xs: "55vh", sm: "47vh" },
+        width: { xs: "100%", sm: "90%" },
+      }}
+    >
       <Tabs
         value={isNotepad ? 1 : 0}
         onChange={handleTabChange}
@@ -151,8 +157,7 @@ const InterviewedView = (): JSX.Element => {
         <Box
           className={styles.ChecklistMain}
           sx={{
-            height: { xs: "40vh", sm: "45vh" },
-            width: "100%",
+            height: { xs: "50vh", sm: "45vh" },
             px: { xs: "0", sm: "40px", md: "50px" },
           }}
         >
@@ -193,10 +198,9 @@ const InterviewedView = (): JSX.Element => {
         <Box
           className={styles.NotepadMain}
           sx={{
-            height: { xs: "55vh" },
+            height: { xs: "50vh", sm: "43vh", md: "45vh" },
             px: { xs: "0", sm: "20px", md: "30px" },
             py: 2,
-            pb: 0,
           }}
         >
           <Typography variant="h5">
@@ -214,7 +218,7 @@ const InterviewedView = (): JSX.Element => {
                 outline: "none",
               },
               "& .MuiInputBase-root": {
-                height: "100%",
+                height: "95%",
                 display: "flex",
                 alignItems: "start",
               },
