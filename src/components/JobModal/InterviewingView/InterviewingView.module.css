@@ -8,9 +8,15 @@ div.InterviewingContainer {
   flex-direction: column;
 }
 
+@media screen and (max-height: 670px) {
+  div.InterviewingContainer {
+    height: 25vh;
+  }
+}
+
 @media screen and (max-width: 350px) {
   div.InterviewingContainer {
-    height: 32vh;
+    height: 18vh;
   }
 }
 
@@ -35,4 +41,11 @@ div.QuestionsContainer {
   height: 100%;
   width: 100%;
   padding: 20px;
+}
+
+.DateTimePicker {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
 }
