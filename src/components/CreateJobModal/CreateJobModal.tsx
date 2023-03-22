@@ -31,6 +31,14 @@ const CreateJobModal = ({
   const [useLink, setUseLink] = useState(true);
   const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
+  const [formResponse, setFormResponse] = useState({
+    title: "",
+    company: "",
+    location: "",
+    platform: "",
+    link: "",
+    description: "",
+  });
 
   const handleClose = () => {
     setOpen(false);
@@ -60,11 +68,48 @@ const CreateJobModal = ({
 
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    addJob({
-      jobLink: value,
-      position: 100,
-      interviewDate: null,
-    });
+    if (value.trim()) {
+      addJob({
+        jobLink: value,
+        position: 100,
+        interviewDate: null,
+        type: "link",
+      });
+    }
+  };
+
+  const handleManualJobSubmit = () => {
+    const prepareTitle = formResponse.title.trim();
+    const prepareCompany = formResponse.company.trim();
+    const prepareLocation = formResponse.location.trim();
+    const preparePlatform = formResponse.platform.trim();
+    const prepareLink = formResponse.link.trim();
+    const prepareDescription = formResponse.description.trim();
+
+    if (
+      prepareTitle &&
+      prepareCompany &&
+      prepareLocation &&
+      prepareLink &&
+      prepareDescription
+    ) {
+      const data = {
+        title: prepareTitle,
+        company: prepareCompany,
+        location: prepareLocation,
+        platform: preparePlatform,
+        link: prepareLink,
+        description: prepareDescription,
+      };
+
+      addJob({
+        manualForm: data,
+        jobLink: "",
+        position: -1,
+        interviewDate: null,
+        type: "manual",
+      });
+    }
   };
 
   useEffect(() => {
@@ -114,6 +159,7 @@ const CreateJobModal = ({
                 </Alert>
               </div>
               <Input
+                required
                 placeholder="https://"
                 autoFocus={false}
                 size="medium"
@@ -141,121 +187,152 @@ const CreateJobModal = ({
                   Please fill out the form below to create a new job
                 </Typography>
               </div>
-              <Box
-                sx={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  mb: 2,
-                }}
-                className={styles.ShortInputContainer}
-              >
+              <form onSubmit={handleManualJobSubmit}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    mb: 2,
+                  }}
+                  className={styles.ShortInputContainer}
+                >
+                  <TextField
+                    required
+                    placeholder="e.g., React Developer"
+                    autoFocus={false}
+                    size="small"
+                    label="Job Title"
+                    value={formResponse.title}
+                    onChange={(event) => {
+                      setFormResponse((prev) => ({
+                        ...prev,
+                        title: event.target.value,
+                      }));
+                    }}
+                    sx={{
+                      mr: { xs: 0, sm: 2 },
+                      mb: { xs: 2, sm: 0 },
+                      flex: 1,
+                      minWidth: { xs: "240px" },
+                      width: { xs: "100%" },
+                    }}
+                  />
+                  <TextField
+                    required
+                    placeholder="e.g., Job Inc."
+                    autoFocus={false}
+                    size="small"
+                    label="Company Name"
+                    value={formResponse.company}
+                    onChange={(event) => {
+                      setFormResponse((prev) => ({
+                        ...prev,
+                        company: event.target.value,
+                      }));
+                    }}
+                    sx={{
+                      flex: 1,
+                      minWidth: { xs: "270px" },
+                      width: { xs: "100%" },
+                    }}
+                  />
+                </Box>
+                <Box
+                  className={styles.ShortInputContainer}
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    flexWrap: "wrap",
+                    mb: 2,
+                  }}
+                >
+                  <TextField
+                    required
+                    placeholder="e.g., Toronto, ON"
+                    autoFocus={false}
+                    size="small"
+                    value={formResponse.location}
+                    label="Location"
+                    onChange={(event) => {
+                      setFormResponse((prev) => ({
+                        ...prev,
+                        location: event.target.value,
+                      }));
+                    }}
+                    sx={{
+                      mr: { xs: 0, sm: 2 },
+                      mb: { xs: 2, sm: 0 },
+                      flex: 1,
+                      minWidth: { xs: "270px" },
+                      width: { xs: "100%" },
+                    }}
+                  />
+                  <TextField
+                    placeholder="e.g., Indeed, LinkedIn"
+                    autoFocus={false}
+                    size="small"
+                    label="Job Platform"
+                    value={formResponse.platform}
+                    onChange={(event) => {
+                      setFormResponse((prev) => ({
+                        ...prev,
+                        platform: event.target.value,
+                      }));
+                    }}
+                    sx={{
+                      flex: 1,
+                      minWidth: { xs: "270px" },
+                      width: { xs: "100%" },
+                    }}
+                  />
+                </Box>
                 <TextField
-                  placeholder="e.g., React Developer"
+                  required
+                  placeholder="https://www.example.com"
                   autoFocus={false}
                   size="small"
-                  label="Job Title"
-                  value={value}
+                  fullWidth
+                  label="Link"
+                  value={formResponse.link}
                   onChange={(event) => {
-                    setValue(event.target.value);
+                    setFormResponse((prev) => ({
+                      ...prev,
+                      link: event.target.value,
+                    }));
                   }}
-                  sx={{
-                    mr: { xs: 0, sm: 2 },
-                    mb: { xs: 2, sm: 0 },
-                    flex: 1,
-                    minWidth: { xs: "240px" },
-                    width: { xs: "100%" },
-                  }}
+                  sx={{ mb: 2 }}
                 />
                 <TextField
-                  placeholder="e.g., Job Inc."
+                  required
+                  placeholder="Copy and paste the entire job description for optimal results."
                   autoFocus={false}
                   size="small"
-                  label="Company Name"
-                  value={value}
+                  fullWidth
+                  multiline
+                  rows={4}
+                  label="Job Description"
+                  value={formResponse.description}
                   onChange={(event) => {
-                    setValue(event.target.value);
+                    setFormResponse((prev) => ({
+                      ...prev,
+                      description: event.target.value,
+                    }));
                   }}
-                  sx={{
-                    flex: 1,
-                    minWidth: { xs: "270px" },
-                    width: { xs: "100%" },
-                  }}
+                  sx={{ mb: 2 }}
                 />
-              </Box>
-              <Box
-                className={styles.ShortInputContainer}
-                sx={{ width: "100%", display: "flex", flexWrap: "wrap", mb: 2 }}
-              >
-                <TextField
-                  placeholder="e.g., Toronto, ON"
-                  autoFocus={false}
-                  size="small"
-                  value={value}
-                  label="Location"
-                  onChange={(event) => {
-                    setValue(event.target.value);
-                  }}
+                <Button
+                  type="submit"
+                  variant="contained"
+                  className={styles.saveButton}
+                  onClick={handleSaveJobClick}
                   sx={{
-                    mr: { xs: 0, sm: 2 },
-                    mb: { xs: 2, sm: 0 },
-                    flex: 1,
-                    minWidth: { xs: "270px" },
-                    width: { xs: "100%" },
+                    width: { xs: "100%", sm: "200px" },
+                    alignSelf: "flex-end",
                   }}
-                />
-                <TextField
-                  placeholder="e.g., Indeed, LinkedIn"
-                  autoFocus={false}
-                  size="small"
-                  label="Job Platform"
-                  value={value}
-                  onChange={(event) => {
-                    setValue(event.target.value);
-                  }}
-                  sx={{
-                    flex: 1,
-                    minWidth: { xs: "270px" },
-                    width: { xs: "100%" },
-                  }}
-                />
-              </Box>
-              <TextField
-                placeholder="https://www.example.com"
-                autoFocus={false}
-                size="small"
-                fullWidth
-                label="Link"
-                value={value}
-                onChange={(event) => {
-                  setValue(event.target.value);
-                }}
-                sx={{ mb: 2 }}
-              />
-              <TextField
-                placeholder="Copy and paste the entire job description for optimal results."
-                autoFocus={false}
-                size="small"
-                fullWidth
-                multiline
-                rows={4}
-                label="Job Description"
-                value={value}
-                onChange={(event) => {
-                  setValue(event.target.value);
-                }}
-                sx={{ mb: 2 }}
-              />
-              <Button
-                variant="contained"
-                className={styles.saveButton}
-                onClick={handleSaveJobClick}
-                sx={{
-                  width: { xs: "100%", sm: "200px" },
-                  alignSelf: "flex-end",
-                }}
-              >
-                Save New Job
-              </Button>
+                >
+                  Save New Job
+                </Button>
+              </form>
             </>
           )}
           {isPosting && (
