@@ -76,7 +76,11 @@ const JobItem = ({
               <Typography variant="body2" className={styles.JobTitle}>
                 {title}
               </Typography>
-              <Typography variant="caption" className={styles.Company}>
+              <Typography
+                variant="body2"
+                className={styles.Company}
+                sx={{ lineHeight: 1.6 }}
+              >
                 {company}
               </Typography>
             </div>

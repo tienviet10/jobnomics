@@ -14,7 +14,7 @@ import {
   Box,
   TextField,
 } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Close, Error } from "@mui/icons-material";
 import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
@@ -31,6 +31,8 @@ const CreateJobModal = ({
   const [useLink, setUseLink] = useState(true);
   const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
+  const [error, setError] = useState(false);
+
   const [formResponse, setFormResponse] = useState({
     title: "",
     company: "",
@@ -43,6 +45,7 @@ const CreateJobModal = ({
   const handleClose = () => {
     setOpen(false);
     setUseLink(true);
+    setError(false);
   };
 
   // useEffect(() => {
@@ -134,7 +137,7 @@ const CreateJobModal = ({
       setUseLink(true);
     }
     if (isError) {
-      console.log(isError);
+      setError(isError);
     }
   }, [isSuccess, isError]);
 
@@ -162,7 +165,7 @@ const CreateJobModal = ({
         </IconButton>
 
         <div className={styles.ModalMain}>
-          {!isError && !isPosting && useLink && (
+          {!error && !isPosting && useLink && (
             <>
               <div className={styles.FormInstruction}>
                 <Typography variant="h6" gutterBottom>
@@ -196,7 +199,7 @@ const CreateJobModal = ({
               </Button>
             </>
           )}
-          {!isError && !isPosting && !useLink && (
+          {!error && !isPosting && !useLink && (
             <>
               <div className={styles.FormInstruction}>
                 <Typography variant="h6" textAlign="center" gutterBottom>
@@ -357,22 +360,27 @@ const CreateJobModal = ({
               </Typography>
             </div>
           )}
-          {isError && (
-            <Typography variant="body1">
-              There was an error. Please try again!
-            </Typography>
+          {error && (
+            <Box className={styles.errorModal}>
+              <Error color="error" sx={{ mb: 2, fontSize: 40 }} />
+              <Typography variant="body1">
+                There was an error. Please try again!
+              </Typography>
+            </Box>
           )}
         </div>
-        <Box className={styles.ModalFooter}>
-          <Button
-            className={styles.toggleCreateFormButton}
-            onClick={() => {
-              setUseLink((prev) => !prev);
-            }}
-          >
-            {useLink ? "Add Job Manually" : "Add Job With a Link"}
-          </Button>
-        </Box>
+        {!error && (
+          <Box className={styles.ModalFooter}>
+            <Button
+              className={styles.toggleCreateFormButton}
+              onClick={() => {
+                setUseLink((prev) => !prev);
+              }}
+            >
+              {useLink ? "Add Job Manually" : "Add Job With a Link"}
+            </Button>
+          </Box>
+        )}
       </Card>
     </Modal>
   );

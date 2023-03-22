@@ -1,4 +1,4 @@
-.JobModalContainer {
+.DateModalContainer {
   height: 100%;
   width: 100%;
   display: flex;
@@ -6,10 +6,9 @@
   align-items: center;
 }
 
-.JobModal {
+.DateModal {
   background-color: #ffffff;
-  margin: 40px 40px;
-  padding: 40px;
+
   display: flex;
   flex-direction: column;
   overflow: auto;
@@ -25,27 +24,26 @@
   margin-top: 20px;
   font-size: 1.4rem;
   font-weight: 800;
-
 }
 
 .CelebrationIcon {
   margin-bottom: 1rem;
 }
 
-.InterviewText{
+.InterviewText {
   margin-top: 20px;
 }
 
 .DateTimePicker {
   width: 100%;
   height: 160px;
-  margin-top: 20px;
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
 }
 
-.DatePicker{
+.DatePicker {
   margin-bottom: 10px;
 }
 
@@ -53,10 +51,14 @@
   margin-bottom: 10px;
 }
 
-.ButtonSubmit{
+.ButtonSubmit {
   margin-top: 10px;
 }
 
 .CloseButton {
   align-self: flex-end;
+}
+
+.CelebrationIcon {
+  height: 90px;
 }
