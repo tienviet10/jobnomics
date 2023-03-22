@@ -29,8 +29,10 @@ const CreateJobModal = ({
 }: CreateJobModalPropType): JSX.Element => {
   const [value, setValue] = useState<string>("");
   const [useLink, setUseLink] = useState(true);
-  const [addJob, { isLoading: isPosting, isSuccess, isError }] =
-    useAddJobMutation();
+  const [addJob, result] = useAddJobMutation();
+  const [error, setError] = useState(false);
+
+  const { isLoading: isPosting, isSuccess, isError } = result;
   const [formResponse, setFormResponse] = useState({
     title: "",
     company: "",
@@ -43,7 +45,10 @@ const CreateJobModal = ({
   const handleClose = () => {
     setOpen(false);
     setUseLink(true);
+    setError(false);
   };
+
+  console.log(result);
 
   // useEffect(() => {
   //   const onConnect = () => {
@@ -134,7 +139,7 @@ const CreateJobModal = ({
       setUseLink(true);
     }
     if (isError) {
-      console.log(isError);
+      setError(isError);
     }
   }, [isSuccess, isError]);
 
@@ -162,7 +167,7 @@ const CreateJobModal = ({
         </IconButton>
 
         <div className={styles.ModalMain}>
-          {!isError && !isPosting && useLink && (
+          {!error && !isPosting && useLink && (
             <>
               <div className={styles.FormInstruction}>
                 <Typography variant="h6" gutterBottom>
@@ -196,7 +201,7 @@ const CreateJobModal = ({
               </Button>
             </>
           )}
-          {!isError && !isPosting && !useLink && (
+          {!error && !isPosting && !useLink && (
             <>
               <div className={styles.FormInstruction}>
                 <Typography variant="h6" textAlign="center" gutterBottom>
@@ -357,7 +362,7 @@ const CreateJobModal = ({
               </Typography>
             </div>
           )}
-          {isError && (
+          {error && (
             <Typography variant="body1">
               There was an error. Please try again!
             </Typography>
@@ -369,6 +374,7 @@ const CreateJobModal = ({
             onClick={() => {
               setUseLink((prev) => !prev);
             }}
+            sx={{ visibility: error ? "hidden" : "inherit" }}
           >
             {useLink ? "Add Job Manually" : "Add Job With a Link"}
           </Button>
