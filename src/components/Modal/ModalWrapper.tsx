@@ -4,11 +4,15 @@ import {
   toggleFavorite,
   toggleJobModal,
   setSelectedJob,
+  setInterviewedModalId,
+  toggleInterviewedModal,
 } from "../../features/jobSlice";
 import {
   useUpdateJobMutation,
   useUpdateJobsMutation,
   useGetAllJobsQuery,
+  useAddInterviewQuestionsMutation,
+  useAddChecklistsMutation,
 } from "../../app/services/job-api";
 import { useDispatch } from "react-redux";
 
@@ -32,12 +36,20 @@ import ModalPlaceholder from "./ModalPlaceholder";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [jobStatus, setJobStatus] = useState<string>("");
+
   const dispatch = useDispatch();
-  const { categoryArray } = useGetAJob();
   const [updateJob] = useUpdateJobMutation();
-  const [updateJobs, { isError, isLoading: isUpdatingJobs, isSuccess }] =
-    useUpdateJobsMutation();
+  const [
+    updateJobs,
+    {
+      isError: isUpdateJobsError,
+      isLoading: isUpdatingJobs,
+      isSuccess: isUpdateJobsSuccess,
+    },
+  ] = useUpdateJobsMutation();
+  const [addChecklists] = useAddChecklistsMutation();
+  const [addInterviewQuestions, { isError, isSuccess }] =
+    useAddInterviewQuestionsMutation();
   const { data } = useGetAllJobsQuery();
   const {
     aJob,
@@ -48,7 +60,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     isLoading,
     isFetching,
     previousJob,
+    categoryArray,
   } = useGetAJob();
+  const [jobStatus, setJobStatus] = useState<string>("");
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -90,8 +104,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     const updatedSourceJobArray = [];
     const allUpdatedJobs = [];
     const chosenJobCategory = event.target.value;
+    const chosenJobCategoryId = categoryArray.indexOf(chosenJobCategory) + 1;
 
-    let [removedJob] = startJobs.slice(selectedJob?.position, 1);
+    let [removedJob] = [...startJobs].splice(selectedJob?.position, 1);
     removedJob = {
       ...removedJob,
       position: data[chosenJobCategory].jobs.length,
@@ -103,7 +118,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
     for (const index in startJobs) {
       const newPosition = startJobs[index].position - 1;
-      if (selectedJob.position && Number(index) < selectedJob.position) {
+      if (Number(index) < selectedJob.position) {
         updatedSourceJobArray.push({ ...startJobs[index] });
       } else if (selectedJob.position && Number(index) > selectedJob.position) {
         updatedSourceJobArray.push({
@@ -112,7 +127,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         });
       }
 
-      if (selectedJob.position && Number(index) > selectedJob?.position) {
+      if (Number(index) > selectedJob?.position) {
         allUpdatedJobs.push({
           jobId: startJobs[index].id,
           categoryId: selectedJob?.category.id,
@@ -122,14 +137,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         });
       }
 
-      console.log(
-        selectedJob.position && Number(index) === selectedJob?.position
-      );
       if (Number(index) === selectedJob?.position) {
         allUpdatedJobs.push({
           jobId: selectedJob.job.id,
           categoryId: selectedJob?.category.id,
-          newCategoryId: categoryArray.indexOf(chosenJobCategory) + 1,
+          newCategoryId: chosenJobCategoryId,
           position: data[chosenJobCategory].jobs.length,
           isDeleted: false,
         });
@@ -148,8 +160,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       },
     };
 
-    console.log(allUpdatedJobs);
-
     const body = {
       jobUpdates: allUpdatedJobs,
       newState,
@@ -158,7 +168,24 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
     await updateJobs(body);
 
-    console.log(body);
+    if (chosenJobCategory === "Interviewed") {
+      addChecklists({ jobId: removedJob?.id });
+    }
+
+    if (chosenJobCategory === "Interviewing") {
+      dispatch(
+        setInterviewedModalId({
+          jobId: removedJob?.id,
+          categoryId: chosenJobCategoryId,
+        })
+      );
+      addInterviewQuestions({ jobId: removedJob?.id });
+      dispatch(toggleInterviewedModal(true));
+    }
+
+    setTimeout(() => {
+      dispatch(toggleJobModal(false));
+    }, 1000);
   };
 
   return selectedJob && !isLoading ? (

@@ -27,11 +27,6 @@ import { CheckCircle } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 
-type AlertMessageType = {
-  severity: "success" | "info" | "error" | undefined;
-  message: string;
-};
-
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
@@ -43,11 +38,6 @@ const InterviewedView = (): JSX.Element => {
   const [updateChecklist] = useUpdateChecklistMutation();
 
   const { selectedJob, skills } = useGetAJob();
-
-  const [alertMessage, setAlertMessage] = useState<AlertMessageType>({
-    severity: "info",
-    message: "Your note is being saved...",
-  });
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -232,11 +222,11 @@ const InterviewedView = (): JSX.Element => {
             placeholder="Write your notes here..."
             multiline
             fullWidth
-            value={selectedJob.note}
+            value={selectedJob.note || ""}
             onChange={handleNoteChange}
             onBlur={handleSaveNote}
           ></TextField>
-          {isSuccess && alertMessage && (
+          {isSuccess && (
             <Snackbar
               open={alertOpen}
               autoHideDuration={6000}

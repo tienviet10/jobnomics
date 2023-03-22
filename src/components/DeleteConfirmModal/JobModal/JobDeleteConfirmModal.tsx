@@ -92,7 +92,7 @@ const JobDeleteConfirmModal = ({
       dispatch(setSelectedJob(null));
       setOpen(false);
       dispatch(toggleJobModal(false));
-    }, 3000);
+    }, 1000);
   };
 
   return (

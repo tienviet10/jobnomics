@@ -32,15 +32,16 @@ const JobList = (): JSX.Element => {
   // const { refetch: refetchAJob, isSuccess: isSuccessFromAJob, categoryArray } = useGetAJob();
   // const { data, error, isLoading, refetch } = useGetAllJobsQuery();
 
-  const { categoryArray,refetch } = useGetAJob();
+  const { categoryArray, refetch } = useGetAJob();
   const { data, isLoading } = useGetAllJobsQuery();
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions, { isError, isSuccess }] = useAddInterviewQuestionsMutation();
+  const [addInterviewQuestions, { isError, isSuccess }] =
+    useAddInterviewQuestionsMutation();
 
-  useEffect(()=>{
-    refetch()
-  },[isSuccess])
+  useEffect(() => {
+    refetch();
+  }, [isSuccess]);
 
   // const [addInterviewQuestions, { isLoading: isAdding, isSuccess, isError }] =
   //   useAddInterviewQuestionsMutation();
@@ -68,7 +69,6 @@ const JobList = (): JSX.Element => {
   //   };
   // }, [isSuccess, isSuccessFromAJob]);
 
-
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
@@ -94,7 +94,7 @@ const JobList = (): JSX.Element => {
       let [removedJob] = newJobs.splice(source.index, 1);
       removedJob = { ...removedJob, position: destination.index };
 
-      newJobs.forEach((job: { position: number; }, index: number) => {
+      newJobs.forEach((job: { position: number }, index: number) => {
         if (
           source.index < destination.index &&
           index >= source.index &&
@@ -127,7 +127,7 @@ const JobList = (): JSX.Element => {
       };
 
       const updatedJobs = newJobs.map(
-        (job: { id: number; position: number; }, index: number) => {
+        (job: { id: number; position: number }, index: number) => {
           return {
             jobId: job?.id,
             categoryId: Number(source.droppableId),
@@ -156,7 +156,7 @@ const JobList = (): JSX.Element => {
 
     const startColumnUpdatedJobs = startJobs
       ?.splice(source.index)
-      .map((job: { position: number; }) => {
+      .map((job: { position: number }) => {
         return {
           ...job,
           position: job.position - 1,
@@ -165,7 +165,7 @@ const JobList = (): JSX.Element => {
 
     const endColumnUpdatedJobs = endJobs
       ?.splice(destination.index)
-      .map((job: { position: number; }) => {
+      .map((job: { position: number }) => {
         return {
           ...job,
           position: job.position + 1,
@@ -194,7 +194,7 @@ const JobList = (): JSX.Element => {
     };
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
-      (job: { id: number; position: number; }, index: number) => {
+      (job: { id: number; position: number }, index: number) => {
         return {
           jobId: job?.id,
           categoryId: Number(source.droppableId),
@@ -205,7 +205,7 @@ const JobList = (): JSX.Element => {
     );
 
     const updatedJobsInDestination = endColumnUpdatedJobs.map(
-      (job: { id: number; position: number; }, index: number) => {
+      (job: { id: number; position: number }, index: number) => {
         if (job.position === destination.index) {
           return {
             jobId: job?.id,
