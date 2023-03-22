@@ -31,13 +31,20 @@
   color: #2d799d;
 }
 
+.SubHeader {
+  display: flex;
+  flex: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
 .ModalMain {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
 .ModalHeader {
@@ -61,6 +68,6 @@
   padding-right: 5px;
 }
 
-.PlaceHolderItem{
+.PlaceHolderItem {
   width: 80%;
 }
