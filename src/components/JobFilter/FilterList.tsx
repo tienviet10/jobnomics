@@ -97,14 +97,14 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
   };
   
   const handleRequestSort = (property:string) => {
+    console.log(property)
     const isAscending = (valueToOrderBy === property && orderDirection === "asc")
     setValueToOrderBy(property)
     setOrderDirection(isAscending ? 'desc' : 'asc')
     dispatch(setColumnFilterJob([property, isAscending ? 'desc' : 'asc']))
-    sentFilterRequest();
+    // sentFilterRequest();
   }
-  console.log(valueToOrderBy)
-  console.log(orderDirection)
+
 
   return (
     <Paper elevation={2} className={styles.FilterList}>

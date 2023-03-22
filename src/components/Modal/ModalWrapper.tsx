@@ -62,6 +62,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     isFetching,
     previousJob,
     categoryArray,
+    refetch
   } = useGetAJob();
   const [jobStatus, setJobStatus] = useState<string>("");
 
@@ -74,9 +75,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   };
 
   useEffect(() => {
-    // Add this so when the modal load up, we dont see the previous selectedJob
+    // For refreshing interview questions when inside the modal
+    if (isSuccess){
+      refetch()
+    }
     dispatch(setSelectedJob(aJob));
-  }, [aJob]);
+  }, [aJob, isSuccess]);
 
   const handleToggleFavorite = () => {
     const body = {
