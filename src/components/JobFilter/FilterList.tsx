@@ -22,14 +22,16 @@ import {
   Menu,
   MenuItem,
   Avatar,
+  TableSortLabel,
 } from "@mui/material";
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
 import { useUpdateJobMutation } from "../../app/services/job-api";
-import { setFilterSelectedJob } from "../../features/filterSlice";
+import { setColumnFilterJob, setFilterSelectedJob } from "../../features/filterSlice";
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
-const FilterList: React.FC<FilterListType> = (): JSX.Element => {
+
+const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.filter);
@@ -38,8 +40,14 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
   const [updateJob] = useUpdateJobMutation();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
+
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
+  const [valueToOrderBy, setValueToOrderBy] = useState('name');
+
+
+
   const [menuStates, setMenuStates] = useState<{
-    [key: string]: { anchorEl: Element | null; open: boolean };
+    [key: string]: { anchorEl: Element | null; open: boolean; };
   }>({});
 
   const handleDelete = (job: Job) => {
@@ -87,20 +95,58 @@ const FilterList: React.FC<FilterListType> = (): JSX.Element => {
       type: "update",
     });
   };
+  
+  const handleRequestSort = (property:string) => {
+    const isAscending = (valueToOrderBy === property && orderDirection === "asc")
+    setValueToOrderBy(property)
+    setOrderDirection(isAscending ? 'desc' : 'asc')
+    dispatch(setColumnFilterJob([property, isAscending ? 'desc' : 'asc']))
+    sentFilterRequest();
+  }
+  console.log(valueToOrderBy)
+  console.log(orderDirection)
 
   return (
     <Paper elevation={2} className={styles.FilterList}>
       <Table size="medium" className={styles.FilterTable}>
         <TableHead className={styles.JobTableHead}>
           <TableRow>
-            <TableCell align="center" sx={{ fontWeight: "bold" }}></TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Company</TableCell>
-            <TableCell sx={{ fontWeight: "bold" }}>Job Title</TableCell>
-            <TableCell align="center" sx={{ fontWeight: "bold" }}>
-              Update At
+            <TableCell key="logo" align="center" sx={{ fontWeight: "bold" }}></TableCell>
+            <TableCell key="company" sx={{ fontWeight: "bold" }}>
+              <TableSortLabel
+                active={valueToOrderBy === "company"}
+                direction={valueToOrderBy === "company" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("company")}
+                >
+                Company
+              </TableSortLabel>
             </TableCell>
-            <TableCell align="center" sx={{ fontWeight: "bold" }}>
-              Favorites
+            <TableCell key="title" sx={{ fontWeight: "bold" }}>
+              <TableSortLabel
+                active={valueToOrderBy === "title"}
+                direction={valueToOrderBy === "title" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("title")}
+                >
+                Job Title
+              </TableSortLabel>
+            </TableCell>
+            <TableCell key="updatedAt" align="center" sx={{ fontWeight: "bold" }}>
+              <TableSortLabel
+                active={valueToOrderBy === "updatedAt"}
+                direction={valueToOrderBy === "updatedAt" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("updatedAt")}
+                >
+                Update At
+              </TableSortLabel>
+            </TableCell>
+            <TableCell key="favorite" align="center" sx={{ fontWeight: "bold" }}>
+              <TableSortLabel
+                active={valueToOrderBy === "favorite"}
+                direction={valueToOrderBy === "favorite" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("isFavorite")}
+                >
+                Favorites
+              </TableSortLabel>
             </TableCell>
             <TableCell align="center"></TableCell>
           </TableRow>

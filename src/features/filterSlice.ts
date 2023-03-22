@@ -7,6 +7,7 @@ const initialState: FilterStateType = {
     languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
     framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }],
   },
+  columnFilter: ["updatedAt", 'asc'],
   firstFetch: true,
   listOfCategories: {
     Bookmarked: {},
@@ -53,14 +54,16 @@ export const filterSlice = createSlice({
     },
     toggleFirstFetch: (state, action) => {
       state["firstFetch"] = action.payload;
-
     },
     setFilterSelectedJob: (state, action) => {
       state["selectedJob"] = action.payload;
     },
+    setColumnFilterJob: (state, action) => {
+      state["columnFilter"] = action.payload;
+    },
   },
 });
 
-export const { toggleCheck, handleSearch, setList, toggleFirstFetch, setFilterSelectedJob } = filterSlice.actions;
+export const { toggleCheck, handleSearch, setList, toggleFirstFetch, setFilterSelectedJob, setColumnFilterJob } = filterSlice.actions;
 
 export default filterSlice.reducer;
