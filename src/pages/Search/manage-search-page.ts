@@ -22,6 +22,11 @@ export function useManageSearchPage(): ManageSearchPageType {
     }
   }, [data]);
 
+  useEffect(() => {
+    sentFilterRequest();
+    console.log("columnFilterState", columnFilterState);
+  }, [columnFilterState]);
+
   const updateCategoryFilter = (item: UpdateFilterType) => async () => {
     dispatch(toggleCheck(item));
 

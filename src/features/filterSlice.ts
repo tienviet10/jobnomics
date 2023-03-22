@@ -9,14 +9,14 @@ const initialState: FilterStateType = {
   },
   columnFilter: ["updatedAt", 'asc'],
   firstFetch: true,
-  listOfCategories: {
-    Bookmarked: {},
-    Applied: {},
-    Interviewing: {},
-    Interviewed: {},
-    "Job Offer": {},
-    "Position Filled": {}
-  },
+  // listOfCategories: {
+  //   Bookmarked: {},
+  //   Applied: {},
+  //   Interviewing: {},
+  //   Interviewed: {},
+  //   "Job Offer": {},
+  //   "Position Filled": {}
+  // },
   arrayJobs: [],
   displayArrayJobs: [],
   searchWord: "",
@@ -39,18 +39,21 @@ export const filterSlice = createSlice({
       state["displayArrayJobs"] = listJobs;
     },
     setList: (state, action) => {
-      state["listOfCategories"] = action.payload;
-
-      const listCategoryKeys: string[] = Object.keys(action.payload);
-      let listJobs: Job[] = [];
-      for (let key of listCategoryKeys) {
-        listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
-      }
-      if (state["searchWord"] !== "") {
-        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(state["searchWord"].toLowerCase()));
-      }
-      state["arrayJobs"] = listJobs;
-      state["displayArrayJobs"] = listJobs;
+      // state["listOfCategories"] = action.payload;
+      // console.log("current", action.payload);
+      // const listCategoryKeys: string[] = Object.keys(action.payload);
+      // let listJobs: Job[] = [];
+      // for (let key of listCategoryKeys) {
+      //   listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
+      // }
+      // if (state["searchWord"] !== "") {
+      //   listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(state["searchWord"].toLowerCase()));
+      // }
+      // state["arrayJobs"] = listJobs;
+      // console.log("list", listJobs);
+      // state["displayArrayJobs"] = listJobs;
+      state["arrayJobs"] = action.payload;
+      state["displayArrayJobs"] = action.payload;
     },
     toggleFirstFetch: (state, action) => {
       state["firstFetch"] = action.payload;
