@@ -18,6 +18,7 @@ import { useGetAJob } from "../../hooks/get-a-job";
 import JobCategory from "./JobCategory";
 import type { JobPreviewType } from "../../types/jobTypes";
 import PageLoader from "../PageLoader";
+import { processColumns } from "../../helper/job";
 
 // import { io } from "socket.io-client";
 // const socket = io("http://localhost:8080", {
@@ -71,7 +72,8 @@ const JobList = (): JSX.Element => {
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
-
+    console.log("source", source)
+    console.log("destination", destination)
     if (!destination) return;
 
     if (
@@ -86,149 +88,13 @@ const JobList = (): JSX.Element => {
       categoryArray[Number(destination.droppableId) - 1];
 
     const startColumn = data[sourceCategory];
-    const endColumn = data[destinationCategory];
-
-    if (startColumn === endColumn) {
-      // Moving within the same column
-      const newJobs = JSON.parse(JSON.stringify(startColumn.jobs));
-      let [removedJob] = newJobs.splice(source.index, 1);
-      removedJob = { ...removedJob, position: destination.index };
-
-      newJobs.forEach((job: { position: number }, index: number) => {
-        if (
-          source.index < destination.index &&
-          index >= source.index &&
-          index < destination.index
-        ) {
-          job.position = index;
-        }
-        if (
-          source.index > destination.index &&
-          index < source.index &&
-          index >= destination.index
-        ) {
-          job.position = index + 1;
-        }
-      });
-
-      newJobs.push(removedJob);
-      newJobs.sort(
-        (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
-      );
-
-      const newColumn = {
-        ...startColumn,
-        jobs: newJobs,
-      };
-
-      const newState = {
-        ...data,
-        [sourceCategory]: newColumn,
-      };
-
-      const updatedJobs = newJobs.map(
-        (job: { id: number; position: number }, index: number) => {
-          return {
-            jobId: job?.id,
-            categoryId: Number(source.droppableId),
-            newCategoryId: Number(destination.droppableId),
-            position: job.position,
-          };
-        }
-      );
-
-      const body = {
-        jobUpdates: updatedJobs,
-        newState,
-        type: "update",
-      };
-
-      updateJobs(body);
-
-      return;
-    }
 
     // Moving to a different column
     const startJobs = JSON.parse(JSON.stringify(startColumn.jobs));
-    const endJobs = JSON.parse(JSON.stringify(endColumn.jobs));
     let [removedJob] = startJobs.splice(source.index, 1);
     removedJob = { ...removedJob, position: destination.index };
 
-    const startColumnUpdatedJobs = startJobs
-      ?.splice(source.index)
-      .map((job: { position: number }) => {
-        return {
-          ...job,
-          position: job.position - 1,
-        };
-      });
-
-    const endColumnUpdatedJobs = endJobs
-      ?.splice(destination.index)
-      .map((job: { position: number }) => {
-        return {
-          ...job,
-          position: job.position + 1,
-        };
-      });
-
-    const newStartColumn = {
-      ...startColumn,
-      jobs: [...startJobs, ...startColumnUpdatedJobs],
-    };
-
-    endColumnUpdatedJobs.push(removedJob);
-    endColumnUpdatedJobs.sort(
-      (a: JobPreviewType, b: JobPreviewType) => a.position - b.position
-    );
-
-    const newEndColumn = {
-      ...endColumn,
-      jobs: [...endJobs, ...endColumnUpdatedJobs],
-    };
-
-    const newState = {
-      ...data,
-      [sourceCategory]: newStartColumn,
-      [destinationCategory]: newEndColumn,
-    };
-
-    const updatedJobsInSource = startColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
-        return {
-          jobId: job?.id,
-          categoryId: Number(source.droppableId),
-          newCategoryId: Number(source.droppableId),
-          position: job?.position,
-        };
-      }
-    );
-
-    const updatedJobsInDestination = endColumnUpdatedJobs.map(
-      (job: { id: number; position: number }, index: number) => {
-        if (job.position === destination.index) {
-          return {
-            jobId: job?.id,
-            categoryId: Number(source.droppableId),
-            newCategoryId: Number(destination.droppableId),
-            position: job.position,
-          };
-        }
-        return {
-          jobId: job?.id,
-          categoryId: Number(destination.droppableId),
-          newCategoryId: Number(destination.droppableId),
-          position: job?.position,
-        };
-      }
-    );
-
-    const body = {
-      jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
-      newState,
-      type: "update",
-    };
-
+    const body = processColumns(source, destination, data, categoryArray);
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
