@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import { useGetAllJobsQuery } from "../../app/services/job-api";
+import {
+  useGetAllJobsQuery,
+  useUpdateJobMutation,
+  useUpdateJobsMutation,
+} from "../../app/services/job-api";
 
 import {
   Alert,
@@ -12,24 +16,106 @@ import {
   Modal,
   Typography,
 } from "@mui/material";
-import { Close, Warning, WarningRounded } from "@mui/icons-material";
+import { Close, WarningRounded } from "@mui/icons-material";
 import styles from "./InactiveJobsModal.module.css";
 
 import LoadingAnimation from "../LoadingAnimation";
 
-import { CreateJobModalPropType, JobType } from "../../types/jobTypes";
+import {
+  CreateJobModalPropType,
+  JobPreviewType,
+  JobType,
+} from "../../types/jobTypes";
 
 const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
   const { data } = useGetAllJobsQuery();
-  const [value, setValue] = useState<string>("");
-
-  // const [addJob, { isLoading: isPosting, isSuccess, isError }] =
-  //   useAddJobMutation();
-  const [error, setError] = useState(false);
+  const [updateJobs, { isLoading, isSuccess, isError }] =
+    useUpdateJobsMutation();
+  const [updateJob] = useUpdateJobMutation();
 
   const handleClose = () => {
     setOpen(false);
-    setError(false);
+  };
+
+  const handleRemoveJob = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLButtonElement;
+    const [jobId, category, categoryId] = target.id.split("-");
+
+    const selectedJob = data?.allActiveJobs[category]?.jobs.find(
+      (job: { id: number }) => job.id === Number(jobId)
+    );
+
+    const currentJobs: JobPreviewType[] = data?.allActiveJobs[category].jobs;
+    const allJobsWithinCategory = [];
+    const updatedJobs = [];
+
+    //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
+    for (const index in currentJobs) {
+      const newPosition = currentJobs[index].position - 1;
+      if (Number(index) < selectedJob.position) {
+        allJobsWithinCategory.push({ ...currentJobs[index] });
+      } else if (Number(index) > selectedJob.position) {
+        allJobsWithinCategory.push({
+          ...currentJobs[index],
+          position: newPosition,
+        });
+      }
+
+      if (Number(index) > selectedJob?.position) {
+        updatedJobs.push({
+          jobId: currentJobs[index].id,
+          categoryId: Number(categoryId),
+          newCategoryId: Number(categoryId),
+          position: newPosition,
+          isDeleted: false,
+          isActive: true,
+        });
+      }
+
+      if (Number(index) === selectedJob.position) {
+        updatedJobs.push({
+          jobId: currentJobs[index].id,
+          categoryId: Number(categoryId),
+          newCategoryId: 1,
+          position: -1,
+          isDeleted: false,
+          isActive: false,
+        });
+      }
+    }
+
+    const newState = {
+      ...data,
+      allActiveJobs: {
+        ...data.allActiveJobs,
+        [category]: {
+          ...data.allActiveJobs[category],
+          jobs: allJobsWithinCategory,
+        },
+      },
+    };
+
+    const body = {
+      jobUpdates: updatedJobs,
+      newState,
+      type: "update",
+    };
+
+    console.log(newState);
+    console.log(updatedJobs);
+
+    updateJobs(body);
+  };
+
+  const handleKeepJob = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const target = e.target as HTMLButtonElement;
+    const [jobId, categoryId] = target.id.split("-");
+
+    updateJob({
+      jobId: Number(jobId),
+      categoryId: Number(categoryId),
+      type: "update",
+    });
   };
 
   return (
@@ -69,6 +155,7 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
           <Box className={styles.JobList} sx={{ height: { xs: "50vh" } }}>
             {data?.staleJobs.map((job: JobType) => (
               <Alert
+                key={job.job.id}
                 icon={false}
                 severity="info"
                 sx={{
@@ -86,17 +173,29 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
                       flexWrap: "wrap",
                     }}
                   >
-                    <Button color="inherit" size="small">
+                    <Button
+                      color="inherit"
+                      size="small"
+                      id={`${String(job.job.id)}-${job.category.name}-${
+                        job.category.id
+                      }`}
+                      onClick={handleRemoveJob}
+                    >
                       REMOVE
                     </Button>
-                    <Button color="inherit" size="small">
+                    <Button
+                      color="inherit"
+                      size="small"
+                      id={`${String(job.job.id)}-${job.category.id}`}
+                      onClick={handleKeepJob}
+                    >
                       KEEP
                     </Button>
                   </Box>
                 }
               >
                 <AlertTitle sx={{ mb: 0, fontWeight: "bold", fontSize: 13 }}>
-                  {job.job.company}
+                  {job.job.company} (Status: {job.category.name})
                 </AlertTitle>
                 {job.job.title}
               </Alert>
