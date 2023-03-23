@@ -11,7 +11,8 @@ import moment from "moment";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
-import { CreateJobModalPropType } from "../../types/jobTypes";
+import { CalendarEventsType, CreateJobModalPropType, InterviewResponseType } from "../../types/jobTypes";
+
 
 const localizer = momentLocalizer(moment);
 
@@ -24,13 +25,13 @@ const CalendarModal = ({
   };
 
   const { data: interviewDates } = useGetAllInterviewDatesQuery();
-  const [state, setState] = useState<any>({
+  const [state, setState] = useState<CalendarEventsType>({
     events: [],
   });
 
   const populateInterviewDates = () => {
-    const newState = interviewDates.map(
-      (interview: { company: string; interviewDate: Date; title: string }) => {
+    const newState = interviewDates?.map(
+      (interview: InterviewResponseType) => {
         return {
           start: moment(interview?.interviewDate).toDate(),
           end: moment(interview?.interviewDate).add(1, "h").toDate(),
@@ -38,8 +39,8 @@ const CalendarModal = ({
         };
       }
     );
-    console.log({ events: newState });
-    setState({ events: newState });
+    
+    setState({ events: newState || [] });
   };
 
   useEffect(() => {

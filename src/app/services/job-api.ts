@@ -8,6 +8,7 @@ import type {
   InactiveJobsType,
   CategoryType,
   AllActiveJobsDataType,
+  AllInterviewDatesResponse,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -48,11 +49,6 @@ export const jobApi = createApi({
         url: `job/${jobId}/${categoryId}`,
       }),
       transformResponse: (response: JobType, meta, arg) => response,
-      // transformErrorResponse: (
-      //   response: { status: string | number; },
-      //   meta,
-      //   arg
-      // ) => response.status,
       providesTags: ["aJob"],
     }),
     addJob: builder.mutation<any, any>({
@@ -230,14 +226,16 @@ export const jobApi = createApi({
       }),
       transformResponse: (response: JobType, meta, arg) => response,
     }),
-    getAllInterviewDates: builder.query<any, void>({
+    getAllInterviewDates: builder.query<AllInterviewDatesResponse[], void>({
       query: () => ({
         url: `job/interviewDates`,
       }),
-      transformResponse: (response: JobType, meta, arg) => response,
+      transformResponse: (response: AllInterviewDatesResponse[], meta, arg) => response,
     }),
   }),
 });
+
+
 
 export const {
   useFilterJobsQuery,

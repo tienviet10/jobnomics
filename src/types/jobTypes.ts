@@ -211,4 +211,25 @@ export type AllActiveJobsDataType = {
   [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
 };
 
-// . export type
+export type CalendarEventsType = {
+  events: EventType[];
+};
+
+type EventType = {
+  start: Date;
+  end: Date;
+  title: string;
+};
+
+export type InterviewResponseType = {
+  company: string;
+  interviewDate: Date;
+  title: string;
+};
+
+export type AllInterviewDatesResponse = {
+  company: string;
+  interviewDate: Date;
+  title: string;
+};
+

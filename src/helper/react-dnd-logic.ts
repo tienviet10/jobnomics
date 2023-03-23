@@ -1,14 +1,18 @@
 import { JobPreviewType } from "../types/jobTypes";
 
+type DnDSourceAndDestination = {
+  droppableId: string,
+  index: number,
+};
+
 export const processColumns = (
-  source: any,
-  destination: any,
+  source: DnDSourceAndDestination,
+  destination: DnDSourceAndDestination,
   allActiveJobs: any,
-  sourceCategory: any,
-  destinationCategory: any,
+  sourceCategory: string,
+  destinationCategory: string,
   data: any
 ) => {
-  console.log(data);
 
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
@@ -19,7 +23,7 @@ export const processColumns = (
     let [removedJob] = newJobs.splice(source.index, 1);
     removedJob = { ...removedJob, position: destination.index };
 
-    newJobs.forEach((job: { position: number }, index: number) => {
+    newJobs.forEach((job: { position: number; }, index: number) => {
       if (
         source.index < destination.index &&
         index >= source.index &&
@@ -53,7 +57,7 @@ export const processColumns = (
     };
 
     const updatedJobs = newJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+      (job: { id: number; position: number; }, index: number) => {
         return {
           jobId: job?.id,
           categoryId: Number(source.droppableId),
@@ -80,7 +84,7 @@ export const processColumns = (
 
   const startColumnUpdatedJobs = startJobs
     ?.splice(source.index)
-    .map((job: { position: number }) => {
+    .map((job: { position: number; }) => {
       return {
         ...job,
         position: job.position - 1,
@@ -89,7 +93,7 @@ export const processColumns = (
 
   const endColumnUpdatedJobs = endJobs
     ?.splice(destination.index)
-    .map((job: { position: number }) => {
+    .map((job: { position: number; }) => {
       return {
         ...job,
         position: job.position + 1,
@@ -123,7 +127,7 @@ export const processColumns = (
   };
 
   const updatedJobsInSource = startColumnUpdatedJobs.map(
-    (job: { id: number; position: number }, index: number) => {
+    (job: { id: number; position: number; }, index: number) => {
       return {
         jobId: job?.id,
         categoryId: Number(source.droppableId),
@@ -134,7 +138,7 @@ export const processColumns = (
   );
 
   const updatedJobsInDestination = endColumnUpdatedJobs.map(
-    (job: { id: number; position: number }, index: number) => {
+    (job: { id: number; position: number; }, index: number) => {
       if (job.position === destination.index) {
         return {
           jobId: job?.id,
