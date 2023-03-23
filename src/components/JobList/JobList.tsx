@@ -80,14 +80,16 @@ const JobList = (): JSX.Element => {
       categoryArray,
       data
     );
-    updateJobs(body);
     
+    // TODO: Check to see if it should be dispatch before or after updateJobs
     dispatch(
       setModalId({
         jobId: removedJob?.id,
         categoryId:  Number(destination?.droppableId),
       })
     );
+
+    updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });

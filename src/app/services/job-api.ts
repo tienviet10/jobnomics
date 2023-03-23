@@ -47,10 +47,7 @@ export const jobApi = createApi({
       query: ({ jobId, categoryId }) => ({
         url: `job/${jobId}/${categoryId}`,
       }),
-      transformResponse: (response: JobType, meta, arg) => {
-        console.log("response", response);
-        return response;
-      },
+      transformResponse: (response: JobType, meta, arg) => response,
       // transformErrorResponse: (
       //   response: { status: string | number; },
       //   meta,
@@ -229,12 +226,15 @@ export const jobApi = createApi({
     }),
     getInterviewDate: builder.query({
       query: ({ jobId }) => ({
-        url: `job/${jobId}`,
+        url: `job/interviewDate/${jobId}`,
       }),
-      transformResponse: (response: JobType, meta, arg) => {
-        console.log("response", response);
-        return response;
-      },
+      transformResponse: (response: JobType, meta, arg) => response,
+    }),
+    getAllInterviewDates: builder.query<any, void>({
+      query: () => ({
+        url: `job/interviewDates`,
+      }),
+      transformResponse: (response: JobType, meta, arg) => response,
     }),
   }),
 });
@@ -244,6 +244,7 @@ export const {
   useGetAllJobsQuery,
   useGetJobByIdQuery,
   useGetInterviewDateQuery,
+  useGetAllInterviewDatesQuery,
   useAddJobMutation,
   useAddChecklistsMutation,
   useAddInterviewQuestionsMutation,
