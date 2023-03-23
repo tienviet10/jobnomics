@@ -4,13 +4,10 @@ export const processColumns = (
   source: any,
   destination: any,
   allActiveJobs: any,
-  categoryArray: any,
+  sourceCategory: any,
+  destinationCategory: any,
   data: any
 ) => {
-  const sourceCategory = categoryArray[Number(source.droppableId) - 1];
-  const destinationCategory =
-    categoryArray[Number(destination.droppableId) - 1];
-
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
 
@@ -49,7 +46,6 @@ export const processColumns = (
 
     const newState = {
       ...data,
-      [sourceCategory]: newColumn,
       allActiveJobs: { ...data.allActiveJobs, [sourceCategory]: newColumn },
     };
 
@@ -114,8 +110,6 @@ export const processColumns = (
 
   const newState = {
     ...data,
-    [sourceCategory]: newStartColumn,
-    [destinationCategory]: newEndColumn,
     allActiveJobs: {
       ...data.allActiveJobs,
       [sourceCategory]: newStartColumn,
@@ -158,5 +152,7 @@ export const processColumns = (
     newState,
     type: "update",
   };
+
+  console.log(body);
   return body;
 };

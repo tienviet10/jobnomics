@@ -37,6 +37,7 @@ const JobList = (): JSX.Element => {
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
+    console.log(source);
     if (!destination) return;
 
     if (
@@ -55,11 +56,14 @@ const JobList = (): JSX.Element => {
     const startJobs = JSON.parse(JSON.stringify(startColumn.jobs));
     let [removedJob] = startJobs.splice(source.index, 1);
 
+    console.log(sourceCategory);
+
     const body = processColumns(
       source,
       destination,
       data?.allActiveJobs,
-      categoryArray,
+      sourceCategory,
+      destinationCategory,
       data
     );
     updateJobs(body);

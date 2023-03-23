@@ -59,7 +59,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     categoryArray,
     refetch,
   } = useGetAJob();
-  // const [jobStatus, setJobStatus] = useState<string>("");
 
   const updatedDate = selectedJob?.updatedAt
     ? new Date(selectedJob.updatedAt)
@@ -102,104 +101,81 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const handleStatusChange = async (event: { target: { value: string } }) => {
     const chosenJobCategory = event.target.value;
     const chosenJobCategoryId = categoryArray.indexOf(chosenJobCategory) + 1;
-    // const startCategory = selectedJob.category.name;
-    // const startCategoryId = selectedJob.category.id;
+    const startCategory = selectedJob.category.name;
+    const startCategoryId = selectedJob.category.id;
     const startPosition = selectedJob.position;
     const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
-
     const startJobs = JSON.parse(
       JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
     );
-
     const endJobs = JSON.parse(
       JSON.stringify(data.allActiveJobs[chosenJobCategory].jobs)
     );
     let [removedJob] = startJobs.splice(startPosition, 1);
-    // removedJob = { ...removedJob, position: newPosition };
-    // endJobs.push(removedJob);
+    console.log(startPosition);
+    removedJob = { ...removedJob, position: newPosition };
+    endJobs.push(removedJob);
 
-    // setJobStatus(chosenJobCategory);
+    const startColumnUpdatedJobs = startJobs
+      ?.splice(startPosition)
+      .map((job: { position: number }) => {
+        return {
+          ...job,
+          position: job.position - 1,
+        };
+      });
+    const newStartColumn = {
+      ...data.allActiveJobs[startCategory],
+      jobs: [...startJobs, ...startColumnUpdatedJobs],
+    };
+    const newEndColumn = {
+      ...data.allActiveJobs[chosenJobCategory],
+      jobs: endJobs,
+    };
 
-    // const startColumnUpdatedJobs = startJobs
-    //   ?.splice(startPosition)
-    //   .map((job: { position: number }) => {
-    //     return {
-    //       ...job,
-    //       position: job.position - 1,
-    //     };
-    //   });
-
-    // const newStartColumn = {
-    //   ...data.allActiveJobs[startCategory],
-    //   jobs: [...startJobs, ...startColumnUpdatedJobs],
-    // };
-
-    // const newEndColumn = {
-    //   ...data.allActiveJobs[chosenJobCategory],
-    //   jobs: endJobs,
-    // };
-
-    // const newState = {
-    //   ...data,
-    //   allActiveJobs: {
-    //     ...data.allActiveJobs,
-    //     [startCategory]: newStartColumn,
-    //     [chosenJobCategory]: newEndColumn,
-    //   },
-    // };
-
-    // const updatedJobsInSource = startColumnUpdatedJobs.map(
-    //   (job: { id: number; position: number }) => {
-    //     return {
-    //       jobId: job?.id,
-    //       categoryId: Number(startCategoryId),
-    //       newCategoryId: Number(startCategoryId),
-    //       position: job?.position,
-    //     };
-    //   }
-    // );
-
-    // const updatedJob = {
-    //   jobId: removedJob.id,
-    //   categoryId: Number(startCategoryId),
-    //   newCategoryId: Number(chosenJobCategoryId),
-    //   position: removedJob.position,
-    // };
-
-    // const body = {
-    //   jobUpdates: [...updatedJobsInSource, updatedJob],
-    //   newState,
-    //   type: "update",
-    // };
-
-    // const body = {
-    //   jobUpdates: [...updatedJobsInSource, updatedJob],
-    //   newState,
-    //   type: "update",
-    // };
-    const body = processColumns(
-      { droppableId: selectedJob.category.id, index: selectedJob?.position },
-      {
-        droppableId: categoryArray.indexOf(chosenJobCategory) + 1,
-        index: data[chosenJobCategory].jobs.length,
+    const newState = {
+      ...data.allActiveJobs,
+      [startCategory]: newStartColumn,
+      [chosenJobCategory]: newEndColumn,
+      ...data,
+      allActiveJobs: {
+        ...data.allActiveJobs,
+        [startCategory]: newStartColumn,
+        [chosenJobCategory]: newEndColumn,
       },
-      data?.allActiveJobs,
-      categoryArray,
-      data
-    );
-    updateJobs(body);
+    };
 
+    const updatedJobsInSource = startColumnUpdatedJobs.map(
+      (job: { id: number; position: number }) => {
+        return {
+          jobId: job?.id,
+          categoryId: Number(startCategoryId),
+          newCategoryId: Number(startCategoryId),
+          position: job?.position,
+        };
+      }
+    );
+    const updatedJob = {
+      jobId: removedJob.id,
+      categoryId: Number(startCategoryId),
+      newCategoryId: Number(chosenJobCategoryId),
+      position: removedJob.position,
+    };
+    const body = {
+      jobUpdates: [...updatedJobsInSource, updatedJob],
+      newState,
+      type: "update",
+    };
+    updateJobs(body);
     dispatch(
       setModalId({
         jobId: selectedJob?.job?.id,
         categoryId: chosenJobCategoryId,
       })
     );
-
     if (chosenJobCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
     }
-
     if (chosenJobCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
@@ -213,7 +189,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
     setTimeout(() => {
       dispatch(toggleJobModal(false));
-    }, 100);
+    }, 1000);
   };
 
   return selectedJob && !isLoading ? (
