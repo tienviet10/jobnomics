@@ -3,7 +3,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
 export type GetAllJobsReturnType = {
-  allActiveJobs: { [key: string]: CategoryType; };
+  allActiveJobs: { [key: string]: CategoryType };
   staleJobs: JobType[];
 };
 export type UserJobsType = {
@@ -11,7 +11,7 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
 };
 
 export type InactiveJobsType = {
@@ -20,7 +20,7 @@ export type InactiveJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 export type categoriesType = {
@@ -42,7 +42,7 @@ export type JobType = {
     id: number;
     name: string;
   };
-  updatedAt: Date | null;
+  updatedByUserAt: Date | null;
   isFavorite: boolean;
   position: number;
   interviewDate: Date | null;
@@ -74,7 +74,7 @@ export type Skill = {
   createdAt: string;
   id: number;
   name: string;
-  updatedAt: string;
+  updatedByUserAt: string;
 };
 export interface Job {
   isFavorite: boolean;
@@ -84,7 +84,7 @@ export interface Job {
   logo: string;
   position: number;
   title: string;
-  updatedAt: string;
+  updatedByUserAt: Date;
   categoryId: number;
   description?: string;
 }
@@ -192,7 +192,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
 
@@ -204,11 +204,11 @@ export type AllActiveJobsType = {
   position: number;
   isFavorite: boolean;
   interviewDate: Date | null;
-  updatedAt: Date;
+  updatedByUserAt: Date;
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 // . export type

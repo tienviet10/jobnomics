@@ -52,16 +52,23 @@ export const processColumns = (
       allActiveJobs: { ...data.allActiveJobs, [sourceCategory]: newColumn },
     };
 
-    const updatedJobs = newJobs.map(
-      (job: { id: number; position: number }, index: number) => {
+    const updatedJobs = newJobs.map((job: { id: number; position: number }) => {
+      if (job.position === destination.index) {
         return {
           jobId: job?.id,
           categoryId: Number(source.droppableId),
           newCategoryId: Number(destination.droppableId),
           position: job.position,
+          isChanged: true,
         };
       }
-    );
+      return {
+        jobId: job?.id,
+        categoryId: Number(source.droppableId),
+        newCategoryId: Number(destination.droppableId),
+        position: job.position,
+      };
+    });
 
     const body = {
       jobUpdates: updatedJobs,
@@ -113,8 +120,8 @@ export const processColumns = (
 
   const newState = {
     ...data,
-    [sourceCategory]: newStartColumn,
-    [destinationCategory]: newEndColumn,
+    // [sourceCategory]: newStartColumn,
+    // [destinationCategory]: newEndColumn,
     allActiveJobs: {
       ...data.allActiveJobs,
       [sourceCategory]: newStartColumn,
@@ -123,7 +130,7 @@ export const processColumns = (
   };
 
   const updatedJobsInSource = startColumnUpdatedJobs.map(
-    (job: { id: number; position: number }, index: number) => {
+    (job: { id: number; position: number }) => {
       return {
         jobId: job?.id,
         categoryId: Number(source.droppableId),
@@ -134,13 +141,14 @@ export const processColumns = (
   );
 
   const updatedJobsInDestination = endColumnUpdatedJobs.map(
-    (job: { id: number; position: number }, index: number) => {
+    (job: { id: number; position: number }) => {
       if (job.position === destination.index) {
         return {
           jobId: job?.id,
           categoryId: Number(source.droppableId),
           newCategoryId: Number(destination.droppableId),
           position: job.position,
+          isChanged: true,
         };
       }
       return {
