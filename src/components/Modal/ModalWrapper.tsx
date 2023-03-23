@@ -102,8 +102,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const handleStatusChange = async (event: { target: { value: string } }) => {
     const chosenJobCategory = event.target.value;
     const chosenJobCategoryId = categoryArray.indexOf(chosenJobCategory) + 1;
-    // const startCategory = selectedJob.category.name;
-    // const startCategoryId = selectedJob.category.id;
+    const startCategory = selectedJob.category.name;
+    const startCategoryId = selectedJob.category.id;
     const startPosition = selectedJob.position;
     const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
 
@@ -111,88 +111,24 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
     );
 
-    const endJobs = JSON.parse(
-      JSON.stringify(data.allActiveJobs[chosenJobCategory].jobs)
-    );
     let [removedJob] = startJobs.splice(startPosition, 1);
-    // removedJob = { ...removedJob, position: newPosition };
-    // endJobs.push(removedJob);
 
-    // setJobStatus(chosenJobCategory);
-
-    // const startColumnUpdatedJobs = startJobs
-    //   ?.splice(startPosition)
-    //   .map((job: { position: number }) => {
-    //     return {
-    //       ...job,
-    //       position: job.position - 1,
-    //     };
-    //   });
-
-    // const newStartColumn = {
-    //   ...data.allActiveJobs[startCategory],
-    //   jobs: [...startJobs, ...startColumnUpdatedJobs],
-    // };
-
-    // const newEndColumn = {
-    //   ...data.allActiveJobs[chosenJobCategory],
-    //   jobs: endJobs,
-    // };
-
-    // const newState = {
-    //   ...data,
-    //   allActiveJobs: {
-    //     ...data.allActiveJobs,
-    //     [startCategory]: newStartColumn,
-    //     [chosenJobCategory]: newEndColumn,
-    //   },
-    // };
-
-    // const updatedJobsInSource = startColumnUpdatedJobs.map(
-    //   (job: { id: number; position: number }) => {
-    //     return {
-    //       jobId: job?.id,
-    //       categoryId: Number(startCategoryId),
-    //       newCategoryId: Number(startCategoryId),
-    //       position: job?.position,
-    //     };
-    //   }
-    // );
-
-    // const updatedJob = {
-    //   jobId: removedJob.id,
-    //   categoryId: Number(startCategoryId),
-    //   newCategoryId: Number(chosenJobCategoryId),
-    //   position: removedJob.position,
-    // };
-
-    // const body = {
-    //   jobUpdates: [...updatedJobsInSource, updatedJob],
-    //   newState,
-    //   type: "update",
-    // };
-
-    // const body = {
-    //   jobUpdates: [...updatedJobsInSource, updatedJob],
-    //   newState,
-    //   type: "update",
-    // };
     const body = processColumns(
-      { droppableId: selectedJob.category.id, index: selectedJob?.position },
+      { droppableId: String(startCategoryId), index: startPosition },
       {
-        droppableId: categoryArray.indexOf(chosenJobCategory) + 1,
-        index: data[chosenJobCategory].jobs.length,
+        droppableId: String(chosenJobCategoryId),
+        index: newPosition,
       },
       data?.allActiveJobs,
-      categoryArray,
+      startCategory,
+      chosenJobCategory,
       data
     );
     updateJobs(body);
 
-
     if (chosenJobCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
-    }else if (chosenJobCategory === "Interviewing") {
+    } else if (chosenJobCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
           jobId: removedJob?.id,
@@ -201,14 +137,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       dispatch(toggleInterviewedModal(true));
-    } else if (chosenJobCategory !== "Job Offer"){
+    } else if (chosenJobCategory !== "Job Offer") {
       dispatch(
         setModalId({
           jobId: selectedJob?.job?.id,
           categoryId: chosenJobCategoryId,
         })
       );
-  
     }
 
     setTimeout(() => {
