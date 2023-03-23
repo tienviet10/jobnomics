@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   setInterviewedModalId,
+  setModalId,
   toggleInterviewedModal,
 } from "../../features/jobSlice";
 import {
@@ -80,6 +81,13 @@ const JobList = (): JSX.Element => {
       data
     );
     updateJobs(body);
+    
+    dispatch(
+      setModalId({
+        jobId: removedJob?.id,
+        categoryId:  Number(destination?.droppableId),
+      })
+    );
 
     if (destinationCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
