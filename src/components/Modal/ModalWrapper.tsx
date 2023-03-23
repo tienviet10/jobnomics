@@ -107,6 +107,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     const startPosition = selectedJob.position;
     const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
 
+    if (startCategory === chosenJobCategory) return;
+
     const startJobs = JSON.parse(
       JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
     );
