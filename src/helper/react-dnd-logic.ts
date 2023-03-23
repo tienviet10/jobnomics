@@ -4,12 +4,11 @@ export const processColumns = (
   source: any,
   destination: any,
   allActiveJobs: any,
-  categoryArray: any,
+  sourceCategory: any,
+  destinationCategory: any,
   data: any
 ) => {
-  const sourceCategory = categoryArray[Number(source.droppableId) - 1];
-  const destinationCategory =
-    categoryArray[Number(destination.droppableId) - 1];
+  console.log(data);
 
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];

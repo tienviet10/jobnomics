@@ -32,19 +32,23 @@ const JobList = (): JSX.Element => {
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isError, isSuccess }] =
     useAddInterviewQuestionsMutation();
-    const {
-      data: interviewDate
-    } = useGetInterviewDateQuery({jobId: jobInterview});
+  const { data: interviewDate } = useGetInterviewDateQuery({
+    jobId: jobInterview,
+  });
 
   useEffect(() => {
     refetch();
   }, [isSuccess]);
 
-  useEffect(()=>{
-    if (!interviewDate?.interviewDate && !repositionWithinColumn && jobInterview !== -1) {
+  useEffect(() => {
+    if (
+      !interviewDate?.interviewDate &&
+      !repositionWithinColumn &&
+      jobInterview !== -1
+    ) {
       dispatch(toggleInterviewedModal(true));
     }
-  },[interviewDate])
+  }, [interviewDate]);
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
@@ -77,7 +81,8 @@ const JobList = (): JSX.Element => {
       source,
       destination,
       data?.allActiveJobs,
-      categoryArray,
+      sourceCategory,
+      destinationCategory,
       data
     );
 
@@ -87,7 +92,7 @@ const JobList = (): JSX.Element => {
 
     if (destinationCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
-    }else if (destinationCategory === "Interviewing") {
+    } else if (destinationCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
           jobId: removedJob?.id,
@@ -96,11 +101,11 @@ const JobList = (): JSX.Element => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
-    }else if (destinationCategory !== "Job Offer"){
+    } else if (destinationCategory !== "Job Offer") {
       dispatch(
         setModalId({
           jobId: removedJob?.id,
-          categoryId:  Number(destination?.droppableId),
+          categoryId: Number(destination?.droppableId),
         })
       );
     }
