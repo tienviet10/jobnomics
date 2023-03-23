@@ -5,6 +5,9 @@ import type {
   JobType,
   ResponseData,
   UserRequest,
+  InactiveJobsType,
+  CategoryType,
+  AllActiveJobsDataType,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -29,8 +32,11 @@ export const jobApi = createApi({
       // Optimistic Update:
       //  FE display info -> User update the info, display the new INFO to user through MANIPULATING CURRENT CACHE -> FE send request to BE -> FE Get the response -> RTK will compare between these 2 cache to see if they are the same, override with the new response if they are different
       providesTags: ["allJobs"],
-      transformResponse: (response: { data: UserJobsType }, meta, arg) =>
-        response,
+      transformResponse: (
+        response: { data: AllActiveJobsDataType },
+        meta,
+        arg
+      ) => response,
       transformErrorResponse: (
         response: { status: string | number },
         meta,

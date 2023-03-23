@@ -43,9 +43,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [updateJob] = useUpdateJobMutation();
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions, {isSuccess}] =
+  const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
   const { data } = useGetAllJobsQuery();
+  // const { allActiveJobs, staleJobs } = data;
   const {
     aJob,
     selectedJob,
@@ -104,13 +105,15 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     // const startCategory = selectedJob.category.name;
     // const startCategoryId = selectedJob.category.id;
     const startPosition = selectedJob.position;
-    // const newPosition = data[chosenJobCategory].jobs.length;
+    const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
 
     const startJobs = JSON.parse(
-      JSON.stringify(data[selectedJob?.category.name].jobs)
+      JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
     );
 
-    // const endJobs = JSON.parse(JSON.stringify(data[chosenJobCategory].jobs));
+    const endJobs = JSON.parse(
+      JSON.stringify(data.allActiveJobs[chosenJobCategory].jobs)
+    );
     let [removedJob] = startJobs.splice(startPosition, 1);
     // removedJob = { ...removedJob, position: newPosition };
     // endJobs.push(removedJob);
@@ -127,19 +130,22 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     //   });
 
     // const newStartColumn = {
-    //   ...data[startCategory],
+    //   ...data.allActiveJobs[startCategory],
     //   jobs: [...startJobs, ...startColumnUpdatedJobs],
     // };
 
     // const newEndColumn = {
-    //   ...data[chosenJobCategory],
+    //   ...data.allActiveJobs[chosenJobCategory],
     //   jobs: endJobs,
     // };
 
     // const newState = {
     //   ...data,
-    //   [startCategory]: newStartColumn,
-    //   [chosenJobCategory]: newEndColumn,
+    //   allActiveJobs: {
+    //     ...data.allActiveJobs,
+    //     [startCategory]: newStartColumn,
+    //     [chosenJobCategory]: newEndColumn,
+    //   },
     // };
 
     // const updatedJobsInSource = startColumnUpdatedJobs.map(
@@ -160,14 +166,27 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     //   position: removedJob.position,
     // };
 
-    // console.log(updatedJob);
+    // const body = {
+    //   jobUpdates: [...updatedJobsInSource, updatedJob],
+    //   newState,
+    //   type: "update",
+    // };
 
     // const body = {
     //   jobUpdates: [...updatedJobsInSource, updatedJob],
     //   newState,
     //   type: "update",
     // };
-    const body = processColumns({droppableId: selectedJob.category.id, index: selectedJob?.position}, {droppableId: categoryArray.indexOf(chosenJobCategory) + 1, index: data[chosenJobCategory].jobs.length}, data, categoryArray);
+    const body = processColumns(
+      { droppableId: selectedJob.category.id, index: selectedJob?.position },
+      {
+        droppableId: categoryArray.indexOf(chosenJobCategory) + 1,
+        index: data[chosenJobCategory].jobs.length,
+      },
+      data?.allActiveJobs,
+      categoryArray,
+      data
+    );
     updateJobs(body);
 
     dispatch(
