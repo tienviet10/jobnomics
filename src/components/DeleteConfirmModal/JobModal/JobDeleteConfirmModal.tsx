@@ -84,8 +84,6 @@ const JobDeleteConfirmModal = ({
       },
     };
 
-    console.log(newState);
-
     const body = {
       jobUpdates: updatedJobs,
       newState,

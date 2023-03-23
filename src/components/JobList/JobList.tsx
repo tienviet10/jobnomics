@@ -226,7 +226,6 @@ const JobList = (): JSX.Element => {
         };
       }
     );
-    console.log(newState);
 
     const body = {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
