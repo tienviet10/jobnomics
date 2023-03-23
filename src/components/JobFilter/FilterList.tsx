@@ -97,7 +97,6 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
   };
   
   const handleRequestSort = (property:string) => {
-    console.log(property)
     const isAscending = (valueToOrderBy === property && orderDirection === "asc")
     setValueToOrderBy(property)
     setOrderDirection(isAscending ? 'desc' : 'asc')

@@ -24,7 +24,6 @@ export function useManageSearchPage(): ManageSearchPageType {
 
   useEffect(() => {
     sentFilterRequest();
-    console.log("columnFilterState", columnFilterState);
   }, [columnFilterState]);
 
   const updateCategoryFilter = (item: UpdateFilterType) => async () => {

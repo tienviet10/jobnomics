@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import {
   setInterviewedModalId,
+  setModalId,
   toggleInterviewedModal,
 } from "../../features/jobSlice";
 import {
@@ -9,6 +10,7 @@ import {
   useAddChecklistsMutation,
   useUpdateJobsMutation,
   useAddInterviewQuestionsMutation,
+  useGetInterviewDateQuery,
 } from "../../app/services/job-api";
 
 import styles from "./JobList.module.css";
@@ -24,15 +26,25 @@ const JobList = (): JSX.Element => {
 
   const { categoryArray, refetch } = useGetAJob();
   const { data, isLoading } = useGetAllJobsQuery();
-  // const { allActiveJobs, staleJobs } = data;
+  const [jobInterview, setJobInterview] = useState(-1);
+  const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isError, isSuccess }] =
     useAddInterviewQuestionsMutation();
+    const {
+      data: interviewDate
+    } = useGetInterviewDateQuery({jobId: jobInterview});
 
   useEffect(() => {
     refetch();
   }, [isSuccess]);
+
+  useEffect(()=>{
+    if (!interviewDate?.interviewDate && !repositionWithinColumn && jobInterview !== -1) {
+      dispatch(toggleInterviewedModal(true));
+    }
+  },[interviewDate])
 
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
@@ -44,6 +56,12 @@ const JobList = (): JSX.Element => {
       destination.index === source.index
     ) {
       return;
+    }
+
+    if (destination.droppableId === source.droppableId) {
+      setRepositionWithinColumn(true);
+    } else {
+      setRepositionWithinColumn(false);
     }
 
     const sourceCategory = categoryArray[Number(source.droppableId) - 1];
@@ -63,6 +81,13 @@ const JobList = (): JSX.Element => {
       data
     );
     updateJobs(body);
+    
+    dispatch(
+      setModalId({
+        jobId: removedJob?.id,
+        categoryId:  Number(destination?.droppableId),
+      })
+    );
 
     if (destinationCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
@@ -76,7 +101,7 @@ const JobList = (): JSX.Element => {
         })
       );
       addInterviewQuestions({ jobId: removedJob?.id });
-      dispatch(toggleInterviewedModal(true));
+      setJobInterview(removedJob?.id);
     }
   };
 
