@@ -76,7 +76,7 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
         updatedJobs.push({
           jobId: currentJobs[index].id,
           categoryId: Number(categoryId),
-          newCategoryId: 1,
+          newCategoryId: Number(categoryId),
           position: -1,
           isDeleted: false,
           isActive: false,
@@ -84,8 +84,15 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
       }
     }
 
+    const updatedStaleJobs = data?.staleJobs.filter(
+      (job: { job: { id: number } }, index: number) =>
+        job.job.id !== Number(jobId)
+    );
+
+    console.log(updatedStaleJobs);
+
     const newState = {
-      ...data,
+      staleJobs: updatedStaleJobs,
       allActiveJobs: {
         ...data.allActiveJobs,
         [category]: {
@@ -101,9 +108,6 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
       type: "update",
     };
 
-    console.log(newState);
-    console.log(updatedJobs);
-
     updateJobs(body);
   };
 
@@ -114,6 +118,7 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
     updateJob({
       jobId: Number(jobId),
       categoryId: Number(categoryId),
+      updatedAt: new Date().toISOString(),
       type: "update",
     });
   };
