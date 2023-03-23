@@ -175,11 +175,7 @@ export type FilterListType = {
 
 export type GetAJobType = {
   selectedJob: JobType;
-  aJob:
-  | {
-    data: JobType;
-  }
-  | undefined;
+  aJob: JobType | undefined;
   modalState: ModalType;
   error: FetchBaseQueryError | SerializedError | undefined;
   isLoading: boolean;

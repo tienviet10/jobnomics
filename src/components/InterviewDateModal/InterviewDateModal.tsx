@@ -17,9 +17,13 @@ import styles from "./InterviewDate.module.css";
 
 import { Close } from "@mui/icons-material";
 
+const today = new Date();
+const hours = String(today.getHours());
+const minutes = String(today.getMinutes());
+
 const InterviewDateModal = () => {
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [date, setDate] = useState((new Date()).toISOString().split("T")[0]);
+  const [time, setTime] = useState(`${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`);
   const [updateJob] = useUpdateJobMutation();
   const dispatch = useDispatch();
   const selectedJobState = useSelector(
@@ -27,18 +31,6 @@ const InterviewDateModal = () => {
   );
 
   const open = selectedJobState?.open;
-
-  useEffect(() => {
-    let today = new Date();
-    const currentDate = today.toISOString().split("T")[0];
-    setDate(currentDate);
-
-    let hours = String(today.getHours());
-    let minutes = String(today.getMinutes());
-    const currentTime = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-
-    setTime(currentTime);
-  }, []);
 
   const handleClose = () => {
     dispatch(toggleInterviewedModal(false));
