@@ -34,7 +34,7 @@ const JobList = (): JSX.Element => {
 
   const { categoryArray, refetch } = useGetAJob();
   const { data, isLoading } = useGetAllJobsQuery();
-  // const { allActiveJobs, inactiveJobs } = data;
+  // const { allActiveJobs, staleJobs } = data;
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isError, isSuccess }] =
@@ -123,8 +123,8 @@ const JobList = (): JSX.Element => {
       };
 
       const newState = {
-        ...data.allActiveJobs,
-        [sourceCategory]: newColumn,
+        ...data,
+        allActiveJobs: { ...data.allActiveJobs, [sourceCategory]: newColumn },
       };
 
       const updatedJobs = newJobs.map(
@@ -189,9 +189,12 @@ const JobList = (): JSX.Element => {
     };
 
     const newState = {
-      ...data.allActiveJobs,
-      [sourceCategory]: newStartColumn,
-      [destinationCategory]: newEndColumn,
+      ...data,
+      allActiveJobs: {
+        ...data.allActiveJobs,
+        [sourceCategory]: newStartColumn,
+        [destinationCategory]: newEndColumn,
+      },
     };
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(
@@ -223,6 +226,7 @@ const JobList = (): JSX.Element => {
         };
       }
     );
+    console.log(newState);
 
     const body = {
       jobUpdates: [...updatedJobsInSource, ...updatedJobsInDestination],
@@ -255,9 +259,9 @@ const JobList = (): JSX.Element => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       {isLoading && <PageLoader />}
-      {data && data.allActiveJobs && (
+      {data?.allActiveJobs && (
         <Paper elevation={1} className={styles.JobBoard}>
-          {Object.keys(data.allActiveJobs).map(
+          {Object.keys(data?.allActiveJobs).map(
             (category: string, index: number) => (
               <JobCategory key={index} category={category} />
             )

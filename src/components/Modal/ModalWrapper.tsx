@@ -52,7 +52,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [addInterviewQuestions, { isError, isSuccess }] =
     useAddInterviewQuestionsMutation();
   const { data } = useGetAllJobsQuery();
-  // const { allActiveJobs, inactiveJobs } = data;
+  // const { allActiveJobs, staleJobs } = data;
   const {
     aJob,
     selectedJob,
@@ -147,9 +147,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     };
 
     const newState = {
-      ...data.allActiveJobs,
-      [startCategory]: newStartColumn,
-      [chosenJobCategory]: newEndColumn,
+      ...data,
+      allActiveJobs: {
+        ...data.allActiveJobs,
+        [startCategory]: newStartColumn,
+        [chosenJobCategory]: newEndColumn,
+      },
     };
 
     const updatedJobsInSource = startColumnUpdatedJobs.map(

@@ -30,7 +30,7 @@ const JobItem = ({
   const dispatch = useDispatch();
   const { modalState, previousJob, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
-  // const { allJobs, inactiveJobs } = data;
+  // const { allJobs, staleJobs } = data;
 
   const job = data.allActiveJobs[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;

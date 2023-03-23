@@ -4,7 +4,7 @@ import { LogoutOptions } from "@auth0/auth0-react";
 
 export type GetAllJobsReturnType = {
   allActiveJobs: { [key: string]: CategoryType };
-  inactiveJobs: JobType[];
+  staleJobs: JobType[];
 };
 export type UserJobsType = {
   categoryOrder: string[];
@@ -15,7 +15,7 @@ export type UserJobsType = {
 };
 
 export type InactiveJobsType = {
-  inactiveJobs: JobType[];
+  staleJobs: JobType[];
 };
 
 type ModalType = {

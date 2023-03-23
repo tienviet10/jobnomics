@@ -10,7 +10,7 @@ import type { CategoryProps, Job } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const { data } = useGetAllJobsQuery();
-  // const { allActiveJobs, inactiveJobs } = data;
+  // const { allActiveJobs, staleJobs } = data;
   const [open, setOpen] = useState(false);
 
   const handleAddJobClick = () => {
