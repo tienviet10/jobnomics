@@ -80,22 +80,14 @@ const JobList = (): JSX.Element => {
       categoryArray,
       data
     );
-    
+
     // TODO: Check to see if it should be dispatch before or after updateJobs
-    dispatch(
-      setModalId({
-        jobId: removedJob?.id,
-        categoryId:  Number(destination?.droppableId),
-      })
-    );
 
     updateJobs(body);
 
     if (destinationCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
-    }
-
-    if (destinationCategory === "Interviewing") {
+    }else if (destinationCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
           jobId: removedJob?.id,
@@ -104,6 +96,13 @@ const JobList = (): JSX.Element => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
+    }else if (destinationCategory !== "Job Offer"){
+      dispatch(
+        setModalId({
+          jobId: removedJob?.id,
+          categoryId:  Number(destination?.droppableId),
+        })
+      );
     }
   };
 

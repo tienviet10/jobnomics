@@ -189,18 +189,10 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     );
     updateJobs(body);
 
-    dispatch(
-      setModalId({
-        jobId: selectedJob?.job?.id,
-        categoryId: chosenJobCategoryId,
-      })
-    );
 
     if (chosenJobCategory === "Interviewed") {
       addChecklists({ jobId: removedJob?.id });
-    }
-
-    if (chosenJobCategory === "Interviewing") {
+    }else if (chosenJobCategory === "Interviewing") {
       dispatch(
         setInterviewedModalId({
           jobId: removedJob?.id,
@@ -209,6 +201,14 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       dispatch(toggleInterviewedModal(true));
+    } else if (chosenJobCategory !== "Job Offer"){
+      dispatch(
+        setModalId({
+          jobId: selectedJob?.job?.id,
+          categoryId: chosenJobCategoryId,
+        })
+      );
+  
     }
 
     setTimeout(() => {
