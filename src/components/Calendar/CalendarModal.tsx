@@ -8,7 +8,7 @@ import { Card, IconButton, Modal, Typography } from "@mui/material";
 import { Close } from "@mui/icons-material";
 
 import moment from "moment";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, Event, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { CreateJobModalPropType } from "../../types/jobTypes";
@@ -27,6 +27,7 @@ const CalendarModal = ({
   const [state, setState] = useState<any>({
     events: [],
   });
+  const [selectedEvent, setSelectedEvent] = useState(undefined);
 
   const populateInterviewDates = () => {
     const newState = interviewDates.map(
@@ -35,11 +36,17 @@ const CalendarModal = ({
           start: moment(interview?.interviewDate).toDate(),
           end: moment(interview?.interviewDate).add(1, "h").toDate(),
           title: interview?.company,
+          description: interview?.title,
         };
       }
     );
-    console.log({ events: newState });
+
     setState({ events: newState });
+  };
+
+  const handleSelectedEvent = (event: any) => {
+    console.log(event);
+    setSelectedEvent(event);
   };
 
   useEffect(() => {
@@ -79,6 +86,14 @@ const CalendarModal = ({
           defaultView="month"
           events={state.events}
           className={styles.CalendarStyles}
+          onSelectEvent={(e) => handleSelectedEvent(e)}
+          eventPropGetter={(event) => ({
+            style: {
+              border: "5px solid",
+            },
+          })}
+          popup
+          selectable
         />
       </Card>
     </Modal>
