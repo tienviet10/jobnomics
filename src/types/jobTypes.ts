@@ -2,17 +2,25 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
+export type GetAllJobsReturnType = {
+  allJobs: { [key: string]: CategoryType };
+  inactiveJobs: JobType[];
+};
 export type UserJobsType = {
   categoryOrder: string[];
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
+};
+
+export type InactiveJobsType = {
+  inactiveJobs: JobType[];
 };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 export type categoriesType = {
@@ -102,7 +110,6 @@ export type FilterStateType = {
   columnFilter: string[];
 };
 
-
 type ListOfCategoriesType = {
   Bookmarked: Category | {};
   Applied: Category | {};
@@ -176,10 +183,10 @@ export type FilterListType = {
 export type GetAJobType = {
   selectedJob: JobType;
   aJob:
-  | {
-    data: JobType;
-  }
-  | undefined;
+    | {
+        data: JobType;
+      }
+    | undefined;
   modalState: ModalType;
   error: FetchBaseQueryError | SerializedError | undefined;
   isLoading: boolean;
@@ -189,6 +196,23 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
+
+export type AllJobsType = {
+  id: number;
+  title: string;
+  company: string;
+  logo: string;
+  position: number;
+  isFavorite: boolean;
+  interviewDate: Date | null;
+  updatedAt: Date;
+};
+
+export type AllJobsDataType = {
+  [key: string]: { category: string; id: number; jobs: AllJobsType };
+};
+
+// . export type

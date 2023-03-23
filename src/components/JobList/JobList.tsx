@@ -34,6 +34,7 @@ const JobList = (): JSX.Element => {
 
   const { categoryArray, refetch } = useGetAJob();
   const { data, isLoading } = useGetAllJobsQuery();
+  const { allJobs, inactiveJobs } = data;
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isError, isSuccess }] =
@@ -85,8 +86,8 @@ const JobList = (): JSX.Element => {
     const destinationCategory =
       categoryArray[Number(destination.droppableId) - 1];
 
-    const startColumn = data[sourceCategory];
-    const endColumn = data[destinationCategory];
+    const startColumn = allJobs[sourceCategory];
+    const endColumn = allJobs[destinationCategory];
 
     if (startColumn === endColumn) {
       // Moving within the same column
@@ -122,7 +123,7 @@ const JobList = (): JSX.Element => {
       };
 
       const newState = {
-        ...data,
+        ...allJobs,
         [sourceCategory]: newColumn,
       };
 
@@ -188,7 +189,7 @@ const JobList = (): JSX.Element => {
     };
 
     const newState = {
-      ...data,
+      ...allJobs,
       [sourceCategory]: newStartColumn,
       [destinationCategory]: newEndColumn,
     };
@@ -247,12 +248,16 @@ const JobList = (): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       {isLoading && <PageLoader />}
-      {data && (
+      {allJobs && (
         <Paper elevation={1} className={styles.JobBoard}>
-          {Object.keys(data).map((category: string, index: number) => (
+          {Object.keys(allJobs).map((category: string, index: number) => (
             <JobCategory key={index} category={category} />
           ))}
         </Paper>

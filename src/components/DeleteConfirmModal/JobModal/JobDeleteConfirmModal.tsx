@@ -26,6 +26,7 @@ const JobDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const { data } = useGetAllJobsQuery();
+  const { allJobs, inactiveJobs } = data;
   const { selectedJob } = useGetAJob();
   const [updateJobs, { isError, isLoading, isSuccess }] =
     useUpdateJobsMutation();
@@ -35,7 +36,7 @@ const JobDeleteConfirmModal = ({
   };
 
   const handleDelete = async () => {
-    const currentJob = data[selectedJob?.category.name].jobs;
+    const currentJob = allJobs[selectedJob?.category.name].jobs;
     const allJobsWithinCategory = [];
     const updatedJobs = [];
 
@@ -73,9 +74,9 @@ const JobDeleteConfirmModal = ({
     }
 
     const newState = {
-      ...data,
+      ...allJobs,
       [selectedJob?.category?.name]: {
-        ...data[selectedJob?.category.name],
+        ...allJobs[selectedJob?.category.name],
         jobs: allJobsWithinCategory,
       },
     };
