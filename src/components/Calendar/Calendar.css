@@ -1,0 +1,24 @@
+.rbc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.rbc-toolbar span.rbc-toolbar-label {
+  text-align: left;
+  font-weight: bold;
+}
+
+.rbc-toolbar span:first-child {
+  display: none;
+}
+
+@media screen and (max-width: 300px) {
+  .rbc-toolbar span:last-child {
+    overflow-x: auto;
+  }
+}
+
+.rbc-agenda-view > .rbc-agenda-table > thead {
+  display: none;
+}
