@@ -69,6 +69,7 @@ const JobDeleteConfirmModal = ({
           newCategoryId: selectedJob?.category.id,
           position: -1,
           isDeleted: true,
+          isChanaged: true,
         });
       }
     }

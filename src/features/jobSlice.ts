@@ -18,7 +18,7 @@ const initialState: UserJobsType = {
       id: 1,
       name: "",
     },
-    updatedAt: null,
+    updatedByUserAt: null,
     isFavorite: false,
     position: -1,
     interviewDate: null,
@@ -51,6 +51,7 @@ export const jobSlice = createSlice({
         state.selectedJob?.category?.name === category
       ) {
         state.selectedJob.isFavorite = isFavorite;
+        state.selectedJob.updatedByUserAt = new Date();
       }
     },
     toggleCheckbox: (state, action) => {

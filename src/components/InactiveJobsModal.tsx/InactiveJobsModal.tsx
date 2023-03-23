@@ -118,7 +118,6 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
     updateJob({
       jobId: Number(jobId),
       categoryId: Number(categoryId),
-      updatedAt: new Date().toISOString(),
       type: "update",
     });
   };

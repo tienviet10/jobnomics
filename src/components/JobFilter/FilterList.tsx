@@ -129,11 +129,11 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 Job Title
               </TableSortLabel>
             </TableCell>
-            <TableCell key="updatedAt" align="center" sx={{ fontWeight: "bold" }}>
+            <TableCell key="updatedByUserAt" align="center" sx={{ fontWeight: "bold" }}>
               <TableSortLabel
-                active={valueToOrderBy === "updatedAt"}
-                direction={valueToOrderBy === "updatedAt" ? orderDirection : 'asc'}
-                onClick={() => handleRequestSort("updatedAt")}
+                active={valueToOrderBy === "updatedByUserAt"}
+                direction={valueToOrderBy === "updatedByUserAt" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("updatedByUserAt")}
                 >
                 Update At
               </TableSortLabel>
@@ -168,7 +168,7 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                   {job.title}
                 </TableCell>
                 <TableCell align="center" onClick={() => handleOpenModal(job)}>
-                  {new Date(job.updatedAt).toLocaleDateString(user?.locale)}
+                  {new Date(job.updatedByUserAt).toLocaleDateString(user?.locale)}
                 </TableCell>
                 <TableCell align="center">
                   <IconButton onClick={() => handleToggleFavorite(job)}>
