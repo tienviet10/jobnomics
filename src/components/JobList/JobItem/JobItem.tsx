@@ -30,9 +30,9 @@ const JobItem = ({
   const dispatch = useDispatch();
   const { modalState, previousJob, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
-  const { allJobs, inactiveJobs } = data;
+  // const { allJobs, inactiveJobs } = data;
 
-  const job = allJobs[category].jobs[index];
+  const job = data.allActiveJobs[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job;
 
   const [updateJob] = useUpdateJobMutation();
@@ -41,7 +41,7 @@ const JobItem = ({
     event.preventDefault();
     const body = {
       jobId: id,
-      categoryId: allJobs[category]?.id,
+      categoryId: data.allActiveJobs[category]?.id,
       favorite: !isFavorite,
       interviewDate: null,
       type: "update",
@@ -51,7 +51,9 @@ const JobItem = ({
   };
 
   const handleOpenModal = () => {
-    dispatch(setModalId({ jobId: id, categoryId: allJobs[category]?.id }));
+    dispatch(
+      setModalId({ jobId: id, categoryId: data.allActiveJobs[category]?.id })
+    );
 
     // Needed for the same card to refresh
     if (previousJob.jobId === id) {

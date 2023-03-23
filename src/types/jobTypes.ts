@@ -3,7 +3,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
 export type GetAllJobsReturnType = {
-  allJobs: { [key: string]: CategoryType };
+  allActiveJobs: { [key: string]: CategoryType };
   inactiveJobs: JobType[];
 };
 export type UserJobsType = {
@@ -200,7 +200,7 @@ export type GetAJobType = {
   isSuccess: boolean;
 };
 
-export type AllJobsType = {
+export type AllActiveJobsType = {
   id: number;
   title: string;
   company: string;
@@ -211,8 +211,8 @@ export type AllJobsType = {
   updatedAt: Date;
 };
 
-export type AllJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllJobsType };
+export type AllActiveJobsDataType = {
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 // . export type

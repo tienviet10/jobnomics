@@ -52,7 +52,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [addInterviewQuestions, { isError, isSuccess }] =
     useAddInterviewQuestionsMutation();
   const { data } = useGetAllJobsQuery();
-  const { allJobs, inactiveJobs } = data;
+  // const { allActiveJobs, inactiveJobs } = data;
   const {
     aJob,
     selectedJob,
@@ -111,13 +111,15 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     const startCategory = selectedJob.category.name;
     const startCategoryId = selectedJob.category.id;
     const startPosition = selectedJob.position;
-    const newPosition = allJobs[chosenJobCategory].jobs.length;
+    const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
 
     const startJobs = JSON.parse(
-      JSON.stringify(allJobs[selectedJob?.category.name].jobs)
+      JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
     );
 
-    const endJobs = JSON.parse(JSON.stringify(allJobs[chosenJobCategory].jobs));
+    const endJobs = JSON.parse(
+      JSON.stringify(data.allActiveJobs[chosenJobCategory].jobs)
+    );
     let [removedJob] = startJobs.splice(startPosition, 1);
     console.log(startPosition);
     removedJob = { ...removedJob, position: newPosition };
@@ -135,17 +137,17 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       });
 
     const newStartColumn = {
-      ...allJobs[startCategory],
+      ...data.allActiveJobs[startCategory],
       jobs: [...startJobs, ...startColumnUpdatedJobs],
     };
 
     const newEndColumn = {
-      ...allJobs[chosenJobCategory],
+      ...data.allActiveJobs[chosenJobCategory],
       jobs: endJobs,
     };
 
     const newState = {
-      ...allJobs,
+      ...data.allActiveJobs,
       [startCategory]: newStartColumn,
       [chosenJobCategory]: newEndColumn,
     };

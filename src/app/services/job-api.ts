@@ -7,7 +7,7 @@ import type {
   UserRequest,
   InactiveJobsType,
   CategoryType,
-  AllJobsDataType,
+  AllActiveJobsDataType,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -34,7 +34,10 @@ export const jobApi = createApi({
       providesTags: ["allJobs"],
       transformResponse: (
         response: {
-          data: { allJobs: AllJobsDataType; inactiveJobs: JobType[] };
+          data: {
+            allActiveJobs: AllActiveJobsDataType;
+            inactiveJobs: JobType[];
+          };
         },
         meta,
         arg
