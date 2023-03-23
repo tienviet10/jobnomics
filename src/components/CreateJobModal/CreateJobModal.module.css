@@ -17,6 +17,7 @@
   align-items: center;
 
   position: relative;
+  outline: none;
 }
 
 .CloseButton {

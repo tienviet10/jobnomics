@@ -2,12 +2,20 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
+export type GetAllJobsReturnType = {
+  allActiveJobs: { [key: string]: CategoryType; };
+  staleJobs: JobType[];
+};
 export type UserJobsType = {
   categoryOrder: string[];
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
   previousJob: { jobId: number; categoryId: number; };
+};
+
+export type InactiveJobsType = {
+  staleJobs: JobType[];
 };
 
 type ModalType = {
@@ -102,7 +110,6 @@ export type FilterStateType = {
   columnFilter: string[];
 };
 
-
 type ListOfCategoriesType = {
   Bookmarked: Category | {};
   Applied: Category | {};
@@ -188,3 +195,20 @@ export type GetAJobType = {
   previousJob: { jobId: number; categoryId: number; };
   isSuccess: boolean;
 };
+
+export type AllActiveJobsType = {
+  id: number;
+  title: string;
+  company: string;
+  logo: string;
+  position: number;
+  isFavorite: boolean;
+  interviewDate: Date | null;
+  updatedAt: Date;
+};
+
+export type AllActiveJobsDataType = {
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+};
+
+// . export type
