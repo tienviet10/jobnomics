@@ -108,7 +108,11 @@ const FilterList: React.FC<FilterListType> = ({
 
   console.log("jobsList", jobsList);
   return (
-    <Paper elevation={2} className={styles.FilterList}>
+    <Paper
+      elevation={2}
+      className={styles.FilterList}
+      sx={{ maxHeight: { xs: "60vh", sm: "70vh", md: "80vh", lg: "80vh" } }}
+    >
       <Table size="medium" className={styles.FilterTable}>
         <TableHead className={styles.JobTableHead}>
           <TableRow>

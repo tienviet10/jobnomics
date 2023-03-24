@@ -1,6 +1,29 @@
 .FilterList {
-  height: calc(100vh - 64px - 160px - 64px);
   overflow-y: auto;
+}
+
+@media screen and (max-height: 800px) {
+  div.FilterList {
+    max-height: 60vh;
+  }
+}
+
+@media screen and (max-height: 750px) {
+  div.FilterList {
+    max-height: 53vh;
+  }
+}
+
+@media screen and (max-height: 670px) {
+  div.FilterList {
+    max-height: 47vh;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  div.FilterList {
+    max-height: 45vh;
+  }
 }
 
 .FilterTable {
