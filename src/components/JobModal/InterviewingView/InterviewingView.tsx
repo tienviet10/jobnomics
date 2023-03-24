@@ -50,8 +50,6 @@ const InterviewingView = () => {
       interviewDate: dateTime.toISOString(),
       type: "update",
     });
-
-    dispatch(toggleInterviewedModal(false));
   };
 
   useEffect(() => {
