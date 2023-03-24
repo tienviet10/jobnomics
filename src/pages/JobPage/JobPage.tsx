@@ -31,25 +31,27 @@ const JobPage = () => {
 
   return (
     <div className={styles.JobPage}>
-      <div className={styles.JobPageHeader}>
-        <Typography variant="h5" className={styles.JobPageTitle}>
-          <span>
-            {user?.name ||
-              user?.given_name ||
-              user?.family_name ||
-              user?.nickname}
-            's{" "}
-          </span>
-          <span>Job Board</span>
-        </Typography>
-        <Button
-          onClick={() => setCalendarOpen(true)}
-          sx={{ display: "flex", flexDirection: "column" }}
-        >
-          <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
-          <Typography variant="caption">Calendar</Typography>
-        </Button>
-      </div>
+      {data && (
+        <div className={styles.JobPageHeader}>
+          <Typography variant="h5" className={styles.JobPageTitle}>
+            <span>
+              {user?.name ||
+                user?.given_name ||
+                user?.family_name ||
+                user?.nickname}
+              's{" "}
+            </span>
+            <span>Job Board</span>
+          </Typography>
+          <Button
+            onClick={() => setCalendarOpen(true)}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
+            <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
+            <Typography variant="caption">Calendar</Typography>
+          </Button>
+        </div>
+      )}
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal
