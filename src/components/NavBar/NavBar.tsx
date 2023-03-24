@@ -21,14 +21,14 @@ import { Camera, MenuRounded } from "@mui/icons-material";
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 
 const NavBar = () => {
-  const { user, loginWithPopup, loginWithRedirect, isAuthenticated } =
-    useAuth0();
+  const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
   const { logout } = useManageSearchPage();
 
   const pages = [
     { name: "Job Board", path: "/job" },
     { name: "Search", path: "/search" },
+    { name: "Notes", path: "/notes" },
   ];
   const userSettings = [
     {
