@@ -31,7 +31,7 @@ import { setColumnFilterJob, setFilterSelectedJob } from "../../features/filterS
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
 
-const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element => {
+const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.filter);
@@ -95,16 +95,16 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
       type: "update",
     });
   };
-  
-  const handleRequestSort = (property:string) => {
-    const isAscending = (valueToOrderBy === property && orderDirection === "asc")
-    setValueToOrderBy(property)
-    setOrderDirection(isAscending ? 'desc' : 'asc')
-    dispatch(setColumnFilterJob([property, isAscending ? 'desc' : 'asc']))
+
+  const handleRequestSort = (property: string) => {
+    const isAscending = (valueToOrderBy === property && orderDirection === "asc");
+    setValueToOrderBy(property);
+    setOrderDirection(isAscending ? 'desc' : 'asc');
+    dispatch(setColumnFilterJob([property, isAscending ? 'desc' : 'asc']));
     // sentFilterRequest();
-  }
+  };
 
-
+  console.log("jobsList", jobsList);
   return (
     <Paper elevation={2} className={styles.FilterList}>
       <Table size="medium" className={styles.FilterTable}>
@@ -116,7 +116,7 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 active={valueToOrderBy === "company"}
                 direction={valueToOrderBy === "company" ? orderDirection : 'asc'}
                 onClick={() => handleRequestSort("company")}
-                >
+              >
                 Company
               </TableSortLabel>
             </TableCell>
@@ -125,8 +125,17 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 active={valueToOrderBy === "title"}
                 direction={valueToOrderBy === "title" ? orderDirection : 'asc'}
                 onClick={() => handleRequestSort("title")}
-                >
+              >
                 Job Title
+              </TableSortLabel>
+            </TableCell>
+            <TableCell key="isActive" sx={{ fontWeight: "bold" }}>
+              <TableSortLabel
+                active={valueToOrderBy === "isActive"}
+                direction={valueToOrderBy === "isActive" ? orderDirection : 'asc'}
+                onClick={() => handleRequestSort("isActive")}
+              >
+                Status
               </TableSortLabel>
             </TableCell>
             <TableCell key="updatedByUserAt" align="center" sx={{ fontWeight: "bold" }}>
@@ -134,7 +143,7 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 active={valueToOrderBy === "updatedByUserAt"}
                 direction={valueToOrderBy === "updatedByUserAt" ? orderDirection : 'asc'}
                 onClick={() => handleRequestSort("updatedByUserAt")}
-                >
+              >
                 Update At
               </TableSortLabel>
             </TableCell>
@@ -143,7 +152,7 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 active={valueToOrderBy === "isFavorite"}
                 direction={valueToOrderBy === "isFavorite" ? orderDirection : 'asc'}
                 onClick={() => handleRequestSort("isFavorite")}
-                >
+              >
                 Favorites
               </TableSortLabel>
             </TableCell>
@@ -157,6 +166,7 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
               <TableRow key={index} hover>
                 <TableCell
                   className={styles.JobLogo}
+                  style={!job.isActive ? { borderLeft: '4px solid red' }: job.categoryId === 1 ? { borderLeft: '4px solid pink' } : job.categoryId === 2 ? { borderLeft: '4px solid green' } : job.categoryId === 3 ? { borderLeft: '4px solid blue' } : job.categoryId === 4 ? { borderLeft: '4px solid yellow' } : job.categoryId === 5 ? { borderLeft: '4px solid purple' } : { borderLeft: '4px solid lime' }}
                   onClick={() => handleOpenModal(job)}
                 >
                   <Avatar variant="square" src={job.logo} alt={job.company} />
@@ -166,6 +176,9 @@ const FilterList: React.FC<FilterListType> = ({sentFilterRequest}): JSX.Element 
                 </TableCell>
                 <TableCell onClick={() => handleOpenModal(job)}>
                   {job.title}
+                </TableCell>
+                <TableCell onClick={() => handleOpenModal(job)}>
+                  {job.isActive ? (<p className={styles.JobActiveStyle}>Active</p>) : (<p className={styles.JobInActiveStyle}>Inactive</p>)}
                 </TableCell>
                 <TableCell align="center" onClick={() => handleOpenModal(job)}>
                   {new Date(job.updatedByUserAt).toLocaleDateString(user?.locale)}

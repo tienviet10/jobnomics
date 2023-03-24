@@ -211,6 +211,10 @@ export const jobApi = createApi({
         url: "job/filter",
         params,
       }),
+      transformResponse: (response: any, meta, arg) => {
+        console.log("response", response);
+        return response;
+      },
       providesTags: ["filterJob"],
     }),
     rejectedReason: builder.mutation({

@@ -10,6 +10,7 @@ import DrawerComponent from "../../components/JobFilter/FilterDrawer";
 import JobModal from "../../components/JobModal";
 import { useManageSearchPage } from "./manage-search-page";
 import SearchBar from "../../components/JobFilter/SearchBar";
+import Legends from "../../components/JobFilter/Legends";
 
 
 const SearchPage = () => {
@@ -24,6 +25,7 @@ const SearchPage = () => {
         />
         <SearchBar />
       </Box>
+      <Legends/>
       <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
       <FilterList sentFilterRequest={sentFilterRequest} />
       <JobModal />
