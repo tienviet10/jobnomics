@@ -24,14 +24,6 @@ const initialState: FilterStateType = {
   },
   columnFilter: ["createdAt", "desc"],
   firstFetch: true,
-  // listOfCategories: {
-  //   Bookmarked: {},
-  //   Applied: {},
-  //   Interviewing: {},
-  //   Interviewed: {},
-  //   "Job Offer": {},
-  //   "Position Filled": {}
-  // },
   arrayJobs: [],
   displayArrayJobs: [],
   searchWord: "",
@@ -52,7 +44,6 @@ export const filterSlice = createSlice({
     handleSearch: (state, action) => {
       state["searchWord"] = action.payload;
       let listJobs: Job[] = state.arrayJobs;
-      // console.log(JSON.stringify(listJobs));
       if (action.payload !== "") {
         listJobs = listJobs.filter((job: Job) =>
           (job?.company + job?.title + job?.updatedByUserAt + job?.description)
@@ -63,13 +54,7 @@ export const filterSlice = createSlice({
       state["displayArrayJobs"] = listJobs;
     },
     setList: (state, action) => {
-      // state["listOfCategories"] = action.payload;
-      // console.log("current", action.payload);
-      // const listCategoryKeys: string[] = Object.keys(action.payload);
       let listJobs: Job[] = [];
-      // for (let key of listCategoryKeys) {
-      //   listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
-      // }
       if (state["searchWord"] !== "") {
         listJobs = action.payload.filter((job: Job) =>
           (job?.company + job?.title + job?.updatedByUserAt + job?.description)
@@ -77,9 +62,6 @@ export const filterSlice = createSlice({
             .includes(state["searchWord"].toLowerCase())
         );
       }
-      // state["arrayJobs"] = listJobs;
-      // console.log("list", listJobs);
-      // state["displayArrayJobs"] = listJobs;
       state["arrayJobs"] = action.payload;
       state["displayArrayJobs"] =
         listJobs.length > 0 ? listJobs : action.payload;

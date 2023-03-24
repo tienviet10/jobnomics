@@ -25,12 +25,12 @@ const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const { categoryArray, refetch } = useGetAJob();
-  const { data, isLoading } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery();
   const [jobInterview, setJobInterview] = useState(-1);
   const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
-  const [addInterviewQuestions, { isError, isSuccess }] =
+  const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
   const { data: interviewDate } = useGetInterviewDateQuery({
     jobId: jobInterview,
@@ -111,10 +111,6 @@ const JobList = (): JSX.Element => {
       );
     }
   };
-
-  // useEffect(() => {
-  //   console.log(data);
-  // }, [data]);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

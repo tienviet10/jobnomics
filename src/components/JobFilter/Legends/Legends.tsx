@@ -18,7 +18,7 @@ const Legends = (): JSX.Element => {
         {Object.values(categoryColors).map((category, index) => {
           return (
             index < 3 && (
-              <div className={styles.LegendItem}>
+              <div className={styles.LegendItem} key={index}>
                 <div
                   className={styles.LegendColor}
                   style={{ backgroundColor: category.color }}
@@ -33,7 +33,7 @@ const Legends = (): JSX.Element => {
         {Object.values(categoryColors).map((category, index) => {
           return (
             index > 2 && (
-              <div className={styles.LegendItem}>
+              <div className={styles.LegendItem} key={index}>
                 <div
                   className={styles.LegendColor}
                   style={{ backgroundColor: category.color }}

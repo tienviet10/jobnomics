@@ -8,7 +8,6 @@ import type {
   Job,
   AddANewJobResponse,
   AddANewJobType,
-  AllNotesType,
   NotesType,
 } from "../../types/jobTypes";
 
@@ -28,11 +27,6 @@ export const jobApi = createApi({
   endpoints: (builder) => ({
     getAllJobs: builder.query<AllJobsDataType, void>({
       query: () => "job",
-      // Pess:
-      // FE display info -> User update the info, FE send request to BE -> FE invalidate cache to get the new update -> FE displays to user
-
-      // Optimistic Update:
-      //  FE display info -> User update the info, display the new INFO to user through MANIPULATING CURRENT CACHE -> FE send request to BE -> FE Get the response -> RTK will compare between these 2 cache to see if they are the same, override with the new response if they are different
       providesTags: ["allJobs"],
       transformResponse: (response: AllJobsDataType, meta, arg) =>
         response,
@@ -92,7 +86,6 @@ export const jobApi = createApi({
           body,
         };
       },
-      // invalidatesTags: ["allJobs", "aJob"],
     }),
     updateJobs: builder.mutation({
       query: ({ ...patch }) => {
@@ -103,7 +96,6 @@ export const jobApi = createApi({
           body: patch,
         };
       },
-      // invalidatesTags: ["allJobs"],
       transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
@@ -112,13 +104,6 @@ export const jobApi = createApi({
         arg
       ) => response.status,
       async onQueryStarted({ ...patch }, { dispatch, queryFulfilled }) {
-        // const patchResult = dispatch(
-        //   jobApi.util.updateQueryData('getAllJobs', id, (draft) => {
-        //     Object.assign(draft, patch)
-        //   })
-        // )
-        // console.log(patch.newState);
-
         const patchResult = dispatch(
           jobApi.util.updateQueryData(
             "getAllJobs",
@@ -190,22 +175,6 @@ export const jobApi = createApi({
       ) => response.status,
       invalidatesTags: ["aJob", "allNotes"],
     }),
-    // filterJob: builder.mutation<any, UserRequest>({
-    //   query(body) {
-    //     return {
-    //       url: "job/filter/",
-    //       method: "PUT",
-    //       body,
-    //     };
-    //   },
-    //   transformResponse: (response: { data: ResponseData; }, meta, arg) =>
-    //     response,
-    //   transformErrorResponse: (
-    //     response: { status: string | number; },
-    //     meta,
-    //     arg
-    //   ) => response.status,
-    // }),
     filterJobs: builder.query<Job[], UserRequest>({
       query: (params) => ({
         url: "job/filter",
