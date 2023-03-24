@@ -110,7 +110,7 @@ const FilterList: React.FC<FilterListType> = ({
     <Paper
       elevation={2}
       className={styles.FilterList}
-      sx={{ maxHeight: { xs: "60vh", sm: "70vh", md: "80vh", lg: "80vh" } }}
+      sx={{ maxHeight: { xs: "60vh", sm: "70vh", md: "70vh", lg: "70vh" } }}
     >
       <Table size="medium" className={styles.FilterTable}>
         <TableHead className={styles.JobTableHead}>
