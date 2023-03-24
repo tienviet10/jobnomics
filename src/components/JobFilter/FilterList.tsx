@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { FilterListType, Job } from "../../types/jobTypes";
+import { useUpdateJobMutation } from "../../app/services/job-api";
+import {
+  setColumnFilterJob,
+  setFilterSelectedJob,
+} from "../../features/filterSlice";
 import { RootState } from "../../app/store";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { setModalId, toggleJobModal } from "../../features/jobSlice";
 
 import styles from "./FilterList.module.css";
@@ -26,12 +28,11 @@ import {
 } from "@mui/material";
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
-import { useUpdateJobMutation } from "../../app/services/job-api";
-import {
-  setColumnFilterJob,
-  setFilterSelectedJob,
-} from "../../features/filterSlice";
+import { categoryColors } from "./categoryColors";
+
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
+
+import { FilterListType, Job } from "../../types/jobTypes";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
@@ -85,15 +86,6 @@ const FilterList: React.FC<FilterListType> = ({
         open: false,
       },
     }));
-  };
-
-  const categoryColors: { [key: number]: string } = {
-    1: "#000",
-    2: "#000",
-    3: "#000",
-    4: "#000",
-    5: "#000",
-    6: "#000",
   };
 
   const handleToggleFavorite = (job: Job) => {
@@ -201,7 +193,9 @@ const FilterList: React.FC<FilterListType> = ({
                 hover
                 className={styles.JobRow}
                 sx={{
-                  boxShadow: `4px 0 0 ${categoryColors[job.categoryId]} inset`,
+                  boxShadow: `4px 0 0 ${
+                    categoryColors[job.categoryId].color
+                  } inset`,
                 }}
               >
                 <TableCell

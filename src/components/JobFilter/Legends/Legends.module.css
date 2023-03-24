@@ -13,8 +13,9 @@
 }
 
 .LegendColor {
-  width: 20px;
-  height: 10px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
   margin-right: 5px;
 }
 
