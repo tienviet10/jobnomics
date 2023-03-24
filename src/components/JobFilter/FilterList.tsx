@@ -166,7 +166,7 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
               <TableRow key={index} hover>
                 <TableCell
                   className={styles.JobLogo}
-                  style={!job.isActive ? { borderLeft: '4px solid red' }: job.categoryId === 1 ? { borderLeft: '4px solid pink' } : job.categoryId === 2 ? { borderLeft: '4px solid green' } : job.categoryId === 3 ? { borderLeft: '4px solid blue' } : job.categoryId === 4 ? { borderLeft: '4px solid yellow' } : job.categoryId === 5 ? { borderLeft: '4px solid purple' } : { borderLeft: '4px solid lime' }}
+                  style={job.categoryId === 1 ? { borderLeft: '4px solid pink' } : job.categoryId === 2 ? { borderLeft: '4px solid green' } : job.categoryId === 3 ? { borderLeft: '4px solid blue' } : job.categoryId === 4 ? { borderLeft: '4px solid yellow' } : job.categoryId === 5 ? { borderLeft: '4px solid purple' } : { borderLeft: '4px solid lime' }}
                   onClick={() => handleOpenModal(job)}
                 >
                   <Avatar variant="square" src={job.logo} alt={job.company} />
