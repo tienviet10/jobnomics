@@ -54,10 +54,12 @@ const NotePage = () => {
 
   const handleOrderChange = (
     event: React.MouseEvent<HTMLElement>,
-    order: "asc" | "desc"
+    orderAscDesc: "asc" | "desc"
   ) => {
-    console.log(order);
-    setOrder(order);
+    console.log(orderAscDesc);
+    if (order !== null) {
+      setOrder(orderAscDesc);
+    }
   };
 
   return (
@@ -114,7 +116,7 @@ const NotePage = () => {
         </div>
       )}
       {notes?.map((noteData: NotesType, index: number) => (
-        <Fragment key={`note${index}-content`}>
+        <Box key={`note${index}-content`} sx={{ width: "100%" }}>
           <Accordion
             key={`note${index}-content`}
             expanded={expanded === `note${index}`}
@@ -158,7 +160,7 @@ const NotePage = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-        </Fragment>
+        </Box>
       ))}
     </Box>
   );
