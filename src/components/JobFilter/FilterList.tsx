@@ -110,10 +110,7 @@ const FilterList: React.FC<FilterListType> = ({
   return (
     <Paper elevation={2} className={styles.FilterList}>
       <Table size="medium" className={styles.FilterTable}>
-        <TableHead
-          className={styles.JobTableHead}
-          sx={{ position: "sticky", left: -1 }}
-        >
+        <TableHead className={styles.JobTableHead}>
           <TableRow>
             <TableCell
               key="logo"
@@ -193,7 +190,7 @@ const FilterList: React.FC<FilterListType> = ({
                 hover
                 className={styles.JobRow}
                 sx={{
-                  boxShadow: `4px 0 0 ${
+                  boxShadow: `6px 0 0 ${
                     categoryColors[job.categoryId].color
                   } inset`,
                 }}

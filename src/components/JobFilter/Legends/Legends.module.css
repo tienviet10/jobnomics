@@ -1,8 +1,7 @@
 .LegendContainer {
   display: flex;
-  justify-content: end;
-  align-items: center;
-  margin-top: 20px;
+  justify-content: space-around;
+  align-items: flex-start;
 }
 
 .LegendItem {
@@ -21,4 +20,8 @@
 
 .LegendLabel {
   font-size: 14px;
+}
+
+.LegendColumn1 {
+  margin-right: 20px;
 }

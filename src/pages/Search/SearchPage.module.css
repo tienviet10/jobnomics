@@ -1,6 +1,5 @@
 .SearchPage {
   margin-top: 64px;
-  padding: 50px 20px;
   overflow: hidden;
 }
 
@@ -9,4 +8,11 @@
   flex-direction: row-reverse;
 
   overflow: auto;
+}
+
+.SearchPageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
