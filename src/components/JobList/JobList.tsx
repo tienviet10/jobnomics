@@ -18,7 +18,6 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { Paper } from "@mui/material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import JobCategory from "./JobCategory";
-import PageLoader from "../PageLoader";
 import { processColumns } from "../../helper/react-dnd-logic";
 
 const JobList = (): JSX.Element => {
@@ -117,7 +116,6 @@ const JobList = (): JSX.Element => {
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      {isLoading && <PageLoader />}
       {data?.allActiveJobs && (
         <Paper elevation={1} className={styles.JobBoard}>
           {Object.keys(data?.allActiveJobs).map(
