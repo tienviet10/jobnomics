@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
 import { useUpdateJobMutation } from "../../../app/services/job-api";
-import { toggleInterviewedModal } from "../../../features/jobSlice";
 
 import styles from "./InterviewingView.module.css";
-import { Box, Typography, TextField, Button } from "@mui/material";
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Alert,
+  Snackbar,
+} from "@mui/material";
 
 import LoadingAnimation from "../../LoadingAnimation";
 
@@ -15,11 +20,12 @@ import { extractDate, extractTime } from "../../../helper/date-extractor";
 const InterviewingView = () => {
   const { selectedJob, skills } = useGetAJob();
 
-  const [updateJob] = useUpdateJobMutation();
-  const dispatch = useDispatch();
+  const [updateJob, { isSuccess }] = useUpdateJobMutation();
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
+  const [alertOpen, setAlertOpen] = useState(false);
 
   useEffect(() => {
     if (selectedJob) {
@@ -41,8 +47,14 @@ const InterviewingView = () => {
       interviewDate: dateTime.toISOString(),
       type: "update",
     });
+  };
 
-    dispatch(toggleInterviewedModal(false));
+  useEffect(() => {
+    if (isSuccess) setAlertOpen(true);
+  }, [isSuccess]);
+
+  const handleAlertClose = () => {
+    setAlertOpen(false);
   };
 
   return (
@@ -135,6 +147,21 @@ const InterviewingView = () => {
       >
         <strong>Required Skills:</strong> {skills}
       </Typography>
+      {isSuccess && (
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={6000}
+          onClose={handleAlertClose}
+        >
+          <Alert
+            onClose={handleAlertClose}
+            severity="success"
+            sx={{ width: "100%" }}
+          >
+            Your interview date has been successfully updated!
+          </Alert>
+        </Snackbar>
+      )}
     </>
   );
 };

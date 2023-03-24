@@ -2,32 +2,32 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
-export type GetAllJobsReturnType = {
-  allActiveJobs: { [key: string]: CategoryType; };
-  staleJobs: JobType[];
-};
+// export type GetAllJobsReturnType = {
+//   allActiveJobs: { [key: string]: CategoryType; };
+//   staleJobs: JobType[];
+// };
 export type UserJobsType = {
   categoryOrder: string[];
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
 };
 
-export type InactiveJobsType = {
-  staleJobs: JobType[];
-};
+// export type InactiveJobsType = {
+//   staleJobs: JobType[];
+// };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
-export type categoriesType = {
-  category: string;
-  id: number;
-  jobs: JobPreviewType[] | [];
-};
+// export type categoriesType = {
+//   category: string;
+//   id: number;
+//   jobs: JobPreviewType[] | [];
+// };
 export type JobPreviewType = {
   id: number;
   title: string;
@@ -111,14 +111,14 @@ export type FilterStateType = {
   columnFilter: string[];
 };
 
-type ListOfCategoriesType = {
-  Bookmarked: Category | {};
-  Applied: Category | {};
-  Interviewing: Category | {};
-  Interviewed: Category | {};
-  "Job Offer": Category | {};
-  "Position Filled": Category | {};
-};
+// type ListOfCategoriesType = {
+//   Bookmarked: Category | {};
+//   Applied: Category | {};
+//   Interviewing: Category | {};
+//   Interviewed: Category | {};
+//   "Job Offer": Category | {};
+//   "Position Filled": Category | {};
+// };
 
 type Filter = {
   [key: string]: CheckBoxEntity[];
@@ -166,10 +166,10 @@ export type CategoryProps = {
   category: string;
 };
 
-export type InterviewDateModalType = {
-  open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
+// export type InterviewDateModalType = {
+//   open: boolean;
+//   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+// };
 
 export type UserRequest = {
   category: string[];
@@ -193,7 +193,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
 
@@ -209,7 +209,7 @@ export type AllActiveJobsType = {
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 export type CalendarEventsType = {
@@ -240,18 +240,18 @@ export type AllJobsDataType = {
 };
 
 export type AddANewJobResponse = {
-  categoryId: number,
-  createdAt: Date,
+  categoryId: number;
+  createdAt: Date;
   interviewDate: Date | null;
   isActive: boolean;
-  isDeleted: boolean,
-  isFavorite: boolean,
-  jobId: number,
-  note: string | null,
-  position: number,
+  isDeleted: boolean;
+  isFavorite: boolean;
+  jobId: number;
+  note: string | null;
+  position: number;
   rejectReason: string | null;
-  updatedAt: Date,
-  updatedByUserAt: Date,
+  updatedAt: Date;
+  updatedByUserAt: Date;
   userId: number;
 };
 
@@ -261,7 +261,6 @@ export type AddANewJobType = {
   manualForm: ManualJobType | null;
   type: string;
 };
-
 
 type ManualJobType = {
   company: string;
@@ -273,8 +272,8 @@ type ManualJobType = {
 };
 
 export type DnDSourceAndDestination = {
-  droppableId: string,
-  index: number | undefined,
+  droppableId: string;
+  index: number | undefined;
 };
 export type NotesType = {
   userId: number;

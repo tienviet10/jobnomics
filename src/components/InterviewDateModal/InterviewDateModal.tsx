@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 import { toggleInterviewedModal } from "../../features/jobSlice";
@@ -15,18 +15,21 @@ import {
 } from "@mui/material";
 import styles from "./InterviewDate.module.css";
 
-import { Close } from "@mui/icons-material";
-
-const today = new Date();
-const hours = String(today.getHours());
-const minutes = String(today.getMinutes());
+import { CheckCircleRounded, Close } from "@mui/icons-material";
+import { extractDate, extractTime } from "../../helper/date-extractor";
 
 const InterviewDateModal = () => {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [time, setTime] = useState(
-    `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
-  );
-  const [updateJob] = useUpdateJobMutation();
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const currentDateTime = new Date();
+
+    setDate(extractDate(currentDateTime));
+    setTime(extractTime(currentDateTime));
+  }, []);
+
+  const [updateJob, { isSuccess }] = useUpdateJobMutation();
   const dispatch = useDispatch();
   const selectedJobState = useSelector(
     (state: RootState) => state.job.interviewModal
@@ -46,7 +49,10 @@ const InterviewDateModal = () => {
       interviewDate: dateTime.toISOString(),
       type: "update",
     });
-    dispatch(toggleInterviewedModal(false));
+
+    setTimeout(() => {
+      dispatch(toggleInterviewedModal(false));
+    }, 3000);
   };
 
   return (
@@ -66,50 +72,76 @@ const InterviewDateModal = () => {
         <IconButton className={styles.CloseButton} onClick={handleClose}>
           <Close fontSize="medium" />
         </IconButton>
-        <Box className={styles.Congratulation}>
-          <img
-            src={"images/celebration-icon.png"}
-            alt="celebration confetti icon"
-            className={styles.CelebrationIcon}
-          />
-          <Typography variant="h6" textAlign="center">
-            Congratulations on Getting an Interview!
-          </Typography>
-        </Box>
-        <Box className={styles.InterviewText}>Interview Date:</Box>
-        <Box className={styles.DateTimePicker}>
-          <TextField
-            id="date"
-            label="Date"
-            type="date"
-            value={date}
-            InputLabelProps={{
-              shrink: true,
+        {!isSuccess && (
+          <>
+            <Box className={styles.Congratulation}>
+              <img
+                src={"images/celebration-icon.png"}
+                alt="celebration confetti icon"
+                className={styles.CelebrationIcon}
+              />
+              <Typography variant="h6" textAlign="center">
+                Congratulations on Getting an Interview!
+              </Typography>
+            </Box>
+            <Box className={styles.InterviewText}>Interview Date:</Box>
+            <Box className={styles.DateTimePicker}>
+              <TextField
+                id="date"
+                label="Date"
+                type="date"
+                value={date}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                className={styles.DatePicker}
+                onChange={(e) => setDate(e.target.value)}
+              />
+              <TextField
+                id="time"
+                label="Time"
+                type="time"
+                value={time}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                inputProps={{
+                  step: 300,
+                }}
+                onChange={(e) => setTime(e.target.value)}
+              />
+            </Box>
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              className={styles.ButtonSubmit}
+            >
+              Schedule
+            </Button>
+          </>
+        )}
+        {isSuccess && (
+          <Box
+            sx={{
+              height: "200px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
             }}
-            className={styles.DatePicker}
-            onChange={(e) => setDate(e.target.value)}
-          />
-          <TextField
-            id="time"
-            label="Time"
-            type="time"
-            value={time}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            inputProps={{
-              step: 300,
-            }}
-            onChange={(e) => setTime(e.target.value)}
-          />
-        </Box>
-        <Button
-          variant="contained"
-          onClick={handleSubmit}
-          className={styles.ButtonSubmit}
-        >
-          Schedule
-        </Button>
+          >
+            <CheckCircleRounded color="success" sx={{ fontSize: 40, mb: 2 }} />
+            <Typography textAlign={"center"} sx={{ width: "100%" }}>
+              Your interview has been successfully sheduled!
+            </Typography>
+            <Button
+              sx={{ mt: 3 }}
+              onClick={() => dispatch(toggleInterviewedModal(false))}
+            >
+              Okay
+            </Button>
+          </Box>
+        )}
       </Card>
     </Modal>
   );
