@@ -211,4 +211,7 @@ export type AllActiveJobsDataType = {
   [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
-// . export type
+export type AllJobsDataType = {
+  allActiveJobs: AllActiveJobsDataType;
+  staleJobs: JobType[];
+};
