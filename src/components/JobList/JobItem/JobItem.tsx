@@ -51,16 +51,18 @@ const JobItem = ({
     updateJob(body);
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
     dispatch(
       setModalId({ jobId: id, categoryId: data?.allActiveJobs[category]?.id })
     );
 
     // Needed for the same card to refresh
-    if (previousJob.jobId === id || previousJob.jobId === -1) {
-      refetch();
-    }
-    
+    // if (previousJob.jobId === id || previousJob.jobId === -1) {
+    //   await refetch();
+    // }
+    // Looks like it should be run for all card to refresh the interview date update inside Interviewing. IF there is a problem, ONLY allow category = interviewing to run refetch
+    await refetch();
+
     dispatch(toggleJobModal(!modalState.open));
   };
 
