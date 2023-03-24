@@ -21,7 +21,11 @@ const JobPage = () => {
   const [calendarOpen, setCalendarOpen] = useState(false);
   useEffect(() => {
     if (data && data.staleJobs.length) {
+      console.log(data.staleJobs);
       setOpenInactiveModal(true);
+    }
+    if (data && !data.staleJobs.length) {
+      setOpenInactiveModal(false);
     }
   }, [data]);
 
