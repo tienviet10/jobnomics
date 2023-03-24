@@ -26,12 +26,16 @@
   padding-left: 20px;
 }
 
-.JobActiveStyle{
+.JobActiveStyle {
   color: green;
   font-weight: 700;
 }
 
-.JobInActiveStyle{
+.JobInActiveStyle {
   color: red;
   font-weight: 700;
+}
+
+.JobRow {
+  outline: 2px;
 }
