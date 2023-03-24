@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Container, Box } from "@mui/material";
+import { Box } from "@mui/material";
 import styles from "./SearchPage.module.css";
 
 import FilterList from "../../components/JobFilter";
@@ -12,24 +12,36 @@ import { useManageSearchPage } from "./manage-search-page";
 import SearchBar from "../../components/JobFilter/SearchBar";
 import Legends from "../../components/JobFilter/Legends";
 
-
 const SearchPage = () => {
   const { updateCategoryFilter, sentFilterRequest } = useManageSearchPage();
 
   return (
-    <Container className={styles.SearchPage}>
-      <Box maxWidth="lg" className={styles.FilterContainer}>
-        <DrawerComponent
-          updateCategoryFilter={updateCategoryFilter}
-          sentFilterRequest={sentFilterRequest}
-        />
-        <SearchBar />
-      </Box>
-      <Legends/>
+    <Box
+      className={styles.SearchPage}
+      sx={{
+        px: { xs: 2, sm: 5, md: 7 },
+        py: { xs: 3, sm: 7, md: 8 },
+      }}
+    >
+      <div className={styles.SearchPageHeader}>
+        <Legends />
+        <Box
+          maxWidth="lg"
+          className={styles.FilterContainer}
+          sx={{ width: { xs: "100%", sm: "inherit" }, mt: { xs: 0 }, my: 2 }}
+        >
+          <DrawerComponent
+            updateCategoryFilter={updateCategoryFilter}
+            sentFilterRequest={sentFilterRequest}
+          />
+          <SearchBar />
+        </Box>
+      </div>
+
       <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
       <FilterList sentFilterRequest={sentFilterRequest} />
       <JobModal />
-    </Container>
+    </Box>
   );
 };
 
