@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { useGetAllNotesQuery } from "../../app/services/job-api";
 
@@ -7,6 +7,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Avatar,
+  Box,
   Typography,
 } from "@mui/material";
 import { ExpandMore } from "@mui/icons-material";
@@ -19,7 +21,9 @@ const NotePage = () => {
   const [order, setOrder] = useState<"asc" | "dsc">("asc");
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
 
-  console.log(notes);
+  useEffect(() => {
+    console.log(notes);
+  }, [notes]);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -27,10 +31,21 @@ const NotePage = () => {
     };
 
   return (
-    <div className={styles.NotePage}>
-      {isLoading && !notes && <PageLoader />}
-      {notes &&
-        notes?.map((job: NotesType, index: number) => (
+    <Box
+      className={styles.NotePage}
+      sx={{
+        py: { xs: 4, sm: 7, md: 15 },
+        px: { xs: 2, sm: 7, md: 15, lg: 15 },
+      }}
+    >
+      {isLoading && <PageLoader />}
+      {notes?.map((noteData: NotesType, index: number) => (
+        <Box sx={{ width: { lg: "1200px" } }}>
+          <div className={styles.NotePageHeader}>
+            <Typography variant="h5" className={styles.NotePageTitle}>
+              Interview Notes
+            </Typography>
+          </div>
           <Accordion
             key={`note${index}-content`}
             expanded={expanded === `note${index}`}
@@ -40,23 +55,43 @@ const NotePage = () => {
               expandIcon={<ExpandMore />}
               aria-controls={`note${index}-content`}
               id={`note${index}-content`}
+              className={styles.AccordionSummary}
             >
-              <Typography sx={{ width: "33%", flexShrink: 0 }}>
-                General settings
+              <Avatar
+                variant="square"
+                src={noteData.job.logo}
+                alt={noteData.job.company}
+                sx={{ alignSelf: "center" }}
+              />
+              <Typography
+                sx={{
+                  flex: 1,
+                  maxWidth: "33%",
+                  alignSelf: "center",
+                  mx: { xs: 2, sm: 4, md: 5 },
+                }}
+              >
+                {noteData.job.company}
               </Typography>
-              <Typography sx={{ color: "text.secondary" }}>
-                I am an accordion
+              <Typography sx={{ color: "text.secondary", alignSelf: "center" }}>
+                {noteData.job.title}
               </Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <Typography>
-                Nulla facilisi. Phasellus sollicitudin nulla et quam mattis
-                feugiat. Aliquam eget maximus est, id dignissim quam.
+              {noteData.interviewDate && (
+                <Typography sx={{ mb: 3 }} gutterBottom>
+                  Interviewed on:{" "}
+                  {new Date(noteData.interviewDate).toLocaleDateString()}
+                </Typography>
+              )}
+              <Typography className={styles.NoteMain}>
+                {noteData.note}
               </Typography>
             </AccordionDetails>
           </Accordion>
-        ))}
-    </div>
+        </Box>
+      ))}
+    </Box>
   );
 };
 

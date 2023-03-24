@@ -10,6 +10,7 @@ import type {
   AllActiveJobsDataType,
   AllJobsDataType,
   AllNotesType,
+  NotesType,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -57,7 +58,7 @@ export const jobApi = createApi({
     getAllNotes: builder.query({
       query: ({ column, order }) => ({ url: `job/notes/${column}/${order}` }),
       providesTags: ["allNotes"],
-      transformResponse: (response: AllNotesType, meta, arg) => response,
+      transformResponse: (response: NotesType[], meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number },
         meta,
@@ -194,7 +195,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob"],
+      invalidatesTags: ["aJob", "allNotes"],
     }),
     filterJob: builder.mutation<any, UserRequest>({
       query(body) {
