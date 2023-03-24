@@ -1,15 +1,23 @@
 .NotePage {
   margin-top: 64px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 .NotePageHeader {
+  width: 100%;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
 }
 
 .NotePageTitle {
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-right: 50px;
 }
 
 .AccordionSummary {
@@ -21,4 +29,13 @@ p.NoteMain {
   background-color: rgb(239, 239, 239);
   padding: 10px 20px;
   border-radius: 5px;
+}
+
+.SortBy {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+
+  flex: 1;
+  justify-content: flex-end;
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 
 import { useGetAllNotesQuery } from "../../app/services/job-api";
 
@@ -9,16 +9,24 @@ import {
   AccordionSummary,
   Avatar,
   Box,
+  MenuItem,
+  Select,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import { ExpandMore } from "@mui/icons-material";
+import {
+  ArrowDownwardRounded,
+  ArrowUpwardRounded,
+  ExpandMore,
+} from "@mui/icons-material";
 import { NotesType } from "../../types/jobTypes";
 import PageLoader from "../../components/PageLoader";
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [column, setColumn] = useState<string>("company");
-  const [order, setOrder] = useState<"asc" | "dsc">("asc");
+  const [order, setOrder] = useState<"asc" | "desc">("asc");
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
 
   useEffect(() => {
@@ -30,22 +38,83 @@ const NotePage = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
+  const sortBy = [
+    { value: "company", name: "Company Name" },
+    { value: "title", name: "Job Title" },
+    { value: "updatedByUserAt", name: "Updated At" },
+    { value: "interviewDate", name: "Interview Date" },
+  ];
+
+  const handleSortColumnChange = (event: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    console.log(event.target.value);
+    setColumn(event.target.value);
+  };
+
+  const handleOrderChange = (
+    event: React.MouseEvent<HTMLElement>,
+    order: "asc" | "desc"
+  ) => {
+    console.log(order);
+    setOrder(order);
+  };
+
   return (
     <Box
       className={styles.NotePage}
       sx={{
         py: { xs: 4, sm: 7, md: 15 },
-        px: { xs: 2, sm: 7, md: 15, lg: 15 },
+        px: { xs: 3, sm: 7, md: 15 },
+        width: { lg: "1200px", xl: "1500px" },
+        mx: "auto",
       }}
     >
       {isLoading && <PageLoader />}
-      {notes?.map((noteData: NotesType, index: number) => (
-        <Box sx={{ width: { lg: "1200px" } }}>
-          <div className={styles.NotePageHeader}>
-            <Typography variant="h5" className={styles.NotePageTitle}>
-              Interview Notes
-            </Typography>
+      {!isLoading && (
+        <div className={styles.NotePageHeader}>
+          <Typography variant="h5" className={styles.NotePageTitle}>
+            Interview Notes
+          </Typography>
+          <div className={styles.SortBy}>
+            <Typography sx={{ mr: 1, flexShrink: 0 }}>Sort By:</Typography>
+            <Select
+              id="demo-simple-select"
+              value={column}
+              onChange={handleSortColumnChange}
+              size="small"
+              sx={{
+                bgcolor: "#ffffff",
+                width: { xs: "100%", sm: "200px" },
+                maxWidth: "300px",
+              }}
+            >
+              {sortBy.map((column, index) => (
+                <MenuItem key={index} value={column.value}>
+                  {column.name}
+                </MenuItem>
+              ))}
+            </Select>
+            <ToggleButtonGroup
+              value={order}
+              exclusive
+              onChange={handleOrderChange}
+              aria-label="text alignment"
+              size="small"
+              sx={{ ml: 1 }}
+            >
+              <ToggleButton value="asc" aria-label="ascending order">
+                <ArrowUpwardRounded />
+              </ToggleButton>
+              <ToggleButton value="desc" aria-label="descending order">
+                <ArrowDownwardRounded />
+              </ToggleButton>
+            </ToggleButtonGroup>
           </div>
+        </div>
+      )}
+      {notes?.map((noteData: NotesType, index: number) => (
+        <Fragment key={`note${index}-content`}>
           <Accordion
             key={`note${index}-content`}
             expanded={expanded === `note${index}`}
@@ -89,7 +158,7 @@ const NotePage = () => {
               </Typography>
             </AccordionDetails>
           </Accordion>
-        </Box>
+        </Fragment>
       ))}
     </Box>
   );
