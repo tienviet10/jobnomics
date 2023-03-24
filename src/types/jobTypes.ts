@@ -216,7 +216,7 @@ export type AllJobsDataType = {
   staleJobs: JobType[];
 };
 
-export type AllNotesType = {
+export type NotesType = {
   userId: number;
   isFavorite: boolean;
   interviewDate: Date;
@@ -232,4 +232,6 @@ export type AllNotesType = {
     logo: string;
   };
   note: string;
-}[];
+};
+
+export type AllNotesType = NotesType[];

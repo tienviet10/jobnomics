@@ -54,11 +54,10 @@ export const jobApi = createApi({
       // ) => response.status,
       providesTags: ["aJob"],
     }),
-    getAllNotes: builder.query<any, void>({
-      query: () => "job/:column/:order",
+    getAllNotes: builder.query({
+      query: ({ column, order }) => ({ url: `job/notes/${column}/${order}` }),
       providesTags: ["allNotes"],
-      transformResponse: (response: { data: AllNotesType }, meta, arg) =>
-        response,
+      transformResponse: (response: AllNotesType, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number },
         meta,
