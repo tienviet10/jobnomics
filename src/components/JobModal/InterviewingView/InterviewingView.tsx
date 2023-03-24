@@ -23,17 +23,44 @@ const InterviewingView = () => {
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
+  const extractDateAndTime = (date: Date) => {
+    const processingDate = date
+      .toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      })
+      .split("T")[0]
+      .split("/");
+
+    const extractedDate = [
+      processingDate[2],
+      processingDate[0],
+      processingDate[1],
+    ].join("-");
+    setDate(extractedDate);
+    console.log(extractedDate);
+
+    let hours = String(date.getHours());
+    let minutes = String(date.getMinutes());
+    const extractedTime = `${hours.padStart(2, "0")}:${minutes.padStart(
+      2,
+      "0"
+    )}`;
+
+    setTime(extractedTime);
+  };
+
   useEffect(() => {
-    let today = new Date();
-    const currentDate = today.toISOString().split("T")[0];
-    setDate(currentDate);
+    if (selectedJob) {
+      let date = new Date();
+      if (selectedJob.interviewDate !== null) {
+        date = new Date(selectedJob.interviewDate ?? "");
+      }
 
-    let hours = String(today.getHours());
-    let minutes = String(today.getMinutes());
-    const currentTime = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-
-    setTime(currentTime);
-  }, []);
+      extractDateAndTime(date);
+    }
+  }, [selectedJob]);
 
   const handleSubmit = () => {
     const dateTime = new Date(date + "T" + time + ":00");

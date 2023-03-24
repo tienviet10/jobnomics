@@ -59,7 +59,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     categoryArray,
     refetch,
   } = useGetAJob();
-  // const [jobStatus, setJobStatus] = useState<string>("");
 
   const updatedDate = selectedJob?.updatedByUserAt
     ? new Date(selectedJob.updatedByUserAt)
@@ -140,7 +139,9 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         })
       );
       addInterviewQuestions({ jobId: removedJob?.id });
-      dispatch(toggleInterviewedModal(true));
+      if (selectedJob?.interviewDate === null) {
+        dispatch(toggleInterviewedModal(true));
+      }
     } else if (chosenJobCategory !== "Job Offer") {
       dispatch(
         setModalId({
