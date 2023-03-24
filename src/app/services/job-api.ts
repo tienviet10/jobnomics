@@ -9,6 +9,7 @@ import type {
   CategoryType,
   AllActiveJobsDataType,
   AllJobsDataType,
+  AllNotesType,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -23,7 +24,7 @@ export const jobApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["aJob", "allJobs", "filterJob"],
+  tagTypes: ["aJob", "allJobs", "filterJob", "allNotes"],
   endpoints: (builder) => ({
     getAllJobs: builder.query<any, void>({
       query: () => "job",
@@ -52,6 +53,17 @@ export const jobApi = createApi({
       //   arg
       // ) => response.status,
       providesTags: ["aJob"],
+    }),
+    getAllNotes: builder.query<any, void>({
+      query: () => "job/:column/:order",
+      providesTags: ["allNotes"],
+      transformResponse: (response: { data: AllNotesType }, meta, arg) =>
+        response,
+      transformErrorResponse: (
+        response: { status: string | number },
+        meta,
+        arg
+      ) => response.status,
     }),
     addJob: builder.mutation<any, any>({
       query(body) {
@@ -243,6 +255,7 @@ export const {
   useGetJobByIdQuery,
   useGetInterviewDateQuery,
   useGetAllInterviewDatesQuery,
+  useGetAllNotesQuery,
   useAddJobMutation,
   useAddChecklistsMutation,
   useAddInterviewQuestionsMutation,

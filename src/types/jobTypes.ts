@@ -215,3 +215,21 @@ export type AllJobsDataType = {
   allActiveJobs: AllActiveJobsDataType;
   staleJobs: JobType[];
 };
+
+export type AllNotesType = {
+  userId: number;
+  isFavorite: boolean;
+  interviewDate: Date;
+  updatedByUserAt: Date;
+  category: {
+    id: number;
+    name: string;
+  };
+  job: {
+    id: number;
+    title: string;
+    company: string;
+    logo: string;
+  };
+  note: string;
+}[];

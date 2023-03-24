@@ -11,6 +11,7 @@ import { security } from "./components/auth/GlobalAuth";
 import Home from "./pages/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
+import NotePage from "./pages/NotePage";
 import NavBar from "./components/NavBar";
 import { CssBaseline } from "@mui/material";
 
@@ -32,6 +33,10 @@ function App() {
           <Route
             path="/job"
             element={<AuthenticationGuard component={JobPage} />}
+          />
+          <Route
+            path="/notes"
+            element={<AuthenticationGuard component={NotePage} />}
           />
           <Route path="*" element={<Home />} />
         </Routes>
