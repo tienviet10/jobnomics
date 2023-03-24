@@ -104,7 +104,6 @@ const FilterList: React.FC<FilterListType> = ({ sentFilterRequest }): JSX.Elemen
     // sentFilterRequest();
   };
 
-  console.log("jobsList", jobsList);
   return (
     <Paper elevation={2} className={styles.FilterList}>
       <Table size="medium" className={styles.FilterTable}>

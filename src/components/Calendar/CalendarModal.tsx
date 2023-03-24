@@ -32,7 +32,7 @@ const CalendarModal = ({
     setOpen(false);
   };
 
-  const { data: interviewDates } = useGetAllInterviewDatesQuery();
+  const { data: interviewDates, refetch } = useGetAllInterviewDatesQuery();
   const [state, setState] = useState<CalendarEventsType>({
     events: [],
   });
@@ -66,6 +66,12 @@ const CalendarModal = ({
   const handleSelectedEventClose = () => {
     setOpenDetail(false);
   };
+
+  useEffect(()=>{
+    if(open){
+      refetch()
+    }
+  },[open])
 
   useEffect(() => {
     if (interviewDates) {

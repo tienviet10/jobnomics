@@ -24,7 +24,7 @@ export const jobApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["aJob", "allJobs", "filterJob", "allNotes"],
+  tagTypes: ["aJob", "allJobs", "filterJob", "allNotes", "auth"],
   endpoints: (builder) => ({
     getAllJobs: builder.query<AllJobsDataType, void>({
       query: () => "job",
@@ -211,10 +211,7 @@ export const jobApi = createApi({
         url: "job/filter",
         params,
       }),
-      transformResponse: (response: any, meta, arg) => {
-        console.log("response", response);
-        return response;
-      },
+      transformResponse: (response: any, meta, arg) => response,
       providesTags: ["filterJob"],
     }),
     rejectedReason: builder.mutation({
@@ -243,12 +240,24 @@ export const jobApi = createApi({
       }),
       transformResponse: (response: AllInterviewDatesResponse[], meta, arg) => response,
     }),
+    saveUser: builder.query<any, void>({
+      query: () => "auth",
+      providesTags: ["auth"],
+      transformResponse: (response: AllJobsDataType, meta, arg) =>
+        response,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+    }),
   }),
 });
 
 
 
 export const {
+  useSaveUserQuery,
   useFilterJobsQuery,
   useGetAllJobsQuery,
   useGetJobByIdQuery,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import "./App.css";
 
@@ -18,7 +18,7 @@ import { CssBaseline } from "@mui/material";
 function App() {
   const { getAccessTokenSilently } = useAuth0();
   security.setAccessTokenSilently(getAccessTokenSilently);
-
+  
   return (
     <div className="App">
       <CssBaseline />
