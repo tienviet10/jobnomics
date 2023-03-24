@@ -48,7 +48,6 @@ const NotePage = () => {
   const handleSortColumnChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    console.log(event.target.value);
     setColumn(event.target.value);
   };
 
@@ -56,10 +55,9 @@ const NotePage = () => {
     event: React.MouseEvent<HTMLElement>,
     orderAscDesc: "asc" | "desc"
   ) => {
-    console.log(orderAscDesc);
-    if (order !== null) {
-      setOrder(orderAscDesc);
-    }
+    if (orderAscDesc === null || orderAscDesc === order) return;
+
+    setOrder(orderAscDesc);
   };
 
   return (
