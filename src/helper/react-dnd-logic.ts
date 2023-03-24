@@ -8,8 +8,6 @@ export const processColumns = (
   destinationCategory: any,
   data: any
 ) => {
-  console.log(data);
-
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
 
