@@ -237,3 +237,41 @@ export type AllJobsDataType = {
   allActiveJobs: AllActiveJobsDataType;
   staleJobs: JobType[];
 };
+
+export type AddANewJobResponse = {
+  categoryId: number,
+  createdAt: Date,
+  interviewDate: Date | null;
+  isActive: boolean;
+  isDeleted: boolean,
+  isFavorite: boolean,
+  jobId: number,
+  note: string | null,
+  position: number,
+  rejectReason: string | null;
+  updatedAt: Date,
+  updatedByUserAt: Date,
+  userId: number;
+};
+
+export type AddANewJobType = {
+  interviewDate: Date | null;
+  jobLink: string;
+  manualForm: ManualJobType | null;
+  type: string;
+};
+
+
+type ManualJobType = {
+  company: string;
+  description: string;
+  link: string;
+  location: string;
+  platform: string;
+  title: string;
+};
+
+export type DnDSourceAndDestination = {
+  droppableId: string,
+  index: number | undefined,
+};

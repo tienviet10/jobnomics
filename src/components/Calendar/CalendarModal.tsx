@@ -59,7 +59,6 @@ const CalendarModal = ({
   };
 
   const handleSelectedEvent = (event: any) => {
-    console.log(event);
     setSelectedEvent(event);
     setOpenDetail(true);
   };

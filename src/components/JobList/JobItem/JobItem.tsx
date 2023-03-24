@@ -15,6 +15,7 @@ import styles from "./JobItem.module.css";
 import { Avatar, Typography, Card } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
+import { AllActiveJobsType } from "../../../types/jobTypes";
 
 type JobItemProps = {
   draggableId: string;
@@ -32,8 +33,8 @@ const JobItem = ({
   const { data } = useGetAllJobsQuery();
   // const { allJobs, staleJobs } = data;
 
-  const job = data.allActiveJobs[category].jobs[index];
-  const { id, title, company, logo, isFavorite } = job;
+  const job: AllActiveJobsType | undefined = data?.allActiveJobs[category].jobs[index];
+  const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
 
   const [updateJob] = useUpdateJobMutation();
 
@@ -41,7 +42,7 @@ const JobItem = ({
     event.preventDefault();
     const body = {
       jobId: id,
-      categoryId: data.allActiveJobs[category]?.id,
+      categoryId: data?.allActiveJobs[category]?.id,
       favorite: !isFavorite,
       interviewDate: null,
       type: "update",
@@ -52,7 +53,7 @@ const JobItem = ({
 
   const handleOpenModal = () => {
     dispatch(
-      setModalId({ jobId: id, categoryId: data.allActiveJobs[category]?.id })
+      setModalId({ jobId: id, categoryId: data?.allActiveJobs[category]?.id })
     );
 
     // Needed for the same card to refresh

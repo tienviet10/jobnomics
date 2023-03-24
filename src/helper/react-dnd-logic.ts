@@ -1,9 +1,6 @@
-import { JobPreviewType } from "../types/jobTypes";
+import { AllActiveJobsDataType, AllJobsDataType, DnDSourceAndDestination, JobPreviewType } from "../types/jobTypes";
 
-type DnDSourceAndDestination = {
-  droppableId: string,
-  index: number,
-};
+
 
 export const processColumns = (
   source: DnDSourceAndDestination,
@@ -13,7 +10,7 @@ export const processColumns = (
   destinationCategory: string,
   data: any
 ) => {
-
+  console.log("allActiveJobs", allActiveJobs);
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
 
@@ -25,16 +22,16 @@ export const processColumns = (
 
     newJobs.forEach((job: { position: number; }, index: number) => {
       if (
-        source.index < destination.index &&
-        index >= source.index &&
-        index < destination.index
+        Number(source?.index) < Number(destination?.index) &&
+        index >= Number(source?.index) &&
+        index < Number(destination?.index)
       ) {
         job.position = index;
       }
       if (
-        source.index > destination.index &&
-        index < source.index &&
-        index >= destination.index
+        Number(source.index) > Number(destination.index) &&
+        index < Number(source?.index) &&
+        index >= Number(destination?.index)
       ) {
         job.position = index + 1;
       }
@@ -52,8 +49,8 @@ export const processColumns = (
 
     const newState = {
       ...data,
-      [sourceCategory]: newColumn,
-      allActiveJobs: { ...data.allActiveJobs, [sourceCategory]: newColumn },
+      // [sourceCategory]: newColumn,
+      allActiveJobs: { ...data?.allActiveJobs, [sourceCategory]: newColumn },
     };
 
     const updatedJobs = newJobs.map((job: { id: number; position: number; }) => {
@@ -127,7 +124,7 @@ export const processColumns = (
     // [sourceCategory]: newStartColumn,
     // [destinationCategory]: newEndColumn,
     allActiveJobs: {
-      ...data.allActiveJobs,
+      ...data?.allActiveJobs,
       [sourceCategory]: newStartColumn,
       [destinationCategory]: newEndColumn,
     },

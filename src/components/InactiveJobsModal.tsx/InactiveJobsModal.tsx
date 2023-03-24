@@ -19,18 +19,15 @@ import {
 import { Close, WarningRounded } from "@mui/icons-material";
 import styles from "./InactiveJobsModal.module.css";
 
-import LoadingAnimation from "../LoadingAnimation";
-
 import {
+  AllActiveJobsType,
   CreateJobModalPropType,
-  JobPreviewType,
   JobType,
 } from "../../types/jobTypes";
 
 const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
   const { data } = useGetAllJobsQuery();
-  const [updateJobs, { isLoading, isSuccess, isError }] =
-    useUpdateJobsMutation();
+  const [updateJobs] = useUpdateJobsMutation();
   const [updateJob] = useUpdateJobMutation();
 
   const handleClose = () => {
@@ -45,25 +42,26 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
       (job: { id: number }) => job.id === Number(jobId)
     );
 
-    const currentJobs: JobPreviewType[] = data?.allActiveJobs[category].jobs;
+    const currentJobs: AllActiveJobsType[] | undefined = data?.allActiveJobs[category].jobs;
     const allJobsWithinCategory = [];
     const updatedJobs = [];
 
     //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
     for (const index in currentJobs) {
-      const newPosition = currentJobs[index].position - 1;
-      if (Number(index) < selectedJob.position) {
-        allJobsWithinCategory.push({ ...currentJobs[index] });
-      } else if (Number(index) > selectedJob.position) {
+      const indexNumber = Number(index);
+      const newPosition = currentJobs[indexNumber].position - 1;
+      if (Number(index) < Number(selectedJob?.position)) {
+        allJobsWithinCategory.push({ ...currentJobs[indexNumber] });
+      } else if (Number(index) > Number(selectedJob?.position)) {
         allJobsWithinCategory.push({
-          ...currentJobs[index],
+          ...currentJobs[indexNumber],
           position: newPosition,
         });
       }
 
-      if (Number(index) > selectedJob?.position) {
+      if (Number(index) > Number(selectedJob?.position)) {
         updatedJobs.push({
-          jobId: currentJobs[index].id,
+          jobId: currentJobs[indexNumber].id,
           categoryId: Number(categoryId),
           newCategoryId: Number(categoryId),
           position: newPosition,
@@ -72,9 +70,9 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
         });
       }
 
-      if (Number(index) === selectedJob.position) {
+      if (Number(index) === Number(selectedJob?.position)) {
         updatedJobs.push({
-          jobId: currentJobs[index].id,
+          jobId: currentJobs[indexNumber].id,
           categoryId: Number(categoryId),
           newCategoryId: Number(categoryId),
           position: -1,
@@ -89,14 +87,12 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
         job.job.id !== Number(jobId)
     );
 
-    console.log(updatedStaleJobs);
-
     const newState = {
       staleJobs: updatedStaleJobs,
       allActiveJobs: {
-        ...data.allActiveJobs,
+        ...data?.allActiveJobs,
         [category]: {
-          ...data.allActiveJobs[category],
+          ...data?.allActiveJobs[category],
           jobs: allJobsWithinCategory,
         },
       },

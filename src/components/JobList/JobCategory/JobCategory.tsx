@@ -6,11 +6,10 @@ import styles from "./JobCategory.module.css";
 import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
-import type { CategoryProps, Job } from "../../../types/jobTypes";
+import type { AllActiveJobsType, CategoryProps, Job } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const { data } = useGetAllJobsQuery();
-  // const { allActiveJobs, staleJobs } = data;
   const [open, setOpen] = useState(false);
 
   const handleAddJobClick = () => {
@@ -19,7 +18,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
 
   return (
     <>
-      {data.allActiveJobs && (
+      {data?.allActiveJobs && (
         <Paper elevation={3} className={styles.JobListContainer}>
           <div className={styles.JobListHeader}>
             <Typography variant="subtitle1" className={styles.CategoryLabel}>
@@ -31,7 +30,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
               </Button>
             )}
           </div>
-          <Droppable droppableId={String(data.allActiveJobs[category]?.id)}>
+          <Droppable droppableId={String(data?.allActiveJobs[category]?.id)}>
             {(provided, snapshot) => (
               <Paper
                 elevation={0}
@@ -43,9 +42,9 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
                   pb: snapshot.isDraggingOver ? 5 : 2,
                 }}
               >
-                {data.allActiveJobs[category].jobs.length > 0 &&
-                  data.allActiveJobs[category].jobs?.map(
-                    (job: Job, index: number) => (
+                {data?.allActiveJobs[category].jobs.length > 0 &&
+                  data?.allActiveJobs[category].jobs?.map(
+                    (job: AllActiveJobsType, index: number) => (
                       <JobItem
                         key={`${job?.id}-${job?.title}`}
                         draggableId={`${job?.id}`}

@@ -89,14 +89,6 @@ const CreateJobModal = ({
     const prepareLink = formResponse.link.trim();
     const prepareDescription = formResponse.description.trim();
 
-    console.log(
-      prepareTitle,
-      prepareCompany,
-      prepareLocation,
-      preparePlatform,
-      prepareLink,
-      prepareDescription
-    );
     if (
       prepareTitle &&
       prepareCompany &&
