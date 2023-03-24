@@ -32,7 +32,7 @@ export const api = createApi({
    * Tag types must be defined in the original API definition
    * for any tags that would be provided by injected endpoints
    */
-  tagTypes: ['Time', 'Posts', 'Counter'],
+  // tagTypes: ['Time', 'Posts', 'Counter'],
   /**
    * This api has endpoints injected in adjacent files,
    * which is why no endpoints are shown below.
