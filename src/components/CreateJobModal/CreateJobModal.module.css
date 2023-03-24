@@ -37,18 +37,25 @@
   margin: 20px 0;
 }
 
+.FormInstruction {
+  padding: 15px 0;
+}
+
 @media screen and (max-width: 300px) {
   div.FormContainer {
+    width: 80vw;
+  }
+  .JobForm {
     width: 80vw;
   }
 
   div.ShortInputContainer {
     width: 80vw;
   }
-}
 
-.FormInstruction {
-  padding-bottom: 10px;
+  .FormInstruction {
+    padding: 0;
+  }
 }
 
 .saveButton {
@@ -73,5 +80,9 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 50vw;
+}
+
+.JobForm {
+  display: flex;
+  flex-direction: column;
 }
