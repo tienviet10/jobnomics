@@ -8,6 +8,7 @@ import type {
   Job,
   AddANewJobResponse,
   AddANewJobType,
+  NotesType,
 } from "../../types/jobTypes";
 
 export const jobApi = createApi({
@@ -22,7 +23,7 @@ export const jobApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["aJob", "allJobs", "filterJob"],
+  tagTypes: ["aJob", "allJobs", "filterJob", "allNotes"],
   endpoints: (builder) => ({
     getAllJobs: builder.query<AllJobsDataType, void>({
       query: () => "job",
@@ -46,6 +47,16 @@ export const jobApi = createApi({
       }),
       transformResponse: (response: JobType, meta, arg) => response,
       providesTags: ["aJob"],
+    }),
+    getAllNotes: builder.query({
+      query: ({ column, order }) => ({ url: `job/notes/${column}/${order}` }),
+      providesTags: ["allNotes"],
+      transformResponse: (response: NotesType[], meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
     }),
     addJob: builder.mutation<AddANewJobResponse, AddANewJobType>({
       query(body) {
@@ -176,7 +187,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob"],
+      invalidatesTags: ["aJob", "allNotes"],
     }),
     // filterJob: builder.mutation<any, UserRequest>({
     //   query(body) {
@@ -238,6 +249,7 @@ export const {
   useGetJobByIdQuery,
   useGetInterviewDateQuery,
   useGetAllInterviewDatesQuery,
+  useGetAllNotesQuery,
   useAddJobMutation,
   useAddChecklistsMutation,
   useAddInterviewQuestionsMutation,

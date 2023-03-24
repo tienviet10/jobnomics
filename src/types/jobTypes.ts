@@ -275,3 +275,22 @@ export type DnDSourceAndDestination = {
   droppableId: string,
   index: number | undefined,
 };
+export type NotesType = {
+  userId: number;
+  isFavorite: boolean;
+  interviewDate: Date;
+  updatedByUserAt: Date;
+  category: {
+    id: number;
+    name: string;
+  };
+  job: {
+    id: number;
+    title: string;
+    company: string;
+    logo: string;
+  };
+  note: string;
+};
+
+export type AllNotesType = NotesType[];
