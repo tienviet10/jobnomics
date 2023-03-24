@@ -69,6 +69,14 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     dispatch(toggleJobModal(false));
   };
 
+  const [currentCategory, setCurrentCategory] = useState("");
+
+  useEffect(() => {
+    if (selectedJob && selectedJob.category) {
+      setCurrentCategory(selectedJob.category.name);
+    }
+  }, [selectedJob]);
+
   useEffect(() => {
     // For refreshing interview questions when inside the modal
     if (isSuccess) {
@@ -152,9 +160,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
       );
     }
 
-    setTimeout(() => {
-      dispatch(toggleJobModal(false));
-    }, 100);
+    dispatch(toggleJobModal(false));
   };
 
   return selectedJob && !isLoading ? (
@@ -226,7 +232,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                       labelId="job-status-label"
                       id="job-status"
                       label="Job Status"
-                      // value={jobStatus}
+                      value={currentCategory}
                       onChange={handleStatusChange}
                     >
                       {categoryArray.map((category, index) => (
