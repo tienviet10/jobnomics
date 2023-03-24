@@ -3,7 +3,7 @@ import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
 export type GetAllJobsReturnType = {
-  allActiveJobs: { [key: string]: CategoryType };
+  allActiveJobs: { [key: string]: CategoryType; };
   staleJobs: JobType[];
 };
 export type UserJobsType = {
@@ -11,7 +11,7 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
 };
 
 export type InactiveJobsType = {
@@ -20,7 +20,7 @@ export type InactiveJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type categoriesType = {
@@ -192,7 +192,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
   isSuccess: boolean;
 };
 
@@ -208,7 +208,7 @@ export type AllActiveJobsType = {
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
 };
 
 export type CalendarEventsType = {
@@ -233,3 +233,7 @@ export type AllInterviewDatesResponse = {
   title: string;
 };
 
+export type AllJobsDataType = {
+  allActiveJobs: AllActiveJobsDataType;
+  staleJobs: JobType[];
+};
