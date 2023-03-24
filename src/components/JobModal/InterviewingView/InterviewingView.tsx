@@ -1,45 +1,43 @@
 import React, { useState, useEffect } from "react";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useUpdateJobMutation } from "../../../app/services/job-api";
 import { toggleInterviewedModal } from "../../../features/jobSlice";
-import { RootState } from "../../../app/store";
 
 import styles from "./InterviewingView.module.css";
 import { Box, Typography, TextField, Button } from "@mui/material";
 
-import { useGetAJob } from "../../../hooks/get-a-job";
 import LoadingAnimation from "../../LoadingAnimation";
+
+import { useGetAJob } from "../../../hooks/get-a-job";
+import { extractDate, extractTime } from "../../../helper/date-extractor";
 
 const InterviewingView = () => {
   const { selectedJob, skills } = useGetAJob();
 
   const [updateJob] = useUpdateJobMutation();
   const dispatch = useDispatch();
-  const selectedJobState = useSelector(
-    (state: RootState) => state.job.interviewModal
-  );
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
 
   useEffect(() => {
-    let today = new Date();
-    const currentDate = today.toISOString().split("T")[0];
-    setDate(currentDate);
+    if (selectedJob) {
+      let date = new Date();
+      if (selectedJob.interviewDate !== null) {
+        date = new Date(selectedJob.interviewDate ?? "");
+      }
 
-    let hours = String(today.getHours());
-    let minutes = String(today.getMinutes());
-    const currentTime = `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`;
-
-    setTime(currentTime);
-  }, []);
+      setDate(extractDate(date));
+      setTime(extractTime(date));
+    }
+  }, [selectedJob]);
 
   const handleSubmit = () => {
     const dateTime = new Date(date + "T" + time + ":00");
     updateJob({
-      jobId: selectedJobState?.jobCategoryId?.jobId,
-      categoryId: selectedJobState?.jobCategoryId?.categoryId,
+      jobId: selectedJob.job.id,
+      categoryId: selectedJob.category.id,
       interviewDate: dateTime.toISOString(),
       type: "update",
     });

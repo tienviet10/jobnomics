@@ -19,10 +19,20 @@ const JobPage = () => {
 
   const [openInactiveModal, setOpenInactiveModal] = useState(false);
   const [calendarOpen, setCalendarOpen] = useState(false);
+
   useEffect(() => {
-    if (data && data.staleJobs.length) {
-      console.log(data.staleJobs);
+    const currentDate = Date.now();
+    const lastInactiveJobReminder = JSON.parse(
+      localStorage.getItem("inactiveJobReminder") || "null"
+    );
+
+    const msSinceLastReminder = currentDate - lastInactiveJobReminder;
+    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24 * 3;
+
+    if (moreThan3Days && data && data.staleJobs.length) {
       setOpenInactiveModal(true);
+
+      localStorage.setItem("inactiveJobReminder", JSON.stringify(currentDate));
     }
     if (data && !data.staleJobs.length) {
       setOpenInactiveModal(false);
@@ -31,25 +41,27 @@ const JobPage = () => {
 
   return (
     <div className={styles.JobPage}>
-      <div className={styles.JobPageHeader}>
-        <Typography variant="h5" className={styles.JobPageTitle}>
-          <span>
-            {user?.name ||
-              user?.given_name ||
-              user?.family_name ||
-              user?.nickname}
-            's{" "}
-          </span>
-          <span>Job Board</span>
-        </Typography>
-        <Button
-          onClick={() => setCalendarOpen(true)}
-          sx={{ display: "flex", flexDirection: "column" }}
-        >
-          <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
-          <Typography variant="caption">Calendar</Typography>
-        </Button>
-      </div>
+      {data && (
+        <div className={styles.JobPageHeader}>
+          <Typography variant="h5" className={styles.JobPageTitle}>
+            <span>
+              {user?.name ||
+                user?.given_name ||
+                user?.family_name ||
+                user?.nickname}
+              's{" "}
+            </span>
+            <span>Job Board</span>
+          </Typography>
+          <Button
+            onClick={() => setCalendarOpen(true)}
+            sx={{ display: "flex", flexDirection: "column" }}
+          >
+            <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
+            <Typography variant="caption">Calendar</Typography>
+          </Button>
+        </div>
+      )}
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal
