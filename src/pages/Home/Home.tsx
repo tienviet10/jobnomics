@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -11,16 +11,19 @@ import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
 
 import PageLoader from "../../components/PageLoader";
+import { useSaveUserQuery } from "../../app/services/job-api";
 
 const Home = () => {
   const { loginWithPopup, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
+  const {refetch} = useSaveUserQuery();
 
-  const handleClick = (
+  const handleClick = async (
     options?: PopupLoginOptions | undefined,
     config?: PopupConfigOptions | undefined
   ) => {
-    loginWithPopup();
+    await loginWithPopup();
+    refetch()
     navigate("/job");
   };
 

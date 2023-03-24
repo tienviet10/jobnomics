@@ -106,7 +106,6 @@ const FilterList: React.FC<FilterListType> = ({
     // sentFilterRequest();
   };
 
-  console.log("jobsList", jobsList);
   return (
     <Paper
       elevation={2}

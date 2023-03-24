@@ -29,10 +29,6 @@ const NotePage = () => {
   const [order, setOrder] = useState<"asc" | "desc">("asc");
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
 
-  useEffect(() => {
-    console.log(notes);
-  }, [notes]);
-
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
