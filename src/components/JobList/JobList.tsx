@@ -41,10 +41,12 @@ const JobList = (): JSX.Element => {
 
   useEffect(() => {
     if (
+      interviewDate &&
       !interviewDate?.interviewDate &&
       !repositionWithinColumn &&
       jobInterview !== -1
     ) {
+      console.log(interviewDate);
       dispatch(toggleInterviewedModal(true));
     }
   }, [interviewDate]);
