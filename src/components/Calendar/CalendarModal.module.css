@@ -80,3 +80,35 @@ div.CalendarStyles {
   height: 70vh;
   width: 80vw;
 }
+
+.SelectedEventModalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+div.SelectedEventModal {
+  min-width: 50vw;
+  max-width: 80vw;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+}
+
+@media screen and (max-width: 300px) {
+  .EventHeader {
+    font-size: 18px;
+  }
+
+  .Date {
+    font-size: 14px;
+  }
+
+  .JobDescription {
+    font-size: 14px;
+  }
+}

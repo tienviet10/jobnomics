@@ -61,8 +61,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   } = useGetAJob();
   // const [jobStatus, setJobStatus] = useState<string>("");
 
-  const updatedDate = selectedJob?.updatedAt
-    ? new Date(selectedJob.updatedAt)
+  const updatedDate = selectedJob?.updatedByUserAt
+    ? new Date(selectedJob.updatedByUserAt)
     : "";
 
   const handleClose = () => {
@@ -93,6 +93,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         !selectedJob.isFavorite,
       ])
     );
+    // TODO: Check this
+    // refetch();
   };
 
   const handleOpenDeleteConfirmationModal = () => {

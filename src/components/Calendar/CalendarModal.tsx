@@ -4,17 +4,25 @@ import { useGetAllInterviewDatesQuery } from "../../app/services/job-api";
 
 import styles from "./CalendarModal.module.css";
 import "./Calendar.css";
-import { Card, IconButton, Modal, Typography } from "@mui/material";
-import { Close } from "@mui/icons-material";
+import { Box, Card, IconButton, Modal, Typography } from "@mui/material";
+import { Close, CloseRounded } from "@mui/icons-material";
 
 import moment from "moment";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, Event, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import { CalendarEventsType, CreateJobModalPropType, InterviewResponseType } from "../../types/jobTypes";
 
 
 const localizer = momentLocalizer(moment);
+
+type SelectedEventType = {
+  id: number;
+  start: Date;
+  end: Date;
+  title: string;
+  description: string;
+};
 
 const CalendarModal = ({
   open,
@@ -28,19 +36,36 @@ const CalendarModal = ({
   const [state, setState] = useState<CalendarEventsType>({
     events: [],
   });
+  const [selectedEvent, setSelectedEvent] = useState<SelectedEventType>();
+  const [openDetail, setOpenDetail] = useState(false);
 
   const populateInterviewDates = () => {
     const newState = interviewDates?.map(
-      (interview: InterviewResponseType) => {
+      (
+        interview: InterviewResponseType,
+        index: number
+      ) => {
         return {
+          id: index,
           start: moment(interview?.interviewDate).toDate(),
           end: moment(interview?.interviewDate).add(1, "h").toDate(),
           title: interview?.company,
+          description: interview?.title,
         };
       }
     );
     
     setState({ events: newState || [] });
+  };
+
+  const handleSelectedEvent = (event: any) => {
+    console.log(event);
+    setSelectedEvent(event);
+    setOpenDetail(true);
+  };
+
+  const handleSelectedEventClose = () => {
+    setOpenDetail(false);
   };
 
   useEffect(() => {
@@ -80,7 +105,85 @@ const CalendarModal = ({
           defaultView="month"
           events={state.events}
           className={styles.CalendarStyles}
+          onSelectEvent={(e) => handleSelectedEvent(e)}
+          eventPropGetter={(event) => ({
+            style: {
+              border: "5px solid",
+              outline: "none",
+            },
+          })}
+          popup
+          selectable
         />
+        {selectedEvent && (
+          <Modal
+            id={String(selectedEvent.id)}
+            open={openDetail}
+            className={styles.SelectedEventModalContainer}
+          >
+            <Card
+              elevation={3}
+              className={styles.SelectedEventModal}
+              sx={{ py: { xs: 10 }, px: { xs: 4, sm: 6 } }}
+            >
+              <IconButton
+                onClick={handleSelectedEventClose}
+                sx={{ position: "absolute" }}
+                className={styles.CloseButton}
+              >
+                <CloseRounded fontSize="medium" />
+              </IconButton>
+              <Typography variant="h6" className={styles.EventHeader}>
+                Interview Schedule
+              </Typography>
+              <Box
+                sx={{
+                  my: 2,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  variant="subtitle1"
+                  className={styles.Date}
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {selectedEvent.start.toLocaleString()}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: "bold",
+                    width: { xs: "100%", sm: "inherit" },
+                    textAlign: "center",
+                  }}
+                >
+                  -
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  className={styles.Date}
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {selectedEvent.end.toLocaleString()}
+                </Typography>
+              </Box>
+              <Typography
+                textAlign={"center"}
+                className={styles.JobDescription}
+              >
+                <strong>Company:</strong> {selectedEvent.title}
+              </Typography>
+              <Typography
+                textAlign={"center"}
+                className={styles.JobDescription}
+              >
+                <strong>Position:</strong> {selectedEvent.description}
+              </Typography>
+            </Card>
+          </Modal>
+        )}
       </Card>
     </Modal>
   );

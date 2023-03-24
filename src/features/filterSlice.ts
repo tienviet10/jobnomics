@@ -3,11 +3,26 @@ import { CheckBoxEntity, FilterStateType, Job } from "../types/jobTypes";
 
 const initialState: FilterStateType = {
   mainFilter: {
-    category: [{ name: "Applied", check: false }, { name: "Bookmarked", check: false }, { name: "Interviewing", check: false }, { name: "Interviewed", check: false }, { name: "Job Offer", check: false }, { name: "Position Filled", check: false }],
-    languages: [{ name: "javascript", check: false }, { name: "ruby", check: false }],
-    framework: [{ name: "express", check: false }, { name: "node", check: false }, { name: "react", check: false }, { name: "rails", check: false }],
+    category: [
+      { name: "Applied", check: false },
+      { name: "Bookmarked", check: false },
+      { name: "Interviewing", check: false },
+      { name: "Interviewed", check: false },
+      { name: "Job Offer", check: false },
+      { name: "Position Filled", check: false },
+    ],
+    languages: [
+      { name: "javascript", check: false },
+      { name: "ruby", check: false },
+    ],
+    framework: [
+      { name: "express", check: false },
+      { name: "node", check: false },
+      { name: "react", check: false },
+      { name: "rails", check: false },
+    ],
   },
-  columnFilter: ["createdAt", 'desc'],
+  columnFilter: ["createdAt", "desc"],
   firstFetch: true,
   // listOfCategories: {
   //   Bookmarked: {},
@@ -20,7 +35,7 @@ const initialState: FilterStateType = {
   arrayJobs: [],
   displayArrayJobs: [],
   searchWord: "",
-  selectedJob: null
+  selectedJob: null,
 };
 
 export const filterSlice = createSlice({
@@ -28,14 +43,22 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     toggleCheck: (state, action) => {
-      state["mainFilter"][action.payload.cate] = state["mainFilter"][action.payload.cate].map((obj: CheckBoxEntity) => (obj.name === action.payload.name ? { ...obj, check: !obj.check } : obj));
+      state["mainFilter"][action.payload.cate] = state["mainFilter"][
+        action.payload.cate
+      ].map((obj: CheckBoxEntity) =>
+        obj.name === action.payload.name ? { ...obj, check: !obj.check } : obj
+      );
     },
     handleSearch: (state, action) => {
       state["searchWord"] = action.payload;
       let listJobs: Job[] = state.arrayJobs;
       // console.log(JSON.stringify(listJobs));
       if (action.payload !== "") {
-        listJobs = listJobs.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(action.payload.toLowerCase()));
+        listJobs = listJobs.filter((job: Job) =>
+          (job?.company + job?.title + job?.updatedByUserAt + job?.description)
+            .toLowerCase()
+            .includes(action.payload.toLowerCase())
+        );
       }
       state["displayArrayJobs"] = listJobs;
     },
@@ -48,13 +71,18 @@ export const filterSlice = createSlice({
       //   listJobs.push(...action.payload[key].jobs.map((job: Job) => ({ ...job, categoryId: action.payload[key].id })));
       // }
       if (state["searchWord"] !== "") {
-        listJobs = action.payload.filter((job: Job) => (job?.company + job?.title + job?.updatedAt + job?.description).toLowerCase().includes(state["searchWord"].toLowerCase()));
+        listJobs = action.payload.filter((job: Job) =>
+          (job?.company + job?.title + job?.updatedByUserAt + job?.description)
+            .toLowerCase()
+            .includes(state["searchWord"].toLowerCase())
+        );
       }
       // state["arrayJobs"] = listJobs;
       // console.log("list", listJobs);
       // state["displayArrayJobs"] = listJobs;
       state["arrayJobs"] = action.payload;
-      state["displayArrayJobs"] = listJobs.length > 0 ? listJobs : action.payload;
+      state["displayArrayJobs"] =
+        listJobs.length > 0 ? listJobs : action.payload;
     },
     toggleFirstFetch: (state, action) => {
       state["firstFetch"] = action.payload;
@@ -68,6 +96,13 @@ export const filterSlice = createSlice({
   },
 });
 
-export const { toggleCheck, handleSearch, setList, toggleFirstFetch, setFilterSelectedJob, setColumnFilterJob } = filterSlice.actions;
+export const {
+  toggleCheck,
+  handleSearch,
+  setList,
+  toggleFirstFetch,
+  setFilterSelectedJob,
+  setColumnFilterJob,
+} = filterSlice.actions;
 
 export default filterSlice.reducer;

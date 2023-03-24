@@ -22,8 +22,10 @@ const hours = String(today.getHours());
 const minutes = String(today.getMinutes());
 
 const InterviewDateModal = () => {
-  const [date, setDate] = useState((new Date()).toISOString().split("T")[0]);
-  const [time, setTime] = useState(`${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [time, setTime] = useState(
+    `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
+  );
   const [updateJob] = useUpdateJobMutation();
   const dispatch = useDispatch();
   const selectedJobState = useSelector(
