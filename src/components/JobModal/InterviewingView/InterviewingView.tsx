@@ -33,14 +33,15 @@ const InterviewingView = () => {
     }
   }, [selectedJob]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const dateTime = new Date(date + "T" + time + ":00");
-    updateJob({
+    await updateJob({
       jobId: selectedJob.job.id,
       categoryId: selectedJob.category.id,
       interviewDate: dateTime.toISOString(),
       type: "update",
     });
+
     dispatch(toggleInterviewedModal(false));
   };
 

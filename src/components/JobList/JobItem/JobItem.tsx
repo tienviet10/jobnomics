@@ -57,7 +57,7 @@ const JobItem = ({
     );
 
     // Needed for the same card to refresh
-    if (previousJob.jobId === id) {
+    if (previousJob.jobId === id || previousJob.jobId === -1) {
       refetch();
     }
     

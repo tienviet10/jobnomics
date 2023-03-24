@@ -11,7 +11,7 @@ const initialState: UserJobsType = {
     "Job Offer",
     "Position Filled",
   ],
-  modal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },
+  modal: { open: false, jobCategoryId: { jobId: -1, categoryId: -1 } },
   interviewModal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },
   selectedJob: {
     category: {

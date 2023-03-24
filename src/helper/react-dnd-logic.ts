@@ -5,11 +5,12 @@ import { AllActiveJobsDataType, AllJobsDataType, DnDSourceAndDestination, JobPre
 export const processColumns = (
   source: DnDSourceAndDestination,
   destination: DnDSourceAndDestination,
-  allActiveJobs: any,
+  allActiveJobs: AllActiveJobsDataType,
   sourceCategory: string,
   destinationCategory: string,
-  data: any
+  data: AllJobsDataType | undefined
 ) => {
+
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
 
