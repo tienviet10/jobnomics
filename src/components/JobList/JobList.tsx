@@ -19,6 +19,7 @@ import { Paper } from "@mui/material";
 import { useGetAJob } from "../../hooks/get-a-job";
 import JobCategory from "./JobCategory";
 import { processColumns } from "../../helper/react-dnd-logic";
+import { AllActiveJobsDataType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -74,13 +75,13 @@ const JobList = (): JSX.Element => {
     const startColumn = data?.allActiveJobs[sourceCategory];
 
     // Moving to a different column
-    const startJobs = JSON.parse(JSON.stringify(startColumn.jobs));
+    const startJobs = JSON.parse(JSON.stringify(startColumn?.jobs));
     let [removedJob] = startJobs.splice(source.index, 1);
 
     const body = processColumns(
       source,
       destination,
-      data?.allActiveJobs,
+      data?.allActiveJobs as AllActiveJobsDataType,
       sourceCategory,
       destinationCategory,
       data
@@ -110,6 +111,10 @@ const JobList = (): JSX.Element => {
       );
     }
   };
+
+  // useEffect(() => {
+  //   console.log(data);
+  // }, [data]);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>

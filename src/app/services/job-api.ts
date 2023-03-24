@@ -1,14 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { security } from "../../components/auth/GlobalAuth";
 import type {
-  UserJobsType,
   JobType,
-  ResponseData,
   UserRequest,
-  InactiveJobsType,
-  CategoryType,
-  AllActiveJobsDataType,
+  AllInterviewDatesResponse,
   AllJobsDataType,
+  Job,
+  AddANewJobResponse,
+  AddANewJobType,
   AllNotesType,
   NotesType,
 } from "../../types/jobTypes";
@@ -27,7 +26,7 @@ export const jobApi = createApi({
   }),
   tagTypes: ["aJob", "allJobs", "filterJob", "allNotes"],
   endpoints: (builder) => ({
-    getAllJobs: builder.query<any, void>({
+    getAllJobs: builder.query<AllJobsDataType, void>({
       query: () => "job",
       // Pess:
       // FE display info -> User update the info, FE send request to BE -> FE invalidate cache to get the new update -> FE displays to user
@@ -35,10 +34,10 @@ export const jobApi = createApi({
       // Optimistic Update:
       //  FE display info -> User update the info, display the new INFO to user through MANIPULATING CURRENT CACHE -> FE send request to BE -> FE Get the response -> RTK will compare between these 2 cache to see if they are the same, override with the new response if they are different
       providesTags: ["allJobs"],
-      transformResponse: (response: { data: AllJobsDataType }, meta, arg) =>
+      transformResponse: (response: AllJobsDataType, meta, arg) =>
         response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -48,11 +47,6 @@ export const jobApi = createApi({
         url: `job/${jobId}/${categoryId}`,
       }),
       transformResponse: (response: JobType, meta, arg) => response,
-      // transformErrorResponse: (
-      //   response: { status: string | number; },
-      //   meta,
-      //   arg
-      // ) => response.status,
       providesTags: ["aJob"],
     }),
     getAllNotes: builder.query({
@@ -60,12 +54,12 @@ export const jobApi = createApi({
       providesTags: ["allNotes"],
       transformResponse: (response: NotesType[], meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
     }),
-    addJob: builder.mutation<any, any>({
+    addJob: builder.mutation<AddANewJobResponse, AddANewJobType>({
       query(body) {
         return {
           url: "auto/",
@@ -73,16 +67,15 @@ export const jobApi = createApi({
           body,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) =>
-        response.data,
+      transformResponse: (response: AddANewJobResponse, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
       invalidatesTags: ["allJobs"],
     }),
-    addChecklists: builder.mutation<any, any>({
+    addChecklists: builder.mutation<{ message: string; }, { jobId: number; }>({
       query(body) {
         return {
           url: "job/",
@@ -91,7 +84,7 @@ export const jobApi = createApi({
         };
       },
     }),
-    addInterviewQuestions: builder.mutation<any, any>({
+    addInterviewQuestions: builder.mutation<{ message: string; }, { jobId: number; }>({
       query(body) {
         return {
           url: "job/interview-questions",
@@ -111,10 +104,10 @@ export const jobApi = createApi({
         };
       },
       // invalidatesTags: ["allJobs"],
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -130,7 +123,7 @@ export const jobApi = createApi({
           jobApi.util.updateQueryData(
             "getAllJobs",
             undefined,
-            (allJobsDraft) => {
+            (allJobsDraft: AllJobsDataType) => {
               allJobsDraft = patch.newState;
               return allJobsDraft;
             }
@@ -158,9 +151,9 @@ export const jobApi = createApi({
           body: patch,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) => response,
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -173,10 +166,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -188,32 +181,32 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
       invalidatesTags: ["aJob", "allNotes"],
     }),
-    filterJob: builder.mutation<any, UserRequest>({
-      query(body) {
-        return {
-          url: "job/filter/",
-          method: "PUT",
-          body,
-        };
-      },
-      transformResponse: (response: { data: ResponseData }, meta, arg) =>
-        response,
-      transformErrorResponse: (
-        response: { status: string | number },
-        meta,
-        arg
-      ) => response.status,
-    }),
-    filterJobs: builder.query<any, any>({
+    // filterJob: builder.mutation<any, UserRequest>({
+    //   query(body) {
+    //     return {
+    //       url: "job/filter/",
+    //       method: "PUT",
+    //       body,
+    //     };
+    //   },
+    //   transformResponse: (response: { data: ResponseData; }, meta, arg) =>
+    //     response,
+    //   transformErrorResponse: (
+    //     response: { status: string | number; },
+    //     meta,
+    //     arg
+    //   ) => response.status,
+    // }),
+    filterJobs: builder.query<Job[], UserRequest>({
       query: (params) => ({
         url: "job/filter",
         params,
@@ -227,9 +220,9 @@ export const jobApi = createApi({
         body: patch,
       }),
       invalidatesTags: ["aJob"],
-      transformResponse: (response: { message: string }, meta, arg) => response,
+      transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -238,16 +231,18 @@ export const jobApi = createApi({
       query: ({ jobId }) => ({
         url: `job/interviewDate/${jobId}`,
       }),
-      transformResponse: (response: JobType, meta, arg) => response,
+      transformResponse: (response: { interviewDate?: string, error?: string; }, meta, arg) => response,
     }),
-    getAllInterviewDates: builder.query<any, void>({
+    getAllInterviewDates: builder.query<AllInterviewDatesResponse[], void>({
       query: () => ({
         url: `job/interviewDates`,
       }),
-      transformResponse: (response: JobType, meta, arg) => response,
+      transformResponse: (response: AllInterviewDatesResponse[], meta, arg) => response,
     }),
   }),
 });
+
+
 
 export const {
   useFilterJobsQuery,
@@ -261,7 +256,7 @@ export const {
   useAddInterviewQuestionsMutation,
   useUpdateJobsMutation,
   useUpdateJobMutation,
-  useFilterJobMutation,
+  // useFilterJobMutation,
   useUpdateChecklistMutation,
   useUpdateNoteMutation,
   useRejectedReasonMutation,

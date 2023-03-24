@@ -35,6 +35,7 @@ import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 import ModalPlaceholder from "./ModalPlaceholder";
 import { processColumns } from "../../helper/react-dnd-logic";
+import { AllActiveJobsDataType } from "../../types/jobTypes";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -114,12 +115,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     const startCategory = selectedJob.category.name;
     const startCategoryId = selectedJob.category.id;
     const startPosition = selectedJob.position;
-    const newPosition = data.allActiveJobs[chosenJobCategory].jobs.length;
+    const newPosition = data?.allActiveJobs[chosenJobCategory].jobs.length;
 
     if (startCategory === chosenJobCategory) return;
 
     const startJobs = JSON.parse(
-      JSON.stringify(data.allActiveJobs[selectedJob?.category.name].jobs)
+      JSON.stringify(data?.allActiveJobs[selectedJob?.category.name].jobs)
     );
 
     let [removedJob] = startJobs.splice(startPosition, 1);
@@ -130,7 +131,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
         droppableId: String(chosenJobCategoryId),
         index: newPosition,
       },
-      data?.allActiveJobs,
+      data?.allActiveJobs as AllActiveJobsDataType,
       startCategory,
       chosenJobCategory,
       data

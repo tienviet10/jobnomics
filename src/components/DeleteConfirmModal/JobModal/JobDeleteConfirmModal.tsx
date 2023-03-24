@@ -42,19 +42,20 @@ const JobDeleteConfirmModal = ({
 
     //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
     for (const index in currentJob) {
-      const newPosition = currentJob[index].position - 1;
-      if (Number(index) < selectedJob.position) {
-        allJobsWithinCategory.push({ ...currentJob[index] });
-      } else if (Number(index) > selectedJob.position) {
+      const indexNumber = Number(index);
+      const newPosition = currentJob[indexNumber].position - 1;
+      if (indexNumber < selectedJob?.position) {
+        allJobsWithinCategory.push({ ...currentJob[indexNumber] });
+      } else if (indexNumber > selectedJob?.position) {
         allJobsWithinCategory.push({
-          ...currentJob[index],
+          ...currentJob[indexNumber],
           position: newPosition,
         });
       }
 
-      if (Number(index) > selectedJob?.position) {
+      if (indexNumber > selectedJob?.position) {
         updatedJobs.push({
-          jobId: currentJob[index].id,
+          jobId: currentJob[indexNumber].id,
           categoryId: selectedJob?.category.id,
           newCategoryId: selectedJob?.category.id,
           position: newPosition,
@@ -62,9 +63,9 @@ const JobDeleteConfirmModal = ({
         });
       }
 
-      if (Number(index) === selectedJob?.position) {
+      if (indexNumber === selectedJob?.position) {
         updatedJobs.push({
-          jobId: currentJob[index].id,
+          jobId: currentJob[indexNumber].id,
           categoryId: selectedJob?.category.id,
           newCategoryId: selectedJob?.category.id,
           position: -1,
@@ -77,9 +78,9 @@ const JobDeleteConfirmModal = ({
     const newState = {
       ...data,
       allActiveJobs: {
-        ...data.allActiveJobs,
+        ...data?.allActiveJobs,
         [selectedJob?.category?.name]: {
-          ...data.allActiveJobs[selectedJob?.category.name],
+          ...data?.allActiveJobs[selectedJob?.category.name],
           jobs: allJobsWithinCategory,
         },
       },

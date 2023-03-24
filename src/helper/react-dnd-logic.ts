@@ -1,13 +1,16 @@
-import { JobPreviewType } from "../types/jobTypes";
+import { AllActiveJobsDataType, AllJobsDataType, DnDSourceAndDestination, JobPreviewType } from "../types/jobTypes";
+
+
 
 export const processColumns = (
-  source: any,
-  destination: any,
-  allActiveJobs: any,
-  sourceCategory: any,
-  destinationCategory: any,
-  data: any
+  source: DnDSourceAndDestination,
+  destination: DnDSourceAndDestination,
+  allActiveJobs: AllActiveJobsDataType,
+  sourceCategory: string,
+  destinationCategory: string,
+  data: AllJobsDataType | undefined
 ) => {
+
   const startColumn = allActiveJobs[sourceCategory];
   const endColumn = allActiveJobs[destinationCategory];
 
@@ -17,18 +20,18 @@ export const processColumns = (
     let [removedJob] = newJobs.splice(source.index, 1);
     removedJob = { ...removedJob, position: destination.index };
 
-    newJobs.forEach((job: { position: number }, index: number) => {
+    newJobs.forEach((job: { position: number; }, index: number) => {
       if (
-        source.index < destination.index &&
-        index >= source.index &&
-        index < destination.index
+        Number(source?.index) < Number(destination?.index) &&
+        index >= Number(source?.index) &&
+        index < Number(destination?.index)
       ) {
         job.position = index;
       }
       if (
-        source.index > destination.index &&
-        index < source.index &&
-        index >= destination.index
+        Number(source.index) > Number(destination.index) &&
+        index < Number(source?.index) &&
+        index >= Number(destination?.index)
       ) {
         job.position = index + 1;
       }
@@ -46,11 +49,11 @@ export const processColumns = (
 
     const newState = {
       ...data,
-      [sourceCategory]: newColumn,
-      allActiveJobs: { ...data.allActiveJobs, [sourceCategory]: newColumn },
+      // [sourceCategory]: newColumn,
+      allActiveJobs: { ...data?.allActiveJobs, [sourceCategory]: newColumn },
     };
 
-    const updatedJobs = newJobs.map((job: { id: number; position: number }) => {
+    const updatedJobs = newJobs.map((job: { id: number; position: number; }) => {
       if (job.position === destination.index) {
         return {
           jobId: job?.id,
@@ -85,7 +88,7 @@ export const processColumns = (
 
   const startColumnUpdatedJobs = startJobs
     ?.splice(source.index)
-    .map((job: { position: number }) => {
+    .map((job: { position: number; }) => {
       return {
         ...job,
         position: job.position - 1,
@@ -94,7 +97,7 @@ export const processColumns = (
 
   const endColumnUpdatedJobs = endJobs
     ?.splice(destination.index)
-    .map((job: { position: number }) => {
+    .map((job: { position: number; }) => {
       return {
         ...job,
         position: job.position + 1,
@@ -121,14 +124,14 @@ export const processColumns = (
     // [sourceCategory]: newStartColumn,
     // [destinationCategory]: newEndColumn,
     allActiveJobs: {
-      ...data.allActiveJobs,
+      ...data?.allActiveJobs,
       [sourceCategory]: newStartColumn,
       [destinationCategory]: newEndColumn,
     },
   };
 
   const updatedJobsInSource = startColumnUpdatedJobs.map(
-    (job: { id: number; position: number }) => {
+    (job: { id: number; position: number; }) => {
       return {
         jobId: job?.id,
         categoryId: Number(source.droppableId),
@@ -139,7 +142,7 @@ export const processColumns = (
   );
 
   const updatedJobsInDestination = endColumnUpdatedJobs.map(
-    (job: { id: number; position: number }) => {
+    (job: { id: number; position: number; }) => {
       if (job.position === destination.index) {
         return {
           jobId: job?.id,

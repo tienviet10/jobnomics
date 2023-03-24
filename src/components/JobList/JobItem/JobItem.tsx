@@ -15,6 +15,7 @@ import styles from "./JobItem.module.css";
 import { Avatar, Typography, Card } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
+import { AllActiveJobsType } from "../../../types/jobTypes";
 
 type JobItemProps = {
   draggableId: string;
@@ -32,8 +33,8 @@ const JobItem = ({
   const { data } = useGetAllJobsQuery();
   // const { allJobs, staleJobs } = data;
 
-  const job = data.allActiveJobs[category].jobs[index];
-  const { id, title, company, logo, isFavorite } = job;
+  const job: AllActiveJobsType | undefined = data?.allActiveJobs[category].jobs[index];
+  const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
 
   const [updateJob] = useUpdateJobMutation();
 
@@ -41,7 +42,7 @@ const JobItem = ({
     event.preventDefault();
     const body = {
       jobId: id,
-      categoryId: data.allActiveJobs[category]?.id,
+      categoryId: data?.allActiveJobs[category]?.id,
       favorite: !isFavorite,
       interviewDate: null,
       type: "update",
@@ -50,16 +51,18 @@ const JobItem = ({
     updateJob(body);
   };
 
-  const handleOpenModal = () => {
+  const handleOpenModal = async () => {
     dispatch(
-      setModalId({ jobId: id, categoryId: data.allActiveJobs[category]?.id })
+      setModalId({ jobId: id, categoryId: data?.allActiveJobs[category]?.id })
     );
 
     // Needed for the same card to refresh
-    if (previousJob.jobId === id) {
-      refetch();
-    }
-    
+    // if (previousJob.jobId === id || previousJob.jobId === -1) {
+    //   await refetch();
+    // }
+    // Looks like it should be run for all card to refresh the interview date update inside Interviewing. IF there is a problem, ONLY allow category = interviewing to run refetch
+    await refetch();
+
     dispatch(toggleJobModal(!modalState.open));
   };
 
