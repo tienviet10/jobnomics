@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch } from "react-redux";
 import { useUpdateJobMutation } from "../../../app/services/job-api";
-import { toggleInterviewedModal } from "../../../features/jobSlice";
 
 import styles from "./InterviewingView.module.css";
 import {
@@ -23,7 +21,6 @@ const InterviewingView = () => {
   const { selectedJob, skills } = useGetAJob();
 
   const [updateJob, { isSuccess }] = useUpdateJobMutation();
-  const dispatch = useDispatch();
 
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");

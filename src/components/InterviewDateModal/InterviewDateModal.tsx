@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useUpdateJobMutation } from "../../app/services/job-api";
 import { toggleInterviewedModal } from "../../features/jobSlice";
@@ -12,22 +12,22 @@ import {
   Button,
   IconButton,
   Typography,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import styles from "./InterviewDate.module.css";
 
 import { CheckCircleRounded, Close } from "@mui/icons-material";
-
-const today = new Date();
-const hours = String(today.getHours());
-const minutes = String(today.getMinutes());
+import { extractDate, extractTime } from "../../helper/date-extractor";
 
 const InterviewDateModal = () => {
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
-  const [time, setTime] = useState(
-    `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
-  );
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+
+  useEffect(() => {
+    const currentDateTime = new Date();
+
+    setDate(extractDate(currentDateTime));
+    setTime(extractTime(currentDateTime));
+  }, []);
 
   const [updateJob, { isSuccess }] = useUpdateJobMutation();
   const dispatch = useDispatch();
