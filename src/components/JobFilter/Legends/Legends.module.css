@@ -1,0 +1,23 @@
+.LegendContainer {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.LegendItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+.LegendColor {
+  width: 20px;
+  height: 10px;
+  margin-right: 5px;
+}
+
+.LegendLabel {
+  font-size: 14px;
+}

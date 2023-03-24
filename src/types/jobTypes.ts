@@ -87,6 +87,7 @@ export interface Job {
   updatedByUserAt: Date;
   categoryId: number;
   description?: string;
+  isActive: boolean;
 }
 
 export interface Category {

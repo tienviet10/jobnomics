@@ -25,3 +25,13 @@
 .JobLogo {
   padding-left: 20px;
 }
+
+.JobActiveStyle{
+  color: green;
+  font-weight: 700;
+}
+
+.JobInActiveStyle{
+  color: red;
+  font-weight: 700;
+}
