@@ -48,27 +48,6 @@ const CreateJobModal = ({
     setError(false);
   };
 
-  // useEffect(() => {
-  //   const onConnect = () => {
-  //     console.log("Connected!");
-  //   };
-
-  //   const onAddJob = () => {
-  //     refetch()
-  //   };
-
-  //   socket.on("connect", onConnect);
-
-  //   socket.emit("add-job");
-
-  //   socket.on("add-job", onAddJob);
-
-  //   return () => {
-  //     socket.off("connect");
-  //     socket.off("add-job");
-  //   };
-  // }, [isSuccess]);
-
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (value.trim()) {
@@ -89,14 +68,6 @@ const CreateJobModal = ({
     const prepareLink = formResponse.link.trim();
     const prepareDescription = formResponse.description.trim();
 
-    console.log(
-      prepareTitle,
-      prepareCompany,
-      prepareLocation,
-      preparePlatform,
-      prepareLink,
-      prepareDescription
-    );
     if (
       prepareTitle &&
       prepareCompany &&

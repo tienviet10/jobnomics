@@ -70,7 +70,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const [currentCategory, setCurrentCategory] = useState("");
 
-  console.log(selectedJob);
   useEffect(() => {
     if (selectedJob && selectedJob.category) {
       setCurrentCategory(selectedJob.category.name);

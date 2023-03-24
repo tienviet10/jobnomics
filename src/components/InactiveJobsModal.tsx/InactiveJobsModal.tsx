@@ -89,8 +89,6 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
         job.job.id !== Number(jobId)
     );
 
-    console.log(updatedStaleJobs);
-
     const newState = {
       staleJobs: updatedStaleJobs,
       allActiveJobs: {

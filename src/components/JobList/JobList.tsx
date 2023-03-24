@@ -46,7 +46,6 @@ const JobList = (): JSX.Element => {
       !repositionWithinColumn &&
       jobInterview !== -1
     ) {
-      console.log(interviewDate);
       dispatch(toggleInterviewedModal(true));
     }
   }, [interviewDate]);
@@ -111,10 +110,6 @@ const JobList = (): JSX.Element => {
       );
     }
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
