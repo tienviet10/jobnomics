@@ -140,17 +140,6 @@ const FilterList: React.FC<FilterListType> = ({
                 Job Title
               </TableSortLabel>
             </TableCell>
-            <TableCell key="isActive" sx={{ fontWeight: "bold" }}>
-              <TableSortLabel
-                active={valueToOrderBy === "isActive"}
-                direction={
-                  valueToOrderBy === "isActive" ? orderDirection : "asc"
-                }
-                onClick={() => handleRequestSort("isActive")}
-              >
-                Status
-              </TableSortLabel>
-            </TableCell>
             <TableCell
               key="updatedByUserAt"
               align="center"
@@ -204,26 +193,46 @@ const FilterList: React.FC<FilterListType> = ({
                 >
                   <Avatar variant="square" src={job.logo} alt={job.company} />
                 </TableCell>
-                <TableCell onClick={() => handleOpenModal(job)}>
+                <TableCell
+                  onClick={() => handleOpenModal(job)}
+                  sx={{
+                    color: job.isActive ? "#000000" : "#A9A9A9",
+                    fontWeight: job.isActive ? "normal" : "bold",
+                  }}
+                >
                   {job.company}
                 </TableCell>
-                <TableCell onClick={() => handleOpenModal(job)}>
+                <TableCell
+                  onClick={() => handleOpenModal(job)}
+                  sx={{
+                    color: job.isActive ? "#000000" : "#A9A9A9",
+                    fontWeight: job.isActive ? "normal" : "bold",
+                  }}
+                >
                   {job.title}
                 </TableCell>
-                <TableCell onClick={() => handleOpenModal(job)}>
-                  {job.isActive ? (
-                    <p className={styles.JobActiveStyle}>Active</p>
-                  ) : (
-                    <p className={styles.JobInActiveStyle}>Inactive</p>
-                  )}
-                </TableCell>
-                <TableCell align="center" onClick={() => handleOpenModal(job)}>
+
+                <TableCell
+                  align="center"
+                  onClick={() => handleOpenModal(job)}
+                  sx={{
+                    color: job.isActive ? "#000000" : "#A9A9A9",
+                    fontWeight: job.isActive ? "normal" : "bold",
+                  }}
+                >
                   {new Date(job.updatedByUserAt).toLocaleDateString(
                     user?.locale
                   )}
                 </TableCell>
                 <TableCell align="center">
-                  <IconButton onClick={() => handleToggleFavorite(job)}>
+                  <IconButton
+                    onClick={() => handleToggleFavorite(job)}
+                    sx={{
+                      color: job.isActive ? "#000000" : "#A9A9A9",
+                      fontWeight: job.isActive ? "normal" : "bold",
+                    }}
+                    disabled={!job.isActive}
+                  >
                     {job.isFavorite === true ? (
                       <Favorite />
                     ) : (
