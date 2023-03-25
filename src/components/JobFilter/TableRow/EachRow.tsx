@@ -26,7 +26,6 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
 
   const handleToggleFavorite = (job: Job) => {
     setLocalFavorite(!job.isFavorite);
-    console.log("Job",job)
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,

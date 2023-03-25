@@ -19,15 +19,9 @@ import {
 
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
-import { 
-  // FilterListType, 
-  Job 
-} from "../../types/jobTypes";
+import { Job } from "../../types/jobTypes";
 import EachRow from "./TableRow";
 
-// const FilterList: React.FC<FilterListType> = ({
-//   sentFilterRequest,
-// }): JSX.Element => {
 const FilterList = (): JSX.Element => {
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.filter);
