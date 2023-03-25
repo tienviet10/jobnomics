@@ -127,12 +127,14 @@ const CreateJobModal = ({
           <Close fontSize="medium" />
         </IconButton>
 
-        {/* {!error && !isPosting && useLink && (
+        {!error && !isPosting && useLink && (
           <Box
             sx={{
               px: { xs: 4, sm: "60px", md: "100px" },
               py: { xs: 6, sm: "120px", md: "130px" },
               pb: { xs: 2, sm: 4, md: 6 },
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <div className={styles.FormInstruction}>
@@ -162,7 +164,11 @@ const CreateJobModal = ({
               variant="contained"
               className={styles.saveButton}
               onClick={handleSaveJobClick}
-              sx={{ mt: 2, width: { xs: "100%", sm: "200px" } }}
+              sx={{
+                mt: 2,
+                width: { xs: "100%", sm: "200px" },
+                alignSelf: "flex-end",
+              }}
             >
               Save New Job
             </Button>
@@ -335,8 +341,8 @@ const CreateJobModal = ({
               Preparing Job Summary...
             </Typography>
           </div>
-        )} */}
-        {!error && (
+        )}
+        {error && (
           <Box
             className={styles.errorModal}
             sx={{
@@ -357,8 +363,11 @@ const CreateJobModal = ({
             </Button>
           </Box>
         )}
-        {/* {!error && !isPosting && (
-          <Box className={styles.ModalFooter} sx={{ my: { xs: 0.5, sm: 3 } }}>
+        {!error && !isPosting && (
+          <Box
+            className={styles.ModalFooter}
+            sx={{ mt: { xs: 0.5, sm: 3 }, mb: { xs: 2, sm: 3 } }}
+          >
             <Button
               className={styles.toggleCreateFormButton}
               onClick={() => {
@@ -368,7 +377,7 @@ const CreateJobModal = ({
               {useLink ? "Add Job Manually" : "Add Job With a Link"}
             </Button>
           </Box>
-        )} */}
+        )}
       </Card>
     </Modal>
   );
