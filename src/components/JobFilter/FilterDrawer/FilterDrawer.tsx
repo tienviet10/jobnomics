@@ -64,8 +64,8 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
               key={choice.filter}
               sx={{
                 mt: { xs: 5, sm: 8 },
-                ml: { xs: 4, sm: 10, lg: 15 },
-                width: { xs: "100%", sm: "150px" },
+                ml: { xs: 4, sm: 5, lg: 15 },
+                width: { xs: "100%", sm: "200px" },
               }}
               component="fieldset"
               variant="standard"
@@ -100,7 +100,7 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
       <Button
         variant="contained"
         onClick={handleSentRequest}
-        sx={{ width: { xs: "270px", sm: "200px" }, flex: 1, m: 3 }}
+        sx={{ width: { xs: "100%", sm: "200px" }, mt: 3 }}
         className={styles.FilterButton}
       >
         Filter
