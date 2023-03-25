@@ -1,15 +1,23 @@
 div.InterviewedContainer {
-  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
 }
 
 div.ChecklistMain {
-  overflow-y: auto;
+  flex: 1;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
 
-  margin-bottom: 10px;
+@media screen and (max-height: 600px) {
+  div.ChecklistMain {
+    justify-content: flex-start;
+  }
 }
 
 .ProgressMessage {
@@ -31,12 +39,14 @@ div.ChecklistMain {
 }
 
 div.NotepadMain {
-  overflow-y: auto;
+  flex: 1;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+
+  padding-top: 20px;
 }
 
 .NoteTextField {
@@ -49,7 +59,7 @@ div.NotepadMain {
   padding-top: 10px;
 }
 
-@media screen and (max-height: 800px) {
+/* @media screen and (max-height: 800px) {
   div.ChecklistMain,
   div.NotepadMain {
     justify-content: flex-start;
@@ -65,15 +75,15 @@ div.NotepadMain {
 
   div.NotepadMain {
     height: 42vh;
-  }
+  } */
 
-  /* div.ChecklistMain,
+/* div.ChecklistMain,
   div.NotepadMain {
     height: 28vh;
   } */
-}
+/* } */
 
-@media screen and (max-width: 350px) {
+/* @media screen and (max-width: 350px) {
   div.ChecklistMain {
     height: 33vh;
   }
@@ -84,4 +94,4 @@ div.NotepadMain {
   div.NotepadMain {
     height: 32vh;
   }
-}
+} */
