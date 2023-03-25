@@ -1,16 +1,5 @@
 import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  Typography,
-  CssBaseline,
-  useScrollTrigger,
-  Box,
-  Container,
-  Fab,
-  Fade,
-} from "@mui/material";
-import { KeyboardArrowUp } from "@mui/icons-material";
+import { useScrollTrigger, Box, Fade } from "@mui/material";
 
 interface ScrollTopProps {
   window?: () => Window;
@@ -32,6 +21,7 @@ function ScrollTop({ window, children }: ScrollTopProps) {
     if (anchor) {
       anchor.scrollIntoView({
         block: "center",
+        behavior: "smooth",
       });
     }
   };

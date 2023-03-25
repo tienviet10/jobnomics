@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Box, Zoom, Fab } from "@mui/material";
+import { Box, Fab } from "@mui/material";
 import { KeyboardArrowUp } from "@mui/icons-material";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import styles from "./SearchPage.module.css";
 
 import FilterList from "../../components/JobFilter";
