@@ -48,6 +48,11 @@ const CreateJobModal = ({
     setError(false);
   };
 
+  const handleCloseWhenFail = () => {
+    setOpen(false);
+    setError(false);
+  };
+
   const handleSaveJobClick = (event: { preventDefault: () => void }) => {
     event.preventDefault();
     if (value.trim()) {
@@ -355,6 +360,7 @@ const CreateJobModal = ({
             <Button
               variant="contained"
               sx={{ mt: 3, width: { xs: "100%", sm: "200px" } }}
+              onClick={()=> handleCloseWhenFail()}
             >
               Okay
             </Button>
