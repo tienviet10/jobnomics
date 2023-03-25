@@ -5,6 +5,6 @@
 @media screen and (min-width: 800px) {
   .SearchBar {
     flex: none;
-    width: 400px;
+    width: 300px;
   }
 }

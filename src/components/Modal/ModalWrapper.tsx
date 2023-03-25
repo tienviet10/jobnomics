@@ -197,14 +197,24 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                     fontSize: { xs: "20px", sm: "24px" },
                     fontWeight: "bold",
                   }}
+                  gutterBottom
                 >
                   {selectedJob.job?.title}
                 </Typography>
                 <Box
                   className={styles.SubHeader}
-                  sx={{ display: "flex", flexWrap: "wrap" }}
+                  sx={{
+                    display: "flex",
+                    flexWrap: { xs: "wrap", sm: "nowrap" },
+                  }}
                 >
-                  <div className={styles.CompanyLocation}>
+                  <Box
+                    sx={{
+                      maxWidth: "100%",
+                      flexShrink: { xs: 0 },
+                      mr: { xs: 0, sm: 4 },
+                    }}
+                  >
                     <Typography
                       variant="h6"
                       className={styles.JobCompany}
@@ -218,11 +228,12 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                     >
                       Last update at: {`${updatedDate.toLocaleString()}`}
                     </Typography>
-                  </div>
+                  </Box>
                   <FormControl
                     sx={{
-                      minWidth: { xs: "200px" },
-                      width: { xs: "100%", sm: "200px" },
+                      minWidth: { xs: "200px", sm: "auto" },
+                      maxWidth: { sm: "200px" },
+                      width: { xs: "100%" },
                       mt: 2,
                     }}
                     size="small"

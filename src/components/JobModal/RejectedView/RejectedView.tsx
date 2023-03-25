@@ -52,16 +52,19 @@ const RejectedView = () => {
     <Box
       className={styles.RejectedContainer}
       sx={{
-        maxHeight: { xs: "50vh", sm: "50vh", md: "60vh" },
         px: { xs: "0", sm: "20px", md: "30px" },
         pb: 0,
+        mb: 1,
       }}
     >
       <Box className={styles.RejectedMain}>
         <Typography
           variant="h5"
           className={styles.Question}
-          sx={{ fontSize: { xs: "18px", sm: "20px", md: "24px" } }}
+          sx={{
+            fontSize: { xs: "18px", sm: "20px", md: "24px" },
+            my: { xs: 2 },
+          }}
         >
           How did the company inform you of their decision to move on with
           another candidate?
@@ -114,6 +117,7 @@ const RejectedView = () => {
           variant="contained"
           className={styles.SubmitButton}
           onClick={handleSubmit}
+          sx={{ mt: 2 }}
         >
           Submit
         </Button>

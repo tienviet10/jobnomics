@@ -133,6 +133,8 @@ const CreateJobModal = ({
               px: { xs: 4, sm: "60px", md: "100px" },
               py: { xs: 6, sm: "120px", md: "130px" },
               pb: { xs: 2, sm: 4, md: 6 },
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <div className={styles.FormInstruction}>
@@ -162,7 +164,11 @@ const CreateJobModal = ({
               variant="contained"
               className={styles.saveButton}
               onClick={handleSaveJobClick}
-              sx={{ mt: 2, width: { xs: "100%", sm: "200px" } }}
+              sx={{
+                mt: 2,
+                width: { xs: "100%", sm: "200px" },
+                alignSelf: "flex-end",
+              }}
             >
               Save New Job
             </Button>
@@ -329,17 +335,18 @@ const CreateJobModal = ({
           </Box>
         )}
         {isPosting && (
-          <div className={styles.LoadingContainer}>
-            <LoadingAnimation />
-            <Typography variant="subtitle2">
-              Preparing Job Summary...
-            </Typography>
+          <div className={styles.LoadingAnimation}>
+            <LoadingAnimation>Preparing Job Summary...</LoadingAnimation>
           </div>
         )}
         {error && (
           <Box
             className={styles.errorModal}
-            sx={{ pb: { xs: 2, sm: 6, md: 8 } }}
+            sx={{
+              pt: { xs: 8, sm: 10, md: 10, lg: 15 },
+              px: { xs: 4, sm: 6, md: 8 },
+              pb: { xs: 4, sm: 5, md: 8, lg: 12 },
+            }}
           >
             <Error color="error" sx={{ mb: 2, fontSize: 40 }} />
             <Typography variant="body1" textAlign={"center"}>
@@ -347,14 +354,17 @@ const CreateJobModal = ({
             </Typography>
             <Button
               variant="contained"
-              sx={{ mt: 3, width: { xs: "100%", sm: "50px" } }}
+              sx={{ mt: 3, width: { xs: "100%", sm: "200px" } }}
             >
               Okay
             </Button>
           </Box>
         )}
-        {!error && (
-          <Box className={styles.ModalFooter} sx={{ my: { xs: 0.5, sm: 3 } }}>
+        {!error && !isPosting && (
+          <Box
+            className={styles.ModalFooter}
+            sx={{ mt: { xs: 0.5, sm: 3 }, mb: { xs: 2, sm: 3 } }}
+          >
             <Button
               className={styles.toggleCreateFormButton}
               onClick={() => {

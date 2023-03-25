@@ -1,18 +1,3 @@
 .SearchPage {
   margin-top: 64px;
-  overflow: hidden;
-}
-
-.FilterContainer {
-  display: flex;
-  flex-direction: row-reverse;
-
-  overflow: auto;
-}
-
-.SearchPageHeader {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
 }

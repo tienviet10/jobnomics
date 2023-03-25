@@ -62,13 +62,14 @@
   align-self: flex-end;
 }
 
-.LoadingContainer {
+.LoadingAnimation {
+  max-height: 400px;
+  height: 40vh;
+  max-width: 400px;
+  width: 90vw;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 50vh;
-  min-width: 60vw;
 }
 
 .toggleCreateFormButton {

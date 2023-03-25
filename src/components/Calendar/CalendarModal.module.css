@@ -55,15 +55,6 @@
   align-self: flex-end;
 }
 
-.LoadingContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-  min-width: 60vw;
-}
-
 .toggleCreateFormButton {
   margin-top: 10px;
 }
@@ -77,8 +68,15 @@
 }
 
 div.CalendarStyles {
-  height: 70vh;
+  height: 60vh;
   width: 80vw;
+}
+
+@media screen and (max-height: 600px) {
+  div.CalendarStyles {
+    max-height: 350px;
+    max-width: 650px;
+  }
 }
 
 .SelectedEventModalContainer {

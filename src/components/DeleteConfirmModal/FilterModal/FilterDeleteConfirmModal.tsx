@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 
 import styles from "./FilterDeleteConfirmModal.module.css";
-import {
-  Button,
-  Card,
-  IconButton,
-  Modal,
-  Typography,
-} from "@mui/material";
+import { Button, Card, IconButton, Modal, Typography } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { Job } from "../../../types/jobTypes";
@@ -29,7 +23,7 @@ const FilterDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const [deleteJob, { isLoading, isSuccess, isError }] = useUpdateJobMutation();
-  const [deletedJobTitle, setDeletedJobTitle] = useState<string>()
+  const [deletedJobTitle, setDeletedJobTitle] = useState<string>();
   const handleClose = () => {
     setOpen(false);
   };
@@ -97,7 +91,7 @@ const FilterDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {isLoading && <LoadingAnimation />}
+        {isLoading && <LoadingAnimation>Deleting job...</LoadingAnimation>}
         {!job && isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>

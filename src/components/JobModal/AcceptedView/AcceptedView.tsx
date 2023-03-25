@@ -9,68 +9,62 @@ import { OpenInNew } from "@mui/icons-material";
 
 const AcceptedView = () => {
   const { selectedJob, skills } = useGetAJob();
+
   return (
-    <>
+    <Box className={styles.AcceptedContainer}>
       <Box
-        className={styles.AcceptedContainer}
-        sx={{ height: { xs: "30vh", sm: "40vh" }, mb: 2 }}
+        className={styles.AcceptedMain}
+        sx={{
+          px: { xs: "15px", sm: "40px", md: "50px" },
+          py: { xs: "5px", sm: "20px", md: "30px" },
+          pb: 0,
+        }}
       >
-        <Box
-          className={styles.AcceptedMain}
+        <Typography
+          variant="h5"
+          className={styles.Congratulation}
           sx={{
-            px: { xs: "15px", sm: "40px", md: "50px" },
-            py: { xs: "5px", sm: "20px", md: "30px" },
-            pb: 0,
+            fontSize: { xs: "18px", sm: "20px", md: "24px" },
+            fontWeight: "bold",
           }}
         >
-          <Typography
-            variant="h5"
-            className={styles.Congratulation}
-            sx={{
-              fontSize: { xs: "18px", sm: "20px", md: "24px" },
-              fontWeight: "bold",
-            }}
+          Congratulations on getting a job offer!
+        </Typography>
+        <Typography variant="body1" className={styles.TopHeader}>
+          To help you with the next steps, here are some resources to consider:
+        </Typography>
+        <Container className={styles.Suggestions}>
+          <Link
+            underline="none"
+            href="https://hbr.org/2014/04/15-rules-for-negotiating-a-job-offer"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.Link}
           >
-            Congratulations on getting a job offer!
-          </Typography>
-          <Typography variant="body1" className={styles.TopHeader}>
-            To help you with the next steps, here are some resources to
-            consider:
-          </Typography>
-          <Container className={styles.Suggestions}>
-            <Link
-              underline="none"
-              href="https://hbr.org/2014/04/15-rules-for-negotiating-a-job-offer"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.Link}
-            >
-              Salary Negotiation Tips <OpenInNew sx={{ fontSize: "15px" }} />
-            </Link>
+            Salary Negotiation Tips <OpenInNew sx={{ fontSize: "15px" }} />
+          </Link>
 
-            <Link
-              underline="none"
-              href="https://www.levels.fyi/"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.Link}
-            >
-              Levels.fyi Average Salary Data{" "}
-              <OpenInNew sx={{ fontSize: "15px" }} />
-            </Link>
+          <Link
+            underline="none"
+            href="https://www.levels.fyi/"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.Link}
+          >
+            Levels.fyi Average Salary Data{" "}
+            <OpenInNew sx={{ fontSize: "15px" }} />
+          </Link>
 
-            <Link
-              underline="none"
-              href="https://www.glassdoor.ca/Salaries/know-your-worth.htm"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.Link}
-            >
-              Glassdoor Salary Calculator{" "}
-              <OpenInNew sx={{ fontSize: "15px" }} />
-            </Link>
-          </Container>
-        </Box>
+          <Link
+            underline="none"
+            href="https://www.glassdoor.ca/Salaries/know-your-worth.htm"
+            target="_blank"
+            rel="noreferrer"
+            className={styles.Link}
+          >
+            Glassdoor Salary Calculator <OpenInNew sx={{ fontSize: "15px" }} />
+          </Link>
+        </Container>
       </Box>
       {selectedJob?.job?.skills && (
         <Alert
@@ -82,7 +76,7 @@ const AcceptedView = () => {
           <strong>Required Skills:</strong> {skills}
         </Alert>
       )}
-    </>
+    </Box>
   );
 };
 
