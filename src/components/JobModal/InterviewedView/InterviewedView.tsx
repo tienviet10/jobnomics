@@ -40,6 +40,7 @@ const InterviewedView = (): JSX.Element => {
     const isComplete = !selectedJob.checklists.find(
       (checklist: Checklist) => checklist.id === checkboxId
     )?.isComplete;
+
     dispatch(
       toggleCheckbox({
         id: checkboxId,

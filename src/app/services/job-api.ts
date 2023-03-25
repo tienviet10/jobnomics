@@ -160,7 +160,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob"],
+      // invalidatesTags: ["aJob"],
     }),
     updateNote: builder.mutation({
       query: ({ ...patch }) => ({
