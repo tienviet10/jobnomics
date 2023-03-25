@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   setColumnFilterJob,
   setFilterSelectedJob,
@@ -8,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import styles from "./FilterList.module.css";
 import {
+  Box,
   Paper,
   Table,
   TableBody,
@@ -18,12 +20,18 @@ import {
 } from "@mui/material";
 
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
+import DrawerComponent from "../../components/JobFilter/FilterDrawer";
 
-import { 
-  // FilterListType, 
-  Job 
+import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+
+import {
+  // FilterListType,
+  Job,
 } from "../../types/jobTypes";
 import EachRow from "./TableRow";
+import Legends from "./Legends";
+import SearchBar from "./SearchBar";
+import ChipsComponent from "./chips";
 
 // const FilterList: React.FC<FilterListType> = ({
 //   sentFilterRequest,
@@ -79,89 +87,118 @@ const FilterList = (): JSX.Element => {
     dispatch(setColumnFilterJob([property, isAscending ? "desc" : "asc"]));
     // sentFilterRequest();
   };
+  const { updateCategoryFilter, sentFilterRequest } = useManageSearchPage();
 
   return (
-    <Paper
-      elevation={2}
-      className={styles.FilterList}
-      sx={{ maxHeight: { xs: "60vh", sm: "70vh", md: "70vh", lg: "70vh" } }}
-    >
-      <Table size="medium" className={styles.FilterTable}>
-        <TableHead className={styles.JobTableHead}>
-          <TableRow>
-            <TableCell
-              key="logo"
-              align="center"
-              sx={{ fontWeight: "bold" }}
-            ></TableCell>
-            <TableCell key="company" sx={{ fontWeight: "bold" }}>
-              <TableSortLabel
-                active={valueToOrderBy === "company"}
-                direction={
-                  valueToOrderBy === "company" ? orderDirection : "asc"
-                }
-                onClick={() => handleRequestSort("company")}
+    <Box className={styles.SearchPageMain}>
+      <div className={styles.SearchPageHeader}>
+        <Legends />
+        <Box
+          maxWidth="lg"
+          className={styles.FilterContainer}
+          sx={{ width: { xs: "100%", sm: "inherit" }, my: 2 }}
+        >
+          <DrawerComponent
+            updateCategoryFilter={updateCategoryFilter}
+            sentFilterRequest={sentFilterRequest}
+          />
+          <SearchBar />
+        </Box>
+      </div>
+      <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
+      <Paper elevation={2} className={styles.FilterList}>
+        <Table size="medium" className={styles.FilterTable}>
+          <TableHead className={styles.JobTableHead}>
+            <TableRow>
+              <TableCell
+                key="logo"
+                align="center"
+                sx={{ fontWeight: "bold" }}
+              ></TableCell>
+              <TableCell key="company" sx={{ fontWeight: "bold" }}>
+                <TableSortLabel
+                  active={valueToOrderBy === "company"}
+                  direction={
+                    valueToOrderBy === "company" ? orderDirection : "asc"
+                  }
+                  onClick={() => handleRequestSort("company")}
+                  hideSortIcon
+                >
+                  Company
+                </TableSortLabel>
+              </TableCell>
+              <TableCell key="title" sx={{ fontWeight: "bold" }}>
+                <TableSortLabel
+                  active={valueToOrderBy === "title"}
+                  direction={
+                    valueToOrderBy === "title" ? orderDirection : "asc"
+                  }
+                  onClick={() => handleRequestSort("title")}
+                  hideSortIcon
+                >
+                  Job Title
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                key="updatedByUserAt"
+                align="center"
+                sx={{ fontWeight: "bold" }}
               >
-                Company
-              </TableSortLabel>
-            </TableCell>
-            <TableCell key="title" sx={{ fontWeight: "bold" }}>
-              <TableSortLabel
-                active={valueToOrderBy === "title"}
-                direction={valueToOrderBy === "title" ? orderDirection : "asc"}
-                onClick={() => handleRequestSort("title")}
+                <TableSortLabel
+                  active={valueToOrderBy === "updatedByUserAt"}
+                  direction={
+                    valueToOrderBy === "updatedByUserAt"
+                      ? orderDirection
+                      : "asc"
+                  }
+                  onClick={() => handleRequestSort("updatedByUserAt")}
+                  hideSortIcon
+                >
+                  Update At
+                </TableSortLabel>
+              </TableCell>
+              <TableCell
+                key="favorite"
+                align="center"
+                sx={{ fontWeight: "bold" }}
               >
-                Job Title
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              key="updatedByUserAt"
-              align="center"
-              sx={{ fontWeight: "bold" }}
-            >
-              <TableSortLabel
-                active={valueToOrderBy === "updatedByUserAt"}
-                direction={
-                  valueToOrderBy === "updatedByUserAt" ? orderDirection : "asc"
-                }
-                onClick={() => handleRequestSort("updatedByUserAt")}
-              >
-                Update At
-              </TableSortLabel>
-            </TableCell>
-            <TableCell
-              key="favorite"
-              align="center"
-              sx={{ fontWeight: "bold" }}
-            >
-              <TableSortLabel
-                active={valueToOrderBy === "isFavorite"}
-                direction={
-                  valueToOrderBy === "isFavorite" ? orderDirection : "asc"
-                }
-                onClick={() => handleRequestSort("isFavorite")}
-              >
-                Favorites
-              </TableSortLabel>
-            </TableCell>
-            <TableCell align="center"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody className={styles.JobTableBody}>
-          {jobsList.length > 0 &&
-            jobsList[0] &&
-            jobsList.map((job: Job, index: number) => (
-              <EachRow key={job?.id} job={job} menuStates={menuStates} handleMenuOpen={handleMenuOpen} handleMenuClose={handleMenuClose} handleDelete={handleDelete} />
-            ))}
-        </TableBody>
-      </Table>
+                <TableSortLabel
+                  active={valueToOrderBy === "isFavorite"}
+                  direction={
+                    valueToOrderBy === "isFavorite" ? orderDirection : "asc"
+                  }
+                  onClick={() => handleRequestSort("isFavorite")}
+                  hideSortIcon
+                >
+                  Favorites
+                </TableSortLabel>
+              </TableCell>
+              <TableCell align="center"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody className={styles.JobTableBody}>
+            {jobsList.length > 0 &&
+              jobsList[0] &&
+              jobsList.map((job: Job, index: number) => (
+                <EachRow
+                  key={job?.id}
+                  job={job}
+                  menuStates={menuStates}
+                  handleMenuOpen={handleMenuOpen}
+                  handleMenuClose={handleMenuClose}
+                  handleDelete={handleDelete}
+                />
+              ))}
+          </TableBody>
+        </Table>
 
-      <FilterDeleteConfirmModal
-        open={openDeleteModal}
-        setOpen={setOpenDeleteModal}
-        job={selectedJob}
-      />
-    </Paper>
+        <FilterDeleteConfirmModal
+          open={openDeleteModal}
+          setOpen={setOpenDeleteModal}
+          job={selectedJob}
+        />
+      </Paper>
+    </Box>
   );
 };
 

@@ -17,8 +17,13 @@ import { useUpdateJobMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 
-
-const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClose, handleDelete }): JSX.Element => {
+const EachRow: React.FC<any> = ({
+  job,
+  menuStates,
+  handleMenuOpen,
+  handleMenuClose,
+  handleDelete,
+}): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
   const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
@@ -26,7 +31,7 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
 
   const handleToggleFavorite = (job: Job) => {
     setLocalFavorite(!job.isFavorite);
-    console.log("Job",job)
+    console.log("Job", job);
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,
@@ -41,18 +46,16 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
     dispatch(toggleJobModal(true));
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setLocalFavorite(job?.isFavorite);
-  },[job?.isFavorite])
-
+  }, [job?.isFavorite]);
 
   return (
     <TableRow
       hover
       className={styles.JobRow}
       sx={{
-        boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color
-          } inset`,
+        boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
       }}
     >
       <TableCell
@@ -75,6 +78,7 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
         sx={{
           color: job.isActive ? "#000000" : "#A9A9A9",
           fontWeight: job.isActive ? "normal" : "bold",
+          minWidth: "200px",
         }}
       >
         {job.title}
@@ -88,9 +92,7 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
           fontWeight: job.isActive ? "normal" : "bold",
         }}
       >
-        {new Date(job.updatedByUserAt).toLocaleDateString(
-          user?.locale
-        )}
+        {new Date(job.updatedByUserAt).toLocaleDateString(user?.locale)}
       </TableCell>
       <TableCell align="center">
         <IconButton
@@ -101,11 +103,7 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
           }}
           disabled={!job.isActive}
         >
-          {localFavorite ? (
-            <Favorite />
-          ) : (
-            <FavoriteBorder />
-          )}
+          {localFavorite ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
       </TableCell>
       <TableCell align="center">
@@ -127,9 +125,7 @@ const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClo
             "aria-labelledby": `basic-button-${job.id}`,
           }}
         >
-          <MenuItem onClick={() => handleDelete(job)}>
-            Delete
-          </MenuItem>
+          <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
         </Menu>
       </TableCell>
     </TableRow>
