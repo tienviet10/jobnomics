@@ -6,26 +6,25 @@
   align-items: center;
 }
 
-.JobModal {
+div.JobModal {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  height: 80vh;
   outline: none;
 }
 
 @media screen and (max-width: 350px) {
   div.JobModal {
-    max-height: 95vh;
     padding: 25px 18px;
   }
 }
 
-@media screen and (max-height: 700px) {
+/* @media screen and (max-height: 700px) {
   div.JobModal {
-    max-height: 90vh;
-  }
-}
+    /* max-height: 90vh; */
+/* } */
+/* }  */
 
 .JobCompany {
   color: #2d799d;
@@ -45,6 +44,7 @@
   justify-content: center;
   align-items: center;
   margin: 15px 0;
+  overflow: auto;
 }
 
 .ModalHeader {
