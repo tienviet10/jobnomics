@@ -35,7 +35,7 @@ const NavBar = () => {
       name: "Logout",
       onClick: (event: React.MouseEvent<HTMLElement>) => {
         handleCloseUserMenu();
-        logout();
+        logout({logoutParams:{returnTo: window.location.origin}});
       },
     },
   ];
@@ -67,21 +67,37 @@ const NavBar = () => {
 
     navigate(path);
   };
+  
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/job",
+      },
+      authorizationParams: {
+        prompt: "login",
+      },
+    });
+  };
 
-  const handleAuthentication = () => {
-    handleCloseUserMenu();
-    loginWithRedirect();
-    navigate("/job");
+  const handleSignup = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/job",
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
   };
 
   const visitorSettings = [
     {
       name: "Login",
-      handleAuthentication,
+      handleAuthentication : handleLogin,
     },
     {
       name: "Sign Up",
-      handleAuthentication,
+      handleAuthentication: handleSignup,
     },
   ];
 
@@ -117,7 +133,7 @@ const NavBar = () => {
             variant="h6"
             noWrap
             component="a"
-            href="/"
+            href={isAuthenticated ? "/job" : "/"}
             sx={{
               mr: 2,
               display: { xs: "none", md: "flex" },

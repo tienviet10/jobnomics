@@ -9,26 +9,26 @@ import { Auth0Provider } from "@auth0/auth0-react";
 
 import { Provider } from "react-redux";
 import { store } from "./app/store";
-
-const domain = process.env.REACT_APP_AUTH0_DOMAIN || "";
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID || "";
-const redirectUri = process.env.REACT_APP_AUTH0_CALLBACK_URL;
-const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+import { BrowserRouter } from "react-router-dom";
+import Auth0ProviderWithNavigate from "./components/auth/Auth0ProviderWithNavigate";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      authorizationParams={{
-        audience: audience,
-        redirect_uri: window.location.origin || redirectUri,
-      }}
-    >
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Auth0Provider>
+    <BrowserRouter>
+      <Auth0ProviderWithNavigate
+      // domain={domain}
+      // clientId={clientId}
+      // authorizationParams={{
+      //   audience: audience,
+      //   redirect_uri: window.location.origin || redirectUri,
+      // }}
+      >
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </Auth0ProviderWithNavigate>
+    </BrowserRouter>
+
   </React.StrictMode>,
   document.getElementById("root")
 );

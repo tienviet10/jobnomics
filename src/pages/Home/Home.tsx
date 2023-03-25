@@ -1,6 +1,4 @@
 import React from "react";
-
-import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "./Home.module.css";
@@ -9,14 +7,28 @@ import { Button, Stack, Box, Typography, Container } from "@mui/material";
 import { useSaveUserQuery } from "../../app/services/job-api";
 
 const Home = () => {
-  const { loginWithPopup } = useAuth0();
-  const navigate = useNavigate();
-  const { refetch } = useSaveUserQuery();
+  const { loginWithRedirect } = useAuth0();
+  // const { refetch } = useSaveUserQuery();
 
-  const handleClick = async () => {
-    await loginWithPopup();
-    refetch();
-    navigate("/job");
+  const handleLogin = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/job",
+      },
+      authorizationParams: {
+        prompt: "login",
+      },
+    });
+  };
+  const handleSignup = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/job",
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+      },
+    });
   };
 
   return (
@@ -55,10 +67,10 @@ const Home = () => {
             spacing={2}
             justifyContent="center"
           >
-            <Button onClick={() => handleClick()} variant="contained">
+            <Button onClick={() => handleLogin()} variant="contained">
               Log In
             </Button>
-            <Button onClick={() => handleClick()} variant="outlined">
+            <Button onClick={() => handleSignup()} variant="outlined">
               Sign Up
             </Button>
           </Stack>
