@@ -335,7 +335,7 @@ const CreateJobModal = ({
           </Box>
         )}
         {isPosting && (
-          <div className={styles.LoadingContainer}>
+          <div className={styles.LoadingAnimation}>
             <LoadingAnimation>Preparing Job Summary...</LoadingAnimation>
           </div>
         )}

@@ -11,7 +11,7 @@ const LoadingAnimation = ({ children }: { children?: string }) => {
         <div className={styles.SpinnerItem}></div>
         <div className={styles.SpinnerItem}></div>
       </div>
-      <Typography variant="subtitle2" sx={{ pt: 2 }}>
+      <Typography variant="subtitle2" sx={{ pt: 2 }} textAlign={"center"}>
         {children}
       </Typography>
     </div>

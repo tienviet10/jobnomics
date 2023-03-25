@@ -9,19 +9,6 @@ div.InterviewingContainer {
   flex-direction: column;
 }
 
-/* @media screen and (max-height: 670px) {
-  div.InterviewingContainer {
-    height: 100%;
-  }
-} */
-
-/* 
-@media screen and (max-width: 350px) {
-  div.InterviewingContainer {
-    height: 100%;
-  }
-} */
-
 div.QuestionsContainer {
   flex: 1;
 }
@@ -33,16 +20,6 @@ div.QuestionsContainer {
 .Skills {
   color: #2d799d;
   padding: 10px 10px 0;
-}
-
-.LoadingContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  padding: 20px;
 }
 
 .DateTimePicker {
