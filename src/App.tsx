@@ -18,29 +18,27 @@ import { CssBaseline } from "@mui/material";
 function App() {
   const { getAccessTokenSilently } = useAuth0();
   security.setAccessTokenSilently(getAccessTokenSilently);
-  
+
   return (
     <div className="App">
       <CssBaseline />
-      <BrowserRouter>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route
-            path="/search"
-            element={<AuthenticationGuard component={SearchPage} />}
-          />
-          <Route
-            path="/job"
-            element={<AuthenticationGuard component={JobPage} />}
-          />
-          <Route
-            path="/notes"
-            element={<AuthenticationGuard component={NotePage} />}
-          />
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </BrowserRouter>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route
+          path="/search"
+          element={<AuthenticationGuard component={SearchPage} />}
+        />
+        <Route
+          path="/job"
+          element={<AuthenticationGuard component={JobPage} />}
+        />
+        <Route
+          path="/notes"
+          element={<AuthenticationGuard component={NotePage} />}
+        />
+        <Route path="*" element={<Home />} />
+      </Routes>
     </div>
   );
 }
