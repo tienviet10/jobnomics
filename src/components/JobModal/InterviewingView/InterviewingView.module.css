@@ -2,23 +2,25 @@ div.InterviewingContainer {
   border: 1px solid #0000004b;
   border-radius: 10px;
   width: 100%;
+  height: 100%;
   overflow-y: auto;
 
   display: flex;
   flex-direction: column;
 }
 
-@media screen and (max-height: 670px) {
+/* @media screen and (max-height: 670px) {
   div.InterviewingContainer {
-    height: 25vh;
+    height: 100%;
   }
-}
+} */
 
+/* 
 @media screen and (max-width: 350px) {
   div.InterviewingContainer {
-    height: 18vh;
+    height: 100%;
   }
-}
+} */
 
 div.QuestionsContainer {
   flex: 1;
@@ -48,4 +50,5 @@ div.QuestionsContainer {
   align-items: center;
   width: 100%;
   flex-wrap: wrap;
+  margin-top: 10px;
 }

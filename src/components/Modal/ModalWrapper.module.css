@@ -14,17 +14,17 @@ div.JobModal {
   outline: none;
 }
 
+@media screen and (max-height: 700px) {
+  div.JobModal {
+    padding: 20px 30px;
+  }
+}
+
 @media screen and (max-width: 350px) {
   div.JobModal {
     padding: 25px 18px;
   }
 }
-
-/* @media screen and (max-height: 700px) {
-  div.JobModal {
-    /* max-height: 90vh; */
-/* } */
-/* }  */
 
 .JobCompany {
   color: #2d799d;
