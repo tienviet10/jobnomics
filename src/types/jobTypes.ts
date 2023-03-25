@@ -117,7 +117,7 @@ export type FilterStateType = {
 //   Interviewing: Category | {};
 //   Interviewed: Category | {};
 //   "Job Offer": Category | {};
-//   "Position Filled": Category | {};
+//   "Job Unavailable": Category | {};
 // };
 
 type Filter = {

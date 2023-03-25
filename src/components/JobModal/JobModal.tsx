@@ -16,7 +16,7 @@ const JobModal = () => {
   return (
     <ModalWrapper>
       {selectedJobCategory === "Job Offer" && <AcceptedView />}
-      {selectedJobCategory === "Position Filled" && <RejectedView />}
+      {selectedJobCategory === "Job Unavailable" && <RejectedView />}
       {selectedJobCategory === "Interviewing" && <InterviewingView />}
       {selectedJobCategory &&
         (selectedJobCategory === "Bookmarked" ||
