@@ -19,24 +19,19 @@ const Router = () => {
 
   return (
     <Routes>
-      {isAuthenticated ?
-        <>
-          <Route
-            path="/search"
-            element={<SearchPage />}
-          />
-          <Route
-            path="/job"
-            element={<JobPage />}
-          />
-          <Route
-            path="/notes"
-            element={<NotePage />}
-          />
-        </>
-        :
-        <Route path="/" element={<Home />} />
-      }
+      <Route
+        path="/search"
+        element={<AuthenticationGuard component={SearchPage} />}
+      />
+      <Route
+        path="/job"
+        element={<AuthenticationGuard component={JobPage} />}
+      />
+      <Route
+        path="/notes"
+        element={<AuthenticationGuard component={NotePage} />}
+      />
+      <Route path="/" element={<Home />} />
       <Route path="*" element={<Navigate to={isAuthenticated ? "/job" : "/"} />} />
     </Routes>
   );

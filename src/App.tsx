@@ -8,6 +8,7 @@ import Router from "./Router";
 import { CssBaseline } from "@mui/material";
 
 function App() {
+
   const { getAccessTokenSilently } = useAuth0();
   security.setAccessTokenSilently(getAccessTokenSilently);
 
