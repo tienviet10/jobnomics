@@ -2,3 +2,17 @@
   display: flex;
   overflow-x: auto;
 }
+
+.JobListHeader {
+  display: flex;
+}
+
+h5.JobListTitle {
+  padding: 20px 0;
+  margin-right: 10px;
+}
+
+.JobListContainer {
+  max-width: fit-content;
+  margin: 0 auto;
+}

@@ -9,7 +9,7 @@ const initialState: UserJobsType = {
     "Interviewing",
     "Interviewed",
     "Job Offer",
-    "Position Filled",
+    "Job Unavailable",
   ],
   modal: { open: false, jobCategoryId: { jobId: -1, categoryId: -1 } },
   interviewModal: { open: false, jobCategoryId: { jobId: 1, categoryId: 1 } },

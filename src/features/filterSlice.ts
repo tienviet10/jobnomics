@@ -9,7 +9,7 @@ const initialState: FilterStateType = {
       { name: "Interviewing", check: false },
       { name: "Interviewed", check: false },
       { name: "Job Offer", check: false },
-      { name: "Position Filled", check: false },
+      { name: "Job Unavailable", check: false },
     ],
     languages: [
       { name: "javascript", check: false },

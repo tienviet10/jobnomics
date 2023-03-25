@@ -42,7 +42,8 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
       (job: { id: number }) => job.id === Number(jobId)
     );
 
-    const currentJobs: AllActiveJobsType[] | undefined = data?.allActiveJobs[category].jobs;
+    const currentJobs: AllActiveJobsType[] | undefined =
+      data?.allActiveJobs[category].jobs;
     const allJobsWithinCategory = [];
     const updatedJobs = [];
 
@@ -153,7 +154,7 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
             </Typography>
           </div>
           <Box className={styles.JobList} sx={{ height: { xs: "50vh" } }}>
-            {data?.staleJobs.map((job: JobType) => (
+            {data?.staleJobs?.map((job: JobType) => (
               <Alert
                 key={job.job.id}
                 icon={false}

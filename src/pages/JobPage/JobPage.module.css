@@ -13,13 +13,3 @@
     overflow-y: scroll;
   }
 }
-
-.JobPageHeader {
-  width: calc(100vw - 60px);
-  display: flex;
-  justify-content: space-between;
-}
-
-.JobPageTitle {
-  padding: 20px 0;
-}

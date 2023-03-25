@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+
 import { useDispatch } from "react-redux";
 import {
   setInterviewedModalId,
@@ -15,26 +17,34 @@ import {
 
 import styles from "./JobList.module.css";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
-import { Paper } from "@mui/material";
+import { Box, Paper, Typography, Button } from "@mui/material";
+import { CalendarMonth } from "@mui/icons-material";
+
 import { useGetAJob } from "../../hooks/get-a-job";
-import JobCategory from "./JobCategory";
 import { processColumns } from "../../helper/react-dnd-logic";
+import JobCategory from "./JobCategory";
+
+import CalendarModal from "../../components/Calendar";
+
 import { AllActiveJobsDataType } from "../../types/jobTypes";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
 
+  const { user } = useAuth0();
   const { categoryArray, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
-  const [jobInterview, setJobInterview] = useState(-1);
-  const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
+  const [jobInterview, setJobInterview] = useState(-1);
   const { data: interviewDate } = useGetInterviewDateQuery({
     jobId: jobInterview,
   });
+
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
 
   useEffect(() => {
     refetch();
@@ -115,14 +125,36 @@ const JobList = (): JSX.Element => {
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
       {data?.allActiveJobs && (
-        <Paper elevation={1} className={styles.JobBoard}>
-          {Object.keys(data?.allActiveJobs).map(
-            (category: string, index: number) => (
-              <JobCategory key={index} category={category} />
-            )
-          )}
-        </Paper>
+        <Box className={styles.JobListContainer}>
+          <div className={styles.JobListHeader}>
+            <Typography variant="h5" className={styles.JobListTitle}>
+              <span>
+                {user?.name ||
+                  user?.given_name ||
+                  user?.family_name ||
+                  user?.nickname}
+                's{" "}
+              </span>
+              <span>Job Board</span>
+            </Typography>
+            <Button
+              onClick={() => setCalendarOpen(true)}
+              sx={{ display: "flex", flexDirection: "column" }}
+            >
+              <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
+              <Typography variant="caption">Calendar</Typography>
+            </Button>
+          </div>
+          <Paper elevation={1} className={styles.JobBoard}>
+            {Object.keys(data?.allActiveJobs).map(
+              (category: string, index: number) => (
+                <JobCategory key={index} category={category} />
+              )
+            )}
+          </Paper>
+        </Box>
       )}
+      <CalendarModal open={calendarOpen} setOpen={setCalendarOpen} />
     </DragDropContext>
   );
 };
