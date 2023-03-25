@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-
 import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
   useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
 import { setNewNote, toggleCheckbox } from "../../../features/jobSlice";
-
 import styles from "./InterviewedView.module.css";
 import {
   Alert,
@@ -23,7 +21,6 @@ import {
 } from "@mui/material";
 
 import { CheckCircle } from "@mui/icons-material";
-
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 
@@ -34,10 +31,10 @@ const InterviewedView = (): JSX.Element => {
   const [isNotepad, setIsNotepad] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
 
-  const [saveNote, { isLoading, isSuccess, isError }] = useUpdateNoteMutation();
+  const [saveNote, { isSuccess }] = useUpdateNoteMutation();
   const [updateChecklist] = useUpdateChecklistMutation();
 
-  const { selectedJob, skills } = useGetAJob();
+  const { selectedJob } = useGetAJob();
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
