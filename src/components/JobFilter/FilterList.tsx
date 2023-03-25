@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+
 import {
   setColumnFilterJob,
   setFilterSelectedJob,
 } from "../../features/filterSlice";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
+
 import {
   Box,
   Paper,
@@ -15,15 +17,17 @@ import {
   TableRow,
   TableSortLabel,
 } from "@mui/material";
+import styles from "./FilterList.module.css";
+
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 import DrawerComponent from "../../components/JobFilter/FilterDrawer";
-import { Job } from "../../types/jobTypes";
-import { useManageSearchPage } from "../../pages/Search/manage-search-page";
-import EachRow from "./TableRow";
-import Legends from "./Legends";
 import SearchBar from "./SearchBar";
 import ChipsComponent from "./chips";
-import styles from "./FilterList.module.css";
+import EachRow from "./TableRow";
+import Legends from "./Legends";
+
+import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+import { Job } from "../../types/jobTypes";
 
 const FilterList = (): JSX.Element => {
   const dispatch = useDispatch();

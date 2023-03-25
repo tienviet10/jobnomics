@@ -1,3 +1,23 @@
 .SearchPage {
   margin-top: 64px;
+  height: 100%;
+
+  position: relative;
+}
+
+.ScrollToTopButton {
+  position: fixed;
+  /* left: 0;
+  bottom: 20px; */
+}
+
+.ScrollToTopButton::after {
+  content: "";
+  display: none;
+}
+
+.ScrollToTopButton:hover::after {
+  content: "Back to top";
+  display: block;
+  margin-left: 8px; /* add some space between icon and text */
 }

@@ -1,24 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Box } from "@mui/material";
+import { Box, Zoom, Fab } from "@mui/material";
+import { KeyboardArrowUp } from "@mui/icons-material";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 import styles from "./SearchPage.module.css";
 
 import FilterList from "../../components/JobFilter";
 import JobModal from "../../components/JobModal";
+import ScrollTop from "./ScrollTop";
 
 const SearchPage = () => {
   return (
-    <Box
-      className={styles.SearchPage}
-      sx={{
-        px: { xs: 2, sm: 5, md: 7 },
-        py: { xs: 3, sm: 7, md: 8 },
-      }}
-    >
-      {/* <FilterList sentFilterRequest={sentFilterRequest} /> */}
-      <FilterList />
-      <JobModal />
-    </Box>
+    <>
+      <div id="back-to-top-anchor"></div>
+      <Box
+        className={styles.SearchPage}
+        sx={{
+          px: { xs: 2, sm: 5, md: 7 },
+          py: { xs: 3, sm: 7, md: 8 },
+        }}
+      >
+        {/* <FilterList sentFilterRequest={sentFilterRequest} /> */}
+        <FilterList />
+        <ScrollTop window={() => window}>
+          <Fab size="small" aria-label="scroll back to top">
+            <KeyboardArrowUp />
+          </Fab>
+        </ScrollTop>
+        <JobModal />
+      </Box>
+    </>
   );
 };
 
