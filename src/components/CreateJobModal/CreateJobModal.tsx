@@ -127,7 +127,7 @@ const CreateJobModal = ({
           <Close fontSize="medium" />
         </IconButton>
 
-        {!error && !isPosting && useLink && (
+        {/* {!error && !isPosting && useLink && (
           <Box
             sx={{
               px: { xs: 4, sm: "60px", md: "100px" },
@@ -335,11 +335,15 @@ const CreateJobModal = ({
               Preparing Job Summary...
             </Typography>
           </div>
-        )}
-        {error && (
+        )} */}
+        {!error && (
           <Box
             className={styles.errorModal}
-            sx={{ pb: { xs: 2, sm: 6, md: 8 } }}
+            sx={{
+              pt: { xs: 8, sm: 10, md: 10, lg: 15 },
+              px: { xs: 4, sm: 6, md: 8 },
+              pb: { xs: 4, sm: 5, md: 8, lg: 12 },
+            }}
           >
             <Error color="error" sx={{ mb: 2, fontSize: 40 }} />
             <Typography variant="body1" textAlign={"center"}>
@@ -347,13 +351,13 @@ const CreateJobModal = ({
             </Typography>
             <Button
               variant="contained"
-              sx={{ mt: 3, width: { xs: "100%", sm: "50px" } }}
+              sx={{ mt: 3, width: { xs: "100%", sm: "200px" } }}
             >
               Okay
             </Button>
           </Box>
         )}
-        {!error && (
+        {/* {!error && !isPosting && (
           <Box className={styles.ModalFooter} sx={{ my: { xs: 0.5, sm: 3 } }}>
             <Button
               className={styles.toggleCreateFormButton}
@@ -364,7 +368,7 @@ const CreateJobModal = ({
               {useLink ? "Add Job Manually" : "Add Job With a Link"}
             </Button>
           </Box>
-        )}
+        )} */}
       </Card>
     </Modal>
   );
