@@ -36,6 +36,7 @@ const InterviewedView = (): JSX.Element => {
   const [noteState, setNoteState] = useState(selectedJob.note || "");
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
+    // TODO: Improve Checklist method -> Separate checklist into its own component and do optimistic update there
     const checkboxId = Number(event.target.id);
     const isComplete = !selectedJob.checklists.find(
       (checklist: Checklist) => checklist.id === checkboxId
