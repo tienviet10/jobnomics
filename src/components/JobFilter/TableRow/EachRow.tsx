@@ -18,14 +18,15 @@ import { useDispatch } from "react-redux";
 import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 
 
-const EachRow: React.FC<any> = ({ index, job, menuStates, handleMenuOpen, handleMenuClose, handleDelete }): JSX.Element => {
+const EachRow: React.FC<any> = ({ job, menuStates, handleMenuOpen, handleMenuClose, handleDelete }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
-  const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite || false);
+  const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
   const [updateJob] = useUpdateJobMutation();
 
   const handleToggleFavorite = (job: Job) => {
-    setLocalFavorite(prev => !prev);
+    setLocalFavorite(!job.isFavorite);
+    console.log("Job",job)
     updateJob({
       jobId: job.id,
       categoryId: job.categoryId,
@@ -47,7 +48,6 @@ const EachRow: React.FC<any> = ({ index, job, menuStates, handleMenuOpen, handle
 
   return (
     <TableRow
-      key={index}
       hover
       className={styles.JobRow}
       sx={{

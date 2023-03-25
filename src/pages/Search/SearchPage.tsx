@@ -39,7 +39,8 @@ const SearchPage = () => {
       </div>
 
       <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-      <FilterList sentFilterRequest={sentFilterRequest} />
+      {/* <FilterList sentFilterRequest={sentFilterRequest} /> */}
+      <FilterList />
       <JobModal />
     </Box>
   );
