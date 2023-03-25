@@ -197,6 +197,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                     fontSize: { xs: "20px", sm: "24px" },
                     fontWeight: "bold",
                   }}
+                  gutterBottom
                 >
                   {selectedJob.job?.title}
                 </Typography>

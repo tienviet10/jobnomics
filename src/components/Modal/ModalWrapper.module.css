@@ -10,7 +10,7 @@ div.JobModal {
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  max-height: 80vh;
   outline: none;
 }
 
@@ -51,7 +51,7 @@ div.JobModal {
   display: flex;
   flex-direction: column;
 
-  padding-top: 20px;
+  padding-top: 25px;
 }
 
 .ModalFooter {
