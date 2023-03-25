@@ -1,0 +1,11 @@
+.JobRow:hover {
+  cursor: pointer;
+}
+
+.JobLogo {
+  padding-left: 20px;
+}
+
+.JobRow {
+  outline: 2px;
+}
