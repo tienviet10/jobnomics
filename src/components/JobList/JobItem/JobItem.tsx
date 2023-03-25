@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -35,6 +35,8 @@ const JobItem = ({
 
   const job: AllActiveJobsType | undefined = data?.allActiveJobs[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
+  
+  const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
   const [updateJob] = useUpdateJobMutation();
 
@@ -47,7 +49,8 @@ const JobItem = ({
       interviewDate: null,
       type: "update",
     };
-    dispatch(toggleFavorite([category, id, !isFavorite]));
+    setLocalFavorite(prev => !prev);
+    // dispatch(toggleFavorite([category, id, !isFavorite]));
     updateJob(body);
   };
 
@@ -92,7 +95,7 @@ const JobItem = ({
               </Typography>
             </div>
 
-            {isFavorite ? (
+            {localFavorite ? (
               <Favorite fontSize="medium" onClick={handleToggleFavorite} />
             ) : (
               <FavoriteBorder

@@ -1,48 +1,49 @@
 import React, { useState } from "react";
 
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
-import { useUpdateJobMutation } from "../../app/services/job-api";
+// import { useUpdateJobMutation } from "../../app/services/job-api";
 import {
   setColumnFilterJob,
   setFilterSelectedJob,
 } from "../../features/filterSlice";
 import { RootState } from "../../app/store";
 import { useDispatch, useSelector } from "react-redux";
-import { setModalId, toggleJobModal } from "../../features/jobSlice";
+// import { setModalId, toggleJobModal } from "../../features/jobSlice";
 
 import styles from "./FilterList.module.css";
 import {
-  IconButton,
+  // IconButton,
   Paper,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Button,
-  Menu,
-  MenuItem,
-  Avatar,
+  // Button,
+  // Menu,
+  // MenuItem,
+  // Avatar,
   TableSortLabel,
 } from "@mui/material";
-import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
+// import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
-import { categoryColors } from "./categoryColors";
+// import { categoryColors } from "./categoryColors";
 
 import FilterDeleteConfirmModal from "../DeleteConfirmModal/FilterModal";
 
 import { FilterListType, Job } from "../../types/jobTypes";
+import EachRow from "./TableRow";
 
 const FilterList: React.FC<FilterListType> = ({
   sentFilterRequest,
 }): JSX.Element => {
-  const { user } = useAuth0();
+  // const { user } = useAuth0();
   const dispatch = useDispatch();
   const state = useSelector((state: RootState) => state.filter);
   const jobsList = state.displayArrayJobs;
   const selectedJob = state.selectedJob;
-  const [updateJob] = useUpdateJobMutation();
+  // const [updateJob] = useUpdateJobMutation();
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
@@ -57,10 +58,10 @@ const FilterList: React.FC<FilterListType> = ({
     setOpenDeleteModal(true);
   };
 
-  const handleOpenModal = (job: Job) => {
-    dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
-    dispatch(toggleJobModal(true));
-  };
+  // const handleOpenModal = (job: Job) => {
+  //   dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
+  //   dispatch(toggleJobModal(true));
+  // };
 
   const handleMenuOpen = (
     job: Job,
@@ -88,15 +89,15 @@ const FilterList: React.FC<FilterListType> = ({
     }));
   };
 
-  const handleToggleFavorite = (job: Job) => {
-    updateJob({
-      jobId: job.id,
-      categoryId: job.categoryId,
-      favorite: !job.isFavorite,
-      interviewDate: job.interviewDate,
-      type: "update",
-    });
-  };
+  // const handleToggleFavorite = (job: Job) => {
+  //   updateJob({
+  //     jobId: job.id,
+  //     categoryId: job.categoryId,
+  //     favorite: !job.isFavorite,
+  //     interviewDate: job.interviewDate,
+  //     type: "update",
+  //   });
+  // };
 
   const handleRequestSort = (property: string) => {
     const isAscending = valueToOrderBy === property && orderDirection === "asc";
@@ -177,94 +178,95 @@ const FilterList: React.FC<FilterListType> = ({
           {jobsList.length > 0 &&
             jobsList[0] &&
             jobsList.map((job: Job, index: number) => (
-              <TableRow
-                key={index}
-                hover
-                className={styles.JobRow}
-                sx={{
-                  boxShadow: `6px 0 0 ${
-                    categoryColors[job.categoryId].color
-                  } inset`,
-                }}
-              >
-                <TableCell
-                  className={styles.JobLogo}
-                  onClick={() => handleOpenModal(job)}
-                >
-                  <Avatar variant="square" src={job.logo} alt={job.company} />
-                </TableCell>
-                <TableCell
-                  onClick={() => handleOpenModal(job)}
-                  sx={{
-                    color: job.isActive ? "#000000" : "#A9A9A9",
-                    fontWeight: job.isActive ? "normal" : "bold",
-                  }}
-                >
-                  {job.company}
-                </TableCell>
-                <TableCell
-                  onClick={() => handleOpenModal(job)}
-                  sx={{
-                    color: job.isActive ? "#000000" : "#A9A9A9",
-                    fontWeight: job.isActive ? "normal" : "bold",
-                  }}
-                >
-                  {job.title}
-                </TableCell>
+              <EachRow index={index} job={job} menuStates={menuStates} handleMenuOpen={handleMenuOpen} handleMenuClose={handleMenuClose} handleDelete={handleDelete} />
+              // <TableRow
+              //   key={index}
+              //   hover
+              //   className={styles.JobRow}
+              //   sx={{
+              //     boxShadow: `6px 0 0 ${
+              //       categoryColors[job.categoryId].color
+              //     } inset`,
+              //   }}
+              // >
+              //   <TableCell
+              //     className={styles.JobLogo}
+              //     onClick={() => handleOpenModal(job)}
+              //   >
+              //     <Avatar variant="square" src={job.logo} alt={job.company} />
+              //   </TableCell>
+              //   <TableCell
+              //     onClick={() => handleOpenModal(job)}
+              //     sx={{
+              //       color: job.isActive ? "#000000" : "#A9A9A9",
+              //       fontWeight: job.isActive ? "normal" : "bold",
+              //     }}
+              //   >
+              //     {job.company}
+              //   </TableCell>
+              //   <TableCell
+              //     onClick={() => handleOpenModal(job)}
+              //     sx={{
+              //       color: job.isActive ? "#000000" : "#A9A9A9",
+              //       fontWeight: job.isActive ? "normal" : "bold",
+              //     }}
+              //   >
+              //     {job.title}
+              //   </TableCell>
 
-                <TableCell
-                  align="center"
-                  onClick={() => handleOpenModal(job)}
-                  sx={{
-                    color: job.isActive ? "#000000" : "#A9A9A9",
-                    fontWeight: job.isActive ? "normal" : "bold",
-                  }}
-                >
-                  {new Date(job.updatedByUserAt).toLocaleDateString(
-                    user?.locale
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    onClick={() => handleToggleFavorite(job)}
-                    sx={{
-                      color: job.isActive ? "#000000" : "#A9A9A9",
-                      fontWeight: job.isActive ? "normal" : "bold",
-                    }}
-                    disabled={!job.isActive}
-                  >
-                    {job.isFavorite === true ? (
-                      <Favorite />
-                    ) : (
-                      <FavoriteBorder />
-                    )}
-                  </IconButton>
-                </TableCell>
-                <TableCell align="center">
-                  <Button
-                    aria-controls={`basic-menu-${job.id}`}
-                    aria-haspopup="true"
-                    aria-expanded={menuStates[job.id]?.open}
-                    onClick={(event) => handleMenuOpen(job, event)}
-                  >
-                    <MoreVert />
-                  </Button>
-                  <Menu
-                    id={`basic-menu-${job.id}`}
-                    key={job.id}
-                    anchorEl={menuStates[job.id]?.anchorEl}
-                    open={menuStates[job.id]?.open || false}
-                    onClose={() => handleMenuClose(job)}
-                    MenuListProps={{
-                      "aria-labelledby": `basic-button-${job.id}`,
-                    }}
-                  >
-                    <MenuItem onClick={() => handleDelete(job)}>
-                      Delete
-                    </MenuItem>
-                  </Menu>
-                </TableCell>
-              </TableRow>
+              //   <TableCell
+              //     align="center"
+              //     onClick={() => handleOpenModal(job)}
+              //     sx={{
+              //       color: job.isActive ? "#000000" : "#A9A9A9",
+              //       fontWeight: job.isActive ? "normal" : "bold",
+              //     }}
+              //   >
+              //     {new Date(job.updatedByUserAt).toLocaleDateString(
+              //       user?.locale
+              //     )}
+              //   </TableCell>
+              //   <TableCell align="center">
+              //     <IconButton
+              //       onClick={() => handleToggleFavorite(job)}
+              //       sx={{
+              //         color: job.isActive ? "#000000" : "#A9A9A9",
+              //         fontWeight: job.isActive ? "normal" : "bold",
+              //       }}
+              //       disabled={!job.isActive}
+              //     >
+              //       {job.isFavorite? (
+              //         <Favorite />
+              //       ) : (
+              //         <FavoriteBorder />
+              //       )}
+              //     </IconButton>
+              //   </TableCell>
+              //   <TableCell align="center">
+              //     <Button
+              //       aria-controls={`basic-menu-${job.id}`}
+              //       aria-haspopup="true"
+              //       aria-expanded={menuStates[job.id]?.open}
+              //       onClick={(event) => handleMenuOpen(job, event)}
+              //     >
+              //       <MoreVert />
+              //     </Button>
+              //     <Menu
+              //       id={`basic-menu-${job.id}`}
+              //       key={job.id}
+              //       anchorEl={menuStates[job.id]?.anchorEl}
+              //       open={menuStates[job.id]?.open || false}
+              //       onClose={() => handleMenuClose(job)}
+              //       MenuListProps={{
+              //         "aria-labelledby": `basic-button-${job.id}`,
+              //       }}
+              //     >
+              //       <MenuItem onClick={() => handleDelete(job)}>
+              //         Delete
+              //       </MenuItem>
+              //     </Menu>
+              //   </TableCell>
+              // </TableRow>
             ))}
         </TableBody>
       </Table>
