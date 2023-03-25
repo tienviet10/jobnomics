@@ -140,7 +140,7 @@ const InterviewedView = (): JSX.Element => {
     <Box
       className={styles.InterviewedContainer}
       sx={{
-        maxHeight: { xs: "55vh", sm: "47vh" },
+        py: { sm: 2 },
         width: { xs: "100%", sm: "90%" },
       }}
     >
@@ -157,7 +157,6 @@ const InterviewedView = (): JSX.Element => {
         <Box
           className={styles.ChecklistMain}
           sx={{
-            maxHeight: { xs: "50vh", sm: "45vh" },
             px: { xs: "0", sm: "40px", md: "50px" },
           }}
         >
@@ -187,23 +186,23 @@ const InterviewedView = (): JSX.Element => {
             color={progress === 100 ? "success" : "primary"}
             className={styles.CheckboxProgressBar}
             sx={{
-              p: { xs: "5px", sm: "8px" },
+              p: 0.4,
               width: { xs: "100%", sm: "80%" },
-              my: { xs: 3 },
+              my: { xs: 1.5, sm: 3 },
             }}
           />
           <FormGroup className={styles.Checklist}>{checklists}</FormGroup>
         </Box>
       ) : (
-        <Box
-          className={styles.NotepadMain}
-          sx={{
-            height: { xs: "50vh", sm: "43vh", md: "45vh" },
-            px: { xs: "0", sm: "20px", md: "30px" },
-            py: 2,
-          }}
-        >
-          <Typography variant="h5">
+        <div className={styles.NotepadMain}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontSize: { xs: "18px", sm: "20px", md: "24px" },
+              fontWeight: "bold",
+            }}
+            gutterBottom
+          >
             Keep track of your interview experince.
           </Typography>
           <Typography variant="body2" gutterBottom>
@@ -214,15 +213,17 @@ const InterviewedView = (): JSX.Element => {
           <TextField
             className={styles.NoteTextField}
             sx={{
+              flex: 1,
               "& fieldset": {
                 outline: "none",
               },
               "& .MuiInputBase-root": {
-                height: "95%",
+                minHeight: "100%",
                 display: "flex",
                 alignItems: "start",
               },
             }}
+            rows={8}
             placeholder="Write your notes here..."
             multiline
             fullWidth
@@ -245,7 +246,7 @@ const InterviewedView = (): JSX.Element => {
               </Alert>
             </Snackbar>
           )}
-        </Box>
+        </div>
       )}
     </Box>
   );

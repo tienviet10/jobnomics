@@ -107,12 +107,9 @@ const InterviewingView = () => {
         sx={{ height: { xs: "38vh", sm: "47vh" } }}
       >
         {!selectedJob?.job?.interviewExamples ? (
-          <div className={styles.LoadingContainer}>
-            <LoadingAnimation />
-            <Typography variant="subtitle2" sx={{ pt: 2 }}>
-              Preparing sample interview questions and answers...
-            </Typography>
-          </div>
+          <LoadingAnimation>
+            Preparing sample interview questions and answers...
+          </LoadingAnimation>
         ) : (
           <>
             <Box

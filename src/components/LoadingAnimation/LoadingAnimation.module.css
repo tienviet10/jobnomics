@@ -1,3 +1,13 @@
+.SpinnerContainer {
+  min-height: 200px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
 .Spinner {
   --size: 75px;
   --clr-bg: #272324;
@@ -9,6 +19,7 @@
 
   --animation-duration: 5000ms;
   position: relative;
+  top: 20px;
   width: var(--size);
   height: var(--size);
   transform: rotate(45deg);
