@@ -1,6 +1,11 @@
 .SearchPage {
+  min-width: 100vw;
+  height: 100%;
+  padding: 10px 30px;
+
+  margin: auto;
+  overflow-y: auto;
   margin-top: 64px;
-  overflow: hidden;
 }
 
 .FilterContainer {
@@ -8,11 +13,4 @@
   flex-direction: row-reverse;
 
   overflow: auto;
-}
-
-.SearchPageHeader {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
 }

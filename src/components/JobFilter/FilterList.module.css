@@ -1,3 +1,15 @@
+.SearchPageMain {
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.SearchPageHeader {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .FilterList {
   overflow-y: auto;
 }
