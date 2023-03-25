@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import {
   setColumnFilterJob,
   setFilterSelectedJob,
@@ -30,6 +31,7 @@ import {
 import EachRow from "./TableRow";
 import Legends from "./Legends";
 import SearchBar from "./SearchBar";
+import ChipsComponent from "./chips";
 
 // const FilterList: React.FC<FilterListType> = ({
 //   sentFilterRequest,
@@ -94,7 +96,7 @@ const FilterList = (): JSX.Element => {
         <Box
           maxWidth="lg"
           className={styles.FilterContainer}
-          sx={{ width: { xs: "100%", sm: "inherit" }, mt: { xs: 0 }, my: 2 }}
+          sx={{ width: { xs: "100%", sm: "inherit" }, my: 2 }}
         >
           <DrawerComponent
             updateCategoryFilter={updateCategoryFilter}
@@ -103,13 +105,8 @@ const FilterList = (): JSX.Element => {
           <SearchBar />
         </Box>
       </div>
-      <Paper
-        elevation={2}
-        className={styles.FilterList}
-        sx={{
-          maxHeight: { xs: "60vh", sm: "70vh", md: "70vh", lg: "70vh" },
-        }}
-      >
+      <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
+      <Paper elevation={2} className={styles.FilterList}>
         <Table size="medium" className={styles.FilterTable}>
           <TableHead className={styles.JobTableHead}>
             <TableRow>

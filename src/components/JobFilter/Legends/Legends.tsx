@@ -1,8 +1,9 @@
 import React from "react";
+
 import styles from "./Legends.module.css";
+import { Box } from "@mui/material";
 
 import { categoryColors } from "../categoryColors";
-import { Box } from "@mui/material";
 
 const Legends = (): JSX.Element => {
   return (

@@ -14,28 +14,9 @@
   overflow-y: auto;
 }
 
-@media screen and (max-height: 800px) {
-  div.FilterList {
-    max-height: 60vh;
-  }
-}
-
-@media screen and (max-height: 750px) {
-  div.FilterList {
-    max-height: 53vh;
-  }
-}
-
-@media screen and (max-height: 670px) {
-  div.FilterList {
-    max-height: 47vh;
-  }
-}
-
-@media screen and (max-width: 300px) {
-  div.FilterList {
-    max-height: 45vh;
-  }
+.FilterContainer {
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .FilterTable {
@@ -55,22 +36,4 @@
 
 .JobRow:hover {
   cursor: pointer;
-}
-
-.JobLogo {
-  padding-left: 20px;
-}
-
-.JobActiveStyle {
-  color: green;
-  font-weight: 700;
-}
-
-.JobInActiveStyle {
-  color: red;
-  font-weight: 700;
-}
-
-.JobRow {
-  outline: 2px;
 }
