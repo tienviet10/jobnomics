@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import JobPage from "./pages/JobPage";
 import SearchPage from "./pages/Search";
 import NotePage from "./pages/NotePage";
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthenticationGuard } from './components/auth/authentication-guard';
 import { useAuth0 } from '@auth0/auth0-react';
 import PageLoader from './components/PageLoader';
@@ -11,15 +11,15 @@ import PageLoader from './components/PageLoader';
 const Router = () => {
   const { isAuthenticated, isLoading } = useAuth0();
 
-  if (isLoading){
+  if (isLoading) {
     return (
-      <PageLoader/>
-    )
+      <PageLoader />
+    );
   }
 
   return (
     <Routes>
-      {isAuthenticated &&
+      {isAuthenticated ?
         <>
           <Route
             path="/search"
@@ -34,9 +34,10 @@ const Router = () => {
             element={<NotePage />}
           />
         </>
+        :
+        <Route path="/" element={<Home />} />
       }
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<Home />} />
+      <Route path="*" element={<Navigate to={isAuthenticated ? "/job" : "/"} />} />
     </Routes>
   );
 };

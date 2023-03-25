@@ -15,14 +15,7 @@ import Auth0ProviderWithNavigate from "./components/auth/Auth0ProviderWithNaviga
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Auth0ProviderWithNavigate
-      // domain={domain}
-      // clientId={clientId}
-      // authorizationParams={{
-      //   audience: audience,
-      //   redirect_uri: window.location.origin || redirectUri,
-      // }}
-      >
+      <Auth0ProviderWithNavigate>
         <Provider store={store}>
           <App />
         </Provider>
