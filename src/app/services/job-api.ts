@@ -30,7 +30,7 @@ export const jobApi = createApi({
       providesTags: ["allJobs"],
       transformResponse: (response: AllJobsDataType, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -47,7 +47,7 @@ export const jobApi = createApi({
       providesTags: ["allNotes"],
       transformResponse: (response: NotesType[], meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -62,13 +62,13 @@ export const jobApi = createApi({
       },
       transformResponse: (response: AddANewJobResponse, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
       invalidatesTags: ["allJobs"],
     }),
-    addChecklists: builder.mutation<{ message: string }, { jobId: number }>({
+    addChecklists: builder.mutation<{ message: string; }, { jobId: number; }>({
       query(body) {
         return {
           url: "job/",
@@ -78,8 +78,8 @@ export const jobApi = createApi({
       },
     }),
     addInterviewQuestions: builder.mutation<
-      { message: string },
-      { jobId: number }
+      { message: string; },
+      { jobId: number; }
     >({
       query(body) {
         return {
@@ -98,10 +98,10 @@ export const jobApi = createApi({
           body: patch,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -138,9 +138,9 @@ export const jobApi = createApi({
           body: patch,
         };
       },
-      transformResponse: (response: { data: JobType }, meta, arg) => response,
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -153,10 +153,10 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -168,21 +168,21 @@ export const jobApi = createApi({
         method: "PATCH",
         body: patch,
       }),
-      transformResponse: (response: { data: JobType }, meta, arg) =>
+      transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob", "allNotes"],
+      invalidatesTags: ["allNotes"],
     }),
     filterJobs: builder.query<Job[], UserRequest>({
       query: (params) => ({
         url: "job/filter",
         params,
       }),
-      transformResponse: (response: any, meta, arg) => response,
+      transformResponse: (response: Job[], meta, arg) => response,
       providesTags: ["filterJob"],
     }),
     rejectedReason: builder.mutation({
@@ -192,9 +192,9 @@ export const jobApi = createApi({
         body: patch,
       }),
       invalidatesTags: ["aJob"],
-      transformResponse: (response: { message: string }, meta, arg) => response,
+      transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
@@ -204,7 +204,7 @@ export const jobApi = createApi({
         url: `job/interviewDate/${jobId}`,
       }),
       transformResponse: (
-        response: { interviewDate?: string; error?: string },
+        response: { interviewDate?: string; error?: string; },
         meta,
         arg
       ) => response,
@@ -221,7 +221,7 @@ export const jobApi = createApi({
       providesTags: ["auth"],
       transformResponse: (response: AllJobsDataType, meta, arg) => response,
       transformErrorResponse: (
-        response: { status: string | number },
+        response: { status: string | number; },
         meta,
         arg
       ) => response.status,
