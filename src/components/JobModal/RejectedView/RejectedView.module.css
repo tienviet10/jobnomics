@@ -1,26 +1,13 @@
 .RejectedContainer {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-}
-
-@media screen and (max-height: 670px) {
-  div.RejectedContainer {
-    height: 43vh;
-    padding: 0 20px;
-  }
-}
-
-@media screen and (max-width: 300px) {
-  div.RejectedContainer {
-    height: 38vh;
-  }
+  overflow: auto;
 }
 
 .RejectedMain {
   display: flex;
   flex-direction: column;
-  overflow: auto;
+  justify-content: flex-start;
 }
 
 .Question {

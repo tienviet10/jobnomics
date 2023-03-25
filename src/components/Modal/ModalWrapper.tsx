@@ -232,6 +232,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                   <FormControl
                     sx={{
                       minWidth: { xs: "200px", sm: "auto" },
+                      maxWidth: { sm: "200px" },
                       width: { xs: "100%" },
                       mt: 2,
                     }}
