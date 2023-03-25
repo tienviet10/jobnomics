@@ -1,3 +1,11 @@
+.SpinnerContainer {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .Spinner {
   --size: 75px;
   --clr-bg: #272324;

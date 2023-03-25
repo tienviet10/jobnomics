@@ -223,7 +223,7 @@ const InterviewedView = (): JSX.Element => {
                 alignItems: "start",
               },
             }}
-            rows={7}
+            rows={8}
             placeholder="Write your notes here..."
             multiline
             fullWidth

@@ -153,7 +153,7 @@ const JobDeleteConfirmModal = ({
             </div>
           </section>
         )}
-        {isLoading && <LoadingAnimation />}
+        {isLoading && <LoadingAnimation>Deleting job...</LoadingAnimation>}
         {isSuccess && (
           <section className={styles.DeleteConfirmModalMain}>
             <Typography>

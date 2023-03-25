@@ -108,10 +108,9 @@ const InterviewingView = () => {
       >
         {!selectedJob?.job?.interviewExamples ? (
           <div className={styles.LoadingContainer}>
-            <LoadingAnimation />
-            <Typography variant="subtitle2" sx={{ pt: 2 }}>
+            <LoadingAnimation>
               Preparing sample interview questions and answers...
-            </Typography>
+            </LoadingAnimation>
           </div>
         ) : (
           <>
