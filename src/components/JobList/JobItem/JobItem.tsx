@@ -39,15 +39,17 @@ const JobItem = ({
 
   const handleToggleFavorite = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
-    const body = {
-      jobId: id,
-      categoryId: data?.allActiveJobs[category]?.id,
-      favorite: !isFavorite,
-      interviewDate: null,
-      type: "update",
-    };
-    setLocalFavorite(prev => !prev);
-    updateJob(body);
+    setLocalFavorite(prev => {
+      const body = {
+        jobId: id,
+        categoryId: data?.allActiveJobs[category]?.id,
+        favorite: !prev,
+        interviewDate: null,
+        type: "update",
+      };
+      updateJob(body);
+      return !prev
+    });
   };
 
   useEffect(() => {

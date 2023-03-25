@@ -30,14 +30,15 @@ const EachRow: React.FC<any> = ({
   const [updateJob] = useUpdateJobMutation();
 
   const handleToggleFavorite = (job: Job) => {
-    setLocalFavorite(!job.isFavorite);
-    console.log("Job", job);
-    updateJob({
-      jobId: job.id,
-      categoryId: job.categoryId,
-      favorite: !job.isFavorite,
-      interviewDate: job.interviewDate,
-      type: "update",
+    setLocalFavorite(prev => {
+      updateJob({
+        jobId: job.id,
+        categoryId: job.categoryId,
+        favorite: !prev,
+        interviewDate: job.interviewDate,
+        type: "update",
+      });
+      return !prev
     });
   };
 

@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-
 import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
   useUpdateChecklistMutation,
 } from "../../../app/services/job-api";
 import { setNewNote, toggleCheckbox } from "../../../features/jobSlice";
-
 import styles from "./InterviewedView.module.css";
 import {
   Alert,
@@ -21,23 +19,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-
 import { CheckCircle } from "@mui/icons-material";
-
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
+  const { selectedJob } = useGetAJob();
+
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
   const [progress, setProgress] = useState(0);
   const [isNotepad, setIsNotepad] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
-
-  const [saveNote, { isLoading, isSuccess, isError }] = useUpdateNoteMutation();
+  const [saveNote, { isSuccess }] = useUpdateNoteMutation();
   const [updateChecklist] = useUpdateChecklistMutation();
-
-  const { selectedJob, skills } = useGetAJob();
+  const [noteState, setNoteState] = useState(selectedJob.note || "");
 
   const handleToggleChecklist = (event: { target: { id: string } }) => {
     const checkboxId = Number(event.target.id);
@@ -117,20 +113,28 @@ const InterviewedView = (): JSX.Element => {
   const handleNoteChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    dispatch(setNewNote(event.target.value));
+    setNoteState(event.target.value)
+    // dispatch(setNewNote(event.target.value));
   };
 
   const handleSaveNote = async () => {
-    saveNote({
-      note: selectedJob.note,
-      jobId: selectedJob.job.id,
-      categoryId: selectedJob.category.id,
-    });
+    if (noteState !== selectedJob.note) {
+      dispatch(setNewNote(noteState))
+      saveNote({
+        note: noteState,
+        jobId: selectedJob.job.id,
+        categoryId: selectedJob.category.id,
+      });
+    }
   };
 
   const handleAlertClose = () => {
     setAlertOpen(false);
   };
+
+  useEffect(()=>{
+    setNoteState(selectedJob.note);
+  },[selectedJob.note])
 
   useEffect(() => {
     if (isSuccess) setAlertOpen(true);
@@ -227,7 +231,7 @@ const InterviewedView = (): JSX.Element => {
             placeholder="Write your notes here..."
             multiline
             fullWidth
-            value={selectedJob.note || ""}
+            value={noteState}
             onChange={handleNoteChange}
             onBlur={handleSaveNote}
           ></TextField>
