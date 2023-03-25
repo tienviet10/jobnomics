@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
 import {
@@ -29,18 +29,15 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState, previousJob, refetch } = useGetAJob();
+  const { modalState, refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
-  // const { allJobs, staleJobs } = data;
+  const [updateJob] = useUpdateJobMutation();
 
   const job: AllActiveJobsType | undefined = data?.allActiveJobs[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
-  
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
-  const [updateJob] = useUpdateJobMutation();
-
-  const handleToggleFavorite = (event: { preventDefault: () => void }) => {
+  const handleToggleFavorite = (event: { preventDefault: () => void; }) => {
     event.preventDefault();
     const body = {
       jobId: id,
@@ -50,9 +47,12 @@ const JobItem = ({
       type: "update",
     };
     setLocalFavorite(prev => !prev);
-    // dispatch(toggleFavorite([category, id, !isFavorite]));
     updateJob(body);
   };
+
+  useEffect(() => {
+    setLocalFavorite(isFavorite);
+  }, [isFavorite]);
 
   const handleOpenModal = async () => {
     dispatch(
