@@ -15,7 +15,14 @@ const ChipsComponent: React.FC<RemindersListType> = ({
   );
 
   return (
-    <Stack direction="row" spacing={1} height={50} sx={{ overflow: "auto" }}>
+    <Stack
+      direction="row"
+      spacing={1}
+      mb={1}
+      sx={{
+        overflow: "auto",
+      }}
+    >
       {choices.map((choice) => {
         return filterState[choice].map(
           (cate: CheckBoxEntity) =>
