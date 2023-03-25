@@ -175,7 +175,7 @@ export const jobApi = createApi({
         meta,
         arg
       ) => response.status,
-      invalidatesTags: ["aJob", "allNotes"],
+      invalidatesTags: ["allNotes"],
     }),
     filterJobs: builder.query<Job[], UserRequest>({
       query: (params) => ({

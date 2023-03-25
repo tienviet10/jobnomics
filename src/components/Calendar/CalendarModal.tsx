@@ -43,7 +43,6 @@ const CalendarModal = ({
   const [openDetail, setOpenDetail] = useState(false);
 
   const populateInterviewDates = () => {
-    console.log(interviewDates);
     const newState = interviewDates?.map(
       (interview: InterviewResponseType, index: number) => {
         return {
