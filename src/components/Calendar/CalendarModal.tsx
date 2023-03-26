@@ -63,10 +63,10 @@ const CalendarModal = ({
     setOpenDetail(true);
   };
 
-  const handleShowMore = (events: any, date: any) => {
-    console.log(events);
-    console.log(date);
-  };
+  // const handleShowMore = (events: any, date: any) => {
+  //   console.log(events);
+  //   console.log(date);
+  // };
 
   const handleSelectedEventClose = () => {
     setOpenDetail(false);
