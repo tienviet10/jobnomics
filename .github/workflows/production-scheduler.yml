@@ -2,8 +2,7 @@ name: Copy main branch to production branch
 
 on:
   schedule:
-    - cron: '0 7 * * *' # Run every day at midnight UTC
-
+    - cron: '0 7 * * *' # Run every day at 3am Toronto
 jobs:
   copy-to-production:
     runs-on: ubuntu-latest
@@ -13,7 +12,7 @@ jobs:
         with:
           ref: main
 
-      - name: Merge emergency into production
+      - name: Merge main into production
         run: |
           git config --global user.email "viettran101294@gmail.com"
           git config --global user.name "tienviet10"
