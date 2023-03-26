@@ -11,7 +11,15 @@
 
 @media screen and (max-width: 1800px) {
   .JobListHeader {
-    width: calc(100vw - 60px);
+    position: fixed;
+    left: 30px;
+    width: calc(100vw - 55px);
+  }
+}
+
+@media screen and (max-height: 750px) {
+  .JobListHeader {
+    top: 10px;
   }
 }
 

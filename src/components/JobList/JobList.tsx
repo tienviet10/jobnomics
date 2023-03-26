@@ -126,7 +126,10 @@ const JobList = (): JSX.Element => {
     <DragDropContext onDragEnd={handleOnDragEnd}>
       {data?.allActiveJobs && (
         <Box className={styles.JobListContainer}>
-          <div className={styles.JobListHeader}>
+          <Box
+            className={styles.JobListHeader}
+            sx={{ top: { xs: "70px", sm: "90px" } }}
+          >
             <Typography
               variant="h4"
               className={styles.JobListTitle}
@@ -152,7 +155,7 @@ const JobList = (): JSX.Element => {
               <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
               <Typography variant="caption">Calendar</Typography>
             </Button>
-          </div>
+          </Box>
           <Paper
             elevation={5}
             className={styles.JobBoard}

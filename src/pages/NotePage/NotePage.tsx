@@ -82,7 +82,7 @@ const NotePage = () => {
                 onChange={handleSortColumnChange}
                 size="small"
                 sx={{
-                  bgcolor: "#ffffff",
+                  // bgcolor: "#ffffff",
                   width: { xs: "100%", sm: "200px" },
                   maxWidth: "300px",
                 }}
@@ -131,7 +131,9 @@ const NotePage = () => {
                   />
                   <Typography
                     sx={{
-                      flex: 1,
+                      flexGrow: 1,
+                      flexShrink: 0,
+                      width: "33%",
                       maxWidth: "33%",
                       alignSelf: "center",
                       mx: { xs: 2, sm: 4, md: 5 },
@@ -152,7 +154,10 @@ const NotePage = () => {
                       {new Date(noteData.interviewDate).toLocaleDateString()}
                     </Typography>
                   )}
-                  <Typography className={styles.NoteMain}>
+                  <Typography
+                    className={styles.NoteMain}
+                    sx={{ backgroundColor: "neutral.light" }}
+                  >
                     {noteData.note}
                   </Typography>
                 </AccordionDetails>

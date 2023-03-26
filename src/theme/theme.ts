@@ -45,40 +45,16 @@ const theme = createTheme({
       '"Segoe UI Symbol"',
     ].join(","),
     h4: {
-      fontFamily: [
-        "Dongle",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
-      fontSize: "1.8rem",
+      fontSize: "1.6rem",
       "@media (min-width:600px)": {
-        fontSize: "2.0rem",
+        fontSize: "1.8rem",
       },
       "@media (min-width:900px)": {
-        fontSize: "3rem",
+        fontSize: "2rem",
       },
       fontWeight: "bold",
     },
     h5: {
-      fontFamily: [
-        "Roboto",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
       fontSize: "1.4rem",
       lineHeight: 1.2,
       "@media (min-width:600px)": {
@@ -93,18 +69,6 @@ const theme = createTheme({
     },
 
     h6: {
-      fontFamily: [
-        "Roboto",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        "Roboto",
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
       fontSize: "1rem",
       lineHeight: 1.2,
       fontWeight: 700,
@@ -133,38 +97,18 @@ const theme = createTheme({
       fontWeight: 700,
     },
     subtitle2: {
-      fontFamily: [
-        "Roboto",
-        "BlinkMacSystemFont",
-        '"Segoe UI"',
-        '"Helvetica Neue"',
-        "Arial",
-        "sans-serif",
-        '"Apple Color Emoji"',
-        '"Segoe UI Emoji"',
-        '"Segoe UI Symbol"',
-      ].join(","),
       fontSize: "0.9rem",
       fontWeight: 700,
       "@media (min-width:900px)": {
         fontSize: "1.1rem",
       },
     },
-    body1: {
-      // fontWeight: 500,
-    },
     caption: {
-      fontWeight: 500,
+      fontWeight: 400,
       fontSize: "0.8rem",
       "@media (min-width:600px)": {
         fontSize: "0.9rem",
       },
-      "@media (min-width:900px)": {
-        fontSize: "1rem",
-      },
-    },
-    button: {
-      // fontSize: 15,
     },
   },
 });

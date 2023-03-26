@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useGetAllJobsQuery } from "../../app/services/job-api";
 
 import styles from "./JobPage.module.css";
+import { Box } from "@mui/material";
 
 import JobList from "../../components/JobList";
 import JobModal from "../../components/JobModal";
@@ -34,7 +35,7 @@ const JobPage = () => {
   }, [data]);
 
   return (
-    <div className={styles.JobPage}>
+    <Box className={styles.JobPage} sx={{ pt: { xs: 9, sm: 12 } }}>
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal
@@ -43,7 +44,7 @@ const JobPage = () => {
       />
 
       <JobModal />
-    </div>
+    </Box>
   );
 };
 
