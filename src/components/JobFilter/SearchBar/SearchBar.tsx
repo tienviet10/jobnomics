@@ -1,22 +1,51 @@
 import React from "react";
 
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { handleSearch } from "../../../features/filterSlice";
+import { RootState } from "../../../app/store";
 
 import styles from "./SearchBar.module.css";
-import { TextField } from "@mui/material";
+import {
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
+} from "@mui/material";
+import { ClearRounded } from "@mui/icons-material";
 
 const SearchBar = (): JSX.Element => {
   const dispatch = useDispatch();
 
+  const handleEmptyInput = () => {
+    dispatch(handleSearch(""));
+  };
+
+  const searchWord: string = useSelector(
+    (state: RootState) => state.filter.searchWord
+  );
+
   return (
-    <TextField
-      placeholder="Type here..."
-      label="Search"
-      onChange={(e) => dispatch(handleSearch(e.target.value))}
-      sx={{ margin: "10px 0", background: "#ffffff" }}
-      className={styles.SearchBar}
-    />
+    <FormControl className={styles.SearchBar} variant="outlined" size="small">
+      <InputLabel htmlFor="display-name">Search</InputLabel>
+      <OutlinedInput
+        placeholder="Type here..."
+        label="Search"
+        sx={{ background: "#ffffff" }}
+        onChange={(e) => dispatch(handleSearch(e.target.value))}
+        endAdornment={
+          <InputAdornment position="end">
+            <IconButton
+              aria-label="empty input field"
+              onClick={handleEmptyInput}
+              edge="end"
+            >
+              {searchWord && <ClearRounded />}
+            </IconButton>
+          </InputAdornment>
+        }
+      />
+    </FormControl>
   );
 };
 
