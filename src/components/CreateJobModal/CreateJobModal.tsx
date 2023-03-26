@@ -13,8 +13,9 @@ import {
   Alert,
   Box,
   TextField,
+  InputAdornment,
 } from "@mui/material";
-import { Close, Error } from "@mui/icons-material";
+import { ClearRounded, Close, Error } from "@mui/icons-material";
 import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
@@ -117,6 +118,10 @@ const CreateJobModal = ({
     }
   }, [isSuccess, isError]);
 
+  const handleEmptyInput = () => {
+    setValue("");
+  };
+
   return (
     <Modal
       open={open}
@@ -164,6 +169,17 @@ const CreateJobModal = ({
                 setValue(event.target.value);
               }}
               sx={{ my: 2 }}
+              endAdornment={
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="empty input field"
+                    onClick={handleEmptyInput}
+                    edge="end"
+                  >
+                    {value && <ClearRounded />}
+                  </IconButton>
+                </InputAdornment>
+              }
             />
             <Button
               variant="contained"
@@ -360,7 +376,7 @@ const CreateJobModal = ({
             <Button
               variant="contained"
               sx={{ mt: 3, width: { xs: "100%", sm: "200px" } }}
-              onClick={()=> handleCloseWhenFail()}
+              onClick={() => handleCloseWhenFail()}
             >
               Okay
             </Button>
