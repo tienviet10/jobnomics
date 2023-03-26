@@ -33,6 +33,7 @@ export function useManageSearchPage(): ManageSearchPageType {
     ],
     skills: [],
     columnFilter: ["createdAt", "desc"],
+    status: []
   });
   const { data, isLoading } = useFilterJobsQuery(queryStr);
 
@@ -56,11 +57,15 @@ export function useManageSearchPage(): ManageSearchPageType {
       const newSkills = queryStr["skills"].filter(
         (val: string) => val !== item.name
       );
+      const newStatus = queryStr["status"].filter(
+        (val: string) => val !== item.name
+      );
 
       setQueryStr((prev: UserRequest) => ({
         ...prev,
         category: newCategory,
         skills: newSkills,
+        status: newStatus
       }));
     }
   };
@@ -73,11 +78,13 @@ export function useManageSearchPage(): ManageSearchPageType {
       .concat(filterState.framework)
       .filter((obj: CheckBoxEntity) => obj.check)
       .map((obj: CheckBoxEntity) => obj.name);
+    const statusArr = filterState.status.filter((state) => state.check).map((state) => state.name);
 
     setQueryStr({
       category: newCategory,
       skills: languagesAndFramework,
       columnFilter: columnFilterState,
+      status: statusArr
     });
   };
 

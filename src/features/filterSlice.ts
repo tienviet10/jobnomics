@@ -21,6 +21,7 @@ const initialState: FilterStateType = {
       { name: "react", check: false },
       { name: "rails", check: false },
     ],
+    status: [{ name: "active", check: false }, { name: "inactive", check: false }]
   },
   columnFilter: ["createdAt", "desc"],
   firstFetch: true,
