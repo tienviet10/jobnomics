@@ -20,14 +20,7 @@ const AcceptedView = () => {
           pb: 0,
         }}
       >
-        <Typography
-          variant="h5"
-          className={styles.Congratulation}
-          sx={{
-            fontSize: { xs: "18px", sm: "20px", md: "24px" },
-            fontWeight: "bold",
-          }}
-        >
+        <Typography variant="h6" className={styles.Congratulation}>
           Congratulations on getting a job offer!
         </Typography>
         <Typography variant="body1" className={styles.TopHeader}>
@@ -39,6 +32,7 @@ const AcceptedView = () => {
             href="https://hbr.org/2014/04/15-rules-for-negotiating-a-job-offer"
             target="_blank"
             rel="noreferrer"
+            color="info.main"
             className={styles.Link}
           >
             Salary Negotiation Tips <OpenInNew sx={{ fontSize: "15px" }} />
@@ -49,6 +43,7 @@ const AcceptedView = () => {
             href="https://www.levels.fyi/"
             target="_blank"
             rel="noreferrer"
+            color="info.main"
             className={styles.Link}
           >
             Levels.fyi Average Salary Data{" "}
@@ -60,6 +55,7 @@ const AcceptedView = () => {
             href="https://www.glassdoor.ca/Salaries/know-your-worth.htm"
             target="_blank"
             rel="noreferrer"
+            color="info.main"
             className={styles.Link}
           >
             Glassdoor Salary Calculator <OpenInNew sx={{ fontSize: "15px" }} />
@@ -67,12 +63,7 @@ const AcceptedView = () => {
         </Container>
       </Box>
       {selectedJob?.job?.skills && (
-        <Alert
-          severity="info"
-          sx={{
-            fontSize: { xs: "13px", md: "16px" },
-          }}
-        >
+        <Alert severity="info">
           <strong>Required Skills:</strong> {skills}
         </Alert>
       )}

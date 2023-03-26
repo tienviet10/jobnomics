@@ -193,10 +193,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                 <Typography
                   variant="h5"
                   className={styles.JobTitle}
-                  sx={{
-                    fontSize: { xs: "20px", sm: "24px" },
-                    fontWeight: "bold",
-                  }}
                   gutterBottom
                 >
                   {selectedJob.job?.title}
@@ -211,15 +207,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                   <Box
                     sx={{
                       maxWidth: "100%",
-                      flexShrink: { xs: 0 },
+                      flexShrink: { xs: 0, sm: 1 },
                       mr: { xs: 0, sm: 4 },
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      className={styles.JobCompany}
-                      sx={{ fontSize: { xs: "15px", sm: "20px" } }}
-                    >
+                    <Typography variant="h6" className={styles.JobCompany}>
                       {selectedJob.job?.company} | {selectedJob.job?.location}
                     </Typography>
                     <Typography

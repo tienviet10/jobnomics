@@ -52,17 +52,17 @@ const RejectedView = () => {
     <Box
       className={styles.RejectedContainer}
       sx={{
-        px: { xs: "0", sm: "20px", md: "30px" },
+        px: { xs: 0, sm: "20px", md: "30px" },
+        py: { xs: 0, sm: 2, md: 5 },
         pb: 0,
         mb: 1,
       }}
     >
       <Box className={styles.RejectedMain}>
         <Typography
-          variant="h5"
+          variant="body1"
           className={styles.Question}
           sx={{
-            fontSize: { xs: "18px", sm: "20px", md: "24px" },
             my: { xs: 2 },
           }}
         >

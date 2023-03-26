@@ -6,11 +6,7 @@ import styles from "./JobCategory.module.css";
 import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
-import type {
-  AllActiveJobsType,
-  CategoryProps,
-  Job,
-} from "../../../types/jobTypes";
+import type { AllActiveJobsType, CategoryProps } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const { data } = useGetAllJobsQuery();
@@ -34,7 +30,7 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
             </Typography>
             {category === "Bookmarked" && (
               <Button variant="contained" onClick={handleAddJobClick}>
-                <Typography variant="subtitle2">Add New Job</Typography>
+                Add new job
               </Button>
             )}
           </div>

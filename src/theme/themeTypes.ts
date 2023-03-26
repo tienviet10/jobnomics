@@ -5,6 +5,9 @@ declare module "@mui/material/styles" {
     darker?: string;
     main: string;
     translucent: string;
+    light: string;
+    dark: string;
+    contrastText: string;
   }
 
   interface SimplePaletteColorOptions {
@@ -35,6 +38,14 @@ declare module "@mui/material/styles" {
     info?: PaletteColorOptions;
     success?: PaletteColorOptions;
     neutral?: PaletteColorOptions;
+    accent?: CustomPaletteOptions;
+  }
+
+  interface CustomPaletteOptions {
+    main: string;
+    light: string;
+    dark: string;
+    contrastText: string;
   }
 
   interface overrides {
