@@ -100,11 +100,7 @@ const InterviewedView = (): JSX.Element => {
             onChange={handleToggleChecklist}
           />
         }
-        label={
-          <Typography sx={{ fontSize: { xs: "13px", sm: "18px" } }}>
-            {checklist.description}
-          </Typography>
-        }
+        label={<Typography variant="body1">{checklist.description}</Typography>}
       />
     );
   });
@@ -192,7 +188,7 @@ const InterviewedView = (): JSX.Element => {
           <LinearProgress
             variant="determinate"
             value={progress}
-            color={progress === 100 ? "success" : "primary"}
+            color={"success"}
             className={styles.CheckboxProgressBar}
             sx={{
               p: 0.4,
@@ -204,14 +200,7 @@ const InterviewedView = (): JSX.Element => {
         </Box>
       ) : (
         <div className={styles.NotepadMain}>
-          <Typography
-            variant="h5"
-            sx={{
-              fontSize: { xs: "18px", sm: "20px", md: "24px" },
-              fontWeight: "bold",
-            }}
-            gutterBottom
-          >
+          <Typography variant="h6" gutterBottom>
             Keep track of your interview experince.
           </Typography>
           <Typography variant="body2" gutterBottom>

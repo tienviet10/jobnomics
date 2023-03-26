@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useGetAllJobsQuery } from "../../app/services/job-api";
 
 import styles from "./JobPage.module.css";
+import { Box } from "@mui/material";
 
 import JobList from "../../components/JobList";
 import JobModal from "../../components/JobModal";
 import InterviewDateModal from "../../components/InterviewDateModal";
 import InactiveJobsModal from "../../components/InactiveJobsModal.tsx";
-import CalendarModal from "../../components/Calendar";
 
 const JobPage = () => {
   const { data } = useGetAllJobsQuery();
@@ -22,7 +22,7 @@ const JobPage = () => {
     );
 
     const msSinceLastReminder = currentDate - lastInactiveJobReminder;
-    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24 * 3;
+    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24;
 
     if (moreThan3Days && data && data.staleJobs?.length) {
       setOpenInactiveModal(true);
@@ -35,7 +35,7 @@ const JobPage = () => {
   }, [data]);
 
   return (
-    <div className={styles.JobPage}>
+    <Box className={styles.JobPage} sx={{ pt: { xs: 9, sm: 12 } }}>
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal
@@ -44,7 +44,7 @@ const JobPage = () => {
       />
 
       <JobModal />
-    </div>
+    </Box>
   );
 };
 

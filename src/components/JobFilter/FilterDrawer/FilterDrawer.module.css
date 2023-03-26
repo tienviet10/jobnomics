@@ -19,10 +19,4 @@
 
 .FilterColumn {
   display: flex;
-  /* width: 100%; */
-}
-
-.FilterButton {
-  /* align-self: center; */
-  display: block;
 }

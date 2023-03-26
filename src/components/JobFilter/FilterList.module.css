@@ -1,6 +1,8 @@
 .SearchPageMain {
   max-width: 1500px;
   margin: 0 auto;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .SearchPageHeader {
@@ -10,25 +12,16 @@
   align-items: center;
 }
 
-.FilterList {
-  overflow-y: auto;
-}
-
 .FilterContainer {
   display: flex;
   flex-direction: row-reverse;
   align-items: center;
 }
 
-.FilterTable {
-  position: relative;
-}
-
 .JobTableHead {
   position: sticky;
   top: 0;
   z-index: 1;
-  background-color: rgb(246, 246, 246);
 }
 
 .TableLabel {

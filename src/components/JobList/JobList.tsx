@@ -126,8 +126,15 @@ const JobList = (): JSX.Element => {
     <DragDropContext onDragEnd={handleOnDragEnd}>
       {data?.allActiveJobs && (
         <Box className={styles.JobListContainer}>
-          <div className={styles.JobListHeader}>
-            <Typography variant="h5" className={styles.JobListTitle}>
+          <Box
+            className={styles.JobListHeader}
+            sx={{ top: { xs: "70px", sm: "90px" } }}
+          >
+            <Typography
+              variant="h4"
+              className={styles.JobListTitle}
+              color="accent.main"
+            >
               <span>
                 {user?.name ||
                   user?.given_name ||
@@ -139,13 +146,21 @@ const JobList = (): JSX.Element => {
             </Typography>
             <Button
               onClick={() => setCalendarOpen(true)}
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "accent.main",
+              }}
             >
               <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
               <Typography variant="caption">Calendar</Typography>
             </Button>
-          </div>
-          <Paper elevation={1} className={styles.JobBoard}>
+          </Box>
+          <Paper
+            elevation={5}
+            className={styles.JobBoard}
+            sx={{ backgroundColor: "primary.light" }}
+          >
             {Object.keys(data?.allActiveJobs).map(
               (category: string, index: number) => (
                 <JobCategory key={index} category={category} />

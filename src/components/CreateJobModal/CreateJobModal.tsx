@@ -151,7 +151,10 @@ const CreateJobModal = ({
               <Typography variant="h6" gutterBottom>
                 Copy and paste the link to the job posting below:
               </Typography>
-              <Alert severity="info">
+              <Alert
+                severity="info"
+                sx={{ backgroundColor: "accent.translucent" }}
+              >
                 At the moment, we only support{" "}
                 <strong style={{ fontWeight: "bold" }}>LinkedIn</strong> ,{" "}
                 <strong style={{ fontWeight: "bold" }}>ZipRecruiter</strong> and{" "}
@@ -392,6 +395,7 @@ const CreateJobModal = ({
               onClick={() => {
                 setUseLink((prev) => !prev);
               }}
+              sx={{ color: "accent.dark" }}
             >
               {useLink ? "Add Job Manually" : "Add Job With a Link"}
             </Button>
