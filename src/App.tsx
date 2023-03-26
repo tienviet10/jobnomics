@@ -6,21 +6,23 @@ import { security } from "./components/auth/GlobalAuth";
 import NavBar from "./components/NavBar";
 import Router from "./Router";
 
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { theme } from "./theme/palette";
+import { CssBaseline } from "@mui/material";
+import { ThemeProvider } from "@mui/material/styles";
+
+import { theme } from "./theme/theme";
 
 function App() {
   const { getAccessTokenSilently } = useAuth0();
   security.setAccessTokenSilently(getAccessTokenSilently);
 
   return (
-    <div className="App">
-      <CssBaseline />
-      <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <CssBaseline />
         <Router />
-      </ThemeProvider>
-      <NavBar />
-    </div>
+        <NavBar />
+      </div>
+    </ThemeProvider>
   );
 }
 

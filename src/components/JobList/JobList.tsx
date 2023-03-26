@@ -145,7 +145,11 @@ const JobList = (): JSX.Element => {
               <Typography variant="caption">Calendar</Typography>
             </Button>
           </div>
-          <Paper elevation={1} className={styles.JobBoard}>
+          <Paper
+            elevation={1}
+            className={styles.JobBoard}
+            sx={{ backgroundColor: "primary.light" }}
+          >
             {Object.keys(data?.allActiveJobs).map(
               (category: string, index: number) => (
                 <JobCategory key={index} category={category} />

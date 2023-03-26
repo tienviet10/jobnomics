@@ -6,7 +6,11 @@ import styles from "./JobCategory.module.css";
 import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
-import type { AllActiveJobsType, CategoryProps, Job } from "../../../types/jobTypes";
+import type {
+  AllActiveJobsType,
+  CategoryProps,
+  Job,
+} from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const { data } = useGetAllJobsQuery();
@@ -19,7 +23,11 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   return (
     <>
       {data?.allActiveJobs && (
-        <Paper elevation={3} className={styles.JobListContainer}>
+        <Paper
+          elevation={3}
+          className={styles.JobListContainer}
+          sx={{ backgroundColor: "error.light" }}
+        >
           <div className={styles.JobListHeader}>
             <Typography variant="subtitle1" className={styles.CategoryLabel}>
               {category}
@@ -38,7 +46,9 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 sx={{
-                  bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8",
+                  backgroundColor: snapshot.isDraggingOver
+                    ? "info.light"
+                    : "info.main",
                   pb: snapshot.isDraggingOver ? 5 : 2,
                 }}
               >
