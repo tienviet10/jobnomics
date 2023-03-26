@@ -71,7 +71,7 @@ const NavBar = () => {
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/job",
+        returnTo: "/register",
       },
       authorizationParams: {
         prompt: "login",
@@ -82,7 +82,7 @@ const NavBar = () => {
   const handleSignup = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/job",
+        returnTo: "/register",
       },
       authorizationParams: {
         screen_hint: "signup",

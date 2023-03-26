@@ -233,7 +233,7 @@ const InterviewedView = (): JSX.Element => {
             placeholder="Write your notes here..."
             multiline
             fullWidth
-            value={noteState}
+            value={noteState || ""}
             onChange={handleNoteChange}
             onBlur={handleSaveNote}
           ></TextField>
