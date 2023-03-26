@@ -22,6 +22,7 @@ const choices = [
   { name: "Application Status", filter: "category" },
   { name: "Languages", filter: "languages" },
   { name: "Framework", filter: "framework" },
+  { name: "Status", filter: "status" },
 ];
 
 const FilterDrawer: React.FC<DrawComponentType> = ({

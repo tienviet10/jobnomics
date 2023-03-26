@@ -11,7 +11,7 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
 };
 
 // export type InactiveJobsType = {
@@ -20,7 +20,7 @@ export type UserJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 // export type categoriesType = {
@@ -175,6 +175,7 @@ export type UserRequest = {
   category: string[];
   skills: string[];
   columnFilter: string[];
+  status: string[];
 };
 
 export type FilterListType = {
@@ -193,7 +194,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
   isSuccess: boolean;
 };
 
@@ -209,7 +210,7 @@ export type AllActiveJobsType = {
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
 };
 
 export type CalendarEventsType = {
