@@ -46,7 +46,7 @@ const Home = () => {
             color="text.primary"
             gutterBottom
           >
-            Jobnomics v2
+            Jobnomics v3
           </Typography>
           <Typography
             variant="h5"
