@@ -188,7 +188,7 @@ const InterviewedView = (): JSX.Element => {
           <LinearProgress
             variant="determinate"
             value={progress}
-            color={"success"}
+            color={progress === 100 ? "success" : "primary"}
             className={styles.CheckboxProgressBar}
             sx={{
               p: 0.4,
