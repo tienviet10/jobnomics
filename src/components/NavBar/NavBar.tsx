@@ -23,7 +23,7 @@ import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 const NavBar = () => {
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const navigate = useNavigate();
-  const { logout } = useManageSearchPage();
+  const { logout, refetch } = useManageSearchPage();
 
   const pages = [
     { name: "Job Board", path: "/job" },
@@ -64,7 +64,10 @@ const NavBar = () => {
 
   const handleClickLink = (event: React.MouseEvent<HTMLElement>, path: To) => {
     setAnchorElNav(null);
-
+    // Send request when user click on the Search tab
+    if (path === "/search") {
+      refetch()
+    }
     navigate(path);
   };
 
