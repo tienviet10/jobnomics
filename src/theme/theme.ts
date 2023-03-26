@@ -1,28 +1,21 @@
 import { createTheme } from "@mui/material/styles";
-import { teal, grey, blueGrey, cyan } from "@mui/material/colors";
+import { teal, grey } from "@mui/material/colors";
 
-export const theme = createTheme({
-  // components: {
-  //   MuiPaper: {
-  //     styleOverrides: {
-  //       root: {
-  //         backgroundColor: "#284B63", // your desired color
-  //       },
-  //     },
-  //   },
-  // },
+const theme = createTheme({
   palette: {
     primary: { main: "#3A506B", dark: "#1C2541" },
     accent: {
-      light: cyan[300],
-      main: "#007A74",
-      dark: cyan[500],
+      light: teal[300],
+      main: teal[400],
+      dark: teal[600],
       contrastText: "rgba(0, 0, 0, 0.87)",
+      translucent: "rgba(38, 166, 153, 0.2)",
     },
     neutral: {
       light: grey[100],
       main: grey[200],
-      dark: grey[300],
+      dark: grey[400],
+      darker: grey[600],
       contrastText: "rgba(0, 0, 0, 0.87)",
     },
     translucent: {
@@ -32,6 +25,10 @@ export const theme = createTheme({
     },
     background: {
       default: grey[100],
+    },
+    action: {
+      disabledBackground: grey[400],
+      disabled: grey[400],
     },
   },
 
@@ -67,9 +64,6 @@ export const theme = createTheme({
       "@media (min-width:900px)": {
         fontSize: "3rem",
       },
-      // "@media (min-width:1200px)": {
-      //   fontSize: "3rem",
-      // },
       fontWeight: "bold",
     },
     h5: {
@@ -95,9 +89,6 @@ export const theme = createTheme({
         fontSize: "1.6rem",
         lineHeight: 1.6,
       },
-      // "@media (min-width:1200px)": {
-      //   fontSize: "3rem",
-      // },
       fontWeight: "bold",
     },
 
@@ -139,7 +130,7 @@ export const theme = createTheme({
         '"Segoe UI Symbol"',
       ].join(","),
       fontSize: "1.6rem",
-      fontWeight: 400,
+      fontWeight: 700,
     },
     subtitle2: {
       fontFamily: [
@@ -177,3 +168,29 @@ export const theme = createTheme({
     },
   },
 });
+
+// theme.overrides = {
+//   /* Button overrides not included to make this easier to read */
+
+//   MuiInputLabel: {
+//     root: {
+//       textTransform: "uppercase",
+
+//       fontSize: "1.5rem",
+//     },
+//   },
+
+//   MuiInput: {
+//     root: {
+//       "&$focused": {
+//         borderColor: teal[400],
+
+//         outlineColor: teal[400],
+//       },
+//     },
+
+//     // we don't need `focused: {}` with overrides
+//   },
+// };
+
+export { theme };

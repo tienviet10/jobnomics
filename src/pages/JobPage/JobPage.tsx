@@ -8,7 +8,6 @@ import JobList from "../../components/JobList";
 import JobModal from "../../components/JobModal";
 import InterviewDateModal from "../../components/InterviewDateModal";
 import InactiveJobsModal from "../../components/InactiveJobsModal.tsx";
-import CalendarModal from "../../components/Calendar";
 
 const JobPage = () => {
   const { data } = useGetAllJobsQuery();
@@ -22,7 +21,7 @@ const JobPage = () => {
     );
 
     const msSinceLastReminder = currentDate - lastInactiveJobReminder;
-    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24 * 3;
+    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24;
 
     if (moreThan3Days && data && data.staleJobs?.length) {
       setOpenInactiveModal(true);

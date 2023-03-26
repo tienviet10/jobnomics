@@ -131,7 +131,7 @@ const RejectedView = () => {
             p: { xs: 1, sm: 2 },
           }}
         >
-          Your response: "{selectedJob?.rejectReason}." Has been saved!
+          Your response: "{selectedJob?.rejectReason}" has been saved!
         </Alert>
       )}
     </Box>

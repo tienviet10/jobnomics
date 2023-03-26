@@ -100,8 +100,11 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
       <Button
         variant="contained"
         onClick={handleSentRequest}
-        sx={{ width: { xs: "100%", sm: "200px" }, mt: 3 }}
-        className={styles.FilterButton}
+        sx={{
+          width: { xs: "100%", sm: "200px" },
+          mt: 3,
+          backgroundColor: "accent.main",
+        }}
       >
         Filter
       </Button>
@@ -113,7 +116,11 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
       <Drawer anchor="top" open={state} onClose={toggleDrawer(false)}>
         {list()}
       </Drawer>
-      <Button onClick={toggleDrawer(true)} className={styles.FilterIconButton}>
+      <Button
+        onClick={toggleDrawer(true)}
+        className={styles.FilterIconButton}
+        sx={{ color: "accent.main" }}
+      >
         <FilterList fontSize="large" />
         <Typography variant="caption">Filter</Typography>
       </Button>

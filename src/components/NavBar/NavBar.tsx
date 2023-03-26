@@ -1,5 +1,5 @@
 import React from "react";
-import { To, useNavigate } from "react-router-dom";
+import { To, useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -22,13 +22,18 @@ import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 
 const NavBar = () => {
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
+  const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
   const { logout } = useManageSearchPage();
 
-  const pages = [
-    { name: "Job Board", path: "/job" },
-    { name: "Search", path: "/search" },
-    { name: "Notes", path: "/notes" },
+  const pages: { name: string; path: string; disabled: boolean }[] = [
+    { name: "Job Board", path: "/job", disabled: location.pathname === "/job" },
+    {
+      name: "Search",
+      path: "/search",
+      disabled: location.pathname === "/search",
+    },
+    { name: "Notes", path: "/notes", disabled: location.pathname === "/notes" },
   ];
   const userSettings = [
     {
@@ -108,7 +113,11 @@ const NavBar = () => {
       menuItems.push(
         <MenuItem
           key={page.name}
-          onClick={(event) => handleClickLink(event, page.path)}
+          onClick={(event) => {
+            if (!page.disabled) {
+              handleClickLink(event, page.path);
+            }
+          }}
         >
           <Typography textAlign="center">{page.name}</Typography>
         </MenuItem>
@@ -210,6 +219,7 @@ const NavBar = () => {
                     display: "block",
                     fontSize: "16px",
                   }}
+                  disabled={page.disabled}
                 >
                   {page.name}
                 </Button>

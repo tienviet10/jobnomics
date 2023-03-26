@@ -160,6 +160,7 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
                 icon={false}
                 severity="info"
                 sx={{
+                  backgroundColor: "accent.translucent",
                   my: 1,
                   display: "flex",
                   alignItems: "center",

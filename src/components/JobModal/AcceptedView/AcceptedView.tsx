@@ -63,7 +63,7 @@ const AcceptedView = () => {
         </Container>
       </Box>
       {selectedJob?.job?.skills && (
-        <Alert severity="info">
+        <Alert severity="info" sx={{ backgroundColor: "accent.translucent" }}>
           <strong>Required Skills:</strong> {skills}
         </Alert>
       )}

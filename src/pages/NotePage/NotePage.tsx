@@ -71,7 +71,7 @@ const NotePage = () => {
       ) : (
         <>
           <div className={styles.NotePageHeader}>
-            <Typography variant="h5" className={styles.NotePageTitle}>
+            <Typography variant="h4" className={styles.NotePageTitle}>
               Interview Notes
             </Typography>
             <div className={styles.SortBy}>

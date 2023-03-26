@@ -18,6 +18,7 @@ declare module "@mui/material/styles" {
     status: {
       danger: React.CSSProperties["color"];
     };
+    overrides: overrides;
   }
 
   interface Palette {
@@ -28,6 +29,7 @@ declare module "@mui/material/styles" {
     info: PaletteColor;
     success: PaletteColor;
     neutral: PaletteColor;
+    accent: PaletteColor;
   }
 
   interface PaletteOptions {
@@ -47,12 +49,35 @@ declare module "@mui/material/styles" {
     light?: string;
     dark?: string;
     contrastText?: string;
+    translucent?: string;
   }
 
   interface overrides {
-    MuiPaper: {
-      root: {
-        bgColor: string;
+    MuiPaper?: {
+      root?: {
+        bgColor?: string;
+      };
+    };
+    MuiInputLabel?: {
+      root?: {
+        textTransform?: string;
+        fontSize?: string;
+      };
+    };
+
+    MuiInput?: {
+      root?: {
+        top?: string;
+        border?: string;
+        outline?: string;
+
+        padding?: string;
+
+        "&$focused"?: {
+          borderColor?: string;
+
+          outlineColor?: string;
+        };
       };
     };
   }

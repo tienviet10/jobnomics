@@ -127,7 +127,11 @@ const JobList = (): JSX.Element => {
       {data?.allActiveJobs && (
         <Box className={styles.JobListContainer}>
           <div className={styles.JobListHeader}>
-            <Typography variant="h5" className={styles.JobListTitle}>
+            <Typography
+              variant="h4"
+              className={styles.JobListTitle}
+              color="accent.main"
+            >
               <span>
                 {user?.name ||
                   user?.given_name ||
@@ -139,7 +143,11 @@ const JobList = (): JSX.Element => {
             </Typography>
             <Button
               onClick={() => setCalendarOpen(true)}
-              sx={{ display: "flex", flexDirection: "column" }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                color: "accent.main",
+              }}
             >
               <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
               <Typography variant="caption">Calendar</Typography>

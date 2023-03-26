@@ -75,8 +75,7 @@ const EachRow: React.FC<any> = ({
       <TableCell
         onClick={() => handleOpenModal(job)}
         sx={{
-          color: job.isActive ? "#000000" : "#A9A9A9",
-          fontWeight: job.isActive ? "normal" : "bold",
+          color: job.isActive ? "#000000" : "neutral.darker",
         }}
       >
         {job.company}
@@ -84,8 +83,7 @@ const EachRow: React.FC<any> = ({
       <TableCell
         onClick={() => handleOpenModal(job)}
         sx={{
-          color: job.isActive ? "#000000" : "#A9A9A9",
-          fontWeight: job.isActive ? "normal" : "bold",
+          color: job.isActive ? "#000000" : "neutral.darker",
           minWidth: "200px",
         }}
       >
@@ -96,8 +94,7 @@ const EachRow: React.FC<any> = ({
         align="center"
         onClick={() => handleOpenModal(job)}
         sx={{
-          color: job.isActive ? "#000000" : "#A9A9A9",
-          fontWeight: job.isActive ? "normal" : "bold",
+          color: job.isActive ? "#000000" : "neutral.darker",
         }}
       >
         {new Date(job.updatedByUserAt).toLocaleDateString(user?.locale)}
@@ -106,8 +103,7 @@ const EachRow: React.FC<any> = ({
         <IconButton
           onClick={() => handleToggleFavorite(job)}
           sx={{
-            color: job.isActive ? "#000000" : "#A9A9A9",
-            fontWeight: job.isActive ? "normal" : "bold",
+            color: job.isActive ? "#000000" : "neutral.dark",
           }}
           disabled={!job.isActive}
         >

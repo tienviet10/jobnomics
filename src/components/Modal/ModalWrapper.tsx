@@ -211,7 +211,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                       mr: { xs: 0, sm: 4 },
                     }}
                   >
-                    <Typography variant="h6" className={styles.JobCompany}>
+                    <Typography
+                      variant="h6"
+                      className={styles.JobCompany}
+                      sx={{ color: "accent.dark" }}
+                    >
                       {selectedJob.job?.company} | {selectedJob.job?.location}
                     </Typography>
                     <Typography

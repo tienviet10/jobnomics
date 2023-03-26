@@ -99,9 +99,16 @@ const FilterList = (): JSX.Element => {
         </Box>
       </div>
       <ChipsComponent updateCategoryFilter={updateCategoryFilter} />
-      <Paper elevation={2} className={styles.FilterList}>
+      <Paper
+        elevation={5}
+        className={styles.FilterList}
+        sx={{ mb: { sx: 5, md: 8, lg: 10 } }}
+      >
         <Table size="medium" className={styles.FilterTable}>
-          <TableHead className={styles.JobTableHead}>
+          <TableHead
+            className={styles.JobTableHead}
+            sx={{ backgroundColor: "neutral.main" }}
+          >
             <TableRow>
               <TableCell
                 key="logo"
