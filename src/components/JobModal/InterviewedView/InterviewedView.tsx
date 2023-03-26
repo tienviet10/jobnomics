@@ -30,8 +30,9 @@ const InterviewedView = (): JSX.Element => {
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
   const [progress, setProgress] = useState(0);
   const [isNotepad, setIsNotepad] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
+  // const [alertOpen, setAlertOpen] = useState(false);
   const [saveNote, { isSuccess }] = useUpdateNoteMutation();
+  const [isNoteSaveSuccess, setIsNoteSaveSucess] = useState(false);
   const [updateChecklist] = useUpdateChecklistMutation();
   const [noteState, setNoteState] = useState(selectedJob.note || "");
 
@@ -115,13 +116,13 @@ const InterviewedView = (): JSX.Element => {
   const handleNoteChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setNoteState(event.target.value)
+    setNoteState(event.target.value);
     // dispatch(setNewNote(event.target.value));
   };
 
   const handleSaveNote = async () => {
     if (noteState !== selectedJob.note) {
-      dispatch(setNewNote(noteState))
+      dispatch(setNewNote(noteState));
       saveNote({
         note: noteState,
         jobId: selectedJob.job.id,
@@ -131,15 +132,17 @@ const InterviewedView = (): JSX.Element => {
   };
 
   const handleAlertClose = () => {
-    setAlertOpen(false);
+    setIsNoteSaveSucess(false);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setNoteState(selectedJob.note);
-  },[selectedJob.note])
+  }, [selectedJob.note]);
 
   useEffect(() => {
-    if (isSuccess) setAlertOpen(true);
+    if (isSuccess) {
+      setIsNoteSaveSucess(true);
+    }
   }, [isSuccess]);
 
   return (
@@ -237,23 +240,23 @@ const InterviewedView = (): JSX.Element => {
             onChange={handleNoteChange}
             onBlur={handleSaveNote}
           ></TextField>
-          {isSuccess && (
-            <Snackbar
-              open={alertOpen}
-              autoHideDuration={6000}
-              onClose={handleAlertClose}
-            >
-              <Alert
-                onClose={handleAlertClose}
-                severity="success"
-                sx={{ width: "100%" }}
-              >
-                Your note is successfully saved!
-              </Alert>
-            </Snackbar>
-          )}
         </div>
       )}
+
+      <Snackbar
+        open={isNoteSaveSuccess}
+        autoHideDuration={4000}
+        onClose={handleAlertClose}
+        ClickAwayListenerProps={{ onClickAway: () => null }}
+      >
+        <Alert
+          onClose={handleAlertClose}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          Your note is successfully saved!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

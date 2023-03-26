@@ -5,6 +5,14 @@
 
 .FilterDrawerContainer {
   display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 20px 30px;
+}
+
+.FilterDrawerList {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -15,5 +23,6 @@
 }
 
 .FilterButton {
-  align-self: center;
+  /* align-self: center; */
+  display: block;
 }

@@ -8,7 +8,7 @@ import { Box, Card, IconButton, Modal, Typography } from "@mui/material";
 import { Close, CloseRounded } from "@mui/icons-material";
 
 import moment from "moment";
-import { Calendar, Event, momentLocalizer } from "react-big-calendar";
+import { Calendar, Event, SlotInfo, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import {
@@ -63,6 +63,11 @@ const CalendarModal = ({
     setOpenDetail(true);
   };
 
+  const handleShowMore = (events: any, date: any) => {
+    console.log(events);
+    console.log(date);
+  };
+
   const handleSelectedEventClose = () => {
     setOpenDetail(false);
   };
@@ -110,20 +115,24 @@ const CalendarModal = ({
           defaultView="month"
           events={state.events}
           className={styles.CalendarStyles}
-          onSelectEvent={(e) => handleSelectedEvent(e)}
+          onSelectEvent={handleSelectedEvent}
           eventPropGetter={(event) => ({
             style: {
-              border: "5px solid",
+              border: "none",
               outline: "none",
+              fontSize: "12px",
             },
           })}
           popup
           selectable
+          showAllEvents
+          onShowMore={handleShowMore}
         />
         {selectedEvent && (
           <Modal
             id={String(selectedEvent.id)}
             open={openDetail}
+            onClose={handleSelectedEventClose}
             className={styles.SelectedEventModalContainer}
           >
             <Card

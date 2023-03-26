@@ -51,21 +51,21 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
     };
 
   const list = () => (
-    <>
-      <Box
-        className={styles.FilterDrawerContainer}
-        role="presentation"
-        // onClick={toggleDrawer(false)}
-        onKeyDown={toggleDrawer(false)}
-      >
+    <Box
+      className={styles.FilterDrawerContainer}
+      role="presentation"
+      // onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <Box className={styles.FilterDrawerList}>
         {choices.map((choice) => {
           return (
             <FormControl
               key={choice.filter}
               sx={{
                 mt: { xs: 5, sm: 8 },
-                ml: { xs: 4, sm: 10, lg: 15 },
-                width: { xs: "100%", sm: "150px" },
+                ml: { xs: 4, sm: 5, lg: 15 },
+                width: { xs: "100%", sm: "200px" },
               }}
               component="fieldset"
               variant="standard"
@@ -100,12 +100,12 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
       <Button
         variant="contained"
         onClick={handleSentRequest}
-        sx={{ width: { xs: "100%", md: "200px" }, margin: "30px 0" }}
+        sx={{ width: { xs: "100%", sm: "200px" }, mt: 3 }}
         className={styles.FilterButton}
       >
         Filter
       </Button>
-    </>
+    </Box>
   );
 
   return (

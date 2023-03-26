@@ -35,7 +35,7 @@ const NavBar = () => {
       name: "Logout",
       onClick: (event: React.MouseEvent<HTMLElement>) => {
         handleCloseUserMenu();
-        logout({logoutParams:{returnTo: window.location.origin}});
+        logout({ logoutParams: { returnTo: window.location.origin } });
       },
     },
   ];
@@ -67,7 +67,7 @@ const NavBar = () => {
 
     navigate(path);
   };
-  
+
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
@@ -93,7 +93,7 @@ const NavBar = () => {
   const visitorSettings = [
     {
       name: "Login",
-      handleAuthentication : handleLogin,
+      handleAuthentication: handleLogin,
     },
     {
       name: "Sign Up",

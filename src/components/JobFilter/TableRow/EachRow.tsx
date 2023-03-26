@@ -1,4 +1,11 @@
 import React, { useEffect, useState } from "react";
+
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { useUpdateJobMutation } from "../../../app/services/job-api";
+import { useDispatch } from "react-redux";
+import { setModalId, toggleJobModal } from "../../../features/jobSlice";
+
 import styles from "./EachRow.module.css";
 import {
   IconButton,
@@ -10,12 +17,9 @@ import {
   Avatar,
 } from "@mui/material";
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
+
 import { categoryColors } from "../categoryColors";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Job } from "../../../types/jobTypes";
-import { useUpdateJobMutation } from "../../../app/services/job-api";
-import { useDispatch } from "react-redux";
-import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 
 const EachRow: React.FC<any> = ({
   job,
@@ -30,7 +34,7 @@ const EachRow: React.FC<any> = ({
   const [updateJob] = useUpdateJobMutation();
 
   const handleToggleFavorite = (job: Job) => {
-    setLocalFavorite(prev => {
+    setLocalFavorite((prev) => {
       updateJob({
         jobId: job.id,
         categoryId: job.categoryId,
@@ -38,7 +42,7 @@ const EachRow: React.FC<any> = ({
         interviewDate: job.interviewDate,
         type: "update",
       });
-      return !prev
+      return !prev;
     });
   };
 
@@ -52,16 +56,19 @@ const EachRow: React.FC<any> = ({
   }, [job?.isFavorite]);
 
   return (
-    <TableRow
-      hover
-      className={styles.JobRow}
-      sx={{
-        boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
-      }}
-    >
+    <TableRow hover className={styles.JobRow}>
       <TableCell
         className={styles.JobLogo}
         onClick={() => handleOpenModal(job)}
+        sx={{
+          "&::-webkit-box-shadow": `6px 0 0 ${
+            categoryColors[job.categoryId].color
+          } inset`,
+          "&::-moz-box-shadow": `6px 0 0 ${
+            categoryColors[job.categoryId].color
+          } inset`,
+          boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
+        }}
       >
         <Avatar variant="square" src={job.logo} alt={job.company} />
       </TableCell>
