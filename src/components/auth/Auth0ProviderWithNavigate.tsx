@@ -28,6 +28,7 @@ const Auth0ProviderWithNavigate = ({ children }: { children: React.ReactNode }) 
       }}
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens={true}
+      // useRefreshTokensFallback={true}
     >
       {children}
     </Auth0Provider>

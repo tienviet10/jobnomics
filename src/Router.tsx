@@ -7,6 +7,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthenticationGuard } from './components/auth/authentication-guard';
 import { useAuth0 } from '@auth0/auth0-react';
 import PageLoader from './components/PageLoader';
+import Register from './components/Register';
 
 const Router = () => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -30,6 +31,10 @@ const Router = () => {
       <Route
         path="/notes"
         element={<AuthenticationGuard component={NotePage} />}
+      />
+      <Route
+        path="/register"
+        element={<AuthenticationGuard component={Register} />}
       />
       <Route path="/" element={<Home />} />
       <Route path="*" element={<Navigate to={isAuthenticated ? "/job" : "/"} />} />

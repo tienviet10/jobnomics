@@ -216,10 +216,23 @@ export const jobApi = createApi({
       transformResponse: (response: AllInterviewDatesResponse[], meta, arg) =>
         response,
     }),
-    saveUser: builder.query<any, void>({
+    saveUser: builder.query<{ message: string; }, void>({
       query: () => "auth",
       providesTags: ["auth"],
-      transformResponse: (response: AllJobsDataType, meta, arg) => response,
+      transformResponse: (response: { message: string; }, meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+    }),
+    emailVerification: builder.mutation({
+      query: () => ({
+        url: "auth/email-verification",
+        method: "PATCH",
+        body: {},
+      }),
+      transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,
@@ -246,4 +259,5 @@ export const {
   useUpdateChecklistMutation,
   useUpdateNoteMutation,
   useRejectedReasonMutation,
+  useEmailVerificationMutation,
 } = jobApi;
