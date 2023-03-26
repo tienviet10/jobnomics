@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material/styles";
-import { teal } from "@mui/material/colors";
+import { teal, grey, blueGrey, cyan } from "@mui/material/colors";
 
 export const theme = createTheme({
   // components: {
@@ -12,23 +12,27 @@ export const theme = createTheme({
   //   },
   // },
   palette: {
-    primary: { main: teal[700] },
-    secondary: { main: "#4c5c68", light: "rgba(75, 91, 104, 0.5)" },
-    warning: { main: "#1985a1" },
-    // info: { main: "#DCDCDD", light: "#ebeaeb" },
-    // success: { main: "#c5c3c6" },
+    primary: { main: "#3A506B", dark: "#1C2541" },
     accent: {
-      light: "#ffa726",
-      main: "#f57c00",
-      dark: "#ef6c00",
+      light: cyan[300],
+      main: "#007A74",
+      dark: cyan[500],
       contrastText: "rgba(0, 0, 0, 0.87)",
     },
-    // background: {
-    //   light: "#ffa726",
-    //   main: "#f57c00",
-    //   dark: "#ef6c00",
-    //   contrastText: "rgba(0, 0, 0, 0.87)",
-    // },
+    neutral: {
+      light: grey[100],
+      main: grey[200],
+      dark: grey[300],
+      contrastText: "rgba(0, 0, 0, 0.87)",
+    },
+    translucent: {
+      light: "rgb(255, 255, 255, 0.5)",
+      main: "rgb(255, 255, 255, 0.7)",
+      dark: "rgb(255, 255, 255, 1)",
+    },
+    background: {
+      default: grey[100],
+    },
   },
 
   typography: {

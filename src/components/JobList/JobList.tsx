@@ -146,7 +146,7 @@ const JobList = (): JSX.Element => {
             </Button>
           </div>
           <Paper
-            elevation={1}
+            elevation={5}
             className={styles.JobBoard}
             sx={{ backgroundColor: "primary.light" }}
           >

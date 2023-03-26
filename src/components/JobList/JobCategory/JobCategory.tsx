@@ -22,14 +22,18 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
         <Paper
           elevation={3}
           className={styles.JobListContainer}
-          sx={{ backgroundColor: "error.light" }}
+          sx={{ backgroundColor: "translucent.light" }}
         >
           <div className={styles.JobListHeader}>
             <Typography variant="subtitle1" className={styles.CategoryLabel}>
               {category}
             </Typography>
             {category === "Bookmarked" && (
-              <Button variant="contained" onClick={handleAddJobClick}>
+              <Button
+                variant="contained"
+                onClick={handleAddJobClick}
+                sx={{ backgroundColor: "accent.main" }}
+              >
                 Add new job
               </Button>
             )}
@@ -43,8 +47,8 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
                 ref={provided.innerRef}
                 sx={{
                   backgroundColor: snapshot.isDraggingOver
-                    ? "info.light"
-                    : "info.main",
+                    ? "neutral.dark"
+                    : "neutral.main",
                   pb: snapshot.isDraggingOver ? 5 : 2,
                 }}
               >

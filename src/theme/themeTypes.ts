@@ -39,13 +39,14 @@ declare module "@mui/material/styles" {
     success?: PaletteColorOptions;
     neutral?: PaletteColorOptions;
     accent?: CustomPaletteOptions;
+    translucent?: CustomPaletteOptions;
   }
 
   interface CustomPaletteOptions {
     main: string;
-    light: string;
-    dark: string;
-    contrastText: string;
+    light?: string;
+    dark?: string;
+    contrastText?: string;
   }
 
   interface overrides {

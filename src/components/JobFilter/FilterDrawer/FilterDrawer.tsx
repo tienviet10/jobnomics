@@ -65,16 +65,15 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
               key={choice.filter}
               sx={{
                 mt: { xs: 5, sm: 8 },
+                mx: "auto",
                 ml: { xs: 4, sm: 5, lg: 15 },
-                width: { xs: "100%", sm: "200px" },
+                minWidth: "160px",
               }}
               component="fieldset"
               variant="standard"
               className={styles.FilterColumn}
             >
-              <FormLabel component="legend" sx={{ pb: 2 }}>
-                {choice.name}
-              </FormLabel>
+              <FormLabel sx={{ pb: 2 }}>{choice.name}</FormLabel>
               <FormGroup>
                 {filterState[choice.filter].map((cate: CheckBoxEntity) => (
                   <FormControlLabel
