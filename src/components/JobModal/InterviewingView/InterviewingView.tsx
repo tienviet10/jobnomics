@@ -119,9 +119,9 @@ const InterviewingView = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontWeight: "bold",
+                  // fontWeight: "bold",
                   pb: 2,
-                  fontSize: { xs: "18px", sm: "20px" },
+                  // fontSize: { xs: "18px", sm: "20px" },
                 }}
                 gutterBottom
               >
@@ -134,14 +134,7 @@ const InterviewingView = () => {
           </>
         )}
       </Box>
-      <Typography
-        variant="subtitle1"
-        className={styles.Skills}
-        sx={{
-          fontSize: { xs: "13px", md: "16px" },
-          lineHeight: { xs: "16px", md: "20px" },
-        }}
-      >
+      <Typography variant="subtitle2" className={styles.Skills}>
         <strong>Required Skills:</strong> {skills}
       </Typography>
       {isSuccess && (
