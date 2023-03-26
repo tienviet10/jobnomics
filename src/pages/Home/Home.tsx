@@ -4,26 +4,24 @@ import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
 
-import { useSaveUserQuery } from "../../app/services/job-api";
-
 const Home = () => {
   const { loginWithRedirect } = useAuth0();
-  // const { refetch } = useSaveUserQuery();
 
   const handleLogin = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/job",
+        returnTo: "/register",
       },
       authorizationParams: {
         prompt: "login",
       },
     });
   };
+  
   const handleSignup = async () => {
     await loginWithRedirect({
       appState: {
-        returnTo: "/job",
+        returnTo: "/register",
       },
       authorizationParams: {
         screen_hint: "signup",
