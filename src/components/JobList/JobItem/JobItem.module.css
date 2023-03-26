@@ -16,8 +16,5 @@
 
 .JobTitle {
   line-height: 20px;
-}
-
-p.Company {
-  color: rgb(69, 69, 136);
+  font-weight: 500;
 }

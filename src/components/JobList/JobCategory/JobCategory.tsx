@@ -6,7 +6,7 @@ import styles from "./JobCategory.module.css";
 import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
-import type { AllActiveJobsType, CategoryProps, Job } from "../../../types/jobTypes";
+import type { AllActiveJobsType, CategoryProps } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   const { data } = useGetAllJobsQuery();
@@ -19,14 +19,22 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
   return (
     <>
       {data?.allActiveJobs && (
-        <Paper elevation={3} className={styles.JobListContainer}>
+        <Paper
+          elevation={3}
+          className={styles.JobListContainer}
+          sx={{ backgroundColor: "translucent.light" }}
+        >
           <div className={styles.JobListHeader}>
             <Typography variant="subtitle1" className={styles.CategoryLabel}>
               {category}
             </Typography>
             {category === "Bookmarked" && (
-              <Button variant="contained" onClick={handleAddJobClick}>
-                <Typography variant="subtitle2">Add New Job</Typography>
+              <Button
+                variant="contained"
+                onClick={handleAddJobClick}
+                sx={{ backgroundColor: "accent.main" }}
+              >
+                Add new job
               </Button>
             )}
           </div>
@@ -38,7 +46,9 @@ const JobCategory = ({ category }: CategoryProps): JSX.Element => {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
                 sx={{
-                  bgcolor: snapshot.isDraggingOver ? "#efefef" : "#f8f8f8",
+                  backgroundColor: snapshot.isDraggingOver
+                    ? "neutral.dark"
+                    : "neutral.main",
                   pb: snapshot.isDraggingOver ? 5 : 2,
                 }}
               >
