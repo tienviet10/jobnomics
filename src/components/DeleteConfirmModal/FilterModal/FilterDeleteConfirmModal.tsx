@@ -65,6 +65,16 @@ const FilterDeleteConfirmModal = ({
                 fontWeight="bold"
               >
                 {job?.title}
+              </Typography>{" "}
+              <Typography variant="body1" className={styles.DeleteMessage}>
+                of
+              </Typography>{" "}
+              <Typography
+                variant="body1"
+                className={styles.DeleteMessage}
+                fontWeight="bold"
+              >
+                {job?.company}
               </Typography>
               <Typography variant="body1" className={styles.DeleteMessage}>
                 ?
