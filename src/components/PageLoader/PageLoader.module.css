@@ -31,7 +31,7 @@ body {
 .pac-man::before {
   width: 70px;
   height: calc(70px / 2);
-  background: #fed75a;
+  background: #009688;
 }
 
 .pac-man::before {
@@ -97,11 +97,11 @@ body {
 @keyframes ball {
   0% {
     opacity: 0.7;
-    box-shadow: 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a, 170px 0 0 0 #fed75a,
-      220px 0 0 0 #fed75a;
+    box-shadow: 70px 0 0 0 #009688, 120px 0 0 0 #009688, 170px 0 0 0 #009688,
+      220px 0 0 0 #009688;
   }
   100% {
-    box-shadow: 20px 0 0 0 #fed75a, 70px 0 0 0 #fed75a, 120px 0 0 0 #fed75a,
-      170px 0 0 0#fed75a;
+    box-shadow: 20px 0 0 0 #009688, 70px 0 0 0 #009688, 120px 0 0 0 #009688,
+      170px 0 0 0#009688;
   }
 }

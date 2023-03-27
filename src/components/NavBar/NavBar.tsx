@@ -17,6 +17,8 @@ import {
   Avatar,
 } from "@mui/material";
 import { Camera, MenuRounded } from "@mui/icons-material";
+import styles from "./NavBar.module.css";
+
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
@@ -70,9 +72,9 @@ const NavBar = () => {
 
   const handleClickLink = (event: React.MouseEvent<HTMLElement>, path: To) => {
     setAnchorElNav(null);
-     // Send request when user click on the Search tab
+    // Send request when user click on the Search tab
     if (path === "/search") {
-      refetch()
+      refetch();
     }
     navigate(path);
   };
@@ -85,7 +87,7 @@ const NavBar = () => {
       authorizationParams: {
         prompt: "login",
         scope: "openid profile email offline_access",
-        audience: audience
+        audience: audience,
       },
     });
   };
@@ -98,7 +100,7 @@ const NavBar = () => {
       authorizationParams: {
         screen_hint: "signup",
         scope: "openid profile email offline_access",
-        audience: audience
+        audience: audience,
       },
     });
   };
@@ -145,24 +147,12 @@ const NavBar = () => {
     <AppBar color={"primary"}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Camera sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
+          <a
             href={isAuthenticated ? "/job" : "/"}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+            className={styles.NavbarLogo}
           >
-            LOGO
-          </Typography>
+            <img src={"images/logo.png"} alt="jobnomics logo" />
+          </a>
           {isAuthenticated && (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -196,25 +186,12 @@ const NavBar = () => {
               </Menu>
             </Box>
           )}
-          <Camera sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+          <a
+            href={isAuthenticated ? "/job" : "/"}
+            className={styles.NavbarLogoMobile}
           >
-            LOGO
-          </Typography>
+            <img src={"images/logo.png"} alt="jobnomics logo" />
+          </a>
 
           {isAuthenticated && (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
