@@ -4,6 +4,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
 
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+
 const Home = () => {
   const { loginWithRedirect } = useAuth0();
 
@@ -14,6 +16,8 @@ const Home = () => {
       },
       authorizationParams: {
         prompt: "login",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };
@@ -25,6 +29,8 @@ const Home = () => {
       },
       authorizationParams: {
         screen_hint: "signup",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };

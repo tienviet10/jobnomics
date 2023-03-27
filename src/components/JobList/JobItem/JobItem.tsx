@@ -25,7 +25,7 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState, refetch } = useGetAJob();
+  const { refetch } = useGetAJob();
   const { data } = useGetAllJobsQuery();
   const [updateJob] = useUpdateJobMutation();
 
@@ -66,7 +66,7 @@ const JobItem = ({
     // Looks like it should be run for all card to refresh the interview date update inside Interviewing. IF there is a problem, ONLY allow category = interviewing to run refetch
     await refetch();
 
-    dispatch(toggleJobModal(!modalState.open));
+    dispatch(toggleJobModal(true));
   };
 
   return (

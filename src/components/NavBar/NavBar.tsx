@@ -17,14 +17,15 @@ import {
   Avatar,
 } from "@mui/material";
 import { Camera, MenuRounded } from "@mui/icons-material";
-
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const NavBar = () => {
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
-  const { logout } = useManageSearchPage();
+  const { logout, refetch } = useManageSearchPage();
 
   const pages: { name: string; path: string; disabled: boolean }[] = [
     { name: "Job Board", path: "/job", disabled: location.pathname === "/job" },
@@ -69,7 +70,10 @@ const NavBar = () => {
 
   const handleClickLink = (event: React.MouseEvent<HTMLElement>, path: To) => {
     setAnchorElNav(null);
-
+    // Send request when user click on the Search tab
+    if (path === "/search") {
+      refetch()
+    }
     navigate(path);
   };
 
@@ -80,6 +84,8 @@ const NavBar = () => {
       },
       authorizationParams: {
         prompt: "login",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };
@@ -91,6 +97,8 @@ const NavBar = () => {
       },
       authorizationParams: {
         screen_hint: "signup",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };
