@@ -88,13 +88,10 @@ const JobItem = ({
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="body2" className={styles.JobTitle}>
+              <Typography variant="body2" sx={{ fontWeight: 500 }} gutterBottom>
                 {title}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ lineHeight: 1.6, color: "accent.main" }}
-              >
+              <Typography variant="body2" sx={{ color: "accent.main" }}>
                 {company}
               </Typography>
             </div>

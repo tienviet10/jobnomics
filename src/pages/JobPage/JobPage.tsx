@@ -35,7 +35,10 @@ const JobPage = () => {
   }, [data]);
 
   return (
-    <Box className={styles.JobPage} sx={{ pt: { xs: 9, sm: 12 } }}>
+    <Box
+      className={styles.JobPage}
+      sx={{ pt: { xs: 9, sm: 12, md: 12, lg: 13 } }}
+    >
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal

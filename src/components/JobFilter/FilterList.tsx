@@ -107,7 +107,7 @@ const FilterList = (): JSX.Element => {
               <TableCell
                 key="updatedByUserAt"
                 align="center"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: "bold", minWidth: "125px" }}
               >
                 <TableSortLabel
                   active={valueToOrderBy === "updatedByUserAt"}
