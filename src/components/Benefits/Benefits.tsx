@@ -234,15 +234,28 @@ const Benefits = () => {
       <ModalWrapperSample
         open={openOriginalJob}
         setOpen={handleOriginalJobClose}
-      ></ModalWrapperSample>
+        type="original"
+      >
+        <img
+          src="images/original_job_posting.png"
+          alt="linkedin slack job posting"
+          style={{ width: "100%" }}
+        />
+      </ModalWrapperSample>
       <ModalWrapperSample
         open={openSummarizedJob}
         setOpen={handleSummarizedJobClose}
-      ></ModalWrapperSample>
+        type="Bookmarked"
+      >
+        <div>Here</div>
+      </ModalWrapperSample>
       <ModalWrapperSample
         open={openQAndAJob}
         setOpen={handleQAndAJobClose}
-      ></ModalWrapperSample>
+        type="Interviewing"
+      >
+        <div>Here</div>
+      </ModalWrapperSample>
     </Box>
   );
 };
