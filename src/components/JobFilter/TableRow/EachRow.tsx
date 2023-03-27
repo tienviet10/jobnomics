@@ -20,6 +20,7 @@ import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
 import { categoryColors } from "../categoryColors";
 import { Job } from "../../../types/jobTypes";
+import { useGetAJob } from "../../../hooks/get-a-job";
 
 const EachRow: React.FC<any> = ({
   job,
@@ -32,6 +33,7 @@ const EachRow: React.FC<any> = ({
   const dispatch = useDispatch();
   const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
   const [updateJob] = useUpdateJobMutation();
+  const { refetch } = useGetAJob();
 
   const handleToggleFavorite = (job: Job) => {
     setLocalFavorite((prev) => {
@@ -46,8 +48,10 @@ const EachRow: React.FC<any> = ({
     });
   };
 
-  const handleOpenModal = (job: Job) => {
+  const handleOpenModal = async (job: Job) => {
     dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
+    // Same fix as JobItem
+    await refetch()
     dispatch(toggleJobModal(true));
   };
 
