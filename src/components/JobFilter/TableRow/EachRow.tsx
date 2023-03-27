@@ -28,7 +28,7 @@ const EachRow: React.FC<any> = ({
   handleMenuOpen,
   handleMenuClose,
   handleDelete,
-  handleRecover
+  handleRecover,
 }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
@@ -55,8 +55,6 @@ const EachRow: React.FC<any> = ({
     await refetch();
     dispatch(toggleJobModal(true));
   };
-
-
 
   useEffect(() => {
     setLocalFavorite(job?.isFavorite);
@@ -141,7 +139,9 @@ const EachRow: React.FC<any> = ({
             "aria-labelledby": `basic-button-${job.id}`,
           }}
         >
-          {!job.isActive && <MenuItem onClick={() => handleRecover(job)}>Recover</MenuItem>}
+          {!job.isActive && (
+            <MenuItem onClick={() => handleRecover(job)}>Reactive</MenuItem>
+          )}
           <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
         </Menu>
       </TableCell>
