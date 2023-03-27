@@ -14,7 +14,7 @@ const Hero = () => {
     justifyContent: "center",
     gap: theme.spacing(5),
     paddingTop: theme.spacing(3),
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       flexDirection: "column",
       alignItems: "center",
       textAlign: "center",
@@ -45,7 +45,15 @@ const Hero = () => {
   };
 
   return (
-    <Box sx={{ backgroundColor: "#E6F0FF", minHeight: "80vh", top: 1 }}>
+    <Box
+      sx={{
+        backgroundColor: "#E6F0FF",
+        minHeight: "80vh",
+        top: 1,
+        display: "flex",
+        alignItems: "center",
+      }}
+    >
       <Container>
         <CustomBox>
           <Box sx={{ flex: "1" }}>
@@ -76,7 +84,7 @@ const Hero = () => {
             </Button>
           </Box>
 
-          <Box sx={{ objectFit: "contain", mb: "2rem" }}>
+          <Box sx={{ objectFit: "contain", mb: "2rem", maxWidth: "600px" }}>
             <img
               src={"/images/online_resume.svg"}
               alt="heroImg"
