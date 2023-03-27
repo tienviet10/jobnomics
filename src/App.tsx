@@ -31,8 +31,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <div className="App">
         <CssBaseline />
-        <Router />
         <NavBar />
+        <Router />
       </div>
     </ThemeProvider>
   );

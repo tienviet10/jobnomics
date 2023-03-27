@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 
 import { useGetAllNotesQuery } from "../../app/services/job-api";
 
@@ -75,6 +75,7 @@ const NotePage = () => {
               variant="h4"
               className={styles.NotePageTitle}
               color="neutral.darker"
+              sx={{ minWidth: "300px", my: 2 }}
             >
               Interview Notes
             </Typography>
@@ -87,7 +88,7 @@ const NotePage = () => {
                 size="small"
                 sx={{
                   // bgcolor: "#ffffff",
-                  width: { xs: "100%", sm: "200px" },
+                  width: { xs: "100%", md: "200px" },
                   maxWidth: "300px",
                 }}
               >
