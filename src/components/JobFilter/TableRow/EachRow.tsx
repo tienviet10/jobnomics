@@ -51,7 +51,7 @@ const EachRow: React.FC<any> = ({
   const handleOpenModal = async (job: Job) => {
     dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
     // Same fix as JobItem
-    await refetch()
+    await refetch();
     dispatch(toggleJobModal(true));
   };
 
@@ -59,6 +59,7 @@ const EachRow: React.FC<any> = ({
     setLocalFavorite(job?.isFavorite);
   }, [job?.isFavorite]);
 
+  console.log(job);
   return (
     <TableRow hover className={styles.JobRow}>
       <TableCell

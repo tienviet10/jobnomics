@@ -76,6 +76,7 @@ export interface Job {
   categoryId: number;
   description?: string;
   isActive: boolean;
+  avatarColor: string;
 }
 
 export interface Category {

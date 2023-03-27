@@ -44,8 +44,16 @@ const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
 
     const currentJobs: AllActiveJobsType[] | undefined =
       data?.allActiveJobs[category].jobs;
-    const allJobsWithinCategory = [];
-    const updatedJobs = [];
+    const allJobsWithinCategory: AllActiveJobsType[] = [];
+    const updatedJobs: {
+      jobId: number;
+      categoryId: number;
+      newCategoryId: number;
+      position: number;
+      isDeleted: boolean;
+      isChanged?: boolean;
+      isActive: boolean;
+    }[] = [];
 
     //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
     for (const index in currentJobs) {

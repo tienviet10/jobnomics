@@ -30,22 +30,23 @@ import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 import { Job } from "../../types/jobTypes";
 
 const FilterList = (): JSX.Element => {
-
-  const { 
-    updateCategoryFilter, 
-    sentFilterRequest, 
-    valueToOrderBy, 
-    orderDirection, 
-    handleRequestSort, 
-    jobsList, 
-    menuStates, 
-    handleMenuOpen, 
-    handleMenuClose, 
+  const {
+    updateCategoryFilter,
+    sentFilterRequest,
+    valueToOrderBy,
+    orderDirection,
+    handleRequestSort,
+    jobsList,
+    menuStates,
+    handleMenuOpen,
+    handleMenuClose,
     handleDelete,
-    openDeleteModal, 
-    setOpenDeleteModal, 
-    selectedJob 
+    openDeleteModal,
+    setOpenDeleteModal,
+    selectedJob,
   } = useManageSearchPage();
+
+  console.log(jobsList);
 
   return (
     <Box className={styles.SearchPageMain}>
