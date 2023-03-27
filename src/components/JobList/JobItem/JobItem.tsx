@@ -33,13 +33,14 @@ const JobItem = ({
   const { data } = useGetAllJobsQuery();
   const [updateJob] = useUpdateJobMutation();
 
-  const job: AllActiveJobsType | undefined = data?.allActiveJobs[category].jobs[index];
+  const job: AllActiveJobsType | undefined =
+    data?.allActiveJobs[category].jobs[index];
   const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
-  const handleToggleFavorite = (event: { preventDefault: () => void; }) => {
+  const handleToggleFavorite = (event: { preventDefault: () => void }) => {
     event.preventDefault();
-    setLocalFavorite(prev => {
+    setLocalFavorite((prev) => {
       const body = {
         jobId: id,
         categoryId: data?.allActiveJobs[category]?.id,
@@ -48,7 +49,7 @@ const JobItem = ({
         type: "update",
       };
       updateJob(body);
-      return !prev
+      return !prev;
     });
   };
 
@@ -80,7 +81,9 @@ const JobItem = ({
             className={styles.JobItem}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            sx={{ bgcolor: snapshot.isDragging ? "#dbe4ff" : "#ffffff" }}
+            sx={{
+              bgcolor: snapshot.isDragging ? "accent.translucent" : "#ffffff",
+            }}
             ref={provided.innerRef}
           >
             <Avatar alt={company} src={logo} onClick={handleOpenModal} />
@@ -90,8 +93,7 @@ const JobItem = ({
               </Typography>
               <Typography
                 variant="body2"
-                className={styles.Company}
-                sx={{ lineHeight: 1.6 }}
+                sx={{ lineHeight: 1.6, color: "accent.main" }}
               >
                 {company}
               </Typography>

@@ -22,7 +22,11 @@ const SearchPage = () => {
         {/* <FilterList sentFilterRequest={sentFilterRequest} /> */}
         <FilterList />
         <ScrollTop window={() => window}>
-          <Fab size="small" aria-label="scroll back to top">
+          <Fab
+            size="medium"
+            aria-label="scroll back to top"
+            sx={{ bgcolor: "accent.light", color: "#ffffff" }}
+          >
             <KeyboardArrowUp />
           </Fab>
         </ScrollTop>

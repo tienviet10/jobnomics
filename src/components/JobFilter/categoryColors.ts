@@ -1,10 +1,12 @@
+import { teal, red } from "@mui/material/colors";
+
 export const categoryColors: {
   [key: number]: { name: string; color: string };
 } = {
-  1: { name: "Bookmarked", color: "#f0ecf6" },
-  2: { name: "Applied", color: "#d3c5e3" },
-  3: { name: "Interviewing", color: "#9779bd" },
-  4: { name: "Interviewed", color: "#7a52aa" },
-  5: { name: "Job Offer", color: "#4a2b7a" },
-  6: { name: "Job Unavailable", color: "#a04045" },
+  1: { name: "Bookmarked", color: "#ffffff" },
+  2: { name: "Applied", color: teal[50] },
+  3: { name: "Interviewing", color: teal[300] },
+  4: { name: "Interviewed", color: teal[600] },
+  5: { name: "Job Offer", color: teal[900] },
+  6: { name: "Job Unavailable", color: red[900] },
 };
