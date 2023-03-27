@@ -26,7 +26,7 @@ import {
 } from "../../types/jobTypes";
 
 const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   const [updateJobs] = useUpdateJobsMutation();
   const [updateJob] = useUpdateJobMutation();
 

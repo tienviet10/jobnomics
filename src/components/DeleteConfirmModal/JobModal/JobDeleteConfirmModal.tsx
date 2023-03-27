@@ -25,7 +25,7 @@ const JobDeleteConfirmModal = ({
   setOpen,
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   // const { allActiveJobs, staleJobs } = data;
   const { selectedJob } = useGetAJob();
   const [updateJobs, { isError, isLoading, isSuccess }] =
