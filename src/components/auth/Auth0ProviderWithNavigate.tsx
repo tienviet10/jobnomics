@@ -25,7 +25,9 @@ const Auth0ProviderWithNavigate = ({ children }: { children: React.ReactNode }) 
       authorizationParams={{
         audience: audience,
         redirect_uri: redirectUri,
+        scope: 'openid profile email offline_access'
       }}
+      cacheLocation="localstorage"
       onRedirectCallback={onRedirectCallback}
       useRefreshTokens={true}
       useRefreshTokensFallback={true}
