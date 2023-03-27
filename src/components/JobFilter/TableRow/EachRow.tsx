@@ -28,6 +28,7 @@ const EachRow: React.FC<any> = ({
   handleMenuOpen,
   handleMenuClose,
   handleDelete,
+  handleRecover
 }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
@@ -55,11 +56,12 @@ const EachRow: React.FC<any> = ({
     dispatch(toggleJobModal(true));
   };
 
+
+
   useEffect(() => {
     setLocalFavorite(job?.isFavorite);
   }, [job?.isFavorite]);
 
-  console.log(job);
   return (
     <TableRow hover className={styles.JobRow}>
       <TableCell
@@ -139,6 +141,7 @@ const EachRow: React.FC<any> = ({
             "aria-labelledby": `basic-button-${job.id}`,
           }}
         >
+          {!job.isActive && <MenuItem onClick={() => handleRecover(job)}>Recover</MenuItem>}
           <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
         </Menu>
       </TableCell>

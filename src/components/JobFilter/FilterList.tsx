@@ -1,11 +1,4 @@
-import React, { useState } from "react";
-
-import {
-  setColumnFilterJob,
-  setFilterSelectedJob,
-} from "../../features/filterSlice";
-import { RootState } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 import {
   Box,
@@ -41,12 +34,11 @@ const FilterList = (): JSX.Element => {
     handleMenuOpen,
     handleMenuClose,
     handleDelete,
+    handleRecover,
     openDeleteModal,
     setOpenDeleteModal,
     selectedJob,
   } = useManageSearchPage();
-
-  console.log(jobsList);
 
   return (
     <Box className={styles.SearchPageMain}>
@@ -153,6 +145,7 @@ const FilterList = (): JSX.Element => {
                   handleMenuOpen={handleMenuOpen}
                   handleMenuClose={handleMenuClose}
                   handleDelete={handleDelete}
+                  handleRecover={handleRecover}
                 />
               ))}
           </TableBody>
