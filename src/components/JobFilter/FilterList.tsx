@@ -46,8 +46,6 @@ const FilterList = (): JSX.Element => {
     selectedJob,
   } = useManageSearchPage();
 
-  console.log(jobsList);
-
   return (
     <Box className={styles.SearchPageMain}>
       <div className={styles.SearchPageHeader}>
