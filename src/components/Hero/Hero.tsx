@@ -1,10 +1,7 @@
-import { Box, Button, styled, Toolbar, Typography } from "@mui/material";
-import { Container } from "@mui/system";
 import React from "react";
-// import Navbar from "./Navbar";
 
-// import heroImg from "../media/hero_illustration.png";
-// import CustomButton from "./CustomButton";
+import { Box, Button, styled, Typography } from "@mui/material";
+import { Container } from "@mui/system";
 
 const Hero = () => {
   const CustomBox = styled(Box)(({ theme }) => ({

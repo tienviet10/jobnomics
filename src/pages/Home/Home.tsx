@@ -5,6 +5,7 @@ import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
 import Hero from "../../components/Hero/";
 import PageDemo from "../../components/PageDemo";
+import Benefits from "../../components/Benefits";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -40,6 +41,7 @@ const Home = () => {
   return (
     <main>
       <Hero />
+      <Benefits />
       <PageDemo />
       {/* <Box
         sx={{

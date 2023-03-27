@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { To, useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,7 +16,7 @@ import {
   Tooltip,
   Avatar,
 } from "@mui/material";
-import { Camera, MenuRounded } from "@mui/icons-material";
+import { MenuRounded } from "@mui/icons-material";
 import styles from "./NavBar.module.css";
 
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
@@ -28,6 +28,7 @@ const NavBar = () => {
   const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
   const { logout, refetch } = useManageSearchPage();
+  const [shadow, setShadow] = useState<boolean>();
 
   const pages: {
     name: string;
@@ -96,6 +97,17 @@ const NavBar = () => {
     });
   };
 
+  useEffect(() => {
+    const handleShadow = () => {
+      if (location.pathname === "/" && window.scrollY <= 90) {
+        setShadow(false);
+      } else {
+        setShadow(true);
+      }
+    };
+    window.addEventListener("scroll", handleShadow);
+  }, []);
+
   const handleSignup = async () => {
     await loginWithRedirect({
       appState: {
@@ -151,9 +163,9 @@ const NavBar = () => {
   return (
     <AppBar
       sx={{
-        backgroundColor: location.pathname === "/" ? "transparent" : "primary",
+        backgroundColor: location.pathname === "/" ? "#E6F0FF" : "primary",
       }}
-      elevation={location.pathname === "/" ? 0 : 3}
+      elevation={shadow ? 3 : 0}
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
