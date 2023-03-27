@@ -7,6 +7,7 @@ const InvalidAlertView = () => {
       severity="warning"
       sx={{
         height: "200px",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

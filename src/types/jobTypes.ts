@@ -25,7 +25,7 @@ export type JobPreviewType = {
 };
 
 export type JobType = {
-  isActive: boolean;
+  isActive?: boolean;
   category: {
     id: number;
     name: string;
