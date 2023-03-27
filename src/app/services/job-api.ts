@@ -16,9 +16,11 @@ export const jobApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: async (headers) => {
-      const access_token = await security.getAccessTokenSilently()();
-      if (access_token) {
-        headers.set("Authorization", `Bearer ${access_token}`);
+      if (security.getAccessTokenSilently()) {
+        const access_token = await security.getAccessTokenSilently()();
+        if (access_token) {
+          headers.set("Authorization", `Bearer ${access_token}`);
+        }
       }
       return headers;
     },
