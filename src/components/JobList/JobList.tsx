@@ -132,7 +132,7 @@ const JobList = (): JSX.Element => {
           <Typography
             variant="h4"
             className={styles.JobListTitle}
-            color="accent.main"
+            color="neutral.darker"
           >
             <span>
               {user?.name ||
