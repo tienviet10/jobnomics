@@ -12,7 +12,7 @@ import InactiveJobsModal from "../../components/InactiveJobsModal";
 import PageLoader from "../../components/PageLoader";
 
 const JobPage = () => {
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
 
   const [openInactiveModal, setOpenInactiveModal] = useState(false);
 

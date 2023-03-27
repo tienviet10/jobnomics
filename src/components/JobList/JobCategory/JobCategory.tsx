@@ -9,7 +9,7 @@ import CreateJobModal from "../../CreateJobModal";
 import type { AllActiveJobsType, CategoryProps } from "../../../types/jobTypes";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   const [open, setOpen] = useState(false);
 
   const handleAddJobClick = () => {

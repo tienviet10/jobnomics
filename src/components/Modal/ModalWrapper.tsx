@@ -46,7 +46,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   // const { allActiveJobs, staleJobs } = data;
   const {
     aJob,
