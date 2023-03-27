@@ -56,7 +56,12 @@ export const jobSlice = createSlice({
     },
     toggleCheckbox: (state, action) => {
       state.previousJob = state.modal.jobCategoryId;
-      state.selectedJob.checklists = state.selectedJob.checklists.map((checklist) => checklist.id === action.payload.id ? { ...checklist, isComplete: !checklist.isComplete } : checklist);
+      state.selectedJob.checklists = state.selectedJob.checklists.map(
+        (checklist) =>
+          checklist.id === action.payload.id
+            ? { ...checklist, isComplete: !checklist.isComplete }
+            : checklist
+      );
     },
     toggleJobModal: (state, action) => {
       state.modal = { ...state.modal, open: action.payload };

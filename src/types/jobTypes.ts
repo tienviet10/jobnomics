@@ -7,13 +7,12 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
 };
-
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 export type JobPreviewType = {
@@ -26,6 +25,7 @@ export type JobPreviewType = {
 };
 
 export type JobType = {
+  isActive?: boolean;
   category: {
     id: number;
     name: string;
@@ -76,6 +76,7 @@ export interface Job {
   categoryId: number;
   description?: string;
   isActive: boolean;
+  avatarColor: string;
 }
 
 export interface Category {
@@ -139,7 +140,7 @@ export type DrawComponentType = {
 };
 
 export type MenuStateType = {
-  [key: string]: { anchorEl: Element | null; open: boolean; };
+  [key: string]: { anchorEl: Element | null; open: boolean };
 };
 
 export type ManageSearchPageType = {
@@ -151,11 +152,14 @@ export type ManageSearchPageType = {
   handleRequestSort: (property: string) => void;
   jobsList: Job[];
   menuStates: MenuStateType;
-  handleMenuOpen: (job: Job, event: React.MouseEvent<HTMLButtonElement>) => void,
-  handleMenuClose: (job: Job) => void,
-  handleDelete: (job: Job) => void,
-  openDeleteModal: boolean,
-  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>,
+  handleMenuOpen: (
+    job: Job,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  handleMenuClose: (job: Job) => void;
+  handleDelete: (job: Job) => void;
+  openDeleteModal: boolean;
+  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedJob: Job | null;
   refetch: any;
 };
@@ -197,7 +201,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
 
@@ -210,10 +214,11 @@ export type AllActiveJobsType = {
   isFavorite: boolean;
   interviewDate: Date | null;
   updatedByUserAt: Date;
+  avatarColor: string;
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 export type CalendarEventsType = {
@@ -293,6 +298,7 @@ export type NotesType = {
     title: string;
     company: string;
     logo: string;
+    avatarColor: string;
   };
   note: string;
 };

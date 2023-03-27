@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 
 import { useGetAJob } from "../../../hooks/get-a-job";
+import InvalidAlertView from "../InvalidAlertView";
 
 const RejectedView = () => {
   const [updateReason] = useRejectedReasonMutation();
@@ -49,92 +50,97 @@ const RejectedView = () => {
     }
   };
   return (
-    <Box
-      className={styles.RejectedContainer}
-      sx={{
-        px: { xs: 0, sm: "20px", md: "30px" },
-        py: { xs: 0, sm: 2, md: 5 },
-        pb: 0,
-        mb: 1,
-      }}
-    >
-      <Box className={styles.RejectedMain}>
-        <Typography
-          variant="body1"
-          className={styles.Question}
+    <>
+      {selectedJob.isActive && (
+        <Box
+          className={styles.RejectedContainer}
           sx={{
-            my: { xs: 2 },
+            px: { xs: 0, sm: "20px", md: "30px" },
+            py: { xs: 0, sm: 2, md: 5 },
+            pb: 0,
+            mb: 1,
           }}
         >
-          How did the company inform you of their decision to move on with
-          another candidate?
-        </Typography>
-        <FormControl className={styles.FormStyle}>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            name="radio-buttons-group"
-            className={styles.RadioStyles}
-            onChange={handleOptionChange}
-          >
-            <FormControlLabel
-              value="I got an email"
-              control={<Radio />}
-              label="I got an email"
-            />
-            <FormControlLabel
-              value="I received a phone call"
-              control={<Radio />}
-              label="I received a phone call"
-            />
-            <FormControlLabel
-              value="They ghost me"
-              control={<Radio />}
-              label="They ghost me"
-            />
-            <FormControlLabel
-              value="other"
-              control={<Radio />}
-              label={
-                <Box className={styles.OtherInput}>
-                  <Typography>Other</Typography>
-                  <TextField
-                    variant="standard"
-                    color="primary"
-                    fullWidth
-                    placeholder="Type Here"
-                    onChange={handleTextChange}
-                    className={styles.OtherInputField}
-                    sx={{ display: toggle ? "block" : "none" }}
-                  />
-                </Box>
-              }
-              className={styles.FormControlLabel}
-              sx={{ mr: 0 }}
-            />
-          </RadioGroup>
-        </FormControl>
-        <Button
-          variant="contained"
-          className={styles.SubmitButton}
-          onClick={handleSubmit}
-          sx={{ mt: 2 }}
-        >
-          Submit
-        </Button>
-      </Box>
-      {selectedJob?.rejectReason && (
-        <Alert
-          severity="success"
-          sx={{
-            my: { xs: 1, sm: 2 },
-            fontSize: { xs: 13, sm: 16 },
-            p: { xs: 1, sm: 2 },
-          }}
-        >
-          Your response: "{selectedJob?.rejectReason}" has been saved!
-        </Alert>
+          <Box className={styles.RejectedMain}>
+            <Typography
+              variant="body1"
+              className={styles.Question}
+              sx={{
+                my: { xs: 2 },
+              }}
+            >
+              How did the company inform you of their decision to move on with
+              another candidate?
+            </Typography>
+            <FormControl className={styles.FormStyle}>
+              <RadioGroup
+                aria-labelledby="demo-radio-buttons-group-label"
+                name="radio-buttons-group"
+                className={styles.RadioStyles}
+                onChange={handleOptionChange}
+              >
+                <FormControlLabel
+                  value="I got an email"
+                  control={<Radio />}
+                  label="I got an email"
+                />
+                <FormControlLabel
+                  value="I received a phone call"
+                  control={<Radio />}
+                  label="I received a phone call"
+                />
+                <FormControlLabel
+                  value="They ghost me"
+                  control={<Radio />}
+                  label="They ghost me"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label={
+                    <Box className={styles.OtherInput}>
+                      <Typography>Other</Typography>
+                      <TextField
+                        variant="standard"
+                        color="primary"
+                        fullWidth
+                        placeholder="Type Here"
+                        onChange={handleTextChange}
+                        className={styles.OtherInputField}
+                        sx={{ display: toggle ? "block" : "none" }}
+                      />
+                    </Box>
+                  }
+                  className={styles.FormControlLabel}
+                  sx={{ mr: 0 }}
+                />
+              </RadioGroup>
+            </FormControl>
+            <Button
+              variant="contained"
+              className={styles.SubmitButton}
+              onClick={handleSubmit}
+              sx={{ mt: 2 }}
+            >
+              Submit
+            </Button>
+          </Box>
+          {selectedJob?.rejectReason && (
+            <Alert
+              severity="success"
+              sx={{
+                my: { xs: 1, sm: 2 },
+                fontSize: { xs: 13, sm: 16 },
+                p: { xs: 1, sm: 2 },
+              }}
+            >
+              Your response: "{selectedJob?.rejectReason}" has been saved!
+            </Alert>
+          )}
+        </Box>
       )}
-    </Box>
+      {!selectedJob.isActive && <InvalidAlertView />}
+    </>
   );
 };
 
