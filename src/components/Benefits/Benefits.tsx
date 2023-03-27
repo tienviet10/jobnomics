@@ -212,8 +212,8 @@ const Benefits = () => {
                 my: 1,
               }}
             >
-              Get sample interview questions and answers based on the specific
-              job application.
+              Get CUSTOMIZED sample interview questions and answers based on the
+              specific job application.
             </Typography>
           </Box>
           <Box
@@ -225,10 +225,10 @@ const Benefits = () => {
           >
             <Button
               variant="contained"
-              sx={{ bgcolor: "accent.dark", width: "200px" }}
+              sx={{ bgcolor: "accent.dark", width: "250px" }}
               onClick={() => setOpenQAndAJob(true)}
             >
-              AI Extracted Sample Interview Q & A
+              Sample Interview Q & A
             </Button>
           </Box>
         </BenefitBox>

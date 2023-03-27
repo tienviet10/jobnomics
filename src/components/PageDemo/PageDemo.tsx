@@ -119,7 +119,7 @@ const PageDemo = () => {
             )}
           </ImgContainer>
 
-          <Box sx={{ width: "40vw" }}>
+          <Box sx={{ width: { xs: "80vw", lg: "40vw" } }}>
             <Divider />
             <Typography
               sx={{

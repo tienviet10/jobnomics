@@ -3,7 +3,12 @@ import React from "react";
 import { Box, Button, styled, Typography } from "@mui/material";
 import { Container } from "@mui/system";
 
+import { useAuth0 } from "@auth0/auth0-react";
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+
 const Hero = () => {
+  const { loginWithRedirect } = useAuth0();
+
   const CustomBox = styled(Box)(({ theme }) => ({
     display: "flex",
     justifyContent: "center",
@@ -25,6 +30,19 @@ const Hero = () => {
       fontSize: "40px",
     },
   }));
+
+  const handleSignup = async () => {
+    await loginWithRedirect({
+      appState: {
+        returnTo: "/register",
+      },
+      authorizationParams: {
+        screen_hint: "signup",
+        scope: "openid profile email offline_access",
+        audience: audience,
+      },
+    });
+  };
 
   return (
     <Box sx={{ backgroundColor: "#E6F0FF", minHeight: "80vh", top: 1 }}>
@@ -53,7 +71,9 @@ const Hero = () => {
               Be the first to get the best real estate deals before they hit the
               mass market! Hot foreclosure deals with one simple search!
             </Typography>
-            <Button variant="contained">Get Started!</Button>
+            <Button variant="contained" onClick={handleSignup}>
+              Get Started
+            </Button>
           </Box>
 
           <Box sx={{ objectFit: "contain", mb: "2rem" }}>
