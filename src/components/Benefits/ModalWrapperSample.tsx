@@ -150,11 +150,11 @@ const ModalWrapperSample = ({
             </div>
             <div className={styles.ModalMain}>{children}</div>
             <div className={styles.ModalFooter}>
-              <IconButton className={styles.Button} disableRipple>
+              <IconButton className={styles.Button} disabled>
                 <Typography className={styles.ButtonText}>Favorite</Typography>
                 <FavoriteBorder fontSize="medium" />
               </IconButton>
-              <IconButton className={styles.Button}>
+              <IconButton className={styles.Button} disabled>
                 <Typography className={styles.ButtonText}>Delete</Typography>
                 <Delete fontSize="medium" />
               </IconButton>

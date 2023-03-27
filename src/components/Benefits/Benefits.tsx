@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Box, Button, Card, Modal, styled, Typography } from "@mui/material";
 import ModalWrapperSample from "./ModalWrapperSample";
 import SampleBookmarked from "./SampleBookmarked";
+import SampleInterviewing from "./SampleInterviewing";
 
 const Benefits = () => {
   const [openOriginalJob, setOpenOriginalJob] = useState(false);
@@ -255,7 +256,7 @@ const Benefits = () => {
         setOpen={handleQAndAJobClose}
         type="Interviewing"
       >
-        <div>Here</div>
+        <SampleInterviewing />
       </ModalWrapperSample>
     </Box>
   );
