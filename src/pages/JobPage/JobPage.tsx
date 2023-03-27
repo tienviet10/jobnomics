@@ -8,7 +8,8 @@ import { Box } from "@mui/material";
 import JobList from "../../components/JobList";
 import JobModal from "../../components/JobModal";
 import InterviewDateModal from "../../components/InterviewDateModal";
-import InactiveJobsModal from "../../components/InactiveJobsModal.tsx";
+import InactiveJobsModal from "../../components/InactiveJobsModal";
+import PageLoader from "../../components/PageLoader";
 
 const JobPage = () => {
   const { data } = useGetAllJobsQuery();
@@ -39,6 +40,7 @@ const JobPage = () => {
       className={styles.JobPage}
       sx={{ pt: { xs: 9, sm: 12, md: 12, lg: 13 } }}
     >
+      {!data && <PageLoader />}
       <JobList />
       <InterviewDateModal />
       <InactiveJobsModal

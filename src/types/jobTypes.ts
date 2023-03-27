@@ -11,7 +11,7 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
 };
 
 // export type InactiveJobsType = {
@@ -20,7 +20,7 @@ export type UserJobsType = {
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 // export type categoriesType = {
@@ -194,7 +194,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
 
@@ -207,10 +207,11 @@ export type AllActiveJobsType = {
   isFavorite: boolean;
   interviewDate: Date | null;
   updatedByUserAt: Date;
+  avatarColor: string;
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 export type CalendarEventsType = {
@@ -290,6 +291,7 @@ export type NotesType = {
     title: string;
     company: string;
     logo: string;
+    avatarColor: string;
   };
   note: string;
 };

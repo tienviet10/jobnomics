@@ -127,7 +127,10 @@ const NotePage = () => {
                     variant="square"
                     src={noteData.job.logo}
                     alt={noteData.job.company}
-                    sx={{ alignSelf: "center" }}
+                    sx={{
+                      alignSelf: "center",
+                      bgcolor: noteData.job.avatarColor,
+                    }}
                   />
                   <Typography
                     sx={{

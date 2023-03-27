@@ -121,54 +121,55 @@ const JobList = (): JSX.Element => {
       );
     }
   };
+  console.log(data?.allActiveJobs);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      {data?.allActiveJobs && (
-        <Box className={styles.JobListContainer}>
-          <Box
-            className={styles.JobListHeader}
-            sx={{ top: { xs: "70px", sm: "90px" } }}
+      <Box className={styles.JobListContainer}>
+        <Box
+          className={styles.JobListHeader}
+          sx={{ top: { xs: "70px", sm: "90px" } }}
+        >
+          <Typography
+            variant="h4"
+            className={styles.JobListTitle}
+            color="accent.main"
           >
-            <Typography
-              variant="h4"
-              className={styles.JobListTitle}
-              color="accent.main"
-            >
-              <span>
-                {user?.name ||
-                  user?.given_name ||
-                  user?.family_name ||
-                  user?.nickname}
-                's{" "}
-              </span>
-              <span>Job Board</span>
-            </Typography>
-            <Button
-              onClick={() => setCalendarOpen(true)}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                color: "accent.main",
-              }}
-            >
-              <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
-              <Typography variant="caption">Calendar</Typography>
-            </Button>
-          </Box>
-          <Paper
-            elevation={5}
-            className={styles.JobBoard}
-            sx={{ backgroundColor: "neutral.light" }}
+            <span>
+              {user?.name ||
+                user?.given_name ||
+                user?.family_name ||
+                user?.nickname}
+              's{" "}
+            </span>
+            <span>Job Board</span>
+          </Typography>
+          <Button
+            onClick={() => setCalendarOpen(true)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              color: "accent.main",
+            }}
           >
-            {Object.keys(data?.allActiveJobs).map(
+            <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
+            <Typography variant="caption">Calendar</Typography>
+          </Button>
+        </Box>
+        <Paper
+          elevation={5}
+          className={styles.JobBoard}
+          sx={{ backgroundColor: "neutral.light" }}
+        >
+          {data?.allActiveJobs &&
+            Object.keys(data?.allActiveJobs).map(
               (category: string, index: number) => (
                 <JobCategory key={index} category={category} />
               )
             )}
-          </Paper>
-        </Box>
-      )}
+        </Paper>
+      </Box>
+
       <CalendarModal open={calendarOpen} setOpen={setCalendarOpen} />
     </DragDropContext>
   );

@@ -35,7 +35,8 @@ const JobItem = ({
 
   const job: AllActiveJobsType | undefined =
     data?.allActiveJobs[category].jobs[index];
-  const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
+  const { id, title, company, logo, isFavorite, avatarColor } =
+    job as AllActiveJobsType;
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
@@ -72,6 +73,8 @@ const JobItem = ({
     dispatch(toggleJobModal(!modalState.open));
   };
 
+  console.log(avatarColor);
+
   return (
     <>
       <Draggable draggableId={draggableId} index={index}>
@@ -86,7 +89,12 @@ const JobItem = ({
             }}
             ref={provided.innerRef}
           >
-            <Avatar alt={company} src={logo} onClick={handleOpenModal} />
+            <Avatar
+              alt={company}
+              src={logo}
+              onClick={handleOpenModal}
+              sx={{ bgcolor: avatarColor }}
+            />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
               <Typography variant="body2" sx={{ fontWeight: 500 }} gutterBottom>
                 {title}

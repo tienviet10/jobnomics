@@ -70,7 +70,12 @@ const EachRow: React.FC<any> = ({
           boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
         }}
       >
-        <Avatar variant="square" src={job.logo} alt={job.company} />
+        <Avatar
+          variant="square"
+          src={job.logo}
+          alt={job.company}
+          sx={{ bgcolor: job.avatarColor }}
+        />
       </TableCell>
       <TableCell
         onClick={() => handleOpenModal(job)}
