@@ -1,0 +1,35 @@
+.NavbarLogo,
+.NavbarLogoMobile {
+  height: 30px;
+  object-fit: contain;
+  margin-right: 20px;
+}
+
+.NavbarLogo > img,
+.NavbarLogoMobile > img {
+  height: 100%;
+}
+
+.NavbarLogoMobile {
+  flex-grow: 1;
+}
+
+@media screen and (max-width: 899px) {
+  .NavbarLogo {
+    display: none;
+  }
+
+  .NavbarLogoMobile {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .NavbarLogo {
+    display: flex;
+  }
+
+  .NavbarLogoMobile {
+    display: none;
+  }
+}

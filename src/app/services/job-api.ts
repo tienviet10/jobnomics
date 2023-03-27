@@ -25,7 +25,7 @@ export const jobApi = createApi({
   }),
   tagTypes: ["aJob", "allJobs", "filterJob", "allNotes", "auth"],
   endpoints: (builder) => ({
-    getAllJobs: builder.query<AllJobsDataType, void>({
+    getAllJobs: builder.query<AllJobsDataType, {}>({
       query: () => "job",
       providesTags: ["allJobs"],
       transformResponse: (response: AllJobsDataType, meta, arg) => response,
@@ -109,7 +109,7 @@ export const jobApi = createApi({
         const patchResult = dispatch(
           jobApi.util.updateQueryData(
             "getAllJobs",
-            undefined,
+            {},
             (allJobsDraft: AllJobsDataType) => {
               allJobsDraft = patch.newState;
               return allJobsDraft;

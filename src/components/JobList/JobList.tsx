@@ -33,15 +33,16 @@ const JobList = (): JSX.Element => {
 
   const { user } = useAuth0();
   const { categoryArray, refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
   const [jobInterview, setJobInterview] = useState(-1);
-  const { data: interviewDate } = useGetInterviewDateQuery({
-    jobId: jobInterview,
-  });
+  const { data: interviewDate, refetch: interviewDateRefresh } =
+    useGetInterviewDateQuery({
+      jobId: jobInterview,
+    });
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
@@ -52,7 +53,6 @@ const JobList = (): JSX.Element => {
 
   useEffect(() => {
     if (
-      interviewDate &&
       !interviewDate?.interviewDate &&
       !repositionWithinColumn &&
       jobInterview !== -1
@@ -112,6 +112,14 @@ const JobList = (): JSX.Element => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
+
+      // TODO: Fix for same card interview popup
+      if (
+        removedJob?.id === jobInterview &&
+        sourceCategory !== destinationCategory
+      ) {
+        dispatch(toggleInterviewedModal(true));
+      }
     } else if (destinationCategory !== "Job Offer") {
       dispatch(
         setModalId({
@@ -132,7 +140,7 @@ const JobList = (): JSX.Element => {
           <Typography
             variant="h4"
             className={styles.JobListTitle}
-            color="accent.main"
+            color="neutral.darker"
           >
             <span>
               {user?.name ||
