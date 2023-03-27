@@ -17,8 +17,9 @@ import {
   Avatar,
 } from "@mui/material";
 import { Camera, MenuRounded } from "@mui/icons-material";
-
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const NavBar = () => {
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
@@ -83,6 +84,8 @@ const NavBar = () => {
       },
       authorizationParams: {
         prompt: "login",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };
@@ -94,6 +97,8 @@ const NavBar = () => {
       },
       authorizationParams: {
         screen_hint: "signup",
+        scope: "openid profile email offline_access",
+        audience: audience
       },
     });
   };
