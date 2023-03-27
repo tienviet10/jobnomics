@@ -61,10 +61,10 @@ const EachRow: React.FC<any> = ({
         className={styles.JobLogo}
         onClick={() => handleOpenModal(job)}
         sx={{
-          "&::-webkit-box-shadow": `6px 0 0 ${
+          "&::WebkitBoxShadow": `6px 0 0 ${
             categoryColors[job.categoryId].color
           } inset`,
-          "&::-moz-box-shadow": `6px 0 0 ${
+          "&::MozBoxShadow": `6px 0 0 ${
             categoryColors[job.categoryId].color
           } inset`,
           boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
