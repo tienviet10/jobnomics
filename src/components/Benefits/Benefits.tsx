@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { Box, Button, Card, Modal, styled, Typography } from "@mui/material";
 import ModalWrapperSample from "./ModalWrapperSample";
+import SampleBookmarked from "./SampleBookmarked";
 
 const Benefits = () => {
   const [openOriginalJob, setOpenOriginalJob] = useState(false);
@@ -224,7 +225,7 @@ const Benefits = () => {
             <Button
               variant="contained"
               sx={{ bgcolor: "accent.dark", width: "200px" }}
-              onClick={() => setOpenSummarizedJob(true)}
+              onClick={() => setOpenQAndAJob(true)}
             >
               AI Extracted Sample Interview Q & A
             </Button>
@@ -247,7 +248,7 @@ const Benefits = () => {
         setOpen={handleSummarizedJobClose}
         type="Bookmarked"
       >
-        <div>Here</div>
+        <SampleBookmarked />
       </ModalWrapperSample>
       <ModalWrapperSample
         open={openQAndAJob}
