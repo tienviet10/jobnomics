@@ -26,7 +26,7 @@ const JobItem = ({
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
   const { refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   const [updateJob] = useUpdateJobMutation();
 
   const job: AllActiveJobsType | undefined =

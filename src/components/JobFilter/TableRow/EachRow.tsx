@@ -59,7 +59,6 @@ const EachRow: React.FC<any> = ({
     setLocalFavorite(job?.isFavorite);
   }, [job?.isFavorite]);
 
-  console.log(job);
   return (
     <TableRow hover className={styles.JobRow}>
       <TableCell

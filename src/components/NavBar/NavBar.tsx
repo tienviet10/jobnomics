@@ -70,7 +70,7 @@ const NavBar = () => {
 
   const handleClickLink = (event: React.MouseEvent<HTMLElement>, path: To) => {
     setAnchorElNav(null);
-    // Send request when user click on the Search tab
+     // Send request when user click on the Search tab
     if (path === "/search") {
       refetch()
     }
