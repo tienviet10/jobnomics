@@ -51,7 +51,6 @@ const JobList = (): JSX.Element => {
   }, [isSuccess]);
 
   useEffect(() => {
-    console.log(interviewDate)
     if (
       !interviewDate?.interviewDate &&
       !repositionWithinColumn &&
@@ -112,8 +111,6 @@ const JobList = (): JSX.Element => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
-      console.log("removedJob?.id ",removedJob?.id )
-      console.log("jobInterview",jobInterview )
 
       // TODO: Fix for same card interview popup
       if (removedJob?.id === jobInterview && sourceCategory !== destinationCategory){
