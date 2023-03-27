@@ -67,9 +67,13 @@ const InterviewDateModal = () => {
         sx={{
           width: { xs: "85vw", sm: "60vw", md: "400px" },
           p: { xs: 3, sm: 5 },
+          position: "relative",
         }}
       >
-        <IconButton className={styles.CloseButton} onClick={handleClose}>
+        <IconButton
+          sx={{ position: "absolute", right: "20px", top: "20px" }}
+          onClick={handleClose}
+        >
           <Close fontSize="medium" />
         </IconButton>
         {!isSuccess && (
@@ -91,6 +95,7 @@ const InterviewDateModal = () => {
                 label="Date"
                 type="date"
                 value={date}
+                size="small"
                 InputLabelProps={{
                   shrink: true,
                 }}
@@ -102,6 +107,8 @@ const InterviewDateModal = () => {
                 label="Time"
                 type="time"
                 value={time}
+                size="small"
+                sx={{ my: 2 }}
                 InputLabelProps={{
                   shrink: true,
                 }}

@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import {
-  setModalId,
-  toggleFavorite,
-  toggleJobModal,
-} from "../../../features/jobSlice";
+import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useUpdateJobMutation,
@@ -35,7 +31,8 @@ const JobItem = ({
 
   const job: AllActiveJobsType | undefined =
     data?.allActiveJobs[category].jobs[index];
-  const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
+  const { id, title, company, logo, isFavorite, avatarColor } =
+    job as AllActiveJobsType;
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
@@ -86,7 +83,12 @@ const JobItem = ({
             }}
             ref={provided.innerRef}
           >
-            <Avatar alt={company} src={logo} onClick={handleOpenModal} />
+            <Avatar
+              alt={company}
+              src={logo}
+              onClick={handleOpenModal}
+              sx={{ bgcolor: avatarColor }}
+            />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
               <Typography variant="body2" sx={{ fontWeight: 500 }} gutterBottom>
                 {title}
