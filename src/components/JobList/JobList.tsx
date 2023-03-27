@@ -159,7 +159,7 @@ const JobList = (): JSX.Element => {
           <Paper
             elevation={5}
             className={styles.JobBoard}
-            sx={{ backgroundColor: "primary.light" }}
+            sx={{ backgroundColor: "neutral.light" }}
           >
             {Object.keys(data?.allActiveJobs).map(
               (category: string, index: number) => (

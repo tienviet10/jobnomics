@@ -97,10 +97,10 @@ const theme = createTheme({
       fontWeight: 700,
     },
     subtitle2: {
-      fontSize: "0.9rem",
+      fontSize: "0.8rem",
       fontWeight: 700,
       "@media (min-width:900px)": {
-        fontSize: "1.1rem",
+        fontSize: "1rem",
       },
     },
     caption: {
@@ -109,6 +109,7 @@ const theme = createTheme({
       "@media (min-width:600px)": {
         fontSize: "0.9rem",
       },
+      lineHeight: "1rem",
     },
   },
 });
