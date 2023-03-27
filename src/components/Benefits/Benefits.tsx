@@ -1,7 +1,12 @@
-import { Box, styled, Typography } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+
+import { Box, Button, Card, Modal, styled, Typography } from "@mui/material";
 
 const Benefits = () => {
+  const [openOriginalJob, setOpenOriginalJob] = useState(false);
+  const [openSummarizedJob, setOpenSummarizedJob] = useState(false);
+  const [openQAndAJob, setOpenQAndAJob] = useState(false);
+
   const CustomBox = styled(Box)(({ theme }) => ({
     width: "30%",
     [theme.breakpoints.down("md")]: {
@@ -14,6 +19,7 @@ const Benefits = () => {
     justifyContent: "space-around",
     width: "100vw",
     padding: `${theme.spacing(8)} ${theme.spacing(5)}`,
+    paddingBottom: 0,
     [theme.breakpoints.down("md")]: {
       width: "100%",
     },
@@ -27,15 +33,28 @@ const Benefits = () => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    justifyContent: "space-between",
     marginTop: theme.spacing(5),
-    width: "250px",
+    width: "280px",
     flexShrink: 0,
     [theme.breakpoints.down("sm")]: {
       width: "250px",
     },
     objectFit: "cover",
-    margin: "20px auto",
+    margin: "40px auto",
   }));
+
+  const handleOriginalJobClose = () => {
+    setOpenOriginalJob(false);
+  };
+
+  const handleSummarizedJobClose = () => {
+    setOpenSummarizedJob(false);
+  };
+
+  const handleQAndAJobClose = () => {
+    setOpenQAndAJob(false);
+  };
 
   return (
     <Box
@@ -85,89 +104,141 @@ const Benefits = () => {
 
       <BenefitsBox>
         <BenefitBox>
-          <Box
-            sx={{
-              height: "200px",
-              width: "80%",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            <img
-              src={"/images/newsletter.svg"}
-              alt="person opening envelope"
-              style={{ height: "90%" }}
-            />
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                height: "200px",
+                width: "80%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={"/images/newsletter.svg"}
+                alt="person opening envelope"
+                style={{ height: "90%" }}
+              />
+            </Box>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "500",
+                color: "primary.dark",
+                my: 1,
+              }}
+            >
+              Get email notification before interview date and after interview
+              to keep track of interview experiences.
+            </Typography>
           </Box>
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "500",
-              color: "primary.dark",
-              my: 1,
-            }}
-          >
-            Get email notification before interview date and after interview to
-            keep track of interview experiences.
-          </Typography>
         </BenefitBox>
 
         <BenefitBox>
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                height: "200px",
+                width: "80%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={"/images/time_management.svg"}
+                alt="person in front of large clock"
+                style={{ height: "90%" }}
+              />
+            </Box>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "500",
+                color: "primary.dark",
+                my: 1,
+              }}
+            >
+              Saves you time by displaying key point of the job information and
+              technical skills needed for each job in less than 150 words.
+            </Typography>
+          </Box>
           <Box
             sx={{
-              height: "200px",
-              width: "80%",
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <img
-              src={"/images/time_management.svg"}
-              alt="person in front of large clock"
-              style={{ height: "90%" }}
-            />
+            <Button
+              variant="contained"
+              sx={{ width: "200px", mb: 1, mt: 1 }}
+              onClick={() => setOpenOriginalJob(true)}
+            >
+              Original Job Posting
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ bgcolor: "accent.dark", width: "200px" }}
+              onClick={() => setOpenSummarizedJob(true)}
+            >
+              AI Summarized Job Description
+            </Button>
           </Box>
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "500",
-              color: "primary.dark",
-              my: 1,
-            }}
-          >
-            Saves you time by displaying key point of the job information and
-            technical skills needed for each job in less than 150 words.
-          </Typography>
         </BenefitBox>
 
         <BenefitBox>
+          <Box sx={{ width: "100%" }}>
+            <Box
+              sx={{
+                height: "200px",
+                width: "80%",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                src={"/images/question.svg"}
+                alt="two people around a large question mark"
+                style={{ height: "90%" }}
+              />
+            </Box>
+            <Typography
+              variant="body1"
+              sx={{
+                fontWeight: "500",
+                color: "primary.dark",
+                my: 1,
+              }}
+            >
+              Get sample interview questions and answers based on the specific
+              job application.
+            </Typography>
+          </Box>
           <Box
             sx={{
-              height: "200px",
-              width: "80%",
               display: "flex",
-              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
             }}
           >
-            <img
-              src={"/images/question.svg"}
-              alt="two people around a large question mark"
-              style={{ height: "90%" }}
-            />
+            <Button
+              variant="contained"
+              sx={{ bgcolor: "accent.dark", width: "200px" }}
+              onClick={() => setOpenSummarizedJob(true)}
+            >
+              AI Extracted Sample Interview Q & A
+            </Button>
           </Box>
-          <Typography
-            variant="body1"
-            sx={{
-              fontWeight: "500",
-              color: "primary.dark",
-              my: 1,
-            }}
-          >
-            Get sample interview questions and answers based on the specific job
-            application.
-          </Typography>
         </BenefitBox>
       </BenefitsBox>
+      <Modal open={openOriginalJob} onClose={handleOriginalJobClose}>
+        <Card></Card>
+      </Modal>
+      <Modal open={openSummarizedJob} onClose={handleSummarizedJobClose}>
+        <Card></Card>
+      </Modal>
+      <Modal open={openQAndAJob} onClose={handleQAndAJobClose}>
+        <Card></Card>
+      </Modal>
     </Box>
   );
 };
