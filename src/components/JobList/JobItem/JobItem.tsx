@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import {
-  setModalId,
-  toggleFavorite,
-  toggleJobModal,
-} from "../../../features/jobSlice";
+import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useUpdateJobMutation,
@@ -72,8 +68,6 @@ const JobItem = ({
 
     dispatch(toggleJobModal(!modalState.open));
   };
-
-  console.log(avatarColor);
 
   return (
     <>

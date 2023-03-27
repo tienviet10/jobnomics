@@ -121,7 +121,6 @@ const JobList = (): JSX.Element => {
       );
     }
   };
-  console.log(data?.allActiveJobs);
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
