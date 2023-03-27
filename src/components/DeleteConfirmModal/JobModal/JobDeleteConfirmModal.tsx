@@ -28,7 +28,6 @@ const JobDeleteConfirmModal = ({
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
   const auth = useSelector((state: RootState) => state.auth);
-
   const { data } = useGetAllJobsQuery({token: auth.accessToken});
   // const { allActiveJobs, staleJobs } = data;
   const { selectedJob } = useGetAJob();
