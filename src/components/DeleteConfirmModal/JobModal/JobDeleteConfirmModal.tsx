@@ -9,7 +9,7 @@ import styles from "./JobDeleteConfirmModal.module.css";
 import { Button, Card, IconButton, Modal, Typography } from "@mui/material";
 import { CloseRounded } from "@mui/icons-material";
 
-import { Job } from "../../../types/jobTypes";
+import { AllActiveJobsType, Job, JobType } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { setSelectedJob, toggleJobModal } from "../../../features/jobSlice";
 import LoadingAnimation from "../../LoadingAnimation";
@@ -37,8 +37,15 @@ const JobDeleteConfirmModal = ({
 
   const handleDelete = async () => {
     const currentJob = data?.allActiveJobs[selectedJob?.category.name].jobs;
-    const allJobsWithinCategory = [];
-    const updatedJobs = [];
+    const allJobsWithinCategory: AllActiveJobsType[] = [];
+    const updatedJobs: {
+      jobId: number;
+      categoryId: number;
+      newCategoryId: number;
+      position: number;
+      isDeleted: boolean;
+      isChanged?: boolean;
+    }[] = [];
 
     //  TODO: Consider send just a delete method to BE (was implemented after) to delete the job and repositioning
     for (const index in currentJob) {
@@ -70,7 +77,7 @@ const JobDeleteConfirmModal = ({
           newCategoryId: selectedJob?.category.id,
           position: -1,
           isDeleted: true,
-          isChanaged: true,
+          isChanged: true,
         });
       }
     }
@@ -127,6 +134,16 @@ const JobDeleteConfirmModal = ({
                 fontWeight="bold"
               >
                 {selectedJob?.job?.title}
+              </Typography>{" "}
+              <Typography variant="body1" className={styles.DeleteMessage}>
+                of
+              </Typography>{" "}
+              <Typography
+                variant="body1"
+                className={styles.DeleteMessage}
+                fontWeight="bold"
+              >
+                {selectedJob?.job?.company}
               </Typography>
               <Typography variant="body1" className={styles.DeleteMessage}>
                 ?
