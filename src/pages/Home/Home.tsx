@@ -41,8 +41,8 @@ const Home = () => {
   return (
     <main>
       <Hero />
-      <Benefits />
       <PageDemo />
+      <Benefits />
       {/* <Box
         sx={{
           bgcolor: "background.paper",
