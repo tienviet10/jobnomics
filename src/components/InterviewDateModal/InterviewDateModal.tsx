@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useUpdateJobMutation } from "../../app/services/job-api";
+import { useGetInterviewDateQuery, useUpdateJobMutation } from "../../app/services/job-api";
 import { toggleInterviewedModal } from "../../features/jobSlice";
 import { RootState } from "../../app/store";
 
@@ -30,34 +30,49 @@ const InterviewDateModal = () => {
   }, []);
 
   const [updateJob, { isSuccess }] = useUpdateJobMutation();
+  const [localState, setLocalState] = useState(false);
   const dispatch = useDispatch();
   const selectedJobState = useSelector(
     (state: RootState) => state.job.interviewModal
   );
 
-  const open = selectedJobState?.open;
+  const { refetch } =
+    useGetInterviewDateQuery({
+      jobId: selectedJobState?.jobCategoryId?.jobId,
+    });
 
   const handleClose = () => {
     dispatch(toggleInterviewedModal(false));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const dateTime = new Date(date + "T" + time + ":00");
-    updateJob({
+    await updateJob({
       jobId: selectedJobState?.jobCategoryId?.jobId,
       categoryId: selectedJobState?.jobCategoryId?.categoryId,
       interviewDate: dateTime.toISOString(),
       type: "update",
     });
 
+    // Interview date got refresh when user submit -> problem 1 (in JobList)
+    refetch()
+    
+    setLocalState(true)
+
     setTimeout(() => {
       dispatch(toggleInterviewedModal(false));
     }, 3000);
   };
 
+  useEffect(()=>{
+    if(selectedJobState?.open){
+      setLocalState(false)
+    }
+  },[selectedJobState?.open])
+
   return (
     <Modal
-      open={open}
+      open={selectedJobState?.open}
       onClose={handleClose}
       className={styles.DateModalContainer}
     >
@@ -76,7 +91,7 @@ const InterviewDateModal = () => {
         >
           <Close fontSize="medium" />
         </IconButton>
-        {!isSuccess && (
+        {!localState && (
           <>
             <Box className={styles.Congratulation}>
               <img
@@ -127,7 +142,7 @@ const InterviewDateModal = () => {
             </Button>
           </>
         )}
-        {isSuccess && (
+        {localState && (
           <Box
             sx={{
               height: "200px",
@@ -139,7 +154,7 @@ const InterviewDateModal = () => {
           >
             <CheckCircleRounded color="success" sx={{ fontSize: 40, mb: 2 }} />
             <Typography textAlign={"center"} sx={{ width: "100%" }}>
-              Your interview has been successfully sheduled!
+              Your interview has been successfully scheduled!
             </Typography>
             <Button
               sx={{ mt: 3 }}
