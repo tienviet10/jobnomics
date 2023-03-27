@@ -10,29 +10,31 @@ import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 
 import { theme } from "./theme/theme";
+import { useGetAllJobsQuery } from "./app/services/job-api";
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 function App() {
   const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { refetch } = useGetAllJobsQuery({});
 
-  useEffect(()=>{
-    if(isAuthenticated){
-      security.setAccessTokenSilently(()=>getAccessTokenSilently({authorizationParams:{
-        scope: "openid profile email offline_access",
-        audience: audience,
-      }}));
+  useEffect(() => {
+    if (isAuthenticated) {
+      security.setAccessTokenSilently(() => getAccessTokenSilently({
+        authorizationParams: {
+          scope: "openid profile email offline_access",
+          audience: audience,
+        }
+      }));
+      refetch();
     }
-  },[isAuthenticated])
-
-
-  
+  }, [isAuthenticated]);
 
   return (
     <ThemeProvider theme={theme}>
       <div className="App">
         <CssBaseline />
-        <NavBar />
         <Router />
+        <NavBar />
       </div>
     </ThemeProvider>
   );
