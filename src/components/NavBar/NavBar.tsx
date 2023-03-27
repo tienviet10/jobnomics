@@ -38,6 +38,7 @@ const NavBar = () => {
     },
     { name: "Notes", path: "/notes", disabled: location.pathname === "/notes" },
   ];
+  
   const userSettings = [
     {
       name: "Logout",

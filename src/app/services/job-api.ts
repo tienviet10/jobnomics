@@ -15,18 +15,18 @@ export const jobApi = createApi({
   reducerPath: "jobApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
-    prepareHeaders: async (headers) => {
-      const access_token = await security.getAccessTokenSilently()();
-      if (access_token) {
-        headers.set("Authorization", `Bearer ${access_token}`);
-      }
-      return headers;
-    },
+    // prepareHeaders: async (headers) => {
+    //   const access_token = await security.getAccessTokenSilently()();
+    //   if (access_token) {
+    //     headers.set("Authorization", `Bearer ${access_token}`);
+    //   }
+    //   return headers;
+    // },
   }),
   tagTypes: ["aJob", "allJobs", "filterJob", "allNotes", "auth"],
   endpoints: (builder) => ({
-    getAllJobs: builder.query<AllJobsDataType, {}>({
-      query: () => "job",
+    getAllJobs: builder.query<AllJobsDataType, { token: string; }>({
+      query: ({ token }) => ({ url: "job", headers: { "Authorization": `Bearer ${token}` } }),
       providesTags: ["allJobs"],
       transformResponse: (response: AllJobsDataType, meta, arg) => response,
       transformErrorResponse: (
@@ -36,14 +36,15 @@ export const jobApi = createApi({
       ) => response.status,
     }),
     getJobById: builder.query({
-      query: ({ jobId, categoryId }) => ({
+      query: ({ jobId, categoryId, token }) => ({
         url: `job/${jobId}/${categoryId}`,
+        headers: { "Authorization": `Bearer ${token}` }
       }),
       transformResponse: (response: JobType, meta, arg) => response,
       providesTags: ["aJob"],
     }),
     getAllNotes: builder.query({
-      query: ({ column, order }) => ({ url: `job/notes/${column}/${order}` }),
+      query: ({ column, order }) => ({ url: `job/notes/${column}/${order}`, headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` } }),
       providesTags: ["allNotes"],
       transformResponse: (response: NotesType[], meta, arg) => response,
       transformErrorResponse: (
@@ -58,6 +59,7 @@ export const jobApi = createApi({
           url: "auto/",
           method: "POST",
           body,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
       transformResponse: (response: AddANewJobResponse, meta, arg) => response,
@@ -74,6 +76,7 @@ export const jobApi = createApi({
           url: "job/",
           method: "POST",
           body,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
     }),
@@ -86,6 +89,7 @@ export const jobApi = createApi({
           url: "job/interview-questions",
           method: "POST",
           body,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
     }),
@@ -96,6 +100,7 @@ export const jobApi = createApi({
           url: "job",
           method: "PATCH",
           body: patch,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
       transformResponse: (response: { data: JobType; }, meta, arg) =>
@@ -109,7 +114,7 @@ export const jobApi = createApi({
         const patchResult = dispatch(
           jobApi.util.updateQueryData(
             "getAllJobs",
-            {},
+            { token: "" },
             (allJobsDraft: AllJobsDataType) => {
               allJobsDraft = patch.newState;
               return allJobsDraft;
@@ -136,6 +141,7 @@ export const jobApi = createApi({
           url: "job/user-job",
           method: "PATCH",
           body: patch,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
       transformResponse: (response: { data: JobType; }, meta, arg) => response,
@@ -152,6 +158,7 @@ export const jobApi = createApi({
         url: "job/checklist",
         method: "PATCH",
         body: patch,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
@@ -167,6 +174,7 @@ export const jobApi = createApi({
         url: "job/note",
         method: "PATCH",
         body: patch,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (response: { data: JobType; }, meta, arg) =>
         response.data,
@@ -181,6 +189,7 @@ export const jobApi = createApi({
       query: (params) => ({
         url: "job/filter",
         params,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (response: Job[], meta, arg) => response,
       providesTags: ["filterJob"],
@@ -190,6 +199,7 @@ export const jobApi = createApi({
         url: "job/rejected-reason",
         method: "PATCH",
         body: patch,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       invalidatesTags: ["aJob"],
       transformResponse: (response: { message: string; }, meta, arg) => response,
@@ -202,6 +212,7 @@ export const jobApi = createApi({
     getInterviewDate: builder.query({
       query: ({ jobId }) => ({
         url: `job/interviewDate/${jobId}`,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (
         response: { interviewDate?: string; error?: string; },
@@ -212,12 +223,13 @@ export const jobApi = createApi({
     getAllInterviewDates: builder.query<AllInterviewDatesResponse[], void>({
       query: () => ({
         url: `job/interviewDates`,
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (response: AllInterviewDatesResponse[], meta, arg) =>
         response,
     }),
     saveUser: builder.query<{ message: string; }, void>({
-      query: () => "auth",
+      query: () => ({ url: "auth", headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` } }),
       providesTags: ["auth"],
       transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
@@ -231,6 +243,7 @@ export const jobApi = createApi({
         url: "auth/email-verification",
         method: "PATCH",
         body: {},
+        headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
       }),
       transformResponse: (response: { message: string; }, meta, arg) => response,
       transformErrorResponse: (
@@ -246,6 +259,7 @@ export const jobApi = createApi({
           url: "job/recover",
           method: "PATCH",
           body: patch,
+          headers: { "Authorization": `Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkZaTnUxZnNUcUQ4LV9UYU9xRXBEWCJ9.eyJodHRwczovL2V4YW1wbGUuY29tL2VtYWlsIjoidmlldHRyYW4xMDEyOTRAZ21haWwuY29tIiwiaXNzIjoiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDU1OTg1MDg4OTczODUxMDg4MDYiLCJhdWQiOlsiR3Vlc3Mgd2hhdCBpcyB0aGlzIHVuaXF1ZSBJREVOVElGSUVSIiwiaHR0cHM6Ly9kZXYtc2pyeHcwaTN6cjU4NTR5cS51cy5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjc5OTUzNTI2LCJleHAiOjE2ODAwMzk5MjYsImF6cCI6Ikl5RjRyUFFCdUQ3N0FBVnM3YVZXdjF5NUdPcHhHZmhhIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCBvZmZsaW5lX2FjY2VzcyJ9.piIWWq8WPPyFGs-DfrNie-hgIKsKSidusxat7bJBcKkswL-mCiCMxeGvkCFqS7iDHxstxSmvBEqSeISa9Tq6lnEysw6XdGIS6lkT66fabm9GEA1Z3MGpBr-eFf_ZNfG5SAr9OIhrNM1Q-9z3WCH_0g3p8nn4JJzxP4mC0xOWwZs1TNQIZv9c_nKpUzw30cbII6IKjsFQRNbi2N1hjrCw9QsUM8LcDAY-aCuft5bdcPdSBQWebIqxmLTP1cRNZM1EsgYaJ1Z-No1qjjylpmpj4puLeD7qb_ZfZ60WLxSgGdPXmQ5lO0bf1-sPGN-A2NH0IlVjYC1uryZd41oRf7RdAQ` }
         };
       },
       transformResponse: (response: { data: JobType; }, meta, arg) => {

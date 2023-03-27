@@ -7,10 +7,12 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { jobApi } from "./services/job-api";
 import jobReducer from "../features/jobSlice";
 import filterReducer from "../features/filterSlice";
+import authReducer from "../features/authSlice";
 
 const rootReducer = combineReducers({
   job: jobReducer,
   filter: filterReducer,
+  auth: authReducer,
   [jobApi.reducerPath]: jobApi.reducer,
 });
 

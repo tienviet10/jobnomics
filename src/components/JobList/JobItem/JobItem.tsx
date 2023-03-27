@@ -12,6 +12,8 @@ import { Avatar, Typography, Card } from "@mui/material";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { AllActiveJobsType } from "../../../types/jobTypes";
+import { RootState } from "../../../app/store";
+import { useSelector } from "react-redux";
 
 type JobItemProps = {
   draggableId: string;
@@ -26,7 +28,8 @@ const JobItem = ({
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
   const { refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
   const [updateJob] = useUpdateJobMutation();
 
   const job: AllActiveJobsType | undefined =

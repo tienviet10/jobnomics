@@ -24,9 +24,12 @@ import {
   CreateJobModalPropType,
   JobType,
 } from "../../types/jobTypes";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 const InactiveJobsModal = ({ open, setOpen }: CreateJobModalPropType) => {
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
   const [updateJobs] = useUpdateJobsMutation();
   const [updateJob] = useUpdateJobMutation();
 

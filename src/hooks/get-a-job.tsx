@@ -6,11 +6,13 @@ import { GetAJobType, Skill } from "../types/jobTypes";
 
 export function useGetAJob(): GetAJobType {
   const state = useSelector((state: RootState) => state.job);
+  const auth = useSelector((state: RootState) => state.auth);
   const categoryArray = state.categoryOrder;
   const modalState = state.modal;
   const selectedJob = state.selectedJob;
   const previousJob = state.previousJob
   const { jobId, categoryId } = modalState.jobCategoryId;
+
   const {
     data: aJob,
     refetch,
@@ -21,6 +23,7 @@ export function useGetAJob(): GetAJobType {
   } = useGetJobByIdQuery({
     jobId,
     categoryId,
+    token:auth.accessToken
   });
 
   const skills = selectedJob?.job?.skills

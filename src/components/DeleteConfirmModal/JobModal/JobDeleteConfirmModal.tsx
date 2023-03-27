@@ -13,6 +13,8 @@ import { AllActiveJobsType, Job, JobType } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { setSelectedJob, toggleJobModal } from "../../../features/jobSlice";
 import LoadingAnimation from "../../LoadingAnimation";
+import { RootState } from "../../../app/store";
+import { useSelector } from "react-redux";
 
 type DeleteConfirmModalProps = {
   open: boolean;
@@ -25,7 +27,9 @@ const JobDeleteConfirmModal = ({
   setOpen,
 }: DeleteConfirmModalProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
   // const { allActiveJobs, staleJobs } = data;
   const { selectedJob } = useGetAJob();
   const [updateJobs, { isError, isLoading, isSuccess }] =

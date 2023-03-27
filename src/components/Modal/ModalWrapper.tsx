@@ -36,6 +36,8 @@ import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 import ModalPlaceholder from "./ModalPlaceholder";
 import { processColumns } from "../../helper/react-dnd-logic";
 import { AllActiveJobsDataType } from "../../types/jobTypes";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
@@ -46,7 +48,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
-  const { data } = useGetAllJobsQuery({});
+    const auth = useSelector((state: RootState) => state.auth);
+    const { data } = useGetAllJobsQuery({token: auth.accessToken});
   // const { allActiveJobs, staleJobs } = data;
   const {
     aJob,

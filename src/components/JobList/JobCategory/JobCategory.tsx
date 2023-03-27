@@ -7,9 +7,12 @@ import JobItem from "../JobItem";
 import CreateJobModal from "../../CreateJobModal";
 
 import type { AllActiveJobsType, CategoryProps } from "../../../types/jobTypes";
+import { RootState } from "../../../app/store";
+import { useSelector } from "react-redux";
 
 const JobCategory = ({ category }: CategoryProps): JSX.Element => {
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
   const [open, setOpen] = useState(false);
 
   const handleAddJobClick = () => {

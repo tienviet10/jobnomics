@@ -10,11 +10,22 @@ import JobModal from "../../components/JobModal";
 import InterviewDateModal from "../../components/InterviewDateModal";
 import InactiveJobsModal from "../../components/InactiveJobsModal";
 import PageLoader from "../../components/PageLoader";
+import { useGetAccessToken } from "../../hooks/auth-header";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 const JobPage = () => {
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
 
   const [openInactiveModal, setOpenInactiveModal] = useState(false);
+
+  // const {getAccessToken} = useGetAccessToken();
+  
+  // const toekn = async () => {
+  //   const token = await getAccessToken()
+  //   console.log(token)
+  // }
 
   useEffect(() => {
     const currentDate = Date.now();

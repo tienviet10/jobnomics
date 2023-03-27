@@ -27,13 +27,16 @@ import JobCategory from "./JobCategory";
 import CalendarModal from "../../components/Calendar";
 
 import { AllActiveJobsDataType } from "../../types/jobTypes";
+import { RootState } from "../../app/store";
+import { useSelector } from "react-redux";
 
 const JobList = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const { user } = useAuth0();
   const { categoryArray, refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery({});
+  const auth = useSelector((state: RootState) => state.auth);
+  const { data } = useGetAllJobsQuery({token: auth.accessToken});
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
@@ -63,7 +66,7 @@ const JobList = (): JSX.Element => {
       dispatch(toggleInterviewedModal(true));
     }
   }, [interviewDate]);
-console.log(interviewDate)
+
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
