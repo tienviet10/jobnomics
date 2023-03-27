@@ -11,11 +11,11 @@
 .Spinner {
   --size: 75px;
   --clr-bg: #272324;
-  --clr1: #bbbb88;
-  --clr2: #ccc68d;
-  --clr3: #eedd99;
-  --clr4: #eec290;
-  --clr5: #eeaa88;
+  --clr1: #00897b;
+  --clr2: #007d93;
+  --clr3: #006eae;
+  --clr4: #0049b9;
+  --clr5: #630097;
 
   --animation-duration: 5000ms;
   position: relative;
