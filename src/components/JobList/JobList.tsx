@@ -38,8 +38,10 @@ const JobList = (): JSX.Element => {
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
+
+  // Only take care of when a different card is chosen, get the interviewDate -> problem 1
   const [jobInterview, setJobInterview] = useState(-1);
-  const { data: interviewDate, refetch: interviewDateRefresh } =
+  const { data: interviewDate } =
     useGetInterviewDateQuery({
       jobId: jobInterview,
     });
@@ -51,6 +53,7 @@ const JobList = (): JSX.Element => {
     refetch();
   }, [isSuccess]);
 
+  // Only take care of when a different card is chosen, get the interviewDate -> problem 1
   useEffect(() => {
     if (
       !interviewDate?.interviewDate &&
@@ -60,7 +63,7 @@ const JobList = (): JSX.Element => {
       dispatch(toggleInterviewedModal(true));
     }
   }, [interviewDate]);
-
+console.log(interviewDate)
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
@@ -113,10 +116,10 @@ const JobList = (): JSX.Element => {
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
 
-      // TODO: Fix for same card interview popup
+      // TODO: Only run when it is the same card that was chosen -> problem 1. Interview date got refresh when user submitted
       if (
         removedJob?.id === jobInterview &&
-        sourceCategory !== destinationCategory
+        sourceCategory !== destinationCategory && !interviewDate?.interviewDate
       ) {
         dispatch(toggleInterviewedModal(true));
       }
