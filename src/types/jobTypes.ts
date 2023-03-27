@@ -10,7 +10,6 @@ export type UserJobsType = {
   previousJob: { jobId: number; categoryId: number };
 };
 
-
 type ModalType = {
   open: boolean;
   jobCategoryId: { jobId: number; categoryId: number };
@@ -26,6 +25,7 @@ export type JobPreviewType = {
 };
 
 export type JobType = {
+  isActive: boolean;
   category: {
     id: number;
     name: string;
@@ -139,7 +139,7 @@ export type DrawComponentType = {
 };
 
 export type MenuStateType = {
-  [key: string]: { anchorEl: Element | null; open: boolean; };
+  [key: string]: { anchorEl: Element | null; open: boolean };
 };
 
 export type ManageSearchPageType = {
@@ -151,11 +151,14 @@ export type ManageSearchPageType = {
   handleRequestSort: (property: string) => void;
   jobsList: Job[];
   menuStates: MenuStateType;
-  handleMenuOpen: (job: Job, event: React.MouseEvent<HTMLButtonElement>) => void,
-  handleMenuClose: (job: Job) => void,
-  handleDelete: (job: Job) => void,
-  openDeleteModal: boolean,
-  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>,
+  handleMenuOpen: (
+    job: Job,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  handleMenuClose: (job: Job) => void;
+  handleDelete: (job: Job) => void;
+  openDeleteModal: boolean;
+  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedJob: Job | null;
   refetch: any;
 };

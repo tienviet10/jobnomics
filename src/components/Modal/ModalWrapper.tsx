@@ -241,6 +241,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                       label="Job Status"
                       value={currentCategory}
                       onChange={handleStatusChange}
+                      disabled={!selectedJob.isActive}
                     >
                       {categoryArray.map((category, index) => (
                         <MenuItem
