@@ -140,7 +140,7 @@ const EachRow: React.FC<any> = ({
           }}
         >
           {!job.isActive && (
-            <MenuItem onClick={() => handleRecover(job)}>Reactive</MenuItem>
+            <MenuItem onClick={() => handleRecover(job)}>Reactivate</MenuItem>
           )}
           <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
         </Menu>
