@@ -3,6 +3,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 
 import styles from "./Home.module.css";
 import { Button, Stack, Box, Typography, Container } from "@mui/material";
+import Hero from "../../components/Hero/";
+import PageDemo from "../../components/PageDemo";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -17,11 +19,11 @@ const Home = () => {
       authorizationParams: {
         prompt: "login",
         scope: "openid profile email offline_access",
-        audience: audience
+        audience: audience,
       },
     });
   };
-  
+
   const handleSignup = async () => {
     await loginWithRedirect({
       appState: {
@@ -30,14 +32,16 @@ const Home = () => {
       authorizationParams: {
         screen_hint: "signup",
         scope: "openid profile email offline_access",
-        audience: audience
+        audience: audience,
       },
     });
   };
 
   return (
     <main>
-      <Box
+      <Hero />
+      <PageDemo />
+      {/* <Box
         sx={{
           bgcolor: "background.paper",
           pt: 8,
@@ -79,7 +83,7 @@ const Home = () => {
             </Button>
           </Stack>
         </Container>
-      </Box>
+      </Box> */}
     </main>
   );
 };

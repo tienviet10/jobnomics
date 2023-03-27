@@ -29,7 +29,11 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { logout, refetch } = useManageSearchPage();
 
-  const pages: { name: string; path: string; disabled: boolean }[] = [
+  const pages: {
+    name: string;
+    path: string;
+    disabled: boolean;
+  }[] = [
     { name: "Job Board", path: "/job", disabled: location.pathname === "/job" },
     {
       name: "Search",
@@ -128,6 +132,7 @@ const NavBar = () => {
               handleClickLink(event, page.path);
             }
           }}
+          disabled={page.disabled}
         >
           <Typography textAlign="center">{page.name}</Typography>
         </MenuItem>
@@ -144,14 +149,24 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar color={"primary"}>
+    <AppBar
+      sx={{
+        backgroundColor: location.pathname === "/" ? "transparent" : "primary",
+      }}
+      elevation={location.pathname === "/" ? 0 : 3}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <a
             href={isAuthenticated ? "/job" : "/"}
             className={styles.NavbarLogo}
           >
-            <img src={"images/logo.png"} alt="jobnomics logo" />
+            <img
+              src={`images/${
+                location.pathname === "/" ? "logo-dark" : "logo"
+              }.png`}
+              alt="jobnomics logo"
+            />
           </a>
           {isAuthenticated && (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -161,6 +176,9 @@ const NavBar = () => {
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
                 color="inherit"
+                sx={{
+                  color: location.pathname === "/" ? "primary.dark" : "#ffffff",
+                }}
               >
                 <MenuRounded />
               </IconButton>
@@ -190,7 +208,12 @@ const NavBar = () => {
             href={isAuthenticated ? "/job" : "/"}
             className={styles.NavbarLogoMobile}
           >
-            <img src={"images/logo.png"} alt="jobnomics logo" />
+            <img
+              src={`images/${
+                location.pathname === "/" ? "logo-dark" : "logo"
+              }.png`}
+              alt="jobnomics logo"
+            />
           </a>
 
           {isAuthenticated && (
@@ -200,7 +223,8 @@ const NavBar = () => {
                   key={page.name}
                   onClick={(event) => handleClickLink(event, page.path)}
                   sx={{
-                    color: "white",
+                    color:
+                      location.pathname === "/" ? "primary.dark" : "#ffffff",
                     display: "block",
                     fontSize: "16px",
                   }}
@@ -266,7 +290,12 @@ const NavBar = () => {
                   <Button
                     key={setting.name}
                     onClick={setting.handleAuthentication}
-                    sx={{ color: "white", display: "block", fontSize: "16px" }}
+                    sx={{
+                      color:
+                        location.pathname === "/" ? "primary.dark" : "#ffffff",
+                      display: "block",
+                      fontSize: "16px",
+                    }}
                   >
                     {setting.name}
                   </Button>
@@ -284,7 +313,10 @@ const NavBar = () => {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
-                  color="inherit"
+                  sx={{
+                    color:
+                      location.pathname === "/" ? "primary.dark" : "#ffffff",
+                  }}
                 >
                   <MenuRounded />
                 </IconButton>
