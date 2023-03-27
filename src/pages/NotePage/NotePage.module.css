@@ -20,6 +20,14 @@ h5.NotePageTitle {
   margin-right: 50px;
 }
 
+.SortBy {
+  display: flex;
+  align-items: center;
+
+  flex: 1;
+  justify-content: flex-end;
+}
+
 .AccordionSummary {
   display: flex;
   align-items: center;
@@ -28,13 +36,4 @@ h5.NotePageTitle {
 p.NoteMain {
   padding: 10px 20px;
   border-radius: 5px;
-}
-
-.SortBy {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-
-  flex: 1;
-  justify-content: flex-end;
 }
