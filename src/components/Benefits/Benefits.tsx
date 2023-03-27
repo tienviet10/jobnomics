@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { Box, Button, Card, Modal, styled, Typography } from "@mui/material";
+import ModalWrapperSample from "./ModalWrapperSample";
 
 const Benefits = () => {
   const [openOriginalJob, setOpenOriginalJob] = useState(false);
@@ -230,15 +231,18 @@ const Benefits = () => {
           </Box>
         </BenefitBox>
       </BenefitsBox>
-      <Modal open={openOriginalJob} onClose={handleOriginalJobClose}>
-        <Card></Card>
-      </Modal>
-      <Modal open={openSummarizedJob} onClose={handleSummarizedJobClose}>
-        <Card></Card>
-      </Modal>
-      <Modal open={openQAndAJob} onClose={handleQAndAJobClose}>
-        <Card></Card>
-      </Modal>
+      <ModalWrapperSample
+        open={openOriginalJob}
+        setOpen={handleOriginalJobClose}
+      ></ModalWrapperSample>
+      <ModalWrapperSample
+        open={openSummarizedJob}
+        setOpen={handleSummarizedJobClose}
+      ></ModalWrapperSample>
+      <ModalWrapperSample
+        open={openQAndAJob}
+        setOpen={handleQAndAJobClose}
+      ></ModalWrapperSample>
     </Box>
   );
 };
