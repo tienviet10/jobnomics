@@ -7,12 +7,12 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
 };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number };
+  jobCategoryId: { jobId: number; categoryId: number; };
 };
 
 export type JobPreviewType = {
@@ -140,7 +140,7 @@ export type DrawComponentType = {
 };
 
 export type MenuStateType = {
-  [key: string]: { anchorEl: Element | null; open: boolean };
+  [key: string]: { anchorEl: Element | null; open: boolean; };
 };
 
 export type ManageSearchPageType = {
@@ -158,6 +158,7 @@ export type ManageSearchPageType = {
   ) => void;
   handleMenuClose: (job: Job) => void;
   handleDelete: (job: Job) => void;
+  handleRecover: (job: Job) => void,
   openDeleteModal: boolean;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedJob: Job | null;
@@ -201,7 +202,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number };
+  previousJob: { jobId: number; categoryId: number; };
   isSuccess: boolean;
 };
 
@@ -218,7 +219,7 @@ export type AllActiveJobsType = {
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
 };
 
 export type CalendarEventsType = {

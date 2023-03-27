@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useFilterJobsQuery } from "../../app/services/job-api";
+import { useFilterJobsQuery, useRecoverJobMutation } from "../../app/services/job-api";
 import {
   CheckBoxEntity,
   Job,
@@ -29,6 +29,7 @@ export function useManageSearchPage(): ManageSearchPageType {
   const [valueToOrderBy, setValueToOrderBy] = useState<string>("name");
   const [menuStates, setMenuStates] = useState<MenuStateType>({});
 
+  const [recoverJob] = useRecoverJobMutation();
   // If you want to make multiple GET request with different params, you can useState to get new information and store in the same cache name (like 'aJob')
   const [queryStr, setQueryStr] = useState<UserRequest>({
     category: [
@@ -102,6 +103,12 @@ export function useManageSearchPage(): ManageSearchPageType {
     setOpenDeleteModal(true);
   };
 
+  const handleRecover = (job: Job) => {
+    console.log(job);
+    recoverJob({ jobId: job.id });
+    handleMenuClose(job);
+  };
+
   const handleMenuOpen = (
     job: Job,
     event: React.MouseEvent<HTMLButtonElement>
@@ -147,6 +154,7 @@ export function useManageSearchPage(): ManageSearchPageType {
     handleMenuOpen,
     handleMenuClose,
     handleDelete,
+    handleRecover,
     openDeleteModal,
     setOpenDeleteModal,
     selectedJob,
