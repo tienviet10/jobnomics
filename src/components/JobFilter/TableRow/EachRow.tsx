@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { useChangeFavoriteOnlyMutation, useUpdateJobMutation } from "../../../app/services/job-api";
+import {
+  useChangeFavoriteOnlyMutation,
+  useUpdateJobMutation,
+} from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
 import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 
@@ -39,7 +42,11 @@ const EachRow: React.FC<EachRowType> = ({
 
   const handleToggleFavorite = (job: Job) => {
     setLocalFavorite((prev) => {
-      updateFavorite({ jobId: job.id, categoryId: job.categoryId, favorite: !prev });
+      updateFavorite({
+        jobId: job.id,
+        categoryId: job.categoryId,
+        favorite: !prev,
+      });
       return !prev;
     });
   };
@@ -61,18 +68,22 @@ const EachRow: React.FC<EachRowType> = ({
         className={styles.JobLogo}
         onClick={() => handleOpenModal(job)}
         sx={{
-          "&::WebkitBoxShadow": `6px 0 0 ${categoryColors[job.categoryId].color
-            } inset`,
-          "&::MozBoxShadow": `6px 0 0 ${categoryColors[job.categoryId].color
-            } inset`,
-          boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
+          "&::WebkitBoxShadow": `15px 0 0 ${
+            categoryColors[job.categoryId].color
+          } inset`,
+          "&::MozBoxShadow": `15px 0 0 ${
+            categoryColors[job.categoryId].color
+          } inset`,
+          boxShadow: `15px 0 0 ${categoryColors[job.categoryId].color} inset`,
+          display: "flex",
+          justifyContent: "center",
         }}
       >
         <Avatar
           variant="square"
           src={job.logo}
           alt={job.company}
-          sx={{ bgcolor: job.avatarColor }}
+          sx={{ bgcolor: job.avatarColor, ml: 2 }}
         />
       </TableCell>
       <TableCell

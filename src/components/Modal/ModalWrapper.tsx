@@ -28,8 +28,15 @@ import {
   Select,
   MenuItem,
   Box,
+  Link,
 } from "@mui/material";
-import { Close, Delete, Favorite, FavoriteBorder } from "@mui/icons-material";
+import {
+  Close,
+  Delete,
+  Favorite,
+  FavoriteBorder,
+  OpenInNewRounded,
+} from "@mui/icons-material";
 
 import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
@@ -190,13 +197,22 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                 <Close fontSize="medium" />
               </IconButton>
               <div className={styles.JobHeader}>
-                <Typography
+                <Link
                   variant="h5"
                   className={styles.JobTitle}
+                  href={selectedJob.job?.link}
+                  sx={{
+                    color: "#000000",
+                    "&:hover": { color: "primary.light" },
+                  }}
+                  underline="none"
+                  target="_blank"
+                  rel="noopener"
                   gutterBottom
                 >
                   {selectedJob.job?.title}
-                </Typography>
+                  <OpenInNewRounded fontSize="small" sx={{ ml: 1 }} />
+                </Link>
                 <Box
                   className={styles.SubHeader}
                   sx={{

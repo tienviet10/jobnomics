@@ -34,6 +34,7 @@ const initialState: UserJobsType = {
       skills: [],
       interviewExamples: "",
       platform: "",
+      link: "",
     },
     checklists: [],
   },
