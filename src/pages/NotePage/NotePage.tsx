@@ -106,7 +106,7 @@ const NotePage = () => {
                 onChange={handleSortColumnChange}
                 size="small"
                 sx={{
-                  // bgcolor: "#ffffff",
+                  bgcolor: "#ffffff",
                   width: { xs: "100%", md: "200px" },
                   maxWidth: "300px",
                 }}
