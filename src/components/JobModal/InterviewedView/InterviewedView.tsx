@@ -123,6 +123,7 @@ const InterviewedView = (): JSX.Element => {
         note: noteState,
         jobId: selectedJob.job.id,
         categoryId: selectedJob.category.id,
+        type: "interview",
       });
     }
   };

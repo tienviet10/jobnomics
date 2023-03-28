@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useUpdateNoteMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
-import { setNewNote } from "../../../features/jobSlice";
+import { setNewGeneralNote } from "../../../features/jobSlice";
 
 import styles from "./NotePadView.module.css";
 import { Alert, Box, Snackbar, TextField, Typography } from "@mui/material";
@@ -16,12 +16,14 @@ const NotePadView = () => {
 
   const [saveNote, { isSuccess }] = useUpdateNoteMutation();
   const [isNoteSaveSuccess, setIsNoteSaveSucess] = useState(false);
-  const [noteState, setNoteState] = useState(selectedJob.note || "");
+  const [generalNoteState, setGeneralNoteState] = useState(
+    selectedJob.note || ""
+  );
 
   const handleNoteChange = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    setNoteState(event.target.value);
+    setGeneralNoteState(event.target.value);
   };
 
   const handleAlertClose = () => {
@@ -29,19 +31,20 @@ const NotePadView = () => {
   };
 
   const handleSaveNote = async () => {
-    if (noteState !== selectedJob.note) {
-      // dispatch(setNewNote(noteState));
+    if (generalNoteState !== selectedJob.note) {
+      dispatch(setNewGeneralNote(generalNoteState));
       saveNote({
-        note: noteState,
+        note: generalNoteState,
         jobId: selectedJob.job.id,
         categoryId: selectedJob.category.id,
+        type: "general",
       });
     }
   };
 
   useEffect(() => {
-    setNoteState(selectedJob.note);
-  }, [selectedJob.note]);
+    setGeneralNoteState(selectedJob.generalNote);
+  }, [selectedJob.generalNote]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -52,10 +55,7 @@ const NotePadView = () => {
   return (
     <Box
       className={styles.NotepadContainer}
-      sx={{
-        // py: { sm: 2 },
-        width: { xs: "100%", sm: "90%" },
-      }}
+      sx={{ width: { xs: "100%", sm: "90%" } }}
     >
       {selectedJob.isActive && (
         <>
@@ -81,7 +81,7 @@ const NotePadView = () => {
               placeholder="Write your notes here..."
               multiline
               fullWidth
-              value={noteState || ""}
+              value={generalNoteState || ""}
               onChange={handleNoteChange}
               onBlur={handleSaveNote}
             ></TextField>
