@@ -91,7 +91,18 @@ const NotepadModal = ({
       onClose={() => setOpen(false)}
       className={styles.NotepadModalContainer}
     >
-      <Card elevation={5} className={styles.NotepadModal}>
+      <Card
+        elevation={5}
+        className={styles.NotepadModal}
+        sx={{
+          px: { xs: 2, md: 3, lg: 5 },
+          pb: { xs: 4, md: 4, lg: 5 },
+          pt: { xs: 7, md: 8, lg: 9 },
+          width: { xs: "90vw", md: "80vw", lg: "1000px" },
+          maxHeight: { xs: "80vh" },
+          overflow: "auto",
+        }}
+      >
         <IconButton
           className={styles.CloseButton}
           sx={{ position: "absolute" }}
@@ -100,11 +111,14 @@ const NotepadModal = ({
           <Close fontSize="medium" />
         </IconButton>
         <Box className={styles.NotepadMain}>
-          <Typography variant="h6">{`Edit ${type} notes`}</Typography>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2 }}
+            gutterBottom
+          >{`Edit ${type} notes`}</Typography>
           <TextField
             className={styles.NoteTextField}
             sx={{
-              flex: 1,
               "& fieldset": {
                 outline: "none",
               },
@@ -114,7 +128,7 @@ const NotepadModal = ({
                 alignItems: "start",
               },
             }}
-            rows={10}
+            rows={18}
             placeholder="Write your notes here..."
             multiline
             fullWidth
