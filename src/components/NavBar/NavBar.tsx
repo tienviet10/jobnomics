@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { To, useNavigate, useLocation } from "react-router-dom";
 
 import { useAuth0 } from "@auth0/auth0-react";
@@ -16,17 +16,27 @@ import {
   Tooltip,
   Avatar,
 } from "@mui/material";
-import { Camera, MenuRounded } from "@mui/icons-material";
+import { MenuRounded } from "@mui/icons-material";
+import styles from "./NavBar.module.css";
 
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+import { security } from "../auth/GlobalAuth";
+
+const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const NavBar = () => {
+
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
-  const { logout } = useManageSearchPage();
+  const { logout, refetch } = useManageSearchPage();
+  const [shadow, setShadow] = useState<boolean>();
 
-  const pages: { name: string; path: string; disabled: boolean }[] = [
+  const pages: {
+    name: string;
+    path: string;
+    disabled: boolean;
+  }[] = [
     { name: "Job Board", path: "/job", disabled: location.pathname === "/job" },
     {
       name: "Search",
@@ -69,7 +79,10 @@ const NavBar = () => {
 
   const handleClickLink = (event: React.MouseEvent<HTMLElement>, path: To) => {
     setAnchorElNav(null);
-
+    // Send request when user click on the Search tab
+    if (path === "/search") {
+      refetch();
+    }
     navigate(path);
   };
 
@@ -80,9 +93,22 @@ const NavBar = () => {
       },
       authorizationParams: {
         prompt: "login",
+        scope: "openid profile email offline_access",
+        audience: audience,
       },
     });
   };
+
+  useEffect(() => {
+    const handleShadow = () => {
+      if (location.pathname === "/" && window.scrollY <= 90) {
+        setShadow(false);
+      } else {
+        setShadow(true);
+      }
+    };
+    window.addEventListener("scroll", handleShadow);
+  }, []);
 
   const handleSignup = async () => {
     await loginWithRedirect({
@@ -91,6 +117,8 @@ const NavBar = () => {
       },
       authorizationParams: {
         screen_hint: "signup",
+        scope: "openid profile email offline_access",
+        audience: audience,
       },
     });
   };
@@ -118,6 +146,7 @@ const NavBar = () => {
               handleClickLink(event, page.path);
             }
           }}
+          disabled={page.disabled}
         >
           <Typography textAlign="center">{page.name}</Typography>
         </MenuItem>
@@ -134,27 +163,25 @@ const NavBar = () => {
   }
 
   return (
-    <AppBar color={"primary"}>
+    <AppBar
+      sx={{
+        backgroundColor: location.pathname === "/" ? "#E6F0FF" : "primary",
+      }}
+      elevation={shadow ? 3 : 0}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Camera sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
+          <a
             href={isAuthenticated ? "/job" : "/"}
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+            className={styles.NavbarLogo}
           >
-            LOGO
-          </Typography>
+            <img
+              src={`images/${
+                location.pathname === "/" ? "logo-dark" : "logo"
+              }.png`}
+              alt="jobnomics logo"
+            />
+          </a>
           {isAuthenticated && (
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
@@ -163,6 +190,9 @@ const NavBar = () => {
                 aria-haspopup="true"
                 onClick={handleOpenNavMenu}
                 color="inherit"
+                sx={{
+                  color: location.pathname === "/" ? "primary.dark" : "#ffffff",
+                }}
               >
                 <MenuRounded />
               </IconButton>
@@ -188,25 +218,17 @@ const NavBar = () => {
               </Menu>
             </Box>
           )}
-          <Camera sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href=""
-            sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
+          <a
+            href={isAuthenticated ? "/job" : "/"}
+            className={styles.NavbarLogoMobile}
           >
-            LOGO
-          </Typography>
+            <img
+              src={`images/${
+                location.pathname === "/" ? "logo-dark" : "logo"
+              }.png`}
+              alt="jobnomics logo"
+            />
+          </a>
 
           {isAuthenticated && (
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
@@ -215,7 +237,8 @@ const NavBar = () => {
                   key={page.name}
                   onClick={(event) => handleClickLink(event, page.path)}
                   sx={{
-                    color: "white",
+                    color:
+                      location.pathname === "/" ? "primary.dark" : "#ffffff",
                     display: "block",
                     fontSize: "16px",
                   }}
@@ -281,7 +304,12 @@ const NavBar = () => {
                   <Button
                     key={setting.name}
                     onClick={setting.handleAuthentication}
-                    sx={{ color: "white", display: "block", fontSize: "16px" }}
+                    sx={{
+                      color:
+                        location.pathname === "/" ? "primary.dark" : "#ffffff",
+                      display: "block",
+                      fontSize: "16px",
+                    }}
                   >
                     {setting.name}
                   </Button>
@@ -299,7 +327,10 @@ const NavBar = () => {
                   aria-controls="menu-appbar"
                   aria-haspopup="true"
                   onClick={handleOpenNavMenu}
-                  color="inherit"
+                  sx={{
+                    color:
+                      location.pathname === "/" ? "primary.dark" : "#ffffff",
+                  }}
                 >
                   <MenuRounded />
                 </IconButton>

@@ -22,6 +22,7 @@ import {
 import { CheckCircle } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
+import InvalidAlertView from "../InvalidAlertView";
 
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -149,103 +150,108 @@ const InterviewedView = (): JSX.Element => {
         width: { xs: "100%", sm: "90%" },
       }}
     >
-      <Tabs
-        value={isNotepad ? 1 : 0}
-        onChange={handleTabChange}
-        centered
-        className={styles.Tabs}
-      >
-        <Tab label="Checklist" />
-        <Tab label="Note Pad" />
-      </Tabs>
-      {!isNotepad ? (
-        <Box
-          className={styles.ChecklistMain}
-          sx={{
-            px: { xs: "0", sm: "40px", md: "50px" },
-          }}
-        >
-          <Typography
-            variant="h5"
-            color={progress === 100 ? "#1b5e20" : "primary"}
-            className={styles.ProgressMessage}
-            sx={{ fontSize: { xs: "20px", sm: "24px" }, mt: 2 }}
+      {selectedJob.isActive && (
+        <>
+          <Tabs
+            value={isNotepad ? 1 : 0}
+            onChange={handleTabChange}
+            centered
+            className={styles.Tabs}
           >
-            {progressMessage}
-            {progress === 100 && (
-              <CheckCircle
-                fontSize="large"
-                color="success"
+            <Tab label="Checklist" />
+            <Tab label="Note Pad" />
+          </Tabs>
+          {!isNotepad ? (
+            <Box
+              className={styles.ChecklistMain}
+              sx={{
+                px: { xs: "0", sm: "40px", md: "50px" },
+              }}
+            >
+              <Typography
+                variant="h5"
+                color={progress === 100 ? "#1b5e20" : "primary"}
+                className={styles.ProgressMessage}
+                sx={{ fontSize: { xs: "20px", sm: "24px" }, mt: 2 }}
+              >
+                {progressMessage}
+                {progress === 100 && (
+                  <CheckCircle
+                    fontSize="large"
+                    color="success"
+                    sx={{
+                      marginLeft: "10px",
+                      position: "absolute",
+                      bottom: 0,
+                      left: "98%",
+                    }}
+                  />
+                )}
+              </Typography>
+              <LinearProgress
+                variant="determinate"
+                value={progress}
+                color={progress === 100 ? "success" : "primary"}
+                className={styles.CheckboxProgressBar}
                 sx={{
-                  marginLeft: "10px",
-                  position: "absolute",
-                  bottom: 0,
-                  left: "98%",
+                  p: 0.4,
+                  width: { xs: "100%", sm: "80%" },
+                  my: { xs: 1.5, sm: 3 },
                 }}
               />
-            )}
-          </Typography>
-          <LinearProgress
-            variant="determinate"
-            value={progress}
-            color={"success"}
-            className={styles.CheckboxProgressBar}
-            sx={{
-              p: 0.4,
-              width: { xs: "100%", sm: "80%" },
-              my: { xs: 1.5, sm: 3 },
-            }}
-          />
-          <FormGroup className={styles.Checklist}>{checklists}</FormGroup>
-        </Box>
-      ) : (
-        <div className={styles.NotepadMain}>
-          <Typography variant="h6" gutterBottom>
-            Keep track of your interview experince.
-          </Typography>
-          <Typography variant="body2" gutterBottom>
-            Record interview questions and your response, what you learned, how
-            you feel about the company, reflections, learning, feedback
-            received, and future improvements.
-          </Typography>
-          <TextField
-            className={styles.NoteTextField}
-            sx={{
-              flex: 1,
-              "& fieldset": {
-                outline: "none",
-              },
-              "& .MuiInputBase-root": {
-                minHeight: "100%",
-                display: "flex",
-                alignItems: "start",
-              },
-            }}
-            rows={8}
-            placeholder="Write your notes here..."
-            multiline
-            fullWidth
-            value={noteState || ""}
-            onChange={handleNoteChange}
-            onBlur={handleSaveNote}
-          ></TextField>
-        </div>
-      )}
+              <FormGroup className={styles.Checklist}>{checklists}</FormGroup>
+            </Box>
+          ) : (
+            <div className={styles.NotepadMain}>
+              <Typography variant="h6" gutterBottom>
+                Keep track of your interview experince.
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Record interview questions and your response, what you learned,
+                how you feel about the company, reflections, learning, feedback
+                received, and future improvements.
+              </Typography>
+              <TextField
+                className={styles.NoteTextField}
+                sx={{
+                  flex: 1,
+                  "& fieldset": {
+                    outline: "none",
+                  },
+                  "& .MuiInputBase-root": {
+                    minHeight: "100%",
+                    display: "flex",
+                    alignItems: "start",
+                  },
+                }}
+                rows={8}
+                placeholder="Write your notes here..."
+                multiline
+                fullWidth
+                value={noteState || ""}
+                onChange={handleNoteChange}
+                onBlur={handleSaveNote}
+              ></TextField>
+            </div>
+          )}
 
-      <Snackbar
-        open={isNoteSaveSuccess}
-        autoHideDuration={4000}
-        onClose={handleAlertClose}
-        ClickAwayListenerProps={{ onClickAway: () => null }}
-      >
-        <Alert
-          onClose={handleAlertClose}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          Your note is successfully saved!
-        </Alert>
-      </Snackbar>
+          <Snackbar
+            open={isNoteSaveSuccess}
+            autoHideDuration={4000}
+            onClose={handleAlertClose}
+            ClickAwayListenerProps={{ onClickAway: () => null }}
+          >
+            <Alert
+              onClose={handleAlertClose}
+              severity="success"
+              sx={{ width: "100%" }}
+            >
+              Your note is successfully saved!
+            </Alert>
+          </Snackbar>
+        </>
+      )}
+      {!selectedJob.isActive && <InvalidAlertView />}
     </Box>
   );
 };

@@ -16,16 +16,18 @@ export const jobApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.REACT_APP_BASE_URL,
     prepareHeaders: async (headers) => {
-      const access_token = await security.getAccessTokenSilently()();
-      if (access_token) {
-        headers.set("Authorization", `Bearer ${access_token}`);
+      if (security.getAccessTokenSilently()) {
+        const access_token = await security.getAccessTokenSilently()();
+        if (access_token) {
+          headers.set("Authorization", `Bearer ${access_token}`);
+        }
       }
       return headers;
     },
   }),
   tagTypes: ["aJob", "allJobs", "filterJob", "allNotes", "auth"],
   endpoints: (builder) => ({
-    getAllJobs: builder.query<AllJobsDataType, void>({
+    getAllJobs: builder.query<AllJobsDataType, {}>({
       query: () => "job",
       providesTags: ["allJobs"],
       transformResponse: (response: AllJobsDataType, meta, arg) => response,
@@ -109,7 +111,7 @@ export const jobApi = createApi({
         const patchResult = dispatch(
           jobApi.util.updateQueryData(
             "getAllJobs",
-            undefined,
+            {},
             (allJobsDraft: AllJobsDataType) => {
               allJobsDraft = patch.newState;
               return allJobsDraft;
@@ -239,6 +241,22 @@ export const jobApi = createApi({
         arg
       ) => response.status,
     }),
+    recoverJob: builder.mutation({
+      query: ({ ...patch }) => {
+        return {
+          url: "job/recover",
+          method: "PATCH",
+          body: patch,
+        };
+      },
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+      invalidatesTags: ["filterJob", "allJobs"],
+    }),
   }),
 });
 
@@ -260,4 +278,5 @@ export const {
   useUpdateNoteMutation,
   useRejectedReasonMutation,
   useEmailVerificationMutation,
+  useRecoverJobMutation
 } = jobApi;

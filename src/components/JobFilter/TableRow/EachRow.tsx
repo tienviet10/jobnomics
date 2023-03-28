@@ -19,19 +19,22 @@ import {
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
 import { categoryColors } from "../categoryColors";
-import { Job } from "../../../types/jobTypes";
+import { EachRowType, Job } from "../../../types/jobTypes";
+import { useGetAJob } from "../../../hooks/get-a-job";
 
-const EachRow: React.FC<any> = ({
+const EachRow: React.FC<EachRowType> = ({
   job,
   menuStates,
   handleMenuOpen,
   handleMenuClose,
   handleDelete,
+  handleRecover,
 }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
   const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
   const [updateJob] = useUpdateJobMutation();
+  const { refetch } = useGetAJob();
 
   const handleToggleFavorite = (job: Job) => {
     setLocalFavorite((prev) => {
@@ -46,8 +49,10 @@ const EachRow: React.FC<any> = ({
     });
   };
 
-  const handleOpenModal = (job: Job) => {
+  const handleOpenModal = async (job: Job) => {
     dispatch(setModalId({ jobId: job.id, categoryId: job.categoryId }));
+    // Same fix as JobItem
+    await refetch();
     dispatch(toggleJobModal(true));
   };
 
@@ -61,16 +66,21 @@ const EachRow: React.FC<any> = ({
         className={styles.JobLogo}
         onClick={() => handleOpenModal(job)}
         sx={{
-          "&::-webkit-box-shadow": `6px 0 0 ${
+          "&::WebkitBoxShadow": `6px 0 0 ${
             categoryColors[job.categoryId].color
           } inset`,
-          "&::-moz-box-shadow": `6px 0 0 ${
+          "&::MozBoxShadow": `6px 0 0 ${
             categoryColors[job.categoryId].color
           } inset`,
           boxShadow: `6px 0 0 ${categoryColors[job.categoryId].color} inset`,
         }}
       >
-        <Avatar variant="square" src={job.logo} alt={job.company} />
+        <Avatar
+          variant="square"
+          src={job.logo}
+          alt={job.company}
+          sx={{ bgcolor: job.avatarColor }}
+        />
       </TableCell>
       <TableCell
         onClick={() => handleOpenModal(job)}
@@ -129,6 +139,9 @@ const EachRow: React.FC<any> = ({
             "aria-labelledby": `basic-button-${job.id}`,
           }}
         >
+          {!job.isActive && (
+            <MenuItem onClick={() => handleRecover(job)}>Reactivate</MenuItem>
+          )}
           <MenuItem onClick={() => handleDelete(job)}>Delete</MenuItem>
         </Menu>
       </TableCell>

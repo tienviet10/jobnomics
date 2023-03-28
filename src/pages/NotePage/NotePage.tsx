@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState } from "react";
 
 import { useGetAllNotesQuery } from "../../app/services/job-api";
 
@@ -71,7 +71,12 @@ const NotePage = () => {
       ) : (
         <>
           <div className={styles.NotePageHeader}>
-            <Typography variant="h4" className={styles.NotePageTitle}>
+            <Typography
+              variant="h4"
+              className={styles.NotePageTitle}
+              color="neutral.darker"
+              sx={{ minWidth: "300px", my: 2 }}
+            >
               Interview Notes
             </Typography>
             <div className={styles.SortBy}>
@@ -83,7 +88,7 @@ const NotePage = () => {
                 size="small"
                 sx={{
                   // bgcolor: "#ffffff",
-                  width: { xs: "100%", sm: "200px" },
+                  width: { xs: "100%", md: "200px" },
                   maxWidth: "300px",
                 }}
               >
@@ -127,7 +132,10 @@ const NotePage = () => {
                     variant="square"
                     src={noteData.job.logo}
                     alt={noteData.job.company}
-                    sx={{ alignSelf: "center" }}
+                    sx={{
+                      alignSelf: "center",
+                      bgcolor: noteData.job.avatarColor,
+                    }}
                   />
                   <Typography
                     sx={{

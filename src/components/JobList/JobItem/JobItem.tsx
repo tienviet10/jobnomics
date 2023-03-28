@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useDispatch } from "react-redux";
-import {
-  setModalId,
-  toggleFavorite,
-  toggleJobModal,
-} from "../../../features/jobSlice";
+import { setModalId, toggleJobModal } from "../../../features/jobSlice";
 import {
   useGetAllJobsQuery,
   useUpdateJobMutation,
@@ -29,13 +25,14 @@ const JobItem = ({
   category,
 }: JobItemProps): JSX.Element => {
   const dispatch = useDispatch();
-  const { modalState, refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery();
+  const { refetch } = useGetAJob();
+  const { data } = useGetAllJobsQuery({});
   const [updateJob] = useUpdateJobMutation();
 
   const job: AllActiveJobsType | undefined =
     data?.allActiveJobs[category].jobs[index];
-  const { id, title, company, logo, isFavorite } = job as AllActiveJobsType;
+  const { id, title, company, logo, isFavorite, avatarColor } =
+    job as AllActiveJobsType;
   const [localFavorite, setLocalFavorite] = useState(isFavorite);
 
   const handleToggleFavorite = (event: { preventDefault: () => void }) => {
@@ -69,7 +66,7 @@ const JobItem = ({
     // Looks like it should be run for all card to refresh the interview date update inside Interviewing. IF there is a problem, ONLY allow category = interviewing to run refetch
     await refetch();
 
-    dispatch(toggleJobModal(!modalState.open));
+    dispatch(toggleJobModal(true));
   };
 
   return (
@@ -86,15 +83,17 @@ const JobItem = ({
             }}
             ref={provided.innerRef}
           >
-            <Avatar alt={company} src={logo} onClick={handleOpenModal} />
+            <Avatar
+              alt={company}
+              src={logo}
+              onClick={handleOpenModal}
+              sx={{ bgcolor: avatarColor }}
+            />
             <div className={styles.JobDetails} onClick={handleOpenModal}>
-              <Typography variant="body2" className={styles.JobTitle}>
+              <Typography variant="body2" sx={{ fontWeight: 500 }} gutterBottom>
                 {title}
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ lineHeight: 1.6, color: "accent.main" }}
-              >
+              <Typography variant="body2" sx={{ color: "accent.main" }}>
                 {company}
               </Typography>
             </div>

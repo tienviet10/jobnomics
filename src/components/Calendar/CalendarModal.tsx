@@ -8,7 +8,7 @@ import { Box, Card, IconButton, Modal, Typography } from "@mui/material";
 import { Close, CloseRounded } from "@mui/icons-material";
 
 import moment from "moment";
-import { Calendar, Event, SlotInfo, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import {
@@ -61,11 +61,6 @@ const CalendarModal = ({
   const handleSelectedEvent = (event: any) => {
     setSelectedEvent(event);
     setOpenDetail(true);
-  };
-
-  const handleShowMore = (events: any, date: any) => {
-    console.log(events);
-    console.log(date);
   };
 
   const handleSelectedEventClose = () => {
@@ -126,7 +121,6 @@ const CalendarModal = ({
           popup
           selectable
           showAllEvents
-          onShowMore={handleShowMore}
         />
         {selectedEvent && (
           <Modal

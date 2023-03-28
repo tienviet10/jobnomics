@@ -1,11 +1,4 @@
-import React, { useState } from "react";
-
-import {
-  setColumnFilterJob,
-  setFilterSelectedJob,
-} from "../../features/filterSlice";
-import { RootState } from "../../app/store";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 
 import {
   Box,
@@ -30,57 +23,22 @@ import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 import { Job } from "../../types/jobTypes";
 
 const FilterList = (): JSX.Element => {
-  const dispatch = useDispatch();
-  const state = useSelector((state: RootState) => state.filter);
-  const jobsList = state.displayArrayJobs;
-  const selectedJob = state.selectedJob;
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
-  const [orderDirection, setOrderDirection] = useState<"asc" | "desc">("asc");
-  const [valueToOrderBy, setValueToOrderBy] = useState("name");
-
-  const [menuStates, setMenuStates] = useState<{
-    [key: string]: { anchorEl: Element | null; open: boolean };
-  }>({});
-
-  const handleDelete = (job: Job) => {
-    handleMenuClose(job);
-    setOpenDeleteModal(true);
-  };
-
-  const handleMenuOpen = (
-    job: Job,
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    setMenuStates((prev) => {
-      dispatch(setFilterSelectedJob(job));
-      return {
-        ...prev,
-        [job.id]: {
-          anchorEl: event.currentTarget,
-          open: true,
-        },
-      };
-    });
-  };
-
-  const handleMenuClose = (job: Job) => {
-    setMenuStates((prev) => ({
-      ...prev,
-      [job.id]: {
-        anchorEl: null,
-        open: false,
-      },
-    }));
-  };
-
-  const handleRequestSort = (property: string) => {
-    const isAscending = valueToOrderBy === property && orderDirection === "asc";
-    setValueToOrderBy(property);
-    setOrderDirection(isAscending ? "desc" : "asc");
-    dispatch(setColumnFilterJob([property, isAscending ? "desc" : "asc"]));
-    // sentFilterRequest();
-  };
-  const { updateCategoryFilter, sentFilterRequest } = useManageSearchPage();
+  const {
+    updateCategoryFilter,
+    sentFilterRequest,
+    valueToOrderBy,
+    orderDirection,
+    handleRequestSort,
+    jobsList,
+    menuStates,
+    handleMenuOpen,
+    handleMenuClose,
+    handleDelete,
+    handleRecover,
+    openDeleteModal,
+    setOpenDeleteModal,
+    selectedJob,
+  } = useManageSearchPage();
 
   return (
     <Box className={styles.SearchPageMain}>
@@ -142,7 +100,7 @@ const FilterList = (): JSX.Element => {
               <TableCell
                 key="updatedByUserAt"
                 align="center"
-                sx={{ fontWeight: "bold" }}
+                sx={{ fontWeight: "bold", minWidth: "125px" }}
               >
                 <TableSortLabel
                   active={valueToOrderBy === "updatedByUserAt"}
@@ -187,6 +145,7 @@ const FilterList = (): JSX.Element => {
                   handleMenuOpen={handleMenuOpen}
                   handleMenuClose={handleMenuClose}
                   handleDelete={handleDelete}
+                  handleRecover={handleRecover}
                 />
               ))}
           </TableBody>

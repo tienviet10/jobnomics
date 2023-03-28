@@ -33,15 +33,18 @@ const JobList = (): JSX.Element => {
 
   const { user } = useAuth0();
   const { categoryArray, refetch } = useGetAJob();
-  const { data } = useGetAllJobsQuery();
+  const { data } = useGetAllJobsQuery({});
   const [updateJobs] = useUpdateJobsMutation();
   const [addChecklists] = useAddChecklistsMutation();
   const [addInterviewQuestions, { isSuccess }] =
     useAddInterviewQuestionsMutation();
+
+  // Only take care of when a different card is chosen, get the interviewDate -> problem 1
   const [jobInterview, setJobInterview] = useState(-1);
-  const { data: interviewDate } = useGetInterviewDateQuery({
-    jobId: jobInterview,
-  });
+  const { data: interviewDate } =
+    useGetInterviewDateQuery({
+      jobId: jobInterview,
+    });
 
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [repositionWithinColumn, setRepositionWithinColumn] = useState(false);
@@ -50,9 +53,9 @@ const JobList = (): JSX.Element => {
     refetch();
   }, [isSuccess]);
 
+  // Only take care of when a different card is chosen, get the interviewDate -> problem 1
   useEffect(() => {
     if (
-      interviewDate &&
       !interviewDate?.interviewDate &&
       !repositionWithinColumn &&
       jobInterview !== -1
@@ -112,6 +115,14 @@ const JobList = (): JSX.Element => {
       );
       addInterviewQuestions({ jobId: removedJob?.id });
       setJobInterview(removedJob?.id);
+
+      // TODO: Only run when it is the same card that was chosen -> problem 1. Interview date got refresh when user submitted
+      if (
+        removedJob?.id === jobInterview &&
+        sourceCategory !== destinationCategory && !interviewDate?.interviewDate
+      ) {
+        dispatch(toggleInterviewedModal(true));
+      }
     } else if (destinationCategory !== "Job Offer") {
       dispatch(
         setModalId({
@@ -124,51 +135,51 @@ const JobList = (): JSX.Element => {
 
   return (
     <DragDropContext onDragEnd={handleOnDragEnd}>
-      {data?.allActiveJobs && (
-        <Box className={styles.JobListContainer}>
-          <Box
-            className={styles.JobListHeader}
-            sx={{ top: { xs: "70px", sm: "90px" } }}
+      <Box className={styles.JobListContainer}>
+        <Box
+          className={styles.JobListHeader}
+          sx={{ top: { xs: "70px", sm: "90px" } }}
+        >
+          <Typography
+            variant="h4"
+            className={styles.JobListTitle}
+            color="neutral.darker"
           >
-            <Typography
-              variant="h4"
-              className={styles.JobListTitle}
-              color="accent.main"
-            >
-              <span>
-                {user?.name ||
-                  user?.given_name ||
-                  user?.family_name ||
-                  user?.nickname}
-                's{" "}
-              </span>
-              <span>Job Board</span>
-            </Typography>
-            <Button
-              onClick={() => setCalendarOpen(true)}
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                color: "accent.main",
-              }}
-            >
-              <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
-              <Typography variant="caption">Calendar</Typography>
-            </Button>
-          </Box>
-          <Paper
-            elevation={5}
-            className={styles.JobBoard}
-            sx={{ backgroundColor: "primary.light" }}
+            <span>
+              {user?.name ||
+                user?.given_name ||
+                user?.family_name ||
+                user?.nickname}
+              's{" "}
+            </span>
+            <span>Job Board</span>
+          </Typography>
+          <Button
+            onClick={() => setCalendarOpen(true)}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              color: "accent.main",
+            }}
           >
-            {Object.keys(data?.allActiveJobs).map(
+            <CalendarMonth fontSize="large" sx={{ ml: 0.3 }} />
+            <Typography variant="caption">Calendar</Typography>
+          </Button>
+        </Box>
+        <Paper
+          elevation={5}
+          className={styles.JobBoard}
+          sx={{ backgroundColor: "neutral.light" }}
+        >
+          {data?.allActiveJobs &&
+            Object.keys(data?.allActiveJobs).map(
               (category: string, index: number) => (
                 <JobCategory key={index} category={category} />
               )
             )}
-          </Paper>
-        </Box>
-      )}
+        </Paper>
+      </Box>
+
       <CalendarModal open={calendarOpen} setOpen={setCalendarOpen} />
     </DragDropContext>
   );

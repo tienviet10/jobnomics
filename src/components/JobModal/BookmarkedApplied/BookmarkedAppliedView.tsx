@@ -28,7 +28,7 @@ const BookmarkedAppliedView = () => {
           sx={{ p: { xs: "15px", sm: "30px", md: "45px" }, pb: 0 }}
         >
           <Typography variant="h6" fontWeight="bold" gutterBottom>
-            Job Summary:
+            {isDetail ? "Full Description:" : "Job Summary:"}
           </Typography>
           <Typography variant="body1" paragraph>
             {isDetail
@@ -44,6 +44,7 @@ const BookmarkedAppliedView = () => {
         variant="text"
         className={styles.ToggleDetailButton}
         onClick={toggleDetailView}
+        sx={{ color: "accent.main" }}
       >
         {isDetail ? "View Summary" : "View Details"}
       </Button>

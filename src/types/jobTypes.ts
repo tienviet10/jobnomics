@@ -2,10 +2,6 @@ import { FetchBaseQueryError } from "@reduxjs/toolkit/dist/query";
 import { SerializedError } from "@reduxjs/toolkit";
 import { LogoutOptions } from "@auth0/auth0-react";
 
-// export type GetAllJobsReturnType = {
-//   allActiveJobs: { [key: string]: CategoryType; };
-//   staleJobs: JobType[];
-// };
 export type UserJobsType = {
   categoryOrder: string[];
   modal: ModalType;
@@ -14,20 +10,11 @@ export type UserJobsType = {
   previousJob: { jobId: number; categoryId: number; };
 };
 
-// export type InactiveJobsType = {
-//   staleJobs: JobType[];
-// };
-
 type ModalType = {
   open: boolean;
   jobCategoryId: { jobId: number; categoryId: number; };
 };
 
-// export type categoriesType = {
-//   category: string;
-//   id: number;
-//   jobs: JobPreviewType[] | [];
-// };
 export type JobPreviewType = {
   id: number;
   title: string;
@@ -38,6 +25,7 @@ export type JobPreviewType = {
 };
 
 export type JobType = {
+  isActive?: boolean;
   category: {
     id: number;
     name: string;
@@ -88,6 +76,7 @@ export interface Job {
   categoryId: number;
   description?: string;
   isActive: boolean;
+  avatarColor: string;
 }
 
 export interface Category {
@@ -150,11 +139,30 @@ export type DrawComponentType = {
   sentFilterRequest: () => Promise<void>;
 };
 
+export type MenuStateType = {
+  [key: string]: { anchorEl: Element | null; open: boolean; };
+};
+
 export type ManageSearchPageType = {
   updateCategoryFilter: (item: UpdateFilterType) => () => Promise<void>;
   logout: (options?: LogoutOptions | undefined) => void;
   sentFilterRequest: () => Promise<void>;
-  prefetchData?: () => Promise<void>;
+  valueToOrderBy: string;
+  orderDirection: "asc" | "desc";
+  handleRequestSort: (property: string) => void;
+  jobsList: Job[];
+  menuStates: MenuStateType;
+  handleMenuOpen: (
+    job: Job,
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => void;
+  handleMenuClose: (job: Job) => void;
+  handleDelete: (job: Job) => void;
+  handleRecover: (job: Job) => void,
+  openDeleteModal: boolean;
+  setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedJob: Job | null;
+  refetch: any;
 };
 
 export type CreateJobModalPropType = {
@@ -207,6 +215,7 @@ export type AllActiveJobsType = {
   isFavorite: boolean;
   interviewDate: Date | null;
   updatedByUserAt: Date;
+  avatarColor: string;
 };
 
 export type AllActiveJobsDataType = {
@@ -290,8 +299,18 @@ export type NotesType = {
     title: string;
     company: string;
     logo: string;
+    avatarColor: string;
   };
   note: string;
 };
 
 export type AllNotesType = NotesType[];
+
+export type EachRowType = {
+  job: Job,
+  menuStates: MenuStateType,
+  handleMenuOpen: (job: Job, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  handleMenuClose: (job: Job) => void,
+  handleDelete: (job: Job) => void,
+  handleRecover: (job: Job) => void,
+};
