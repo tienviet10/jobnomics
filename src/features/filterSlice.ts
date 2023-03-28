@@ -39,7 +39,7 @@ export const filterSlice = createSlice({
       state["mainFilter"][action.payload.cate] = state["mainFilter"][
         action.payload.cate
       ].map((obj: CheckBoxEntity) =>
-        obj.name === action.payload.name ? { ...obj, check: !obj.check } : obj
+        obj.name === action.payload.name ? { ...obj, check: action.payload.check } : obj
       );
     },
     handleSearch: (state, action) => {

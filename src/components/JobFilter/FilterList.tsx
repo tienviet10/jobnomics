@@ -43,7 +43,10 @@ const FilterList = (): JSX.Element => {
   return (
     <Box className={styles.SearchPageMain}>
       <div className={styles.SearchPageHeader}>
-        <Legends />
+        <Legends 
+        updateCategoryFilter={updateCategoryFilter}
+        sentFilterRequest={sentFilterRequest}
+        />
         <Box
           maxWidth="lg"
           className={styles.FilterContainer}
