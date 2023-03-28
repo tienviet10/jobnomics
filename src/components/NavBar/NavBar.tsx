@@ -20,10 +20,12 @@ import { MenuRounded } from "@mui/icons-material";
 import styles from "./NavBar.module.css";
 
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
+import { security } from "../auth/GlobalAuth";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const NavBar = () => {
+
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
