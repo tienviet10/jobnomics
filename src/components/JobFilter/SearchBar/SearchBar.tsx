@@ -33,6 +33,7 @@ const SearchBar = (): JSX.Element => {
         label="Search"
         sx={{ background: "#ffffff" }}
         onChange={(e) => dispatch(handleSearch(e.target.value))}
+        value={searchWord}
         endAdornment={
           <InputAdornment position="end">
             <IconButton
