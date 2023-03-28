@@ -13,8 +13,14 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Link,
 } from "@mui/material";
-import { ClearRounded, Close, Error } from "@mui/icons-material";
+import {
+  ClearRounded,
+  Close,
+  Error,
+  OpenInNewRounded,
+} from "@mui/icons-material";
 import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
@@ -158,9 +164,45 @@ const CreateJobModal = ({
                 sx={{ backgroundColor: "accent.translucent" }}
               >
                 At the moment, we only support{" "}
-                <strong style={{ fontWeight: "bold" }}>LinkedIn</strong> ,{" "}
-                <strong style={{ fontWeight: "bold" }}>ZipRecruiter</strong> and{" "}
-                <strong style={{ fontWeight: "bold" }}>Indeed (Beta)</strong>.
+                <Link
+                  href="https://www.linkedin.com/jobs/"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  LinkedIn
+                </Link>
+                ,{" "}
+                <Link
+                  href="https://www.indeed.com/"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  ZipRecruiter
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="https://www.ziprecruiter.com/Search-Jobs-Near-Me"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Indeed (Beta)
+                </Link>
+                .
               </Alert>
             </div>
             <Input
