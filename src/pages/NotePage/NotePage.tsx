@@ -25,12 +25,16 @@ import {
 } from "@mui/icons-material";
 import { NotesType } from "../../types/jobTypes";
 import PageLoader from "../../components/PageLoader";
+import NotePadModal from "./NotepadModal";
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [column, setColumn] = useState<string>("company");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [notepadOpen, setNotepadOpen] = useState(false);
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
+  const [noteType, setNoteType] = useState("");
+  const [selectedNote, setSelectedNote] = useState<NotesType | undefined>();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -57,6 +61,18 @@ const NotePage = () => {
     if (orderAscDesc === null || orderAscDesc === order) return;
 
     setOrder(orderAscDesc);
+  };
+
+  const handleInterviewEditClick = (noteData: NotesType) => {
+    setNoteType("interview");
+    setSelectedNote(noteData);
+    setNotepadOpen(true);
+  };
+
+  const handleGeneralEditClick = (noteData: NotesType) => {
+    setNoteType("general");
+    setSelectedNote(noteData);
+    setNotepadOpen(true);
   };
 
   return (
@@ -192,7 +208,9 @@ const NotePage = () => {
                           <Typography variant="subtitle1">
                             General Notes
                           </Typography>
-                          <IconButton>
+                          <IconButton
+                            onClick={() => handleGeneralEditClick(noteData)}
+                          >
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
@@ -216,7 +234,9 @@ const NotePage = () => {
                           <Typography variant="subtitle1">
                             Interview Experience
                           </Typography>
-                          <IconButton>
+                          <IconButton
+                            onClick={() => handleInterviewEditClick(noteData)}
+                          >
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
@@ -231,6 +251,15 @@ const NotePage = () => {
             ))}
           </Box>
         </>
+      )}
+
+      {selectedNote && (
+        <NotePadModal
+          open={notepadOpen}
+          setOpen={setNotepadOpen}
+          type={noteType}
+          notesData={selectedNote}
+        />
       )}
     </Box>
   );
