@@ -19,10 +19,10 @@ import {
 import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 
 import { categoryColors } from "../categoryColors";
-import { Job } from "../../../types/jobTypes";
+import { EachRowType, Job } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
 
-const EachRow: React.FC<any> = ({
+const EachRow: React.FC<EachRowType> = ({
   job,
   menuStates,
   handleMenuOpen,

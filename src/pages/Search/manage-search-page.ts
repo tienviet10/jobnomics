@@ -104,7 +104,6 @@ export function useManageSearchPage(): ManageSearchPageType {
   };
 
   const handleRecover = (job: Job) => {
-    console.log(job);
     recoverJob({ jobId: job.id });
     handleMenuClose(job);
   };

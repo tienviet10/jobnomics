@@ -305,3 +305,12 @@ export type NotesType = {
 };
 
 export type AllNotesType = NotesType[];
+
+export type EachRowType = {
+  job: Job,
+  menuStates: MenuStateType,
+  handleMenuOpen: (job: Job, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  handleMenuClose: (job: Job) => void,
+  handleDelete: (job: Job) => void,
+  handleRecover: (job: Job) => void,
+};

@@ -243,17 +243,13 @@ export const jobApi = createApi({
     }),
     recoverJob: builder.mutation({
       query: ({ ...patch }) => {
-        console.log(patch);
         return {
           url: "job/recover",
           method: "PATCH",
           body: patch,
         };
       },
-      transformResponse: (response: { data: JobType; }, meta, arg) => {
-        console.log(response);
-        return response;
-      },
+      transformResponse: (response: { data: JobType; }, meta, arg) => response,
       transformErrorResponse: (
         response: { status: string | number; },
         meta,

@@ -63,7 +63,7 @@ const JobList = (): JSX.Element => {
       dispatch(toggleInterviewedModal(true));
     }
   }, [interviewDate]);
-console.log(interviewDate)
+
   const handleOnDragEnd = async (result: DropResult) => {
     const { source, destination } = result;
 
