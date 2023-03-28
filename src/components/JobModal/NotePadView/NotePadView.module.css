@@ -1,0 +1,20 @@
+div.NotepadContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+
+div.NotepadMain {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.NoteTextField {
+  /* max-height: 100%; */
+  /* height: 80%; */
+}

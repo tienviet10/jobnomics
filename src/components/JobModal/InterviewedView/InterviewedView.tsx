@@ -31,7 +31,7 @@ const InterviewedView = (): JSX.Element => {
   const [progressMessage, setProgressMessage] = useState("Reminder for you");
   const [progress, setProgress] = useState(0);
   const [isNotepad, setIsNotepad] = useState(false);
-  // const [alertOpen, setAlertOpen] = useState(false);
+
   const [saveNote, { isSuccess }] = useUpdateNoteMutation();
   const [isNoteSaveSuccess, setIsNoteSaveSucess] = useState(false);
   const [updateChecklist] = useUpdateChecklistMutation();
@@ -114,7 +114,6 @@ const InterviewedView = (): JSX.Element => {
     target: { value: React.SetStateAction<string> };
   }) => {
     setNoteState(event.target.value);
-    // dispatch(setNewNote(event.target.value));
   };
 
   const handleSaveNote = async () => {

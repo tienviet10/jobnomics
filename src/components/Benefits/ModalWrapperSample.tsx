@@ -16,6 +16,7 @@ import {
 import {
   Close,
   Delete,
+  DescriptionRounded,
   DoubleArrowRounded,
   FavoriteBorder,
   OpenInNewRounded,
@@ -79,6 +80,12 @@ const ModalWrapperSample = ({
         ) : (
           <>
             <div className={styles.ModalHeader}>
+              <IconButton
+                sx={{ position: "absolute", top: "15px", left: "15px" }}
+              >
+                <DescriptionRounded fontSize="medium" />
+                <Typography fontSize={10}>Notepad</Typography>
+              </IconButton>
               <IconButton
                 onClick={() => setOpen(false)}
                 sx={{ position: "absolute", top: "15px", right: "15px" }}
