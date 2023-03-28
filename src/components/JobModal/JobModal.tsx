@@ -13,8 +13,6 @@ const JobModal = () => {
   const { selectedJob } = useGetAJob();
   const selectedJobCategory = selectedJob?.category?.name;
 
-  console.log(selectedJob);
-
   return (
     <ModalWrapper>
       {selectedJobCategory === "Job Offer" && <AcceptedView />}
