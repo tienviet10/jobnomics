@@ -14,20 +14,15 @@ import { useGetAllJobsQuery } from "./app/services/job-api";
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 function App() {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
-  const { refetch } = useGetAllJobsQuery({});
+  const { getAccessTokenSilently } = useAuth0();
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      security.setAccessTokenSilently(() => getAccessTokenSilently({
-        authorizationParams: {
-          scope: "openid profile email offline_access",
-          audience: audience,
-        }
-      }));
-      refetch();
+  security.setAccessTokenSilently(() => getAccessTokenSilently({
+    authorizationParams: {
+      scope: "openid profile email offline_access",
+      audience: audience,
     }
-  }, [isAuthenticated]);
+  }));
+
 
   return (
     <ThemeProvider theme={theme}>
