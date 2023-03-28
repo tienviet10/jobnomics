@@ -34,6 +34,7 @@ const ChipsComponent: React.FC<RemindersListType> = ({
                   ...cate,
                   cate: choice,
                   auto: true,
+                  check: false
                 })}
               />
             )

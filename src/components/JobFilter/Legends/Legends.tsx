@@ -4,15 +4,43 @@ import styles from "./Legends.module.css";
 import { Box } from "@mui/material";
 
 import { categoryColors } from "../categoryColors";
+import { DrawComponentType } from "../../../types/jobTypes";
+import { useDispatch } from "react-redux";
+import { toggleCheck } from "../../../features/filterSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../app/store";
 
-const Legends = (): JSX.Element => {
-  const [selectedCategory, setSelectedCategory] = useState("");
+const Legends: React.FC<DrawComponentType> = ({updateCategoryFilter, sentFilterRequest}): JSX.Element => {
+  // const [selectedCategory, setSelectedCategory] = useState<string[]>([]);
+  const filterState = useSelector(
+    (state: RootState) => state.filter.mainFilter.category
+  );
 
-  const handleCategoryClick = (category: { name: string }) => {
-    if (selectedCategory === category.name) {
-      setSelectedCategory("");
-    } else {
-      setSelectedCategory(category.name);
+  const selectedCategory = filterState.filter((val)=> val.check).map((val)=> val.name)
+
+  const  dispatch = useDispatch()
+
+  const handleCategoryClick = async (category: { name: string }) => {
+    if (selectedCategory.includes(category.name)) {
+      dispatch(toggleCheck(
+        {
+            cate: "category",
+            name: category.name,
+            auto: false,
+            check: false
+          }
+      ));
+      // setSelectedCategory(prev => prev.filter((val)=> val !== category.name));
+    } else { 
+      dispatch(toggleCheck(
+        {
+            cate: "category",
+            name: category.name,
+            auto: false,
+            check: true
+          }
+      ));
+      // setSelectedCategory(prev => ([...prev,category.name]));
     }
   };
 
@@ -27,7 +55,7 @@ const Legends = (): JSX.Element => {
       sx={{
         "&:hover": { cursor: "pointer" },
         bgcolor:
-          selectedCategory === category.name
+          selectedCategory.includes(category.name)
             ? "accent.translucent"
             : "transparent",
       }}
