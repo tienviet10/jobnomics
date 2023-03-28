@@ -25,7 +25,7 @@ import {
 } from "@mui/icons-material";
 import { NotesType } from "../../types/jobTypes";
 import PageLoader from "../../components/PageLoader";
-import NotePadModal from "./NotepadModal";
+import NotepadModal from "./NotepadModal";
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -254,7 +254,7 @@ const NotePage = () => {
       )}
 
       {selectedNote && (
-        <NotePadModal
+        <NotepadModal
           open={notepadOpen}
           setOpen={setNotepadOpen}
           type={noteType}
