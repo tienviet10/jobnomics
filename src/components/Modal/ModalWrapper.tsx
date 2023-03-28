@@ -69,6 +69,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     categoryArray,
     refetch,
   } = useGetAJob();
+  const [isNotepad, setIsNotepad] = useState(false);
 
   const updatedDate = selectedJob?.updatedByUserAt
     ? new Date(selectedJob.updatedByUserAt)
@@ -76,9 +77,8 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleClose = () => {
     dispatch(toggleJobModal(false));
+    setIsNotepad(false);
   };
-
-  const [isNotepad, setIsNotepad] = useState(false);
 
   const handleToggleNotepad = () => {
     setIsNotepad((prev) => !prev);

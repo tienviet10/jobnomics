@@ -304,6 +304,7 @@ export type NotesType = {
     avatarColor: string;
   };
   note: string;
+  generalNote: string;
 };
 
 export type AllNotesType = NotesType[];

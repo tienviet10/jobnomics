@@ -9,6 +9,7 @@ import {
   AccordionSummary,
   Avatar,
   Box,
+  Card,
   MenuItem,
   Select,
   ToggleButton,
@@ -162,12 +163,45 @@ const NotePage = () => {
                       {new Date(noteData.interviewDate).toLocaleDateString()}
                     </Typography>
                   )}
-                  <Typography
-                    className={styles.NoteMain}
-                    sx={{ backgroundColor: "neutral.light" }}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: { xs: "column", md: "row" },
+                    }}
                   >
-                    {noteData.note}
-                  </Typography>
+                    {noteData.generalNote && (
+                      <Card
+                        className={styles.NoteMain}
+                        sx={{
+                          flex: 1,
+                          backgroundColor: "neutral.light",
+                          mr: { xs: 0, md: 2 },
+                          mb: { xs: noteData.note ? 2 : 0, md: 0 },
+                        }}
+                      >
+                        <Typography variant="subtitle1" gutterBottom>
+                          General Notes
+                        </Typography>
+                        <Typography className={styles.NoteContent}>
+                          {noteData.generalNote}
+                        </Typography>
+                      </Card>
+                    )}
+                    {noteData.note && (
+                      <Card
+                        className={styles.NoteMain}
+                        sx={{ flex: 1, backgroundColor: "neutral.light" }}
+                      >
+                        <Typography variant="subtitle1" gutterBottom>
+                          Interview Experience
+                        </Typography>
+                        <Typography className={styles.NoteContent}>
+                          {noteData.note}
+                        </Typography>
+                      </Card>
+                    )}
+                  </Box>
                 </AccordionDetails>
               </Accordion>
             ))}

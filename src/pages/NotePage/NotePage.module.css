@@ -33,8 +33,11 @@ h5.NotePageTitle {
   align-items: center;
 }
 
-p.NoteMain {
+div.NoteMain {
   padding: 10px 20px;
   border-radius: 5px;
+}
+
+p.NoteContent {
   white-space: pre-wrap;
 }
