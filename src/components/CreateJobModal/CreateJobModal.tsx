@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { io } from "socket.io-client";
 import { useAddJobMutation } from "../../app/services/job-api";
 
 import styles from "./CreateJobModal.module.css";
@@ -20,10 +19,6 @@ import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
 
-// const socket = io("http://localhost:8080", {
-//   withCredentials: true,
-// });
-
 const CreateJobModal = ({
   open,
   setOpen,
@@ -33,6 +28,7 @@ const CreateJobModal = ({
   const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
   const [error, setError] = useState(false);
+  const [warningText, setWarningText] = useState("");
 
   const [formResponse, setFormResponse] = useState({
     title: "",
@@ -47,6 +43,7 @@ const CreateJobModal = ({
     setOpen(false);
     setUseLink(true);
     setError(false);
+    setWarningText("");
   };
 
   const handleCloseWhenFail = () => {
@@ -63,6 +60,8 @@ const CreateJobModal = ({
         interviewDate: null,
         type: "link",
       });
+    } else {
+      setWarningText("Please enter a valid link.");
     }
   };
 
@@ -96,6 +95,8 @@ const CreateJobModal = ({
         interviewDate: null,
         type: "manual",
       });
+    } else {
+      setWarningText("You cannot not submit incomeplete forms.");
     }
   };
 
@@ -112,6 +113,7 @@ const CreateJobModal = ({
         description: "",
       });
       setUseLink(true);
+      setWarningText("");
     }
     if (isError) {
       setError(isError);
@@ -184,6 +186,7 @@ const CreateJobModal = ({
                 </InputAdornment>
               }
             />
+            {warningText && <Alert severity="error">{warningText}</Alert>}
             <Button
               variant="contained"
               className={styles.saveButton}
@@ -394,6 +397,7 @@ const CreateJobModal = ({
               className={styles.toggleCreateFormButton}
               onClick={() => {
                 setUseLink((prev) => !prev);
+                setWarningText("");
               }}
               sx={{ color: "accent.dark" }}
             >
