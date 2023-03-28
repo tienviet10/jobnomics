@@ -1,8 +1,10 @@
-name: Copy main branch to production branch
+name: Copy emergency branch to production branch
 
 on:
-  schedule:
-    - cron: '0 7 * * *' # Run every day at 3am Toronto
+  push:
+    branches:
+      - emergency
+
 jobs:
   copy-to-production:
     runs-on: ubuntu-latest
@@ -10,15 +12,15 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
         with:
-          ref: main
+          ref: emergency
 
-      - name: Merge main into production
+      - name: Merge emergency into production
         run: |
           git config --global user.email "viettran101294@gmail.com"
           git config --global user.name "tienviet10"
           git fetch
           git checkout production
-          git merge --no-ff --no-edit --allow-unrelated-histories main -s recursive -X theirs
+          git merge --no-ff --no-edit --allow-unrelated-histories origin/emergency -s recursive -X theirs
           
       - name: Push to production
         uses: ad-m/github-push-action@master
