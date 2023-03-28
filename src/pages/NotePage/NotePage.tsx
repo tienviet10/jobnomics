@@ -10,6 +10,7 @@ import {
   Avatar,
   Box,
   Card,
+  IconButton,
   MenuItem,
   Select,
   ToggleButton,
@@ -19,6 +20,7 @@ import {
 import {
   ArrowDownwardRounded,
   ArrowUpwardRounded,
+  EditRounded,
   ExpandMore,
 } from "@mui/icons-material";
 import { NotesType } from "../../types/jobTypes";
@@ -176,13 +178,24 @@ const NotePage = () => {
                         sx={{
                           flex: 1,
                           backgroundColor: "neutral.light",
-                          mr: { xs: 0, md: 2 },
+                          mr: { xs: 0, md: noteData.note ? 2 : 0 },
                           mb: { xs: noteData.note ? 2 : 0, md: 0 },
                         }}
                       >
-                        <Typography variant="subtitle1" gutterBottom>
-                          General Notes
-                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="subtitle1">
+                            General Notes
+                          </Typography>
+                          <IconButton>
+                            <EditRounded fontSize="small" />
+                          </IconButton>
+                        </Box>
                         <Typography className={styles.NoteContent}>
                           {noteData.generalNote}
                         </Typography>
@@ -193,9 +206,20 @@ const NotePage = () => {
                         className={styles.NoteMain}
                         sx={{ flex: 1, backgroundColor: "neutral.light" }}
                       >
-                        <Typography variant="subtitle1" gutterBottom>
-                          Interview Experience
-                        </Typography>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="subtitle1">
+                            Interview Experience
+                          </Typography>
+                          <IconButton>
+                            <EditRounded fontSize="small" />
+                          </IconButton>
+                        </Box>
                         <Typography className={styles.NoteContent}>
                           {noteData.note}
                         </Typography>
