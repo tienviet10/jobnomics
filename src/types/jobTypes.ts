@@ -35,6 +35,7 @@ export type JobType = {
   position: number;
   interviewDate: Date | null;
   note: string;
+  generalNote: string;
   rejectReason?: string | null;
   job: {
     id: number;
@@ -303,6 +304,7 @@ export type NotesType = {
     avatarColor: string;
   };
   note: string;
+  generalNote: string;
 };
 
 export type AllNotesType = NotesType[];

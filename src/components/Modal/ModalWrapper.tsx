@@ -36,11 +36,13 @@ import {
   Favorite,
   FavoriteBorder,
   OpenInNewRounded,
+  DescriptionRounded,
 } from "@mui/icons-material";
 
 import { useGetAJob } from "../../hooks/get-a-job";
 import DeleteJobConfirmModal from "../DeleteConfirmModal/JobModal";
 import ModalPlaceholder from "./ModalPlaceholder";
+import NotePadView from "../JobModal/NotePadView";
 import { processColumns } from "../../helper/react-dnd-logic";
 import { AllActiveJobsDataType } from "../../types/jobTypes";
 
@@ -67,6 +69,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
     categoryArray,
     refetch,
   } = useGetAJob();
+  const [isNotepad, setIsNotepad] = useState(false);
 
   const updatedDate = selectedJob?.updatedByUserAt
     ? new Date(selectedJob.updatedByUserAt)
@@ -74,6 +77,11 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
 
   const handleClose = () => {
     dispatch(toggleJobModal(false));
+    setIsNotepad(false);
+  };
+
+  const handleToggleNotepad = () => {
+    setIsNotepad((prev) => !prev);
   };
 
   const [currentCategory, setCurrentCategory] = useState("");
@@ -191,6 +199,13 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
           <>
             <div className={styles.ModalHeader}>
               <IconButton
+                onClick={handleToggleNotepad}
+                sx={{ position: "absolute", top: "15px", left: "15px" }}
+              >
+                <DescriptionRounded fontSize="medium" />
+                <Typography fontSize={10}>Notepad</Typography>
+              </IconButton>
+              <IconButton
                 onClick={handleClose}
                 sx={{ position: "absolute", top: "15px", right: "15px" }}
               >
@@ -199,7 +214,6 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
               <div className={styles.JobHeader}>
                 <Link
                   variant="h5"
-                  className={styles.JobTitle}
                   href={selectedJob.job?.link}
                   sx={{
                     color: "#000000",
@@ -274,7 +288,7 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
               </div>
             </div>
             <div className={styles.ModalMain}>
-              {children}
+              {isNotepad ? <NotePadView /> : children}
               <DeleteJobConfirmModal
                 open={openDeleteModal}
                 setOpen={setOpenDeleteModal}
