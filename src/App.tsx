@@ -14,24 +14,25 @@ import { useGetAllJobsQuery } from "./app/services/job-api";
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 function App() {
-  const { getAccessTokenSilently } = useAuth0();
-
+  const { getAccessTokenSilently, isLoading } = useAuth0();
   security.setAccessTokenSilently(() => getAccessTokenSilently({
     authorizationParams: {
       scope: "openid profile email offline_access",
       audience: audience,
     }
   }));
-
-
-  return (
-    <ThemeProvider theme={theme}>
-      <div className="App">
-        <CssBaseline />
-        <Router />
-        <NavBar />
-      </div>
-    </ThemeProvider>
+ 
+  return (<>
+    {!isLoading &&
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <CssBaseline />
+          <Router />
+          <NavBar />
+        </div>
+      </ThemeProvider>
+    }
+  </>
   );
 }
 
