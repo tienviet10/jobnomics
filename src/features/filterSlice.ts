@@ -14,6 +14,8 @@ const initialState: FilterStateType = {
     languages: [
       { name: "javascript", check: false },
       { name: "ruby", check: false },
+      { name: "java", check: false },
+      { name: "C#", check: false },
     ],
     framework: [
       { name: "express", check: false },
