@@ -78,6 +78,9 @@ export const filterSlice = createSlice({
     setColumnFilterJob: (state, action) => {
       state["columnFilter"] = action.payload;
     },
+    setFavoriteLocally: (state, action) => {
+      state.displayArrayJobs = state.displayArrayJobs.map((job) => job.id === action.payload.id ? { ...job, isFavorite: !job.isFavorite } : job);
+    },
   },
 });
 
@@ -88,6 +91,7 @@ export const {
   toggleFirstFetch,
   setFilterSelectedJob,
   setColumnFilterJob,
+  setFavoriteLocally
 } = filterSlice.actions;
 
 export default filterSlice.reducer;
