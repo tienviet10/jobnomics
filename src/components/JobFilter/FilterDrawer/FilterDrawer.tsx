@@ -19,7 +19,6 @@ import {
 import styles from "./FilterDrawer.module.css";
 
 const choices = [
-  { name: "Application Status", filter: "category" },
   { name: "Languages", filter: "languages" },
   { name: "Framework", filter: "framework" },
   { name: "Status", filter: "status" },
