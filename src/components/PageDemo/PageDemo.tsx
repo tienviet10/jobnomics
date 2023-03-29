@@ -39,52 +39,45 @@ const PageDemo = () => {
   const demoData = [
     {
       name: "Job Board Page",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg",
+      image: "/images/job_board.png",
       title: "Drag and drop jobs into corresponding application category.",
-      subimage:
-        "https://upload.wikimedia.org/wikipedia/commons/e/e4/Color-blue.JPG?20100811194351",
+      subimage: "/images/drop_down.png",
       subimageAlt: "drag and drop view",
       description:
         "Organize your job application in a single drag and drop board. You also have an option to pick the job status through a drop down menu for better mobile experience.",
     },
     {
-      name: "Job Board Page",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg",
+      name: "Search Page",
+      image: "/images/search.png",
       title: "Search for and filter your job applications.",
-      // subimage:
-      //   "https://upload.wikimedia.org/wikipedia/commons/e/e4/Color-blue.JPG?20100811194351",
-      //   subimageAlt: "drag and drop view",
       description:
         '"I have no time to manually search for job application. I need a quicker way!" Look no further! Our search page allows you to view only the most relevant jobs and sort based on company name, job title, updated date, and favorited jobs.',
     },
     {
       name: "Note Page",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg",
+      image: "/images/note.png",
       title: "All of your interview notes in one place.",
-      // subimage:
-      //   "https://upload.wikimedia.org/wikipedia/commons/e/e4/Color-blue.JPG?20100811194351",
-      //   subimageAlt: "drag and drop view",
       description:
         "Record your interview experience and refer to them for all of your future interviews.",
     },
     {
       name: "Calendar Modal",
-      image:
-        "https://upload.wikimedia.org/wikipedia/commons/7/70/Solid_white.svg",
+      image: "/images/calendar.png",
       title: "See all interview dates in a calendar.",
-      // subimage:
-      //   "https://upload.wikimedia.org/wikipedia/commons/e/e4/Color-blue.JPG?20100811194351",
-      //   subimageAlt: "drag and drop view",
       description:
         "Sick of overcrowded calendars? This calendar keeps tracks of only your interview dates so that you can focus on preparing for your upcoming interviews.",
     },
   ];
 
   return (
-    <Box sx={{ py: 10, bgcolor: "#E6F0FF" }}>
+    <Box
+      sx={{
+        py: 10,
+        bgcolor: "#E6F0FF",
+        px: { lg: 0, xl: 30 },
+        margin: "auto",
+      }}
+    >
       {demoData.map((demoPage, index) => (
         <CustomBox
           key={demoPage.name}
@@ -108,12 +101,12 @@ const PageDemo = () => {
                 src={demoPage.subimage}
                 alt={demoPage.subimageAlt}
                 style={{
-                  width: "20vmin",
-                  height: "20vmin",
+                  width: "calc(10vw + 20px)",
+                  height: "calc(10vw + 20px)",
                   position: "absolute",
                   borderRadius: "50%",
-                  right: "-50px",
-                  top: "-30px",
+                  right: "0",
+                  bottom: "0",
                 }}
               />
             )}
