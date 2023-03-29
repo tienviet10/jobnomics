@@ -257,6 +257,22 @@ export const jobApi = createApi({
       ) => response.status,
       invalidatesTags: ["filterJob", "allJobs"],
     }),
+    changeFavoriteOnly: builder.mutation({
+      query: ({ ...patch }) => {
+        return {
+          url: "job/favorite-only",
+          method: "PATCH",
+          body: patch,
+        };
+      },
+      transformResponse: (response: any, meta, arg) => response,
+      transformErrorResponse: (
+        response: { status: string | number; },
+        meta,
+        arg
+      ) => response.status,
+      invalidatesTags: ["allJobs"]
+    }),
   }),
 });
 
@@ -278,5 +294,6 @@ export const {
   useUpdateNoteMutation,
   useRejectedReasonMutation,
   useEmailVerificationMutation,
-  useRecoverJobMutation
+  useRecoverJobMutation,
+  useChangeFavoriteOnlyMutation
 } = jobApi;

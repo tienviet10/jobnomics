@@ -7,12 +7,12 @@ export type UserJobsType = {
   modal: ModalType;
   interviewModal: ModalType;
   selectedJob: JobType;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
 };
 
 type ModalType = {
   open: boolean;
-  jobCategoryId: { jobId: number; categoryId: number; };
+  jobCategoryId: { jobId: number; categoryId: number };
 };
 
 export type JobPreviewType = {
@@ -35,6 +35,7 @@ export type JobType = {
   position: number;
   interviewDate: Date | null;
   note: string;
+  generalNote: string;
   rejectReason?: string | null;
   job: {
     id: number;
@@ -47,6 +48,7 @@ export type JobType = {
     skills: Skill[];
     interviewExamples?: string;
     platform: string;
+    link: string;
   };
   checklists: Checklist[];
   interviewExamples?: string;
@@ -140,7 +142,7 @@ export type DrawComponentType = {
 };
 
 export type MenuStateType = {
-  [key: string]: { anchorEl: Element | null; open: boolean; };
+  [key: string]: { anchorEl: Element | null; open: boolean };
 };
 
 export type ManageSearchPageType = {
@@ -158,7 +160,7 @@ export type ManageSearchPageType = {
   ) => void;
   handleMenuClose: (job: Job) => void;
   handleDelete: (job: Job) => void;
-  handleRecover: (job: Job) => void,
+  handleRecover: (job: Job) => void;
   openDeleteModal: boolean;
   setOpenDeleteModal: React.Dispatch<React.SetStateAction<boolean>>;
   selectedJob: Job | null;
@@ -202,7 +204,7 @@ export type GetAJobType = {
   jobId: number;
   categoryId: number;
   isFetching: boolean;
-  previousJob: { jobId: number; categoryId: number; };
+  previousJob: { jobId: number; categoryId: number };
   isSuccess: boolean;
 };
 
@@ -219,7 +221,7 @@ export type AllActiveJobsType = {
 };
 
 export type AllActiveJobsDataType = {
-  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[]; };
+  [key: string]: { category: string; id: number; jobs: AllActiveJobsType[] };
 };
 
 export type CalendarEventsType = {
@@ -302,15 +304,19 @@ export type NotesType = {
     avatarColor: string;
   };
   note: string;
+  generalNote: string;
 };
 
 export type AllNotesType = NotesType[];
 
 export type EachRowType = {
-  job: Job,
-  menuStates: MenuStateType,
-  handleMenuOpen: (job: Job, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
-  handleMenuClose: (job: Job) => void,
-  handleDelete: (job: Job) => void,
-  handleRecover: (job: Job) => void,
+  job: Job;
+  menuStates: MenuStateType;
+  handleMenuOpen: (
+    job: Job,
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  handleMenuClose: (job: Job) => void;
+  handleDelete: (job: Job) => void;
+  handleRecover: (job: Job) => void;
 };

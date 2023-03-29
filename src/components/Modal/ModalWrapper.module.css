@@ -26,6 +26,10 @@ div.JobModal {
   }
 }
 
+.JobHeader {
+  margin-top: 10px;
+}
+
 .JobCompany {
   color: #2d799d;
 }

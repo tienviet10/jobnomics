@@ -35,7 +35,7 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
   const [state, setState] = useState<boolean>(false);
 
   const handleSentRequest = () => {
-    sentFilterRequest();
+    // sentFilterRequest();
     setState(false);
   };
 
@@ -85,6 +85,7 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
                           ...cate,
                           cate: choice.filter,
                           auto: false,
+                          check: !cate.check
                         })}
                         name={cate.name}
                       />
@@ -106,7 +107,7 @@ const FilterDrawer: React.FC<DrawComponentType> = ({
           backgroundColor: "accent.main",
         }}
       >
-        Filter
+        Done
       </Button>
     </Box>
   );

@@ -23,6 +23,7 @@ const initialState: UserJobsType = {
     position: -1,
     interviewDate: null,
     note: "",
+    generalNote: "",
     job: {
       id: 1,
       title: "",
@@ -34,6 +35,7 @@ const initialState: UserJobsType = {
       skills: [],
       interviewExamples: "",
       platform: "",
+      link: "",
     },
     checklists: [],
   },
@@ -89,6 +91,10 @@ export const jobSlice = createSlice({
       state.previousJob = state.modal.jobCategoryId;
       state.selectedJob.note = action.payload;
     },
+    setNewGeneralNote: (state, action) => {
+      state.previousJob = state.modal.jobCategoryId;
+      state.selectedJob.generalNote = action.payload;
+    },
   },
 });
 
@@ -101,6 +107,7 @@ export const {
   toggleInterviewedModal,
   setInterviewedModalId,
   setNewNote,
+  setNewGeneralNote,
 } = jobSlice.actions;
 
 export default jobSlice.reducer;

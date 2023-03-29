@@ -11,12 +11,15 @@ import {
   Select,
   MenuItem,
   Box,
+  Link,
 } from "@mui/material";
 import {
   Close,
   Delete,
+  DescriptionRounded,
   DoubleArrowRounded,
   FavoriteBorder,
+  OpenInNewRounded,
 } from "@mui/icons-material";
 
 const ModalWrapperSample = ({
@@ -39,7 +42,7 @@ const ModalWrapperSample = ({
       className={styles.JobModalContainer}
     >
       <Card
-        elevation={5}
+        elevation={15}
         className={styles.JobModal}
         sx={{
           width: { xs: "90vw", lg: "1000px" },
@@ -70,7 +73,6 @@ const ModalWrapperSample = ({
                 bottom: "10px",
                 left: "50%",
                 transform: "translateX(-50%) rotate(90deg)",
-                ".&hover": { transform: "scale(1.1)" },
               }}
             />
           </>
@@ -78,20 +80,34 @@ const ModalWrapperSample = ({
           <>
             <div className={styles.ModalHeader}>
               <IconButton
+                sx={{ position: "absolute", top: "15px", left: "15px" }}
+              >
+                <DescriptionRounded fontSize="medium" />
+                <Typography fontSize={10}>Notepad</Typography>
+              </IconButton>
+              <IconButton
                 onClick={() => setOpen(false)}
                 sx={{ position: "absolute", top: "15px", right: "15px" }}
               >
                 <Close fontSize="medium" />
               </IconButton>
               <div className={styles.JobHeader}>
-                <Typography
+                <Link
                   variant="h5"
                   className={styles.JobTitle}
+                  sx={{
+                    color: "#000000",
+                    "&:hover": { color: "primary.light" },
+                  }}
+                  underline="none"
+                  target="_blank"
+                  rel="noopener"
                   gutterBottom
                 >
                   Software Engineer, Frontend - Slack (Software II, Senior, and
                   Staff)
-                </Typography>
+                  <OpenInNewRounded fontSize="small" sx={{ ml: 1 }} />
+                </Link>
                 <Box
                   className={styles.SubHeader}
                   sx={{

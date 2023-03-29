@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import { io } from "socket.io-client";
 import { useAddJobMutation } from "../../app/services/job-api";
 
 import styles from "./CreateJobModal.module.css";
@@ -14,15 +13,17 @@ import {
   Box,
   TextField,
   InputAdornment,
+  Link,
 } from "@mui/material";
-import { ClearRounded, Close, Error } from "@mui/icons-material";
+import {
+  ClearRounded,
+  Close,
+  Error,
+  OpenInNewRounded,
+} from "@mui/icons-material";
 import { CreateJobModalPropType } from "../../types/jobTypes";
 
 import LoadingAnimation from "../LoadingAnimation";
-
-// const socket = io("http://localhost:8080", {
-//   withCredentials: true,
-// });
 
 const CreateJobModal = ({
   open,
@@ -33,6 +34,7 @@ const CreateJobModal = ({
   const [addJob, { isLoading: isPosting, isSuccess, isError }] =
     useAddJobMutation();
   const [error, setError] = useState(false);
+  const [warningText, setWarningText] = useState("");
 
   const [formResponse, setFormResponse] = useState({
     title: "",
@@ -47,6 +49,7 @@ const CreateJobModal = ({
     setOpen(false);
     setUseLink(true);
     setError(false);
+    setWarningText("");
   };
 
   const handleCloseWhenFail = () => {
@@ -63,6 +66,8 @@ const CreateJobModal = ({
         interviewDate: null,
         type: "link",
       });
+    } else {
+      setWarningText("Please enter a valid link.");
     }
   };
 
@@ -96,6 +101,8 @@ const CreateJobModal = ({
         interviewDate: null,
         type: "manual",
       });
+    } else {
+      setWarningText("You cannot not submit incomeplete forms.");
     }
   };
 
@@ -112,6 +119,7 @@ const CreateJobModal = ({
         description: "",
       });
       setUseLink(true);
+      setWarningText("");
     }
     if (isError) {
       setError(isError);
@@ -156,9 +164,45 @@ const CreateJobModal = ({
                 sx={{ backgroundColor: "accent.translucent" }}
               >
                 At the moment, we only support{" "}
-                <strong style={{ fontWeight: "bold" }}>LinkedIn</strong> ,{" "}
-                <strong style={{ fontWeight: "bold" }}>ZipRecruiter</strong> and{" "}
-                <strong style={{ fontWeight: "bold" }}>Indeed (Beta)</strong>.
+                <Link
+                  href="https://www.linkedin.com/jobs/"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  LinkedIn
+                </Link>
+                ,{" "}
+                <Link
+                  href="https://www.indeed.com/"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  ZipRecruiter
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="https://www.ziprecruiter.com/Search-Jobs-Near-Me"
+                  sx={{
+                    fontWeight: "bold",
+                    "&:hover": { color: "accent.main" },
+                  }}
+                  underline="hover"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  Indeed (Beta)
+                </Link>
+                .
               </Alert>
             </div>
             <Input
@@ -184,6 +228,7 @@ const CreateJobModal = ({
                 </InputAdornment>
               }
             />
+            {warningText && <Alert severity="error">{warningText}</Alert>}
             <Button
               variant="contained"
               className={styles.saveButton}
@@ -394,6 +439,7 @@ const CreateJobModal = ({
               className={styles.toggleCreateFormButton}
               onClick={() => {
                 setUseLink((prev) => !prev);
+                setWarningText("");
               }}
               sx={{ color: "accent.dark" }}
             >

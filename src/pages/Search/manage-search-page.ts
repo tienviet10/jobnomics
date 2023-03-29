@@ -21,6 +21,7 @@ export function useManageSearchPage(): ManageSearchPageType {
   const state = useSelector((state: RootState) => state.filter);
   const filterState = state.mainFilter;
   const columnFilterState = state.columnFilter;
+
   const jobsList = state.displayArrayJobs;
   const selectedJob = state.selectedJob;
 
@@ -54,7 +55,7 @@ export function useManageSearchPage(): ManageSearchPageType {
 
   useEffect(() => {
     sentFilterRequest();
-  }, [columnFilterState]);
+  }, [columnFilterState, filterState]);
 
   const updateCategoryFilter = (item: UpdateFilterType) => async () => {
     dispatch(toggleCheck(item));

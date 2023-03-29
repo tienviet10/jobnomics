@@ -9,6 +9,8 @@ import {
   AccordionSummary,
   Avatar,
   Box,
+  Card,
+  IconButton,
   MenuItem,
   Select,
   ToggleButton,
@@ -18,16 +20,21 @@ import {
 import {
   ArrowDownwardRounded,
   ArrowUpwardRounded,
+  EditRounded,
   ExpandMore,
 } from "@mui/icons-material";
 import { NotesType } from "../../types/jobTypes";
 import PageLoader from "../../components/PageLoader";
+import NotepadModal from "./NotepadModal";
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [column, setColumn] = useState<string>("company");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
+  const [notepadOpen, setNotepadOpen] = useState(false);
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
+  const [noteType, setNoteType] = useState("");
+  const [selectedNote, setSelectedNote] = useState<NotesType | undefined>();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -54,6 +61,18 @@ const NotePage = () => {
     if (orderAscDesc === null || orderAscDesc === order) return;
 
     setOrder(orderAscDesc);
+  };
+
+  const handleInterviewEditClick = (noteData: NotesType) => {
+    setNoteType("interview");
+    setSelectedNote(noteData);
+    setNotepadOpen(true);
+  };
+
+  const handleGeneralEditClick = (noteData: NotesType) => {
+    setNoteType("general");
+    setSelectedNote(noteData);
+    setNotepadOpen(true);
   };
 
   return (
@@ -87,7 +106,7 @@ const NotePage = () => {
                 onChange={handleSortColumnChange}
                 size="small"
                 sx={{
-                  // bgcolor: "#ffffff",
+                  bgcolor: "#ffffff",
                   width: { xs: "100%", md: "200px" },
                   maxWidth: "300px",
                 }}
@@ -162,17 +181,85 @@ const NotePage = () => {
                       {new Date(noteData.interviewDate).toLocaleDateString()}
                     </Typography>
                   )}
-                  <Typography
-                    className={styles.NoteMain}
-                    sx={{ backgroundColor: "neutral.light" }}
+                  <Box
+                    sx={{
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: { xs: "column", md: "row" },
+                    }}
                   >
-                    {noteData.note}
-                  </Typography>
+                    {noteData.generalNote && (
+                      <Card
+                        className={styles.NoteMain}
+                        sx={{
+                          flex: 1,
+                          backgroundColor: "neutral.light",
+                          mr: { xs: 0, md: noteData.note ? 2 : 0 },
+                          mb: { xs: noteData.note ? 2 : 0, md: 0 },
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="subtitle1">
+                            General Notes
+                          </Typography>
+                          <IconButton
+                            onClick={() => handleGeneralEditClick(noteData)}
+                          >
+                            <EditRounded fontSize="small" />
+                          </IconButton>
+                        </Box>
+                        <Typography className={styles.NoteContent}>
+                          {noteData.generalNote}
+                        </Typography>
+                      </Card>
+                    )}
+                    {noteData.note && (
+                      <Card
+                        className={styles.NoteMain}
+                        sx={{ flex: 1, backgroundColor: "neutral.light" }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            mb: 2,
+                          }}
+                        >
+                          <Typography variant="subtitle1">
+                            Interview Experience
+                          </Typography>
+                          <IconButton
+                            onClick={() => handleInterviewEditClick(noteData)}
+                          >
+                            <EditRounded fontSize="small" />
+                          </IconButton>
+                        </Box>
+                        <Typography className={styles.NoteContent}>
+                          {noteData.note}
+                        </Typography>
+                      </Card>
+                    )}
+                  </Box>
                 </AccordionDetails>
               </Accordion>
             ))}
           </Box>
         </>
+      )}
+
+      {selectedNote && (
+        <NotepadModal
+          open={notepadOpen}
+          setOpen={setNotepadOpen}
+          type={noteType}
+          notesData={selectedNote}
+        />
       )}
     </Box>
   );
