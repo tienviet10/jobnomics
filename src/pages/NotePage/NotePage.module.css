@@ -28,6 +28,20 @@ h5.NotePageTitle {
   justify-content: flex-end;
 }
 
+.SearchBy {
+  display: flex;
+  align-items: center;
+
+  flex: 1;
+  justify-content: flex-start;
+}
+
+.SortContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .AccordionSummary {
   display: flex;
   align-items: center;

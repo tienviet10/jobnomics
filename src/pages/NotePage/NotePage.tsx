@@ -16,16 +16,20 @@ import {
   ToggleButton,
   ToggleButtonGroup,
   Typography,
+  FormControl,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput,
 } from "@mui/material";
 import {
   ArrowDownwardRounded,
   ArrowUpwardRounded,
+  ClearRounded,
   EditRounded,
   ExpandMore,
 } from "@mui/icons-material";
 import "react-quill/dist/quill.bubble.css";
 import ReactQuill from "react-quill";
-
 import PageLoader from "../../components/PageLoader";
 import NotepadModal from "./NotepadModal";
 
@@ -39,12 +43,19 @@ const NotePage = () => {
   const { data: notes, isLoading } = useGetAllNotesQuery({ column, order });
   const [noteType, setNoteType] = useState("");
   const [selectedNote, setSelectedNote] = useState<NotesType | undefined>();
+  const [searchWord, setSearchWord] = useState("");
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
+  const handleEmptyInput = () => {
+    setSearchWord("");
+  };
+
+  const listNotes = notes?.filter((note) => (note?.job?.company + note?.job?.title + note?.generalNote + note?.note).replaceAll("\\<.*?\\>", "").toLowerCase().includes(searchWord.toLowerCase()));
+console.log(notes)
   const sortBy = [
     { value: "company", name: "Company Name" },
     { value: "title", name: "Job Title" },
@@ -53,7 +64,7 @@ const NotePage = () => {
   ];
 
   const handleSortColumnChange = (event: {
-    target: { value: React.SetStateAction<string> };
+    target: { value: React.SetStateAction<string>; };
   }) => {
     setColumn(event.target.value);
   };
@@ -102,44 +113,75 @@ const NotePage = () => {
             >
               Interview Notes
             </Typography>
-            <div className={styles.SortBy}>
-              <Typography sx={{ mr: 1, flexShrink: 0 }}>Sort By:</Typography>
-              <Select
-                id="demo-simple-select"
-                value={column}
-                onChange={handleSortColumnChange}
-                size="small"
-                sx={{
-                  bgcolor: "#ffffff",
-                  width: { xs: "100%", md: "200px" },
-                  maxWidth: "300px",
-                }}
-              >
-                {sortBy.map((column, index) => (
-                  <MenuItem key={index} value={column.value}>
-                    {column.name}
-                  </MenuItem>
-                ))}
-              </Select>
-              <ToggleButtonGroup
-                value={order}
-                exclusive
-                onChange={handleOrderChange}
-                aria-label="text alignment"
-                size="small"
-                sx={{ ml: 1 }}
-              >
-                <ToggleButton value="asc" aria-label="ascending order">
-                  <ArrowUpwardRounded />
-                </ToggleButton>
-                <ToggleButton value="desc" aria-label="descending order">
-                  <ArrowDownwardRounded />
-                </ToggleButton>
-              </ToggleButtonGroup>
+            <div className={styles.SortContainer}>
+              <div className={styles.SortBy}>
+                <Typography sx={{ mr: 1, flexShrink: 0 }}>Sort By:</Typography>
+                <Select
+                  id="demo-simple-select"
+                  value={column}
+                  onChange={handleSortColumnChange}
+                  size="small"
+                  sx={{
+                    bgcolor: "#ffffff",
+                    width: { xs: "100%", md: "200px" },
+                    maxWidth: "300px",
+                  }}
+                >
+                  {sortBy.map((column, index) => (
+                    <MenuItem key={index} value={column.value}>
+                      {column.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                <ToggleButtonGroup
+                  value={order}
+                  exclusive
+                  onChange={handleOrderChange}
+                  aria-label="text alignment"
+                  size="small"
+                  sx={{ ml: 1 }}
+                >
+                  <ToggleButton value="asc" aria-label="ascending order">
+                    <ArrowUpwardRounded />
+                  </ToggleButton>
+                  <ToggleButton value="desc" aria-label="descending order">
+                    <ArrowDownwardRounded />
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </div>
+              <div className={styles.SearchBy}>
+                <Typography sx={{ mr: 1, flexShrink: 0 }}>Notes:&nbsp;&nbsp;</Typography>
+                <FormControl variant="outlined" size="small">
+                  <InputLabel htmlFor="display-name">Search</InputLabel>
+                  <OutlinedInput
+                    placeholder="Type here..."
+                    label="Notes:"
+                    sx={{
+                      bgcolor: "#ffffff",
+                      width: { xs: "100%", md: "200px" },
+                      maxWidth: "300px",
+                    }}
+                    onChange={(e) => setSearchWord(e.target.value)}
+                    value={searchWord}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="empty input field"
+                          onClick={handleEmptyInput}
+                          edge="end"
+                        >
+                          {searchWord && <ClearRounded />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                </FormControl>
+   
+              </div>
             </div>
           </div>
           <Box sx={{ width: "100%" }}>
-            {notes?.map((noteData: NotesType, index: number) => (
+            {listNotes?.map((noteData: NotesType, index: number) => (
               <Accordion
                 key={`note${index}-content`}
                 expanded={expanded === `note${index}`}
