@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { useUpdateNoteMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
@@ -10,24 +12,32 @@ import { Alert, Box, Snackbar, TextField, Typography } from "@mui/material";
 import InvalidAlertView from "../InvalidAlertView";
 import { useGetAJob } from "../../../hooks/get-a-job";
 
+const editorStyle = {
+  height: '300px',
+  width: '100%',
+};
+
 const NotePadView = () => {
   const dispatch = useDispatch();
   const { selectedJob } = useGetAJob();
 
   const [saveNote, { isSuccess }] = useUpdateNoteMutation();
-  const [isNoteSaveSuccess, setIsNoteSaveSucess] = useState(false);
+  const [isNoteSaveSuccess, setIsNoteSaveSuccess] = useState(false);
   const [generalNoteState, setGeneralNoteState] = useState(
     selectedJob.note || ""
   );
 
-  const handleNoteChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setGeneralNoteState(event.target.value);
+  // const handleNoteChange = (event: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setGeneralNoteState(event.target.value);
+  // };
+  const handleNoteChange = (event: string) => {
+    setGeneralNoteState(event);
   };
 
   const handleAlertClose = () => {
-    setIsNoteSaveSucess(false);
+    setIsNoteSaveSuccess(false);
   };
 
   const handleSaveNote = async () => {
@@ -48,7 +58,7 @@ const NotePadView = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      setIsNoteSaveSucess(true);
+      setIsNoteSaveSuccess(true);
     }
   }, [isSuccess]);
 
@@ -64,7 +74,7 @@ const NotePadView = () => {
             <Typography variant="body2" gutterBottom>
               Visit the NOTES page to see your notes in one place.
             </Typography>
-            <TextField
+            {/* <TextField
               className={styles.NoteTextField}
               sx={{
                 flex: 1,
@@ -84,7 +94,12 @@ const NotePadView = () => {
               value={generalNoteState || ""}
               onChange={handleNoteChange}
               onBlur={handleSaveNote}
-            ></TextField>
+            ></TextField> */}
+            <ReactQuill 
+            style={editorStyle} 
+            theme="snow" value={generalNoteState || ""} 
+            onChange={handleNoteChange} 
+            onBlur={handleSaveNote}/>
           </Box>
 
           <Snackbar

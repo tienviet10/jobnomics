@@ -26,6 +26,8 @@ import {
 import { NotesType } from "../../types/jobTypes";
 import PageLoader from "../../components/PageLoader";
 import NotepadModal from "./NotepadModal";
+import ReactQuill from "react-quill";
+import 'react-quill/dist/quill.bubble.css';
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -214,9 +216,23 @@ const NotePage = () => {
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
-                        <Typography className={styles.NoteContent}>
+                        {/* <Typography className={styles.NoteContent}>
                           {noteData.generalNote}
-                        </Typography>
+                        </Typography> */}
+                        <ReactQuill
+                          theme="bubble"
+                          value={noteData.generalNote} 
+                          readOnly={true}
+                          className="my-quill-editor"
+
+                        />
+                        <style>
+                          {`
+                            .my-quill-editor .ql-editor {
+                              padding: 0;
+                            }
+                          `}
+                        </style>
                       </Card>
                     )}
                     {noteData.note && (
@@ -240,9 +256,21 @@ const NotePage = () => {
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
-                        <Typography className={styles.NoteContent}>
+                        {/* <Typography className={styles.NoteContent}>
                           {noteData.note}
-                        </Typography>
+                        </Typography> */}
+                        <ReactQuill
+                          theme="bubble"
+                          value={noteData.note} readOnly={true}
+                          className="my-quill-editor"
+                        />
+                        <style>
+                          {`
+                            .my-quill-editor .ql-editor {
+                              padding: 0;
+                            }
+                          `}
+                        </style>
                       </Card>
                     )}
                   </Box>

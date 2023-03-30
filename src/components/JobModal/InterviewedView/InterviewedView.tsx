@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
@@ -23,6 +25,11 @@ import { CheckCircle } from "@mui/icons-material";
 import { useGetAJob } from "../../../hooks/get-a-job";
 import { Checklist } from "../../../types/jobTypes";
 import InvalidAlertView from "../InvalidAlertView";
+
+const editorStyle = {
+  height: '300px',
+  width: '100%',
+};
 
 const InterviewedView = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -110,10 +117,14 @@ const InterviewedView = (): JSX.Element => {
     setIsNotepad(!isNotepad);
   };
 
-  const handleNoteChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setNoteState(event.target.value);
+  // const handleNoteChange = (event: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setNoteState(event.target.value);
+  // };
+
+  const handleNoteChange = (event: string) => {
+    setNoteState(event);
   };
 
   const handleSaveNote = async () => {
@@ -204,14 +215,14 @@ const InterviewedView = (): JSX.Element => {
           ) : (
             <div className={styles.NotepadMain}>
               <Typography variant="h6" gutterBottom>
-                Keep track of your interview experince.
+                Keep track of your interview experience.
               </Typography>
               <Typography variant="body2" gutterBottom>
                 Record interview questions and your response, what you learned,
                 how you feel about the company, reflections, learning, feedback
                 received, and future improvements.
               </Typography>
-              <TextField
+              {/* <TextField
                 className={styles.NoteTextField}
                 sx={{
                   flex: 1,
@@ -231,7 +242,12 @@ const InterviewedView = (): JSX.Element => {
                 value={noteState || ""}
                 onChange={handleNoteChange}
                 onBlur={handleSaveNote}
-              ></TextField>
+              ></TextField> */}
+                 <ReactQuill 
+            style={editorStyle} 
+            theme="snow" value={noteState || ""} 
+            onChange={handleNoteChange} 
+            onBlur={handleSaveNote}/>
             </div>
           )}
 
