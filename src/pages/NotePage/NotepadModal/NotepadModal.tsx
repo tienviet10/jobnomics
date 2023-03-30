@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 import { useUpdateNoteMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
@@ -19,6 +21,11 @@ import { Close } from "@mui/icons-material";
 
 import { NotesType } from "../../../types/jobTypes";
 
+const editorStyle = {
+  height: '300px',
+  width: '100%',
+};
+
 const NotepadModal = ({
   open,
   setOpen,
@@ -38,10 +45,14 @@ const NotepadModal = ({
     type === "interview" ? notesData.note : notesData.generalNote || ""
   );
 
-  const handleNoteChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setNoteState(event.target.value);
+  // const handleNoteChange = (event: {
+  //   target: { value: React.SetStateAction<string> };
+  // }) => {
+  //   setNoteState(event.target.value);
+  // };
+  const handleNoteChange = (event: string) => {
+    console.log(event);
+    setNoteState(event);
   };
 
   const handleAlertClose = () => {
@@ -116,7 +127,7 @@ const NotepadModal = ({
             sx={{ mb: 2 }}
             gutterBottom
           >{`Edit ${type} notes`}</Typography>
-          <TextField
+          {/* <TextField
             className={styles.NoteTextField}
             sx={{
               "& fieldset": {
@@ -135,7 +146,16 @@ const NotepadModal = ({
             value={noteState || ""}
             onChange={handleNoteChange}
             onBlur={handleSaveNote}
-          ></TextField>
+          ></TextField> */}
+          <ReactQuill
+            style={editorStyle}
+            theme="snow" value={noteState || ""}
+            onChange={handleNoteChange}
+            onBlur={handleSaveNote}
+            className="my-quill-editor"
+          />
+          {/* <div style={{width:"100%"}}>
+          </div> */}
         </Box>
 
         <Snackbar
