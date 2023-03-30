@@ -130,3 +130,7 @@ table {
 em {
   font-style: italic;
 }
+
+p {
+  font-size: 1rem;
+}
