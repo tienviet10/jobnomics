@@ -9,9 +9,8 @@
 .NotePageHeader {
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+
   margin-bottom: 20px;
 }
 
@@ -20,12 +19,20 @@ h5.NotePageTitle {
   margin-right: 50px;
 }
 
+.SortContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
 .SortBy {
   display: flex;
   align-items: center;
+}
 
-  flex: 1;
-  justify-content: flex-end;
+.SearchBy {
+  display: flex;
+  align-items: center;
 }
 
 .AccordionSummary {
