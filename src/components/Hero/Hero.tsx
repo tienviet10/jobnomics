@@ -76,8 +76,7 @@ const Hero = () => {
               variant="body2"
               sx={{ fontSize: "18px", color: "#5A6473", my: 4 }}
             >
-              Be the first to get the best real estate deals before they hit the
-              mass market! Hot foreclosure deals with one simple search!
+              AI-powered job application tracker that automates data collection, organization, and provides personalized insights and recommendations to optimize job search efforts.
             </Typography>
             <Button variant="contained" onClick={handleSignup}>
               Get Started
