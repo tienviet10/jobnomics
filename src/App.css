@@ -21,3 +21,65 @@ body,
   display: flex;
   flex-direction: column;
 }
+
+.my-quill-editor .ql-editor {
+  background-color: #ffffff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 4px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  border-radius: 5px;
+}
+
+.ql-toolbar.ql-snow {
+  background-color: #e5e5e5;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.quill.my-quill-editor {
+  display: flex;
+  flex-direction: column;
+}
+
+.ql-container.ql-snow {
+  height: 50vh;
+}
+
+.interviewed .ql-container.ql-snow {
+  height: 30vh;
+}
+
+.quill.note-view {
+  width: 100%;
+}
+
+.note-view .ql-container.ql-snow {
+  height: 25vh;
+}
+
+@media screen and (min-width: 600px) {
+  .ql-container.ql-snow {
+    height: 400px;
+  }
+
+  .interviewed .ql-container.ql-snow {
+    height: 30vh;
+  }
+
+  .note-view .ql-container.ql-snow {
+    height: 30vh;
+  }
+}
+
+@media screen and (max-height: 600px) {
+  .ql-container.ql-snow {
+    height: 50vh;
+  }
+
+  .interviewed .ql-container.ql-snow {
+    height: 25vh;
+  }
+
+  .note-view .ql-container.ql-snow {
+    height: 30vh;
+  }
+}

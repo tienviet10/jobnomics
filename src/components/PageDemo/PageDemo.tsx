@@ -1,7 +1,7 @@
 import React from "react";
 
 import { styled, Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Box } from "@mui/system";
 
 const PageDemo = () => {
   const CustomBox = styled(Box)(({ theme }) => ({

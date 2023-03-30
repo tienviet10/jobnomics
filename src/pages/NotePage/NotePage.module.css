@@ -34,10 +34,6 @@ h5.NotePageTitle {
 }
 
 div.NoteMain {
-  padding: 10px 20px;
+  padding: 10px;
   border-radius: 5px;
-}
-
-p.NoteContent {
-  white-space: pre-wrap;
 }
