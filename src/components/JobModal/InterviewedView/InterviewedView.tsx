@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 import { useDispatch } from "react-redux";
 import {
   useUpdateNoteMutation,
@@ -16,7 +18,6 @@ import {
   Snackbar,
   Tab,
   Tabs,
-  TextField,
   Typography,
 } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
@@ -110,10 +111,8 @@ const InterviewedView = (): JSX.Element => {
     setIsNotepad(!isNotepad);
   };
 
-  const handleNoteChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setNoteState(event.target.value);
+  const handleNoteChange = (event: string) => {
+    setNoteState(event);
   };
 
   const handleSaveNote = async () => {
@@ -204,34 +203,22 @@ const InterviewedView = (): JSX.Element => {
           ) : (
             <div className={styles.NotepadMain}>
               <Typography variant="h6" gutterBottom>
-                Keep track of your interview experince.
+                Keep track of your interview experience.
               </Typography>
               <Typography variant="body2" gutterBottom>
                 Record interview questions and your response, what you learned,
                 how you feel about the company, reflections, learning, feedback
                 received, and future improvements.
               </Typography>
-              <TextField
-                className={styles.NoteTextField}
-                sx={{
-                  flex: 1,
-                  "& fieldset": {
-                    outline: "none",
-                  },
-                  "& .MuiInputBase-root": {
-                    minHeight: "100%",
-                    display: "flex",
-                    alignItems: "start",
-                  },
-                }}
-                rows={8}
-                placeholder="Write your notes here..."
-                multiline
-                fullWidth
-                value={noteState || ""}
-                onChange={handleNoteChange}
-                onBlur={handleSaveNote}
-              ></TextField>
+              <Box sx={{ width: "100%", overflow: "auto" }}>
+                <ReactQuill
+                  className="interviewed"
+                  theme="snow"
+                  value={noteState || ""}
+                  onChange={handleNoteChange}
+                  onBlur={handleSaveNote}
+                />
+              </Box>
             </div>
           )}
 

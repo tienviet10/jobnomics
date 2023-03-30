@@ -114,30 +114,36 @@ const InterviewingView = () => {
                 Preparing sample interview questions and answers...
               </LoadingAnimation>
             ) : (
-              <>
-                <Box
-                  className={styles.QuestionsContainer}
-                  sx={{ p: { xs: "15px", sm: "20px", md: "30px" }, pb: 0 }}
+              <Box
+                className={styles.QuestionsContainer}
+                sx={{ p: { xs: "15px", sm: "20px", md: "30px" }, pb: 0 }}
+              >
+                <Typography variant="h6" sx={{ pb: 2 }} gutterBottom>
+                  Sample Interview Q & A
+                </Typography>
+                <Typography
+                  variant="body1"
+                  className={styles.Questions}
+                  sx={{ pb: { xs: 2, md: 0 } }}
+                  gutterBottom
                 >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      // fontWeight: "bold",
-                      pb: 2,
-                      // fontSize: { xs: "18px", sm: "20px" },
-                    }}
-                    gutterBottom
-                  >
-                    Sample Interview Q & A
-                  </Typography>
-                  <Typography variant="body1" className={styles.Questions}>
-                    {selectedJob?.job?.interviewExamples}
-                  </Typography>
-                </Box>
-              </>
+                  {selectedJob?.job?.interviewExamples}
+                </Typography>
+                <Typography
+                  variant="subtitle2"
+                  className={styles.Skills}
+                  sx={{ display: { xs: "block", sm: "none" } }}
+                >
+                  <strong>Required Skills:</strong> {skills}
+                </Typography>
+              </Box>
             )}
           </Box>
-          <Typography variant="subtitle2" className={styles.Skills}>
+          <Typography
+            variant="subtitle2"
+            className={styles.Skills}
+            sx={{ display: { xs: "none", sm: "block" }, p: "10px", pb: 0 }}
+          >
             <strong>Required Skills:</strong> {skills}
           </Typography>
           {isSuccess && (

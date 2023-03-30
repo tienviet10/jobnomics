@@ -48,14 +48,16 @@ export function useManageSearchPage(): ManageSearchPageType {
   const { data, refetch } = useFilterJobsQuery(queryStr);
 
   useEffect(() => {
+    sentFilterRequest();
+  }, [columnFilterState, filterState]);
+
+  useEffect(() => {
     if (data) {
+      refetch();
       dispatch(setList(data));
     }
   }, [data]);
 
-  useEffect(() => {
-    sentFilterRequest();
-  }, [columnFilterState, filterState]);
 
   const updateCategoryFilter = (item: UpdateFilterType) => async () => {
     dispatch(toggleCheck(item));
@@ -89,7 +91,6 @@ export function useManageSearchPage(): ManageSearchPageType {
       .filter((obj: CheckBoxEntity) => obj.check)
       .map((obj: CheckBoxEntity) => obj.name);
     const statusArr = filterState.status.filter((state) => state.check).map((state) => state.name);
-
     setQueryStr({
       category: newCategory,
       skills: languagesAndFramework,

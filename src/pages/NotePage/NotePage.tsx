@@ -23,9 +23,13 @@ import {
   EditRounded,
   ExpandMore,
 } from "@mui/icons-material";
-import { NotesType } from "../../types/jobTypes";
+import "react-quill/dist/quill.bubble.css";
+import ReactQuill from "react-quill";
+
 import PageLoader from "../../components/PageLoader";
 import NotepadModal from "./NotepadModal";
+
+import { NotesType } from "../../types/jobTypes";
 
 const NotePage = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
@@ -214,9 +218,12 @@ const NotePage = () => {
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
-                        <Typography className={styles.NoteContent}>
-                          {noteData.generalNote}
-                        </Typography>
+                        <ReactQuill
+                          theme="bubble"
+                          value={noteData.generalNote}
+                          readOnly={true}
+                          className="my-quill-editor"
+                        />
                       </Card>
                     )}
                     {noteData.note && (
@@ -240,9 +247,12 @@ const NotePage = () => {
                             <EditRounded fontSize="small" />
                           </IconButton>
                         </Box>
-                        <Typography className={styles.NoteContent}>
-                          {noteData.note}
-                        </Typography>
+                        <ReactQuill
+                          theme="bubble"
+                          value={noteData.note}
+                          readOnly={true}
+                          className="my-quill-editor"
+                        />
                       </Card>
                     )}
                   </Box>

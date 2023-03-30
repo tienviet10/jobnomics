@@ -24,7 +24,7 @@ import { Favorite, FavoriteBorder, MoreVert } from "@mui/icons-material";
 import { categoryColors } from "../categoryColors";
 import { EachRowType, Job } from "../../../types/jobTypes";
 import { useGetAJob } from "../../../hooks/get-a-job";
-import { setColumnFilterJob } from "../../../features/filterSlice";
+import { setFavoriteLocally } from "../../../features/filterSlice";
 
 const EachRow: React.FC<EachRowType> = ({
   job,
@@ -36,19 +36,26 @@ const EachRow: React.FC<EachRowType> = ({
 }): JSX.Element => {
   const { user } = useAuth0();
   const dispatch = useDispatch();
-  const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
+  // const [localFavorite, setLocalFavorite] = useState<boolean>(job?.isFavorite);
   const [updateFavorite] = useChangeFavoriteOnlyMutation();
   const { refetch } = useGetAJob();
 
-  const handleToggleFavorite = (job: Job) => {
-    setLocalFavorite((prev) => {
-      updateFavorite({
-        jobId: job.id,
-        categoryId: job.categoryId,
-        favorite: !prev,
-      });
-      return !prev;
+  const handleToggleFavorite = async (job: Job) => {
+    // setLocalFavorite((prev) => {
+    //   updateFavorite({
+    //     jobId: job.id,
+    //     categoryId: job.categoryId,
+    //     favorite: !prev,
+    //   });
+    //   return !prev;
+    // });
+    await updateFavorite({
+      jobId: job.id,
+      categoryId: job.categoryId,
+      favorite: !job.isFavorite,
     });
+    dispatch(setFavoriteLocally(job))
+    console.log(job)
   };
 
   const handleOpenModal = async (job: Job) => {
@@ -58,9 +65,9 @@ const EachRow: React.FC<EachRowType> = ({
     dispatch(toggleJobModal(true));
   };
 
-  useEffect(() => {
-    setLocalFavorite(job?.isFavorite);
-  }, [job?.isFavorite]);
+  // useEffect(() => {
+  //   setLocalFavorite(job?.isFavorite);
+  // }, [job?.isFavorite]);
 
   return (
     <TableRow hover className={styles.JobRow}>
@@ -121,7 +128,7 @@ const EachRow: React.FC<EachRowType> = ({
           }}
           disabled={!job.isActive}
         >
-          {localFavorite ? <Favorite /> : <FavoriteBorder />}
+          {job.isFavorite ? <Favorite /> : <FavoriteBorder />}
         </IconButton>
       </TableCell>
       <TableCell align="center">

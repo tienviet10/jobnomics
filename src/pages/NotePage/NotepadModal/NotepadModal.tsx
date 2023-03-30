@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 import { useUpdateNoteMutation } from "../../../app/services/job-api";
 import { useDispatch } from "react-redux";
@@ -12,7 +14,6 @@ import {
   IconButton,
   Modal,
   Snackbar,
-  TextField,
   Typography,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
@@ -38,10 +39,8 @@ const NotepadModal = ({
     type === "interview" ? notesData.note : notesData.generalNote || ""
   );
 
-  const handleNoteChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setNoteState(event.target.value);
+  const handleNoteChange = (event: string) => {
+    setNoteState(event);
   };
 
   const handleAlertClose = () => {
@@ -99,8 +98,6 @@ const NotepadModal = ({
           pb: { xs: 4, md: 4, lg: 5 },
           pt: { xs: 7, md: 8, lg: 9 },
           width: { xs: "90vw", md: "80vw", lg: "1000px" },
-          maxHeight: { xs: "80vh" },
-          overflow: "auto",
         }}
       >
         <IconButton
@@ -116,26 +113,15 @@ const NotepadModal = ({
             sx={{ mb: 2 }}
             gutterBottom
           >{`Edit ${type} notes`}</Typography>
-          <TextField
-            className={styles.NoteTextField}
-            sx={{
-              "& fieldset": {
-                outline: "none",
-              },
-              "& .MuiInputBase-root": {
-                height: "100%",
-                display: "flex",
-                alignItems: "start",
-              },
-            }}
-            rows={18}
-            placeholder="Write your notes here..."
-            multiline
-            fullWidth
-            value={noteState || ""}
-            onChange={handleNoteChange}
-            onBlur={handleSaveNote}
-          ></TextField>
+          <Box sx={{ width: "100%", overflow: "auto", flex: 1 }}>
+            <ReactQuill
+              theme="snow"
+              value={noteState || ""}
+              onChange={handleNoteChange}
+              onBlur={handleSaveNote}
+              className="my-quill-editor"
+            />
+          </Box>
         </Box>
 
         <Snackbar

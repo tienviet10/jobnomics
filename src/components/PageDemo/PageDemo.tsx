@@ -1,7 +1,7 @@
 import React from "react";
 
 import { styled, Typography } from "@mui/material";
-import { Box, Container } from "@mui/system";
+import { Box } from "@mui/system";
 
 const PageDemo = () => {
   const CustomBox = styled(Box)(({ theme }) => ({
@@ -16,8 +16,9 @@ const PageDemo = () => {
 
   const ImgContainer = styled(Box)(({ theme }) => ({
     width: "100%",
+
     padding: "20px 0",
-    objectFit: "cover",
+    objectFit: "contain",
     [theme.breakpoints.down("md")]: {
       display: "flex",
       flexDirection: "column",
@@ -89,7 +90,8 @@ const PageDemo = () => {
               alt={demoPage.name}
               style={{
                 maxWidth: "100%",
-                height: "100%",
+                maxHeight: "100%",
+                height: "auto",
                 borderTopLeftRadius: index % 2 === 0 ? 0 : "20px",
                 borderTopRightRadius: index % 2 === 0 ? "20px" : 0,
                 borderBottomLeftRadius: index % 2 === 0 ? 0 : "20px",
