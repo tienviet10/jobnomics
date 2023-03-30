@@ -49,7 +49,7 @@ export function useManageSearchPage(): ManageSearchPageType {
 
   useEffect(() => {
     sentFilterRequest();
-  }, [columnFilterState]);
+  }, [columnFilterState, filterState]);
 
   useEffect(() => {
     if (data) {
@@ -57,7 +57,6 @@ export function useManageSearchPage(): ManageSearchPageType {
       dispatch(setList(data));
     }
   }, [data]);
-
 
 
   const updateCategoryFilter = (item: UpdateFilterType) => async () => {
