@@ -124,18 +124,28 @@ const InterviewingView = () => {
                 <Typography
                   variant="body1"
                   className={styles.Questions}
-                  sx={{ pb: 2 }}
+                  sx={{ pb: { xs: 2, md: 0 } }}
                   gutterBottom
                 >
                   {selectedJob?.job?.interviewExamples}
                 </Typography>
-                <Typography variant="subtitle2" className={styles.Skills}>
+                <Typography
+                  variant="subtitle2"
+                  className={styles.Skills}
+                  sx={{ display: { xs: "block", sm: "none" } }}
+                >
                   <strong>Required Skills:</strong> {skills}
                 </Typography>
               </Box>
             )}
           </Box>
-
+          <Typography
+            variant="subtitle2"
+            className={styles.Skills}
+            sx={{ display: { xs: "none", sm: "block" }, p: "10px", pb: 0 }}
+          >
+            <strong>Required Skills:</strong> {skills}
+          </Typography>
           {isSuccess && (
             <Snackbar
               open={alertOpen}
