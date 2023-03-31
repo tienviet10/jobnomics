@@ -20,8 +20,8 @@
 </p>
 
 <br>
-
 <h3 align="center">Live Demo: <a href="https://www.jobnomics.net/">https://www.jobnomics.net/</a></h3>
+<br>
 
 ## Tech Stack & Features
 
