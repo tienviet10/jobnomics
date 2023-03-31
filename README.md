@@ -20,6 +20,7 @@
   <a href="#authors">Authors</a> 
 </p>
 
+<br>
 
 ## Live Demo: <a href="https://www.jobnomics.net/">https://www.jobnomics.net/</a>
 
