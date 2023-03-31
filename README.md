@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="#key-features">Tech Stack & Features</a> •
+  <a href="#screenshots">Screenshots</a> •
   <a href="#how-to-use">How To Use</a> •
   <a href="#building">Building</a> •
   <a href="#deployment">Deployment</a> •
