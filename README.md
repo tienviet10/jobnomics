@@ -85,4 +85,4 @@ Run 'npm run build' and use the newly created 'build' folder for deployment.
 
 * Allow users to have multiple job boards
 * Support different languages
-* Expand to different industry
+* Expand to different industries
