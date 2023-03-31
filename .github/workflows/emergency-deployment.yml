@@ -1,4 +1,4 @@
-name: Copy emergency branch to production branch
+name: Deploy from Emergency
 
 on:
   push:
