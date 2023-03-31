@@ -1,0 +1,61 @@
+.UnsubscribeConfirmModalContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.UnsubscribeConfirmModal {
+  height: 40vmin;
+  width: 70vw;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.CloseButton {
+  align-self: flex-end;
+}
+
+.UnsubscribeConfirmModalMain {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  padding-bottom: 15px;
+}
+
+.UnsubscribeMessageContainer {
+  text-align: center;
+}
+
+.UnsubscribeMessage {
+  display: inline-block;
+}
+
+.UnsubscribeConfirmButtons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.Button {
+  flex: 1;
+}
+
+.Button:first-child {
+  margin-right: 10px;
+}
+
+@media screen and (min-width: 600px) {
+  .UnsubscribeConfirmModal {
+    height: 300px;
+    width: 500px;
+  }
+}
