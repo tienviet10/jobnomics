@@ -16,7 +16,8 @@
   <a href="#how-to-use">How To Use</a> •
   <a href="#building">Building</a> •
   <a href="#deployment">Deployment</a> •
-  <a href="#todo">TODO</a>
+  <a href="#todo">TODO</a> •
+  <a href="#authors">Authors</a> 
 </p>
 
 ## Tech Stack & Features
@@ -86,3 +87,7 @@ Run 'npm run build' and use the newly created 'build' folder for deployment.
 * Allow users to have multiple job boards
 * Support different languages
 * Expand to different industries
+
+## Authors
+- <a href="https://github.com/tienviet10">Viet Tran</a>
+- <a href="https://github.com/esther-sh-choi">Esther Choi</a>
