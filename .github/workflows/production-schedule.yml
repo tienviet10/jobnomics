@@ -2,12 +2,13 @@ name: Copy main branch to production branch
 
 on:
   schedule:
-    - cron: '0 3 * * *'
-      timezone: America/Toronto
+    - cron: '30 16 * * *'
 
 jobs:
   copy-to-production:
     runs-on: ubuntu-latest
+    env:
+      TZ: America/Toronto
     steps:
       - name: Checkout main branch
         uses: actions/checkout@v2
