@@ -36,7 +36,7 @@
 ## Screenshots
 
 ![Drag and Drop & Dropdown](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/dragdrop_dropdown_date.gif?raw=true)
-![Create by link](https://user-images.githubusercontent.com/70352144/229175674-1ba58eda-a3e0-4a44-aaf4-fee0c1aed151.png)
+![Create by link](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_link.png?raw=true)
 ![Create manually](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_manual.png?raw=true)
 ![Bookmarked/Applied Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/bookmarked_applied_modal.gif?raw=true)
 ![Interviewing Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/interviewing_modal.gif?raw=true)
