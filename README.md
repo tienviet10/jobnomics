@@ -35,6 +35,37 @@
 
 ## Screenshots
 
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/dragdrop_dropdown_date.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_link.png?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_manual.png?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/bookmarked_applied_modal.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/interviewing_modal.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/interviewed_modal.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/accepted_modal.png?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/rejected_modal.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/search_page.gif?raw=true">
+</p>
+<p align="center">
+  <img width='800px' src="https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/note_page.gif?raw=true">
+</p>
+
 ![Drag and Drop & Dropdown](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/dragdrop_dropdown_date.gif?raw=true)
 ![Create by link](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_link.png?raw=true)
 ![Create manually](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_manual.png?raw=true)
