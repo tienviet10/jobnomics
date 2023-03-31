@@ -34,6 +34,17 @@
 
 ## Screenshots
 
+![Drag and Drop & Dropdown](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/dragdrop_dropdown_date.gif?raw=true)
+![Create by link](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_link.png?raw=true)
+![Create manually](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/create_manual.png?raw=true)
+![Bookmarked/Applied Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/bookmarked_applied_modal.gif?raw=true)
+![Interviewing Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/interviewing_modal.gif?raw=true)
+![Interviewed Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/interviewed_modal.gif?raw=true)
+![Accepted Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/accepted_modal.png?raw=true)
+![Rejected Modal](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/rejected_modal.gif?raw=true)
+![Search Page](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/search_page.gif?raw=true)
+![Note Page](https://github.com/tienviet10/jobnomics/blob/dev/public/screenshots/note_page.gif?raw=true)
+
 ## How To Use
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
