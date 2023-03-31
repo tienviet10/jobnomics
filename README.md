@@ -53,19 +53,19 @@ To clone and run this application, you'll need [Git](https://git-scm.com) and [N
 1. Clone the repository
 
 ```sh
-$ git clone https://github.com/tienviet10/jobnomics.git
+git clone https://github.com/tienviet10/jobnomics.git
 ```
 
 2. Move to the correct directory
 
 ```sh
-$ cd jobnomics
+cd jobnomics
 ```
 
 3. Install dependencies
 
 ```sh
-$ npm install
+npm install
 ```
 
 4. Sign up with Auth0. Add localhost link to Allowed Callback URLs, Allowed Logout URLs, and Allowed Web Origins. Additionally, turn on Refresh Token Rotaion. Finally, create a rule to add email field in the token. + Create an API in Application and ensure to allow Allow Offline Access.
@@ -84,7 +84,7 @@ REACT_APP_BASE_URL=
 6. Run the application
 
 ```sh
-$ npm start
+npm start
 ```
 
 ## Building
