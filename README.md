@@ -80,7 +80,7 @@ Run 'npm run build' and use the newly created 'build' folder for deployment.
 
 ## Deployment
 - GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD)
-- Deploy to Netlify
+- Deploy to <a href="https://www.netlify.com">Netlify</a>
 
 ## TODO
 
