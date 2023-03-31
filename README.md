@@ -1,4 +1,3 @@
-
 <h1 align="center">
   <br>
   <a href="https://jobnomics.net/"><img src="https://user-images.githubusercontent.com/70352144/228985158-dbfd0ef1-3df7-4628-8161-5011e6db8cf0.png" alt="ReMe" width="400"></a>
@@ -7,7 +6,6 @@
   JOBNOMICS
   <br>
 </h1>
-
 
 <h4 align="center">AI-powered job application tracker that automates data collection, organization, and provides tailored interview questions to optimize job search efforts. This frontend application is written in <a href="https://reactjs.org/">React.js</a> + <a href="https://www.typescriptlang.org/">TypeScript</a> and deployed automatically at 3am (EST) through Github Actions. The backend, made in Node.js (<a href="https://expressjs.com/">Express.js</a>), can be accessed at <a href="https://github.com/esther-sh-choi/jobnomics-api">Jobnomics backend.</a></h4>
 
@@ -20,17 +18,21 @@
   <a href="#authors">Authors</a> 
 </p>
 
+<h3 align="center">Live Demo: <a href="https://www.jobnomics.net/">https://www.jobnomics.net/</a></h3>
+
 ## Tech Stack & Features
 
-* [React.js](https://reactjs.org)
-* [TypeScript](https://www.typescriptlang.org/)
-* OAuth 2.0 authentication with [Auth0](https://auth0.com/)
-* [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/) for global state management and managing network requests
-* [React Router](https://reactrouter.com/) for routing
-* [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd) for drag and drop
-* [Material UI](https://mui.com/) for styling
-* [React Big Calendar](https://github.com/jquense/react-big-calendar)
-* [React Quill](https://github.com/jquense/react-big-calendar), a rich text editor for notes
+- [React.js](https://reactjs.org)
+- [TypeScript](https://www.typescriptlang.org/)
+- OAuth 2.0 authentication with [Auth0](https://auth0.com/)
+- [Redux Toolkit + RTK Query](https://redux-toolkit.js.org/) for global state management and managing network requests
+- [React Router](https://reactrouter.com/) for routing
+- [React Beautiful DnD](https://github.com/atlassian/react-beautiful-dnd) for drag and drop
+- [Material UI](https://mui.com/) for styling
+- [React Big Calendar](https://github.com/jquense/react-big-calendar)
+- [React Quill](https://github.com/jquense/react-big-calendar), a rich text editor for notes
+
+## Screenshots
 
 ## How To Use
 
@@ -56,7 +58,6 @@ $ npm install
 
 4. Sign up with Auth0. Add localhost link to Allowed Callback URLs, Allowed Logout URLs, and Allowed Web Origins. Additionally, turn on Refresh Token Rotaion. Finally, create a rule to add email field in the token. + Create an API in Application and ensure to allow Allow Offline Access.
 
-
 5. Fill out all variables in .env file.
 
 ```sh
@@ -79,15 +80,18 @@ $ npm start
 Run 'npm run build' and use the newly created 'build' folder for deployment.
 
 ## Deployment
+
 - GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD)
 - Deploy to <a href="https://www.netlify.com">Netlify</a>
 
 ## TODO
 
-* Allow users to have multiple job boards
-* Support different languages
-* Expand to different industries
+- Allow users to have multiple job boards
+- Support different languages
+- Expand to different industries
+- Provide AI-generated sample cover letters based on user resume and job description.
 
 ## Authors
-- <a href="https://github.com/tienviet10">Viet Tran</a>
+
 - <a href="https://github.com/esther-sh-choi">Esther Choi</a>
+- <a href="https://github.com/tienviet10">Viet Tran</a>
