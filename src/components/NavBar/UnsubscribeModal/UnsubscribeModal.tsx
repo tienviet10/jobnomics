@@ -5,7 +5,7 @@ import {
   useUnsubscribeUserMutation,
   useGetUserInfoQuery,
   useEmailVerificationMutation,
-} from "../../../app/services/job-api";
+} from "../../../app/services/auth-api";
 
 import {
   CheckCircleRounded,
