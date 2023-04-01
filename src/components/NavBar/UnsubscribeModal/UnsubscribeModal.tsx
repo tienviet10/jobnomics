@@ -126,11 +126,23 @@ const UnsubscribeModal = ({
               color="success"
               sx={{ mb: 2 }}
             />
-            <Typography textAlign="center">
-              {userInfo?.emailVerified
-                ? "You are unsubscribed from our email list!"
-                : `A confirmation email has been sent to your inbox: ${user?.email}!`}
-            </Typography>
+            {userInfo?.emailVerified && (
+              <Typography textAlign="center">
+                You are unsubscribed from our email list!
+              </Typography>
+            )}
+            {!userInfo?.emailVerified && (
+              <>
+                <Typography textAlign="center" sx={{ mb: 2 }}>
+                  A confirmation email has been sent to your inbox:{" "}
+                  {user?.email}!
+                </Typography>
+                <Typography textAlign="center" sx={{ fontWeight: "bold" }}>
+                  It will take about a day to join our email list after you
+                  confirm through your email.
+                </Typography>
+              </>
+            )}
           </section>
         )}
         {(isError || isUnsubscribeError) && (
