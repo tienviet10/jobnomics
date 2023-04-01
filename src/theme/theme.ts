@@ -69,7 +69,7 @@ const theme = createTheme({
     },
 
     h6: {
-      fontSize: "1rem",
+      fontSize: "1.2rem",
       lineHeight: 1.2,
       fontWeight: 700,
       "@media (min-width:600px)": {
@@ -105,11 +105,17 @@ const theme = createTheme({
     },
     caption: {
       fontWeight: 400,
-      fontSize: "0.8rem",
+      fontSize: "0.7rem",
       "@media (min-width:600px)": {
-        fontSize: "0.9rem",
+        fontSize: "0.8rem",
       },
       lineHeight: "1rem",
+    },
+    body1: {
+      fontSize: "0.9rem",
+      "@media (min-width:600px)": {
+        fontSize: "1rem",
+      },
     },
   },
 });

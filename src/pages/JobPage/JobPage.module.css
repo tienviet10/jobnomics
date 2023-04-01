@@ -19,7 +19,7 @@
   top: 10px;
 }
 
-@media screen and (min-width: 1800px) {
+@media screen and (min-width: 1801px) {
   div.JobPage {
     padding-top: 50px;
   }

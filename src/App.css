@@ -62,7 +62,7 @@ body,
   }
 
   .interviewed .ql-container.ql-snow {
-    height: 30vh;
+    height: 25vh;
   }
 
   .note-view .ql-container.ql-snow {
@@ -80,6 +80,6 @@ body,
   }
 
   .note-view .ql-container.ql-snow {
-    height: 30vh;
+    height: 35vh;
   }
 }
