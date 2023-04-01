@@ -22,6 +22,7 @@ import styles from "./NavBar.module.css";
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 import { security } from "../auth/GlobalAuth";
 import UnsubscribeModal from "./UnsubscribeModal";
+import { useGetUserInfoQuery } from "../../app/services/job-api";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
@@ -31,7 +32,8 @@ const NavBar = () => {
   const navigate = useNavigate();
   const { logout, refetch } = useManageSearchPage();
   const [shadow, setShadow] = useState<boolean>();
-  const [openUnsubscribe, setOpenUnsubscribe] = useState<boolean>(false);
+  const [openScriptionModal, setOpenScriptionModal] = useState<boolean>(false);
+  const { data: userInfo } = useGetUserInfoQuery();
 
   const pages: {
     name: string;
@@ -48,9 +50,9 @@ const NavBar = () => {
   ];
   const userSettings = [
     {
-      name: "Unsubscribe",
+      name: userInfo?.emailVerified ? "Unsubscribe" : "Subscribe",
       onClick: () => {
-        setOpenUnsubscribe(true);
+        setOpenScriptionModal(true);
       },
     },
     {
@@ -366,7 +368,10 @@ const NavBar = () => {
           )}
         </Toolbar>
       </Container>
-      <UnsubscribeModal open={openUnsubscribe} setOpen={setOpenUnsubscribe} />
+      <UnsubscribeModal
+        open={openScriptionModal}
+        setOpen={setOpenScriptionModal}
+      />
     </AppBar>
   );
 };
