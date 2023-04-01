@@ -251,6 +251,11 @@ export type AllJobsDataType = {
   staleJobs: JobType[];
 };
 
+export type UserInfoType = {
+  givenName?: string;
+  emailVerified: boolean;
+};
+
 export type AddANewJobResponse = {
   categoryId: number;
   createdAt: Date;

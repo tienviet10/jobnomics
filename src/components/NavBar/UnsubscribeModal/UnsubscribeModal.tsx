@@ -1,8 +1,14 @@
 import React from "react";
-
-import { useUnsubscribeUserMutation } from "../../../app/services/job-api";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import {
+  useUnsubscribeUserMutation,
+  useGetUserInfoQuery,
+  useEmailVerificationMutation,
+} from "../../../app/services/job-api";
+
+import {
+  CheckCircleRounded,
   CloseRounded,
   SentimentDissatisfiedRounded,
   WarningAmberRounded,
@@ -21,8 +27,18 @@ const UnsubscribeModal = ({
   open,
   setOpen,
 }: UnsubscribeModalProps): JSX.Element => {
-  const [unsubscribe, { isLoading, isSuccess, isError }] =
-    useUnsubscribeUserMutation();
+  const [
+    unsubscribe,
+    {
+      isLoading: isUnsubscribeLoading,
+      isSuccess: isUnsubscribeSuccess,
+      isError: isUnsubscribeError,
+    },
+  ] = useUnsubscribeUserMutation();
+  const [subscribe, { isLoading, isSuccess, isError }] =
+    useEmailVerificationMutation();
+  const { data: userInfo } = useGetUserInfoQuery();
+  const { user } = useAuth0();
 
   const handleClose = () => {
     setOpen(false);
@@ -32,62 +48,92 @@ const UnsubscribeModal = ({
     unsubscribe({});
   };
 
+  const handleSubscribe = () => {
+    subscribe({});
+  };
+
   return (
     <Modal
       open={open}
-      onClose={() => setOpen(false)}
+      onClose={handleClose}
       className={styles.UnsubscribeConfirmModalContainer}
     >
       <Card elevation={3} className={styles.UnsubscribeConfirmModal}>
-        <IconButton
-          onClick={() => setOpen(false)}
-          className={styles.CloseButton}
-        >
+        <IconButton onClick={handleClose} className={styles.CloseButton}>
           <CloseRounded fontSize="medium" />
         </IconButton>
-        {!isLoading && !isSuccess && !isError && (
+        {!isLoading &&
+          !isSuccess &&
+          !isError &&
+          !isUnsubscribeLoading &&
+          !isUnsubscribeSuccess &&
+          !isUnsubscribeError && (
+            <section className={styles.UnsubscribeConfirmModalMain}>
+              <div className={styles.UnsubscribeMessageContainer}>
+                <WarningAmberRounded
+                  fontSize="large"
+                  sx={{ color: "accent.main", mb: 2 }}
+                />
+                <Typography
+                  variant="body1"
+                  className={styles.UnsubscribeMessage}
+                  sx={{ paddingRight: "5px", mb: 2 }}
+                >
+                  {userInfo?.emailVerified
+                    ? "Are you sure you want to unsubscribe from our email list?"
+                    : "Are you sure you want to receive a confirmation email to subscribe to our email list?"}
+                </Typography>
+                {userInfo?.emailVerified && (
+                  <Typography
+                    variant="body1"
+                    className={styles.UnsubscribeMessage}
+                  >
+                    You will not receive email reminders about interviews.
+                  </Typography>
+                )}
+              </div>
+              <div className={styles.UnsubscribeConfirmButtons}>
+                <Button
+                  variant="contained"
+                  onClick={
+                    userInfo?.emailVerified
+                      ? handleUnsubscribe
+                      : handleSubscribe
+                  }
+                  className={styles.Button}
+                >
+                  {userInfo?.emailVerified ? "Unsubscribe" : "Subscribe"}
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={handleClose}
+                  className={styles.Button}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </section>
+          )}
+        {(isLoading || isUnsubscribeLoading) && (
+          <LoadingAnimation>
+            {userInfo?.emailVerified ? "Unsubscribing..." : "Sending email..."}
+          </LoadingAnimation>
+        )}
+        {(isSuccess || isUnsubscribeSuccess) && (
           <section className={styles.UnsubscribeConfirmModalMain}>
-            <div className={styles.UnsubscribeMessageContainer}>
-              <WarningAmberRounded
-                fontSize="large"
-                sx={{ color: "accent.main" }}
-              />
-              <Typography
-                variant="body1"
-                className={styles.UnsubscribeMessage}
-                sx={{ paddingRight: "5px", mb: 2 }}
-              >
-                Are you sure you want to unsubscribe from the emailing list?
-              </Typography>
-              <Typography variant="body1" className={styles.UnsubscribeMessage}>
-                You will not receive email reminders about interviews.
-              </Typography>
-            </div>
-            <div className={styles.UnsubscribeConfirmButtons}>
-              <Button
-                variant="contained"
-                onClick={handleUnsubscribe}
-                className={styles.Button}
-              >
-                Unsubscribe
-              </Button>
-              <Button
-                variant="outlined"
-                onClick={handleClose}
-                className={styles.Button}
-              >
-                Cancel
-              </Button>
-            </div>
+            <CheckCircleRounded
+              fontSize="large"
+              color="success"
+              sx={{ mb: 2 }}
+            />
+            <Typography textAlign="center">
+              {userInfo?.emailVerified
+                ? "You are unsubscribed from our email list!"
+                : `A confirmation email has been sent to your inbox: ${user?.email}!`}
+            </Typography>
           </section>
         )}
-        {isLoading && <LoadingAnimation>Unsubscribing...</LoadingAnimation>}
-        {isSuccess && (
-          <section className={styles.UnsubscribeConfirmModalMain}>
-            <Typography>You are unsubscribed from our email list!</Typography>
-          </section>
-        )}
-        {isError && (
+        {(isError || isUnsubscribeError) && (
           <section className={styles.UnsubscribeConfirmModalMain}>
             <SentimentDissatisfiedRounded
               fontSize="large"
