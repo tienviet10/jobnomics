@@ -1,4 +1,4 @@
-name: Copy main branch to production branch
+name: Deploy from Main
 
 on:
   schedule:
