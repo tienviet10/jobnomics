@@ -21,16 +21,19 @@ import styles from "./NavBar.module.css";
 
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
 import { security } from "../auth/GlobalAuth";
+import UnsubscribeModal from "./UnsubscribeModal";
+import { useGetUserInfoQuery } from "../../app/services/job-api";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
 const NavBar = () => {
-
   const { user, loginWithRedirect, isAuthenticated } = useAuth0();
   const location: { pathname: string } = useLocation();
   const navigate = useNavigate();
   const { logout, refetch } = useManageSearchPage();
   const [shadow, setShadow] = useState<boolean>();
+  const [openScriptionModal, setOpenScriptionModal] = useState<boolean>(false);
+  const { data: userInfo } = useGetUserInfoQuery();
 
   const pages: {
     name: string;
@@ -46,6 +49,12 @@ const NavBar = () => {
     { name: "Notes", path: "/notes", disabled: location.pathname === "/notes" },
   ];
   const userSettings = [
+    {
+      name: userInfo?.emailVerified ? "Unsubscribe" : "Subscribe",
+      onClick: () => {
+        setOpenScriptionModal(true);
+      },
+    },
     {
       name: "Logout",
       onClick: (event: React.MouseEvent<HTMLElement>) => {
@@ -359,6 +368,10 @@ const NavBar = () => {
           )}
         </Toolbar>
       </Container>
+      <UnsubscribeModal
+        open={openScriptionModal}
+        setOpen={setOpenScriptionModal}
+      />
     </AppBar>
   );
 };

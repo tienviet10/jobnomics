@@ -245,15 +245,27 @@ const ModalWrapper = ({ children }: { children: React.ReactNode }) => {
                       variant="h6"
                       className={styles.JobCompany}
                       sx={{ color: "accent.dark" }}
+                      gutterBottom
                     >
                       {selectedJob.job?.company} | {selectedJob.job?.location}
                     </Typography>
-                    <Typography
-                      variant="caption"
-                      className={styles.JobUpdatedDate}
-                    >
-                      Last update at: {`${updatedDate.toLocaleString()}`}
-                    </Typography>
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      <Typography
+                        variant="caption"
+                        className={styles.JobUpdatedDate}
+                      >
+                        Created at:{" "}
+                        {selectedJob?.createdAt
+                          ? new Date(selectedJob.createdAt).toLocaleString()
+                          : ""}
+                      </Typography>
+                      <Typography
+                        variant="caption"
+                        className={styles.JobUpdatedDate}
+                      >
+                        Last update at: {`${updatedDate.toLocaleString()}`}
+                      </Typography>
+                    </Box>
                   </Box>
                   <FormControl
                     sx={{

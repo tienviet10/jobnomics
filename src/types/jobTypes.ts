@@ -34,6 +34,7 @@ export type JobType = {
   isFavorite: boolean;
   position: number;
   interviewDate: Date | null;
+  createdAt: Date | null;
   note: string;
   generalNote: string;
   rejectReason?: string | null;
@@ -249,6 +250,11 @@ export type AllInterviewDatesResponse = {
 export type AllJobsDataType = {
   allActiveJobs: AllActiveJobsDataType;
   staleJobs: JobType[];
+};
+
+export type UserInfoType = {
+  givenName?: string;
+  emailVerified: boolean;
 };
 
 export type AddANewJobResponse = {
