@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { To, useNavigate, useLocation } from "react-router-dom";
-
 import { useAuth0 } from "@auth0/auth0-react";
-
 import {
   AppBar,
   Container,
@@ -18,11 +16,9 @@ import {
 } from "@mui/material";
 import { MenuRounded } from "@mui/icons-material";
 import styles from "./NavBar.module.css";
-
 import { useManageSearchPage } from "../../pages/Search/manage-search-page";
-import { security } from "../auth/GlobalAuth";
 import UnsubscribeModal from "./UnsubscribeModal";
-import { useGetUserInfoQuery } from "../../app/services/job-api";
+import { useGetUserInfoQuery } from "../../app/services/auth-api";
 
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
