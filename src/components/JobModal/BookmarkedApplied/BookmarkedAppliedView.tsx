@@ -17,11 +17,9 @@ const BookmarkedAppliedView = () => {
     <>
       <Box
         className={styles.BookedAppliedContainer}
-        sx={
-          {
-            // width: { xs: "100%" },
-          }
-        }
+        sx={{
+          width: { xs: "100%" },
+        }}
       >
         <Box
           className={styles.JobDescription}

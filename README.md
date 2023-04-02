@@ -5,7 +5,9 @@
   <br>
   JOBNOMICS
   <br>
-
+  <div align="center">
+    <a href="https://github.com/tienviet10/jobnomics/actions/workflows/emergency-deployment.yml"><img src="https://github.com/tienviet10/jobnomics/actions/workflows/emergency-deployment.yml/badge.svg" alt="Emergency Deployment Badge" ></a>
+  </div>  
 </h1>
 
 <h4 align="center">AI-powered job application tracker that automates data collection, organization, and provides tailored interview questions to optimize job search efforts. This frontend application is written in <a href="https://reactjs.org/">React.js</a> + <a href="https://www.typescriptlang.org/">TypeScript</a> and deployed automatically at 3am (EST) through Github Actions. The backend, made in Node.js (<a href="https://expressjs.com/">Express.js</a>), can be accessed at <a href="https://github.com/esther-sh-choi/jobnomics-api">Jobnomics backend.</a></h4>

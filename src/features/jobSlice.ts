@@ -24,6 +24,7 @@ const initialState: UserJobsType = {
     interviewDate: null,
     note: "",
     generalNote: "",
+    createdAt: null,
     job: {
       id: 1,
       title: "",
