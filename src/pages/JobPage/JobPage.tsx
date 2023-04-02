@@ -23,9 +23,9 @@ const JobPage = () => {
     );
 
     const msSinceLastReminder = currentDate - lastInactiveJobReminder;
-    const moreThan3Days = msSinceLastReminder > 1000 * 3600 * 24;
+    const moreThanADay = msSinceLastReminder > 1000 * 3600 * 24;
 
-    if (moreThan3Days && data && data.staleJobs?.length) {
+    if (moreThanADay && data && data.staleJobs?.length) {
       setOpenInactiveModal(true);
 
       localStorage.setItem("inactiveJobReminder", JSON.stringify(currentDate));
