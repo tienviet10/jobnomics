@@ -8,6 +8,7 @@ import { AuthenticationGuard } from './components/auth/authentication-guard';
 import { useAuth0 } from '@auth0/auth0-react';
 import PageLoader from './components/PageLoader';
 import Register from './components/Register';
+import Privacy from './pages/Privacy/Privacy';
 
 const Router = () => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -37,6 +38,7 @@ const Router = () => {
         element={<AuthenticationGuard component={Register} />}
       />
       <Route path="/" element={<Home />} />
+      <Route path="/privacy" element={<Privacy />} />
       <Route path="*" element={<Navigate to={isAuthenticated ? "/job" : "/"} />} />
     </Routes>
   );
