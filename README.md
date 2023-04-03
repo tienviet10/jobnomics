@@ -7,6 +7,8 @@
   <br>
   <div align="center">
     <a href="https://github.com/tienviet10/jobnomics/actions/workflows/emergency-deployment.yml"><img src="https://github.com/tienviet10/jobnomics/actions/workflows/emergency-deployment.yml/badge.svg" alt="Emergency Deployment Badge" ></a>
+    &nbsp;
+    <a href="https://github.com/tienviet10/jobnomics/actions/workflows/production-schedule.yml"><img src="https://github.com/tienviet10/jobnomics/actions/workflows/production-schedule.yml/badge.svg" alt="Production Deployment Badge" ></a>
   </div>  
 </h1>
 
