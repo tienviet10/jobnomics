@@ -3,8 +3,11 @@ import React from "react";
 import { IconButton, styled, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { EmailRounded, LinkedIn, LocalPhoneRounded } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Footer = () => {
+  let navigate = useNavigate(); 
+
   const CustomContainer = styled(Container)(({ theme }) => ({
     display: "flex",
     justifyContent: "space-around",
@@ -88,7 +91,7 @@ const Footer = () => {
             <br />
             <FooterLink>Terms of use</FooterLink>
             <br />
-            <FooterLink>Privacy</FooterLink>
+            <FooterLink onClick={()=> navigate("/privacy")}>Privacy</FooterLink>
             <br />
             <FooterLink>Sitemap</FooterLink>
           </Box>
