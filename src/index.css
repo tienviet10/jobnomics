@@ -132,5 +132,33 @@ em {
 }
 
 p {
-  font-size: 1rem;
+  font-size: 16px;
+}
+
+li {
+  font-size: 16px;
+}
+
+li:before {
+  font-size: 25px;
+  line-height: 16px;
+  vertical-align: middle;
+}
+
+.ql-container.ql-snow .ql-editor h1,
+.ql-container.ql-bubble .ql-editor h1 {
+  font-size: 32px;
+  font-weight: bolder;
+}
+
+.ql-container.ql-snow .ql-editor h2,
+.ql-container.ql-bubble .ql-editor h2 {
+  font-size: 24px;
+  font-weight: bolder;
+}
+
+.ql-container.ql-snow .ql-editor h3,
+.ql-container.ql-bubble .ql-editor h3 {
+  font-size: 18.75px;
+  font-weight: bolder;
 }
